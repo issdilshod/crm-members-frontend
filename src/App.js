@@ -1,11 +1,15 @@
 import React from 'react';
 
-import Main from './components/main';
+import { BrowserRouter } from 'react-router-dom';
+
+import Main from './pages/main';
 
 class App extends React.Component{
     render(){
         return (
-            <Main />
+            <BrowserRouter>
+                <Main />
+            </BrowserRouter>
         );
     }
 }

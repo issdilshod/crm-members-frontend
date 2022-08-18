@@ -1,20 +1,11 @@
 import React from 'react';
 
-import '../../styles/soft-ui-dashboard.css';
+import LoginForm from '../../components/account/login_form';
 
+import '../../styles/soft-ui-dashboard.css';
 import Backgroud from '../../images/curved6.jpg';
 
 class Login extends React.Component{
-    constructor(props){
-        super(props);
-        this.state = {msgError: false};
-    }
-    login = async (e) => {
-        e.preventDefault();
-        var user_list = await fetch(`${process.env.REACT_APP_BACKEND_DOMAIN}/api/user`);
-        var data = await user_list.json();
-        this.setState({msgError: true, msgErrorText: 'Invalid username or password'});
-    }
     render(){
         
         return (
@@ -31,22 +22,7 @@ class Login extends React.Component{
                                         </div>
                                     </div>
                                     <div className='card-body'>
-                                        <form onSubmit={this.login}>
-                                            <label>Username</label>
-                                            <div className='mb-3'>
-                                                <input className='form-control' type="text" placeholder='Username'  />
-                                            </div>
-                                            <label>Password</label>
-                                            <div className='mb-3'>
-                                                <input className='form-control' type="password" placeholder='Password'  />
-                                            </div>
-                                            {
-                                                this.state.msgError && <div className='alert alert-danger'>{this.state.msgErrorText}</div>
-                                            }
-                                            <div className='text-center'>
-                                                <button className='btn bg-gradient-info w-100 mt-4 mb-0'>Log in</button>
-                                            </div>
-                                        </form>
+                                        <LoginForm />
                                     </div>
                                 </div>
                                 <div className='col-md-6'>
@@ -63,4 +39,4 @@ class Login extends React.Component{
     }
 }
 
-export default Login;
+export { Login };
