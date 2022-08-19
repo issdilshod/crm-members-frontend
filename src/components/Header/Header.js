@@ -12,6 +12,7 @@ const Header = () => {
     async function handleSignOut(e){
         e.preventDefault();
         localStorage.removeItem("auth");
+        // TODO: Request to backend & remove token
         navigate(`${process.env.REACT_APP_FRONTEND_PREFIX}/login`);
     }
 

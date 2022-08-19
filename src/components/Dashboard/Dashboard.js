@@ -14,8 +14,11 @@ const Dashboard = () => {
             <Header />
             <div className={`${styles['dashboard-left-block']} container-fluid`}>
                 <div className='row'>
-                    <div className='col-12'>
+                    <div className='col-12 col-sm-8'>
                         Dashboard
+                    </div>
+                    <div className='col-12 col-sm-4'>
+                        Activity
                     </div>
                 </div>
             </div>
