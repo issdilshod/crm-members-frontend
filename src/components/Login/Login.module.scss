@@ -1,0 +1,33 @@
+.main-content{
+
+    .form-login, .title-login{
+        max-width: 400px;
+        margin: 10% auto;
+    
+        .button-login{
+            text-align: center;
+            margin-top: 4em;
+        }
+    }
+    
+    .title-login{
+        text-align: center;
+    
+        b{
+            font-size: 2.5em;
+        }
+        
+    }
+
+    .wave1-login, .wave2-login, .wave3-login, .wave4-login{
+        opacity: .6;
+    }
+}
+
+
+
+@media (max-width: 400px) {
+    .form-login{
+        max-width: 100%;
+    }
+}

@@ -1,0 +1,42 @@
+.header{
+
+    .header-sticky{
+        position: fixed;
+        width: calc(100% - 30px);
+        box-shadow: 0px 0px 20px 0px #efefef;
+        margin: 15px;
+        border-radius: 20px;
+        background-color: rgba(255, 255, 255, .5);
+        padding: 15px 25px;
+        top: 0;
+        left: 0;
+
+        .header-breadcrumbs{
+            font-weight: bold;
+            font-size: 1.6em;
+        }
+
+        .header-search{
+            width: 25%;
+
+            .search-input{
+                padding-left: 30px;
+                border-radius: 10px;
+            }
+
+            .search-input:before{
+                content: '';
+            }
+        }
+
+        .header-sign-out, .header-note{
+            padding: 5px 11px;
+            cursor: pointer;
+        }
+
+        .header-menu{
+            padding: 5px 0px 5px 11px;
+            cursor: pointer;
+        }
+    }
+}
