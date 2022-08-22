@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import styles from './TaskListDashboard.module.scss';
-import { FaList } from 'react-icons/fa';
+import { FaList, FaPlus } from 'react-icons/fa';
 
 const TaskListDashboard = () => {
     const navigate = useNavigate();
@@ -15,7 +15,14 @@ const TaskListDashboard = () => {
 
             </div>
             <div className='col-12 col-sm-4'>
-                <div className={styles['task-list-dashboard-title']}>Employee Tasks (<span>{employeeTaskCount}</span>)</div>
+                <div className={`${styles['task-list-dashboard-title']} d-flex`}>
+                    <div className={`mr-auto`}>Employee Tasks (<span>{employeeTaskCount}</span>)</div>
+                    <div className={`${styles['task-add-button']} text-center`}>
+                        <span className={styles['task-add-icon']}>
+                            <FaPlus />
+                        </span>
+                    </div>
+                </div>
                 <div className={`${styles['task-card-dashboard']} mt-3 d-flex`}>
                     <div className={`mr-auto`}>
                         <div className={styles['task-card-name']}>Task #1</div>

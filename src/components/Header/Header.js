@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import styles from './Header.module.scss';
 import { FaSignOutAlt, FaRegStickyNote, FaBars } from 'react-icons/fa';
-import Menu from '../Dashboard/Menu';
+import Menu from './Menu';
 
 const Header = (props) => {
     const navigate = useNavigate();

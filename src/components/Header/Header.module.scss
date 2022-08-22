@@ -37,11 +37,17 @@
         .header-sign-out, .header-note{
             padding: 5px 11px;
             cursor: pointer;
+            transition: 0.5s;
         }
 
         .header-menu{
             padding: 5px 0px 5px 11px;
             cursor: pointer;
+            transition: 0.5s;
+        }
+
+        .header-sign-out:hover, .header-note:hover, .header-menu:hover{
+            color: #607cab;
         }
     }
 }

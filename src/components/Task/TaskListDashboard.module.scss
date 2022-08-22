@@ -1,6 +1,28 @@
 .task-list-dashboard{
     .task-list-dashboard-title{
         font-weight: 500;
+
+        .task-add-button{
+            position: relative;
+            top: -1px;
+            padding: 4px;
+            border-radius: 8px;
+            background-color: #607cab;
+            color: #fff;
+            box-shadow: 0 0.3125rem 0.625rem 0 rgb(0 0 0 / 12%) !important;
+            cursor: pointer;
+            width: 30px;
+            transition: .5s;
+
+            .task-add-icon{
+                position: relative;
+                top: -2px;
+            }
+        }
+
+        .task-add-button:hover{
+            box-shadow: 0 0.3125rem 0.625rem 6px rgb(0 0 0 / 12%) !important;
+        }
     }
 
     .task-card-dashboard{
