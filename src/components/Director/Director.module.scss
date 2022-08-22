@@ -1,0 +1,101 @@
+.main-content{
+    margin-top: 20px;
+    color:#607cab;
+
+    .director-cards{
+
+        .director-card-head{
+            background-color: #fff;
+            padding: 20px 35px;
+            border-radius: 20px 20px 0px 0px;
+
+            .go_back{
+                position: relative;
+                top: 5px;
+                font-size: 1.5em;
+                margin-right: 10px;
+                cursor: pointer;
+
+                span{
+                    position: relative;
+                    top: -7px;
+                }
+            }
+
+            .director-card-title{
+                font-weight: 600;
+                font-size: 1.5em;
+            }
+
+            .director-card-menu{
+
+                .director-add, .menu{
+                    color: #fff;
+                    background-color: #607cab;
+                    border-radius: 8px;
+                    padding: 7px 10px;
+                    box-shadow: 0 0.3125rem 0.625rem 0 rgb(0 0 0 / 12%) !important;
+                    transition: .5s;
+                    cursor: pointer;
+
+                    .director-add-icon, .menu-icon{
+                        position: relative;
+                        top: -2px;
+                    }
+                }
+
+                .director-add:hover, .menu:hover{
+                    box-shadow: 0 0.3125rem 0.625rem 6px rgb(0 0 0 / 12%) !important;
+                }
+
+            }
+        }
+
+        .director-card-body{
+
+            .director-list{
+                background-color: #e4eef5;
+                border-radius: 0px 0px 20px 20px;
+                padding: 20px;
+
+                .director-card{
+                    background-color: #607cab;
+                    color: #fff;
+                    border-radius: 20px;
+                    padding-top: 10px;
+                    padding-bottom: 10px;
+                    box-shadow: 0 0.3125rem 0.625rem 0 rgb(0 0 0 / 12%) !important;
+                    cursor: pointer;
+                    transition: .5s;
+
+                    .director-card-icon{
+                        font-size: 3em;
+
+                        span{
+                            position: relative;
+                            top: -9px;
+                        }
+                    }
+
+                    .director-card-info{
+
+                        p:first-of-type{
+                            font-size: 1.2em;
+                            font-weight: 700;
+                        }
+
+                        p{
+                            margin-bottom: 0;
+                        }
+                    }
+                }
+
+                .director-card:hover{
+                    box-shadow: 0 0.3125rem 0.625rem 6px rgb(0 0 0 / 12%) !important;
+                }
+
+            }
+            
+        }
+    }
+}
