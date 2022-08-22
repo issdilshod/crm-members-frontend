@@ -8,6 +8,7 @@
         background-color: #fff;
         border-radius: 20px;
         box-shadow: 0 20px 27px 0 rgb(0 0 0 / 5%);
+        transition: .5s;
         cursor: pointer;
 
         .task-card-name{
@@ -36,6 +37,5 @@
 
     .task-card-dashboard:hover{
         box-shadow: 0 20px 27px 20px rgb(0 0 0 / 5%);
-        transition: .5s;
     }
 }

@@ -6,7 +6,7 @@
     width: 25%;
     height: 100%;
     box-shadow: 0 8px 26px -4px hsla(0,0%,8%,.15),0 8px 9px -5px hsla(0,0%,8%,.06)!important;
-    overflow: inherit;
+    overflow: scroll;
     padding: 0px 10px;
     transition: .2s ease;
     z-index: 10;
@@ -44,6 +44,7 @@
                 border-radius: 8px;
                 padding: 7px 10px;
                 box-shadow: 0 0.3125rem 0.625rem 0 rgb(0 0 0 / 12%) !important;
+                transition: .5s;
 
                 .item-ic{
                     position: relative;
@@ -56,6 +57,12 @@
                 position: relative;
                 top: 6px;
                 width: 100%;
+            }
+        }
+
+        .menu-item:hover{
+            .item-icon{
+                box-shadow: 0 0.3125rem 0.625rem 6px rgb(0 0 0 / 12%) !important;
             }
         }
 
