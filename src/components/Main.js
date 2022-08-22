@@ -4,6 +4,7 @@ import Api from '../services/Api';
 
 import Login from './Login/Login';
 import Dashboard from './Dashboard/Dashboard';
+import Director from './Director/Director';
 
 const Main = () => {
     const api = new Api();

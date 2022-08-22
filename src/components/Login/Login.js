@@ -57,8 +57,8 @@ const Login = () => {
                                                                     })} 
                                         className='form-control' type='password' placeholder='Password' />
                             </div>
-                            <div className={`${styles['button-login']} form-group`}>
-                                <button className='btn btn-primary btn-block'>Login</button>
+                            <div className={`${styles['button-login-block']} form-group`}>
+                                <button className={styles['button-login']}>Login</button>
                             </div>
                         </form>
                     </div>

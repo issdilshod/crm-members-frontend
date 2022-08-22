@@ -12,7 +12,7 @@ const Menu = ({ menuOpen, setMenuOpen }) => {
     const [notificationCount, setNotificationCount] = useState(0);
 
     return (
-        <div className={`${styles['menu-card']} ${menuOpen ? styles['menu-card-active']:null}`}>
+        <div className={`${styles['menu-card']} ${menuOpen ? styles['menu-card-active']:''}`}>
             <div className={`${styles['menu-card-head']} d-flex`}>
                 <div className={`${styles['menu-card-title']} mr-auto`}>Menu</div>
                 <div className={styles['menu-card-close']} onClick={() => setMenuOpen(!menuOpen)}>
