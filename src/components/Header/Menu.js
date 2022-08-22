@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
+
+import MenuItem from './MenuItem';
 
 import styles from './Menu.module.scss';
 import { FaBell, FaBuilding, FaCalendar, FaCog, FaList, FaRegBell, FaRegClock, FaRegComment, FaTachometerAlt, FaTimes, FaUser, FaUsers } from 'react-icons/fa';
 
 const Menu = ({ menuOpen, setMenuOpen }) => {
     const navigate = useNavigate();
+    const location = useLocation();
     const [notificationCount, setNotificationCount] = useState(0);
 
     return (
@@ -18,104 +21,17 @@ const Menu = ({ menuOpen, setMenuOpen }) => {
             </div>
             <hr className={styles['divider']} />
             <div className={styles['menu-card-body']}>
-                <div className={`${styles['menu-item']} ${styles['menu-item-active']} d-flex mb-2`}>
-                    <div className={`${styles['item-icon']} mr-2`}>
-                        <span className={styles['item-ic']}>
-                            <FaTachometerAlt />
-                        </span>
-                    </div>
-                    <div className={styles['menu-name']}>Dashboard</div>
-                </div>
-
-                <div className={`${styles['menu-item']} d-flex mb-2`}>
-                    <div className={`${styles['item-icon']} mr-2`}>
-                        <span className={styles['item-ic']}>
-                            <FaUser />
-                        </span>
-                    </div>
-                    <div className={styles['menu-name']}>Directors</div>
-                </div>
-
-                <div className={`${styles['menu-item']} d-flex mb-2`}>
-                    <div className={`${styles['item-icon']} mr-2`}>
-                        <span className={styles['item-ic']}>
-                            <FaBuilding />
-                        </span>
-                    </div>
-                    <div className={styles['menu-name']}>Companies</div>
-                </div>
-
-                <div className={`${styles['menu-item']} d-flex mb-2`}>
-                    <div className={`${styles['item-icon']} mr-2`}>
-                        <span className={styles['item-ic']}>
-                            <FaList />
-                        </span>
-                    </div>
-                    <div className={styles['menu-name']}>Tasks</div>
-                </div>
-
-                <div className={`${styles['menu-item']} d-flex mb-2`}>
-                    <div className={`${styles['item-icon']} mr-2`}>
-                        <span className={styles['item-ic']}>
-                            <FaUsers />
-                        </span>
-                    </div>
-                    <div className={styles['menu-name']}>Departments</div>
-                </div>
-
-                <div className={`${styles['menu-item']} d-flex mb-2`}>
-                    <div className={`${styles['item-icon']} mr-2`}>
-                        <span className={styles['item-ic']}>
-                            <FaCog />
-                        </span>
-                    </div>
-                    <div className={styles['menu-name']}>Settings</div>
-                </div>
-
-                <div className={`${styles['menu-item']} d-flex mb-2`}>
-                    <div className={`${styles['item-icon']} mr-2`}>
-                        <span className={styles['item-ic']}>
-                            <FaBell />
-                        </span>
-                    </div>
-                    <div className={styles['menu-name']}>Notification ({notificationCount})</div>
-                </div>
-
-                <div className={`${styles['menu-item']} d-flex mb-2`}>
-                    <div className={`${styles['item-icon']} mr-2`}>
-                        <span className={styles['item-ic']}>
-                            <FaRegBell />
-                        </span>
-                    </div>
-                    <div className={styles['menu-name']}>Reminder</div>
-                </div>
-
-                <div className={`${styles['menu-item']} d-flex mb-2`}>
-                    <div className={`${styles['item-icon']} mr-2`}>
-                        <span className={styles['item-ic']}>
-                            <FaRegComment />
-                        </span>
-                    </div>
-                    <div className={styles['menu-name']}>Chat</div>
-                </div>
-
-                <div className={`${styles['menu-item']} d-flex mb-2`}>
-                    <div className={`${styles['item-icon']} mr-2`}>
-                        <span className={styles['item-ic']}>
-                            <FaRegClock />
-                        </span>
-                    </div>
-                    <div className={styles['menu-name']}>Activity</div>
-                </div>
-
-                <div className={`${styles['menu-item']} d-flex mb-2`}>
-                    <div className={`${styles['item-icon']} mr-2`}>
-                        <span className={styles['item-ic']}>
-                            <FaCalendar />
-                        </span>
-                    </div>
-                    <div className={styles['menu-name']}>Calendar</div>
-                </div>
+                <MenuItem page_link='dashboard' page_name='Dashboard' icon={<FaTachometerAlt />} />
+                <MenuItem page_link='directors' page_name='Directors' icon={<FaUser />} />
+                <MenuItem page_link='companies' page_name='Companies' icon={<FaBuilding />} />
+                <MenuItem page_link='tasks' page_name='Task' icon={<FaList />} />
+                <MenuItem page_link='departments' page_name='Departments' icon={<FaUsers />} />
+                <MenuItem page_link='settings' page_name='Settings' icon={<FaCog />} />
+                <MenuItem page_link='notification' page_name='Notification' icon={<FaBell />} notificationCount={notificationCount} setNotificationCount={setNotificationCount} />
+                <MenuItem page_link='reminder' page_name='Reminder' icon={<FaRegBell />} />
+                <MenuItem page_link='chat' page_name='Chat' icon={<FaRegComment />} />
+                <MenuItem page_link='activity' page_name='Activity' icon={<FaRegClock />} />
+                <MenuItem page_link='calendar' page_name='Calendar' icon={<FaCalendar />} />
 
             </div>
         </div>
