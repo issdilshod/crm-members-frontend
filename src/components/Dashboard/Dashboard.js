@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 
 import Header from '../Header/Header';
 import Activity from '../Activity/Activity';
-import styles from './Dashboard.module.scss';
 import TaskListDashboard from '../Task/TaskListDashboard';
+import styles from './Dashboard.module.scss';
 
 const Dashboard = () => {
     const navigate = useNavigate();
