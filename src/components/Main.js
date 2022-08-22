@@ -1,26 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
-import axios from 'axios';
+import Api from '../services/Api';
 
 import Login from './Login/Login';
 import Dashboard from './Dashboard/Dashboard';
 
 const Main = () => {
+    const api = new Api();
     const location = useLocation();
     const navigate = useNavigate();
     const [isAuth, setIsAuth] = useState(false);
 
     async function is_auth(){
-        try {
-            let token = await JSON.parse(localStorage.getItem('auth'));
-            const response = await axios.get(`${process.env.REACT_APP_BACKEND_DOMAIN}/api/is_auth`, { 
-                                            headers: { 'Authorization': 'Bearer '+token} }
-                                    );
+        const respond = await api.request('/api/is_auth', 'GET');
+        if (respond.status==200){
             setIsAuth(true);
-        } catch(error) {
+        } else {
             setIsAuth(false);
         }
     }
+
+    is_auth();
 
     useEffect(() => {
         // Routing
@@ -30,8 +30,6 @@ const Main = () => {
             navigate(`${process.env.REACT_APP_FRONTEND_PREFIX}/login`);
         }
     }, [isAuth]);
-
-    is_auth();
 
     return (
         <Routes>

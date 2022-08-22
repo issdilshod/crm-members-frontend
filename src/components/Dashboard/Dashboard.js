@@ -3,7 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 import Header from '../Header/Header';
+import Activity from '../Activity/Activity';
 import styles from './Dashboard.module.scss';
+import TaskListDashboard from '../Task/TaskListDashboard';
 
 const Dashboard = () => {
     const navigate = useNavigate();
@@ -12,13 +14,13 @@ const Dashboard = () => {
     return (
         <div className={styles['main-content']}>
             <Header />
-            <div className={`${styles['dashboard-left-block']} container-fluid`}>
+            <div className={`${styles['dashboard-block']} container-fluid`}>
                 <div className='row'>
                     <div className='col-12 col-sm-8'>
-                        Dashboard
+                        <TaskListDashboard />
                     </div>
                     <div className='col-12 col-sm-4'>
-                        Activity
+                        <Activity />
                     </div>
                 </div>
             </div>

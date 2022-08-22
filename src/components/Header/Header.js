@@ -2,9 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import styles from './Header.module.scss';
-import { FaSignOutAlt } from 'react-icons/fa';
-import { FaRegStickyNote } from 'react-icons/fa';
-import { FaBars } from 'react-icons/fa';
+import { FaSignOutAlt, FaRegStickyNote, FaBars } from 'react-icons/fa';
 
 const Header = () => {
     const navigate = useNavigate();
@@ -12,7 +10,7 @@ const Header = () => {
     async function handleSignOut(e){
         e.preventDefault();
         localStorage.removeItem("auth");
-        // TODO: Request to backend & remove token
+        // TODO: Request to backend then remove token
         navigate(`${process.env.REACT_APP_FRONTEND_PREFIX}/login`);
     }
 

@@ -1,7 +1,46 @@
 .main-content{
     padding: 0;
+    color: #344767;
 
-    .dashboard-left-block{
-        margin-top: 110px;
+    .dashboard-block{
+        margin-top: 100px;
+
+        .activity-card{
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 20px 27px 0 rgb(0 0 0 / 5%);
+            border-radius: 10px;
+
+            .activity-card-head{
+                font-weight: bold;
+                font-size: 1.1em;
+            }
+
+            .activity-card-body{
+                
+                .activity-block{
+
+                    margin-top: 20px;
+
+                    .activity{
+                        position: relative;
+                        font-weight: 400;
+
+                        .activity-user{
+                            font-weight: 500;
+                        }
+
+                        .activity-description{
+                            font-weight: 300;
+                        }
+
+                        .activity-date{
+                            font-size: .8em;
+                            color:#607cab;
+                        }
+                    }
+                }
+            }
+        }
     }
 }
