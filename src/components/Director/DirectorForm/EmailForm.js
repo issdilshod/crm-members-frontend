@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import Api from '../../services/Api';
+import Api from '../../../services/Api';
 
-import styles from './Director.module.scss';
+import styles from '../Director.module.scss';
 
 const EmailForm = () => {
     const api = new Api();

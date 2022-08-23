@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { FaAngleDown, FaAngleUp, FaTimes, FaTrash, FaUndo, FaUpload } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 
-import styles from './Director.module.scss';
+import styles from '../Director.module.scss';
 
 const FileForm = ({blockOpen, setBlockOpen, hasDouble = false, parent_head_name, parent_name}) => {
 

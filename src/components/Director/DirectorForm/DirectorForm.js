@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import styles from './Director.module.scss';
+import styles from '../Director.module.scss';
 
 import { FaTimes } from 'react-icons/fa';
 import AddressForm from './AddressForm';
 import EmailForm from './EmailForm';
 import FileForm from './FileForm';
 
-const Director = ({directorFormOpen, setDirectorFormOpen}) => {
+const Director = ({directorFormOpen, setDirectorFormOpen, directorEdit, setDirectorEdit}) => {
     const navigate = useNavigate();
     const [directorForm, setDirectorForm] = useState([]);
     const [choosedPhoneType, setChoosedPhoneType] = useState(false);
@@ -17,6 +17,11 @@ const Director = ({directorFormOpen, setDirectorFormOpen}) => {
     const [dlUploadOpen, setDlUploadOpen] = useState(false);
     const [ssnUploadOpen, setSsnUploadOpen] = useState(false);
     const [cpnDocsUploadOpen, setCpnDocsUploadOpen] = useState(false);
+
+    async function handleSubmit(e){
+        e.preventDefault();
+        console.log(e);
+    }
 
     async function _resetForm(){
 
@@ -32,7 +37,7 @@ const Director = ({directorFormOpen, setDirectorFormOpen}) => {
             </div>
             <hr className={styles['divider']} />
             <div className={`${styles['director-form-card-body']} container-fluid`}>
-                <form className={`${styles['director-form-block']} row`}>
+                <form className={`${styles['director-form-block']} row`} encType='multipart/form-data' onSubmit={ handleSubmit }>
 
                     <div className={`${styles['director-form-field']} col-12 col-sm-4 form-group`}>
                         <label>First Name</label>
@@ -128,6 +133,12 @@ const Director = ({directorFormOpen, setDirectorFormOpen}) => {
                                 parent_head_name='CPN DOCS Upload'
                                 parent_name='cpn_docs_upload'
                                 />
+
+                    <div className={`${styles['director-form-field']} col-12 d-flex form-group`}>
+                        <button className={`${styles['submit-form']} ml-auto`}>
+                            Add
+                        </button>
+                    </div>
 
                 </form>
             </div>
