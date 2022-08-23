@@ -1,33 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import Api from '../../services/Api';
 
 import styles from './Login.module.scss';
 
 const Login = () => {
+    const api = new Api();
     const navigate = useNavigate();
     const [loginForm, setLoginForm] = useState({'username': '', 'password': ''});
     const [errorMsg, setErrorMsg] = useState({'show': false, 'text': ''});
-    
-    useEffect(() => {
-        //console.log(loginForm);
-    }, [loginForm]);
 
     async function handleSubmit(e){
         e.preventDefault();
         setErrorMsg({'show': false, 'text': ''});
-        try {
-            const response = await axios.post(`${process.env.REACT_APP_BACKEND_DOMAIN}/api/login`, loginForm);
-            localStorage.setItem('auth', JSON.stringify(response.data.access_token.token));
-            
-            navigate(`${process.env.REACT_APP_FRONTEND_PREFIX}/dashboard`);
-        }catch (error){
-            let msg = '';
-            if (error.response.status!=422){
-                msg = error.response.data.data.msg;
-            }
-            setErrorMsg({'show': true, 'text': msg});
-        }
+
+        api.request('/api/login', 'POST', loginForm)
+                        .then(res => {
+                                        if (res.status==200){
+                                            localStorage.setItem('auth', JSON.stringify(res.data.access_token.token));
+                                            navigate(`${process.env.REACT_APP_FRONTEND_PREFIX}/dashboard`);
+                                        }else{
+                                            let msg = res.data.data.msg;
+                                            setErrorMsg({'show': true, 'text': msg});
+                                        }
+                                    });
     }
 
     return (

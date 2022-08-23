@@ -12,19 +12,12 @@ const Main = () => {
     const navigate = useNavigate();
     const [isAuth, setIsAuth] = useState(false);
 
-    async function is_auth(){
-        const respond = await api.request('/api/is_auth', 'GET');
-        if (respond.status==200){
-            setIsAuth(true);
-        } else {
-            setIsAuth(false);
-        }
-    }
-
-    is_auth();
-
     useEffect(() => {
-        // Routing
+        api.request('/api/is_auth', 'GET').then(res => { (res.status==200?setIsAuth(true):setIsAuth(false)) })
+    }, [])
+
+    // Routing
+    useEffect(() => {
         if (isAuth && location.pathname==`${process.env.REACT_APP_FRONTEND_PREFIX}/login`){
             navigate(`${process.env.REACT_APP_FRONTEND_PREFIX}/dashboard`);
         }else if(!isAuth && location.pathname!=`${process.env.REACT_APP_FRONTEND_PREFIX}/login`){
