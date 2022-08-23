@@ -78,3 +78,25 @@
 .menu-card-active{
     right: 0%;
 }
+
+@media (max-width: 800px){
+    .menu-card{
+        width: 50%;
+        right: -50%;
+    }
+
+    .menu-card-active{
+        right: 0%;
+    }
+}
+
+@media (max-width: 500px){
+    .menu-card{
+        width: 100%;
+        right: -100%;
+    }
+
+    .menu-card-active{
+        right: 0%;
+    }
+}
