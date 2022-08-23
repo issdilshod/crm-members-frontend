@@ -200,11 +200,120 @@
                     .file-card-body{
                         background-color: #f4f8fb;
                         border-radius: 0px 0px 20px 20px;
+
+                        .choose-file-button{
+                            padding: 10px;
+                            border-radius: 8px;
+                            background-color: #607cab;
+                            color: #fff;
+                            font-weight: 500;
+                            box-shadow: 0 0.3125rem 0.625rem 0 rgb(0 0 0 / 12%) !important;
+                            transition: .5s;
+                            cursor: pointer;
+
+                            span{
+                                position: relative;
+                                top: -3px;
+                            }
+                        }
+
+                        .choose-file-button:hover{
+                            box-shadow: 0 0.3125rem 0.625rem 6px rgb(0 0 0 / 12%) !important;
+                        }
+
+                        .files-info{
+
+                            .file-info{
+
+                                .file-name{
+                                    font-size: .8em;
+                                    font-weight: 500;
+                                }
+
+                                .remove-file{
+                                    background-color: #ab6060;
+                                    width: 25px;
+                                    color: #fff;
+                                    border-radius: 10px;
+                                    cursor: pointer;
+                                    box-shadow: 0 0.3125rem 0.625rem 0px rgb(0 0 0 / 12%) !important;
+                                    transition: .5s;
+
+                                    span{
+                                        position: relative;
+                                        top: -2px;
+                                    }
+                                }
+
+                                .remove-file:hover{
+                                    box-shadow: 0 0.3125rem 0.625rem 6px rgb(0 0 0 / 12%) !important;
+                                }
+                            }
+                        }
+
+                        .files-to-upload-info{
+
+                            .file-to-upload-info{
+
+                                .file-to-upload-name{
+                                    font-size: .8em;
+                                    font-weight: 500;
+                                }
+
+                                .remove-file-to-upload{
+                                    background-color: #ab6060;
+                                    width: 25px;
+                                    color: #fff;
+                                    border-radius: 10px;
+                                    cursor: pointer;
+                                    box-shadow: 0 0.3125rem 0.625rem 0px rgb(0 0 0 / 12%) !important;
+                                    transition: .5s;
+
+                                    span{
+                                        position: relative;
+                                        top: -2px;
+                                    }
+                                }
+
+                                .remove-file-to-upload:hover{
+                                    box-shadow: 0 0.3125rem 0.625rem 6px rgb(0 0 0 / 12%) !important;
+                                }
+                            }
+                        }
+
+                        .files-to-delete-info{
+
+
+                            .file-to-delete-info{
+
+                                .file-to-delete-name{
+                                    font-size: .8em;
+                                    font-weight: 500;
+                                }
+
+                                .return-file-to-delete{
+                                    background-color: #60ab70;
+                                    width: 25px;
+                                    color: #fff;
+                                    border-radius: 10px;
+                                    cursor: pointer;
+                                    box-shadow: 0 0.3125rem 0.625rem 0px rgb(0 0 0 / 12%) !important;
+                                    transition: .5s;
+
+                                    span{
+                                        position: relative;
+                                        top: -2px;
+                                    }
+                                }
+
+                                .remove-file-to-delete:hover{
+                                    box-shadow: 0 0.3125rem 0.625rem 6px rgb(0 0 0 / 12%) !important;
+                                }
+                            }
+                        }
                     }
                 }
 
-
-                
             }
         }
     }

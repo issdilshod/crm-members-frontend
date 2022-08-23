@@ -112,15 +112,22 @@ const Director = ({directorFormOpen, setDirectorFormOpen}) => {
                     <FileForm blockOpen={ dlUploadOpen } 
                                 setBlockOpen={ setDlUploadOpen }
                                 hasDouble={true}
+                                parent_head_name='DL Upload'
+                                parent_name='dl_upload'
                                 />
 
                     <FileForm blockOpen={ ssnUploadOpen } 
                                 setBlockOpen={ setSsnUploadOpen } 
                                 hasDouble={true}
+                                parent_head_name='SSN Upload'
+                                parent_name='ssn_upload'
                                 />
 
                     <FileForm blockOpen={ cpnDocsUploadOpen } 
-                                setBlockOpen={ setCpnDocsUploadOpen } />
+                                setBlockOpen={ setCpnDocsUploadOpen } 
+                                parent_head_name='CPN DOCS Upload'
+                                parent_name='cpn_docs_upload'
+                                />
 
                 </form>
             </div>
