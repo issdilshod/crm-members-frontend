@@ -1,6 +1,6 @@
 .main-content{
     margin-top: 20px;
-    color:#607cab;
+    color:#344767;
 
     .director-cards{
 
@@ -98,6 +98,101 @@
             
         }
     }
+}
+
+.director-form-card{
+    position: absolute;
+    top: 0;
+    right: -75%;
+    background-color: #fff;
+    width: 75%;
+    height: 100%;
+    box-shadow: 0 8px 26px -4px hsla(0,0%,8%,.15),0 8px 9px -5px hsla(0,0%,8%,.06)!important;
+    overflow: scroll;
+    padding: 0px 10px;
+    transition: .2s ease;
+    z-index: 10;
+    color:#344767;
+
+    .director-form-card-head{
+        padding: 20px;
+        padding-bottom: 0px;
+
+        .director-form-card-title{
+            font-weight: 700;
+            font-size: 1.5em;
+        }
+
+        .director-form-card-close{
+            font-size: 1.5em;
+            cursor: pointer;
+        }
+    }
+
+    .divider{
+        margin: 5px 0px;
+        border: 0;
+    }
+
+    .director-form-card-body{
+        padding: 20px;
+        padding-bottom: 0px;
+
+        .director-form-block{
+
+            .director-form-field{
+                label{
+                    font-size: .9em;
+                    font-weight: 500;
+                }
+
+                input, select{
+                    font-size: .9em;
+                }
+
+                .input-error{
+                    border: 0px;
+                    box-shadow: 0px 0px 10px 0px #721c24;
+                }
+
+                .error{
+                    font-size: .8em;
+                    font-weight: 500;
+                    color: #721c24;
+                }
+
+                .address-card{
+
+                    .address-card-head{
+                        padding: 10px;
+                        background-color: #e4eef5;
+                        border-radius: 20px 20px 0px 0px;
+                        cursor: pointer;
+                        transition: .5s;
+
+                        .card-head-title{
+                            font-size: 1.2em;
+                            font-weight: 700;
+                        }
+                    }
+
+                    .address-card-body{
+                        background-color: #f4f8fb;
+                        border-radius: 0px 0px 20px 20px;
+                    }
+                }
+
+
+                
+            }
+        }
+    }
+}
+
+.director-form-card-active{
+    right: 0%;
+}
+
 @media (max-width: 800px){
     .director-form-card{
         width: 100%;
