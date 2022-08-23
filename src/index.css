@@ -13,6 +13,7 @@ body {
   min-height: 100vh;
   position: relative;
   overflow: hidden;
+  min-width: 400px !important;
 }
 
 code {

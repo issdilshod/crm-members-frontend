@@ -31,7 +31,7 @@ class Api {
         await axios(temConf).then((response) => {
             respond = response;
         }).catch((error) => {
-            respond = error;
+            respond = error.response;
         });
         return respond;
     }
