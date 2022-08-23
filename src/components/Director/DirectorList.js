@@ -5,7 +5,7 @@ import styles from './Director.module.scss';
 
 import { FaArrowLeft, FaBars, FaPlus, FaUser } from 'react-icons/fa';
 
-const DirectorList = ({ menuOpen, setMenuOpen }) => {
+const DirectorList = ({ menuOpen, setMenuOpen, directorFormOpen, setDirectorFormOpen }) => {
     const navigate = useNavigate();
 
     return (  
@@ -16,9 +16,9 @@ const DirectorList = ({ menuOpen, setMenuOpen }) => {
                         <FaArrowLeft />
                     </span>
                 </div>
-                <div className={`${styles['director-card-title']} mr-auto`}>Directors</div>
+                <div className={`${styles['director-card-title']} mr-auto`}>Directors cards</div>
                 <div className={`${styles['director-card-menu']} d-flex`}>
-                    <div className={`${styles['director-add']} text-center mr-2`}>
+                    <div className={`${styles['director-add']} text-center mr-2`} onClick={() => {setDirectorFormOpen(!directorFormOpen)}}>
                         <span className={styles['director-add-icon']}>
                             <FaPlus />
                         </span>
@@ -33,7 +33,7 @@ const DirectorList = ({ menuOpen, setMenuOpen }) => {
             <div className={`${styles['director-card-body']} container-fluid`}>
                 <div className={`${styles['director-list']} row`}>
 
-                    <div className={`col-12 col-sm-3 mb-3`}>
+                    <div className={`col-12 col-sm-6 col-md-4 col-xl-3 mb-3`}>
                         <div className={`${styles['director-card']} d-flex`}>
                             <div className={`${styles['director-card-icon']} mr-3 ml-3`}>
                                 <span>
