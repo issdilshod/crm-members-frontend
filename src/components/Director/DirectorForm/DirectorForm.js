@@ -21,6 +21,7 @@ const Director = ({directorFormOpen, setDirectorFormOpen, directorEdit, setDirec
     async function handleSubmit(e){
         e.preventDefault();
         console.log(e);
+        //TODO: send request to add or update
     }
 
     async function _resetForm(){

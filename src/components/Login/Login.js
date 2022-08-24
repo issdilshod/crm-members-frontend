@@ -7,7 +7,7 @@ import styles from './Login.module.scss';
 const Login = () => {
     const api = new Api();
     const navigate = useNavigate();
-    const [loginForm, setLoginForm] = useState({'username': '', 'password': ''});
+    const [loginForm, setLoginForm] = useState({});
     const [errorMsg, setErrorMsg] = useState({'show': false, 'text': ''});
 
     async function handleSubmit(e){
@@ -29,6 +29,11 @@ const Login = () => {
                                     });
     }
 
+    async function handleChange(e){
+        const { value, name } = e.target;
+        setLoginForm({...loginForm, [name]: value });
+    }
+
     return (
         <div className={styles['main-content']}>
             <div className='container'>
@@ -39,22 +44,22 @@ const Login = () => {
                             <p>Login to continue</p>
                             { errorMsg['show'] && <div className='alert alert-danger'>{ errorMsg['text'] }</div> }
                         </div>
-                        <form className={styles['form-login']} onSubmit={handleSubmit}>
+                        <form className={styles['form-login']} onSubmit={ handleSubmit }>
                             <div className='form-group'>
                                 <label>Username</label>
-                                <input onChange={(e) => setLoginForm({
-                                                                        'username': e.target.value, 
-                                                                        'password': loginForm['password']
-                                                                    })} 
-                                        className='form-control' type='text' placeholder='Username' />
+                                <input onChange={ handleChange } 
+                                        className='form-control' 
+                                        name='username'
+                                        type='text' 
+                                        placeholder='Username' />
                             </div>
                             <div className='form-group'>
                                 <label>Password</label>
-                                <input onChange={(e) => setLoginForm({
-                                                                        'username': loginForm['username'],
-                                                                        'password': e.target.value
-                                                                    })} 
-                                        className='form-control' type='password' placeholder='Password' />
+                                <input onChange={ handleChange } 
+                                        className='form-control' 
+                                        name='password'
+                                        type='password' 
+                                        placeholder='Password' />
                             </div>
                             <div className={`${styles['button-login-block']} form-group`}>
                                 <button className={styles['button-login']}>Login</button>
