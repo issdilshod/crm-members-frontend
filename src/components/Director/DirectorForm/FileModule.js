@@ -68,28 +68,32 @@ const FileModule = ({hasDouble, head_name, head_block_name, parent_name, handleC
                     })
                 }
             </div>
+            
+            { (1==2) && // TODO: Uploaded files & deleted files
+            <div>
+                <div className={`${styles['files-info']} mt-2`}>
+                    <div className={`${styles['file-info']} mt-1 d-flex`}>
+                        <div className={`${styles['file-name']} mr-auto`}>file1.txt</div>
+                        <div className={`${styles['remove-file']} text-center`}>
+                            <span>
+                                <FaTrash />
+                            </span>
+                        </div>
+                    </div>
+                </div>
 
-            <div className={`${styles['files-info']} mt-2`}>
-                <div className={`${styles['file-info']} mt-1 d-flex`}>
-                    <div className={`${styles['file-name']} mr-auto`}>file1.txt</div>
-                    <div className={`${styles['remove-file']} text-center`}>
-                        <span>
-                            <FaTrash />
-                        </span>
+                <div className={`${styles['files-to-delete-info']} mt-2`}>
+                    <div className={`${styles['file-to-delete-info']} mt-1 d-flex`}>
+                        <div className={`${styles['file-to-delete-name']} mr-auto`}>file-to-delete.txt</div>
+                        <div className={`${styles['return-file-to-delete']} text-center`}>
+                            <span>
+                                <FaUndo />
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>
-
-            <div className={`${styles['files-to-delete-info']} mt-2`}>
-                <div className={`${styles['file-to-delete-info']} mt-1 d-flex`}>
-                    <div className={`${styles['file-to-delete-name']} mr-auto`}>file-to-delete.txt</div>
-                    <div className={`${styles['return-file-to-delete']} text-center`}>
-                        <span>
-                            <FaUndo />
-                        </span>
-                    </div>
-                </div>
-            </div>
+            }
         </div>
     );
 }

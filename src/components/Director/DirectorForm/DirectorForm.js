@@ -25,12 +25,11 @@ const Director = ({directorFormOpen, setDirectorFormOpen, directorEdit, setDirec
             value = e.target.files;
         }
         setDirectorForm({...directorForm, [name]: value });
-        console.log(directorForm);
     }
 
     async function handleSubmit(e){
         e.preventDefault();
-        console.log(e);
+        console.log(directorForm);
         //TODO: send request to add or update
     }
 
@@ -155,7 +154,7 @@ const Director = ({directorFormOpen, setDirectorFormOpen, directorEdit, setDirec
                                     handleChange={handleChange}
                     />
 
-                    <EmailForm />
+                    <EmailForm handleChange={handleChange} />
 
                     <FileForm blockOpen={ dlUploadOpen } 
                                 setBlockOpen={ setDlUploadOpen }
