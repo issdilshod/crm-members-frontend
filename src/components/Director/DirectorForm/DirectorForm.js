@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import Api from '../../../services/Api';
+
 import styles from '../Director.module.scss';
 
 import { FaTimes } from 'react-icons/fa';
@@ -10,6 +12,7 @@ import FileForm from './FileForm';
 
 const Director = ({directorFormOpen, setDirectorFormOpen, directorEdit, setDirectorEdit}) => {
     const navigate = useNavigate();
+    const api = new Api();
     const [directorForm, setDirectorForm] = useState({});
     const [choosedPhoneType, setChoosedPhoneType] = useState(false);
     const [dlAddressOpen, setDlAddressOpen] = useState(false);
@@ -27,13 +30,16 @@ const Director = ({directorFormOpen, setDirectorFormOpen, directorEdit, setDirec
         setDirectorForm({...directorForm, [name]: value });
     }
 
-    async function handleSubmit(e){
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(directorForm);
         //TODO: send request to add or update
+        api.request('/api/director', 'POST', directorForm, true)
+                            .then(res => {
+                                
+                            });
     }
 
-    async function _resetForm(){
+    const _resetForm = () => {
 
     }
 

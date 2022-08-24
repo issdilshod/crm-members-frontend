@@ -10,7 +10,7 @@ const Login = () => {
     const [loginForm, setLoginForm] = useState({});
     const [errorMsg, setErrorMsg] = useState({'show': false, 'text': ''});
 
-    async function handleSubmit(e){
+    const handleSubmit = async (e) =>{
         e.preventDefault();
         setErrorMsg({'show': false, 'text': ''});
 
@@ -29,7 +29,7 @@ const Login = () => {
                                     });
     }
 
-    async function handleChange(e){
+    const handleChange = async (e) => {
         const { value, name } = e.target;
         setLoginForm({...loginForm, [name]: value });
     }
