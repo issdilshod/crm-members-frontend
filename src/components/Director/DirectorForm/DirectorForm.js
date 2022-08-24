@@ -10,13 +10,23 @@ import FileForm from './FileForm';
 
 const Director = ({directorFormOpen, setDirectorFormOpen, directorEdit, setDirectorEdit}) => {
     const navigate = useNavigate();
-    const [directorForm, setDirectorForm] = useState([]);
+    const [directorForm, setDirectorForm] = useState({});
     const [choosedPhoneType, setChoosedPhoneType] = useState(false);
     const [dlAddressOpen, setDlAddressOpen] = useState(false);
     const [creditHomeAddressOpen, setCreditHomeAddressOpem] = useState(false);
     const [dlUploadOpen, setDlUploadOpen] = useState(false);
     const [ssnUploadOpen, setSsnUploadOpen] = useState(false);
     const [cpnDocsUploadOpen, setCpnDocsUploadOpen] = useState(false);
+
+    function handleChange(e, file = false){
+        let { value, name } = e.target;
+        // get files
+        if (file){
+            value = e.target.files;
+        }
+        setDirectorForm({...directorForm, [name]: value });
+        console.log(directorForm);
+    }
 
     async function handleSubmit(e){
         e.preventDefault();
@@ -42,37 +52,60 @@ const Director = ({directorFormOpen, setDirectorFormOpen, directorEdit, setDirec
 
                     <div className={`${styles['director-form-field']} col-12 col-sm-4 form-group`}>
                         <label>First Name</label>
-                        <input className={`form-control`} type='text' name='first_name' placeholder='First Name' />
+                        <input className={`form-control`} 
+                                type='text' 
+                                name='first_name' 
+                                placeholder='First Name' 
+                                onChange={ handleChange } />
                         <div className={styles['error']}></div>
                     </div>
 
                     <div className={`${styles['director-form-field']} col-12 col-sm-4 form-group`}>
                         <label>Middle Name</label>
-                        <input className={`form-control`} type='text' name='middle_name' placeholder='Middle Name' />
+                        <input className={`form-control`} 
+                                type='text' 
+                                name='middle_name' 
+                                placeholder='Middle Name' 
+                                onChange={ handleChange } />
                         <div className={styles['error']}></div>
                     </div>
 
                     <div className={`${styles['director-form-field']} col-12 col-sm-4 form-group`}>
                         <label>Last Name</label>
-                        <input className={`form-control`} type='text' name='last_name' placeholder='Last Name' />
+                        <input className={`form-control`} 
+                                type='text' 
+                                name='last_name' 
+                                placeholder='Last Name' 
+                                onChange={ handleChange } />
                         <div className={styles['error']}></div>
                     </div>
 
                     <div className={`${styles['director-form-field']} col-12 col-sm-6 form-group`}>
                         <label>Date of Birth</label>
-                        <input className={`form-control`} type='date' name='date_of_birth' />
+                        <input className={`form-control`} 
+                                type='date' 
+                                name='date_of_birth' 
+                                onChange={ handleChange } />
                         <div className={styles['error']}></div>
                     </div>
 
                     <div className={`${styles['director-form-field']} col-12 col-sm-6 form-group`}>
                         <label>SSN/CPN</label>
-                        <input className={`form-control`} type='text' name='ssn_cpn' placeholder='SSN/CPN' />
+                        <input className={`form-control`} 
+                                type='text' 
+                                name='ssn_cpn' 
+                                placeholder='SSN/CPN' 
+                                onChange={ handleChange } />
                         <div className={styles['error']}></div>
                     </div>
 
                     <div className={`${styles['director-form-field']} col-12 col-sm-6 form-group`}>
                         <label>Company Association</label>
-                        <input className={`form-control`} type='text' name='company_association' placeholder='Company Association' />
+                        <input className={`form-control`} 
+                                type='text' 
+                                name='company_association' 
+                                placeholder='Company Association' 
+                                onChange={ handleChange } />
                         <div className={styles['error']}></div>
                     </div>
 
@@ -80,7 +113,10 @@ const Director = ({directorFormOpen, setDirectorFormOpen, directorEdit, setDirec
                         <label>Phone Type</label>
                         <select className={`form-control`} 
                                 name='phone_type' 
-                                onChange={(e) => { (e.target.value==='-'?setChoosedPhoneType(false):setChoosedPhoneType(true)) }}>
+                                onChange={(e) => { 
+                                                    (e.target.value==='-'?setChoosedPhoneType(false):setChoosedPhoneType(true)); 
+                                                    handleChange(e); 
+                                                }} >
                             <option>-</option>
                             <option>Phisycal</option>
                             <option>VoiP</option>
@@ -93,7 +129,11 @@ const Director = ({directorFormOpen, setDirectorFormOpen, directorEdit, setDirec
                             <div className={`row`}>
                                 <div className={`col-12 form-group`}>
                                     <label>Phone Number</label>
-                                    <input className={`form-control`} type='text' name='phone_number' placeholder='Phone Number' />
+                                    <input className={`form-control`} 
+                                            type='text' 
+                                            name='phone_number' 
+                                            placeholder='Phone Number' 
+                                            onChange={ handleChange } />
                                     <div className={styles['error']}></div>
                                 </div>
                             </div>
@@ -105,12 +145,14 @@ const Director = ({directorFormOpen, setDirectorFormOpen, directorEdit, setDirec
                                     parent_name='dl_address' 
                                     blockOpen={dlAddressOpen} 
                                     setBlockOpen={setDlAddressOpen} 
+                                    handleChange={handleChange}
                     />
 
                     <AddressForm parent_head_name='Credit Home Address' 
                                     parent_name='credit_home_address' 
                                     blockOpen={creditHomeAddressOpen} 
                                     setBlockOpen={setCreditHomeAddressOpem} 
+                                    handleChange={handleChange}
                     />
 
                     <EmailForm />
@@ -120,20 +162,23 @@ const Director = ({directorFormOpen, setDirectorFormOpen, directorEdit, setDirec
                                 hasDouble={true}
                                 parent_head_name='DL Upload'
                                 parent_name='dl_upload'
-                                />
+                                handleChange={handleChange}
+                    />
 
                     <FileForm blockOpen={ ssnUploadOpen } 
                                 setBlockOpen={ setSsnUploadOpen } 
                                 hasDouble={true}
                                 parent_head_name='SSN Upload'
                                 parent_name='ssn_upload'
-                                />
+                                handleChange={handleChange}
+                    />
 
                     <FileForm blockOpen={ cpnDocsUploadOpen } 
                                 setBlockOpen={ setCpnDocsUploadOpen } 
                                 parent_head_name='CPN DOCS Upload'
                                 parent_name='cpn_docs_upload'
-                                />
+                                handleChange={handleChange}
+                    />
 
                     <div className={`${styles['director-form-field']} col-12 d-flex form-group`}>
                         <button className={`${styles['submit-form']} ml-auto`}>

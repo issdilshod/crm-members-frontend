@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 import styles from '../Director.module.scss';
 
-const AddressForm = ({parent_head_name, parent_name, blockOpen, setBlockOpen}) => {
+const AddressForm = ({parent_head_name, parent_name, blockOpen, setBlockOpen, handleChange}) => {
 
     return (  
         <div className={`${styles['director-form-field']} col-12 col-sm-6 mt-2 form-group`}>
@@ -22,32 +22,56 @@ const AddressForm = ({parent_head_name, parent_name, blockOpen, setBlockOpen}) =
                         <div className={`row`}>
                             <div className={`col-12 form-group`}>
                                 <label>Street Address</label>
-                                <input className={`form-control`} type='text' name={`address[${parent_name}][street_address]`} placeholder='Street Address'/>
+                                <input className={`form-control`} 
+                                        type='text' 
+                                        name={`address[${parent_name}][street_address]`} 
+                                        placeholder='Street Address'
+                                        onChange={ handleChange } />
                                 <div className={styles['error']}></div>
                             </div>
                             <div className={`col-12 form-group`}>
                                 <label>Address Line 2</label>
-                                <input className={`form-control`} type='text' name={`address[${parent_name}][address_line_2]`} placeholder='Address Line 2'/>
+                                <input className={`form-control`} 
+                                        type='text' 
+                                        name={`address[${parent_name}][address_line_2]`} 
+                                        placeholder='Address Line 2'
+                                        onChange={ handleChange } />
                                 <div className={styles['error']}></div>
                             </div>
                             <div className={`col-12 col-sm-6 form-group`}>
                                 <label>City</label>
-                                <input className={`form-control`} type='text' name={`address[${parent_name}][city]`} placeholder='City'/>
+                                <input className={`form-control`} 
+                                        type='text' 
+                                        name={`address[${parent_name}][city]`} 
+                                        placeholder='City'
+                                        onChange={ handleChange } />
                                 <div className={styles['error']}></div>
                             </div>
                             <div className={`col-12 col-sm-6 form-group`}>
                                 <label>State</label>
-                                <input className={`form-control`} type='text' name={`address[${parent_name}][state]`} placeholder='State'/>
+                                <input className={`form-control`} 
+                                        type='text' 
+                                        name={`address[${parent_name}][state]`} 
+                                        placeholder='State'
+                                        onChange={ handleChange } />
                                 <div className={styles['error']}></div>
                             </div>
                             <div className={`col-12 col-sm-6 form-group`}>
                                 <label>Postal</label>
-                                <input className={`form-control`} type='text' name={`address[${parent_name}][postal]`} placeholder='Postal'/>
+                                <input className={`form-control`} 
+                                        type='text' 
+                                        name={`address[${parent_name}][postal]`} 
+                                        placeholder='Postal'
+                                        onChange={ handleChange } />
                                 <div className={styles['error']}></div>
                             </div>
                             <div className={`col-12 col-sm-6 form-group`}>
                                 <label>Country</label>
-                                <input className={`form-control`} type='text' name={`address[${parent_name}][country]`} placeholder='Country'/>
+                                <input className={`form-control`} 
+                                        type='text' 
+                                        name={`address[${parent_name}][country]`} 
+                                        placeholder='Country'
+                                        onChange={ handleChange } />
                                 <div className={styles['error']}></div>
                             </div>
                         </div>
