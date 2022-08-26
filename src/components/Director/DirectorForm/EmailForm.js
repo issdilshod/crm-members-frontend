@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import Validation from '../../Helper/Validation';
+
 import Api from '../../../services/Api';
 
 import styles from '../Director.module.scss';
 
-const EmailForm = ({ handleChange }) => {
+const EmailForm = ({ handleChange, directorFormError }) => {
     const api = new Api();
     const [emailHosting, setEmailHosting] = useState([]);
 
@@ -29,7 +31,7 @@ const EmailForm = ({ handleChange }) => {
                                                 )
                             }
                         </select>
-                        <div className={styles['error']}></div>
+                        <Validation field_name='emails.hosting_uuid' errorObject={directorFormError} />
                     </div>
                 </div>
                 <div className={`col-12 col-sm-3`}>
@@ -40,7 +42,7 @@ const EmailForm = ({ handleChange }) => {
                                 name='emails[email]' 
                                 placeholder='Email' 
                                 onChange={ handleChange } />
-                        <div className={styles['error']}></div>
+                        <Validation field_name='emails.email' errorObject={directorFormError} />
                     </div>
                 </div>
                 <div className={`col-12 col-sm-3`}>
@@ -51,7 +53,7 @@ const EmailForm = ({ handleChange }) => {
                                 name='emails[password]' 
                                 placeholder='Password' 
                                 onChange={ handleChange }/>
-                        <div className={styles['error']}></div>
+                        <Validation field_name='emails.password' errorObject={directorFormError} />
                     </div>
                 </div>
                 <div className={`col-12 col-sm-3`}>
@@ -62,7 +64,7 @@ const EmailForm = ({ handleChange }) => {
                                 name='emails[phone]' 
                                 placeholder='Phone' 
                                 onChange={ handleChange }/>
-                        <div className={styles['error']}></div>
+                        <Validation field_name='emails.phone' errorObject={directorFormError} />
                     </div>
                 </div>
             </div>

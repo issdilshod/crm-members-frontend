@@ -9,6 +9,7 @@ import { FaTimes } from 'react-icons/fa';
 import AddressForm from './AddressForm';
 import EmailForm from './EmailForm';
 import FileForm from './FileForm';
+import Validation from '../../Helper/Validation';
 
 const Director = ({directorFormOpen, setDirectorFormOpen, directorEdit, setDirectorEdit, directorList, setDirectorList}) => {
     const navigate = useNavigate();
@@ -20,8 +21,13 @@ const Director = ({directorFormOpen, setDirectorFormOpen, directorEdit, setDirec
     const [dlUploadOpen, setDlUploadOpen] = useState(false);
     const [ssnUploadOpen, setSsnUploadOpen] = useState(false);
     const [cpnDocsUploadOpen, setCpnDocsUploadOpen] = useState(false);
+    const [directorFormError, setDirectorFormError] = useState({});
 
-    function handleChange(e, file = false){
+    useEffect(()=>{
+        console.log(directorFormError);
+    }, [directorFormError]);
+
+    const handleChange = (e, file = false) => {
         let { value, name } = e.target;
         // get files
         if (file){
@@ -36,7 +42,13 @@ const Director = ({directorFormOpen, setDirectorFormOpen, directorEdit, setDirec
         api.request('/api/director', 'POST', directorForm, true)
                             .then(res => {
                                 //TODO: if success then show alert
-                                setDirectorList([ ...directorList, res.data.data ]);
+                                if (res.status==200){ // Success
+                                    setDirectorList([ ...directorList, res.data.data ]);
+                                }else if(res.status==409){ // Conflict
+
+                                }else if(res.status==422){ // Unprocessable Content
+                                    setDirectorFormError(res.data.errors);
+                                }
                             });
     }
 
@@ -63,7 +75,7 @@ const Director = ({directorFormOpen, setDirectorFormOpen, directorEdit, setDirec
                                 name='first_name' 
                                 placeholder='First Name' 
                                 onChange={ handleChange } />
-                        <div className={styles['error']}></div>
+                        <Validation field_name='first_name' errorObject={directorFormError} />
                     </div>
 
                     <div className={`${styles['director-form-field']} col-12 col-sm-4 form-group`}>
@@ -73,7 +85,7 @@ const Director = ({directorFormOpen, setDirectorFormOpen, directorEdit, setDirec
                                 name='middle_name' 
                                 placeholder='Middle Name' 
                                 onChange={ handleChange } />
-                        <div className={styles['error']}></div>
+                        <Validation field_name='middle_name' errorObject={directorFormError} />
                     </div>
 
                     <div className={`${styles['director-form-field']} col-12 col-sm-4 form-group`}>
@@ -83,7 +95,7 @@ const Director = ({directorFormOpen, setDirectorFormOpen, directorEdit, setDirec
                                 name='last_name' 
                                 placeholder='Last Name' 
                                 onChange={ handleChange } />
-                        <div className={styles['error']}></div>
+                        <Validation field_name='last_name' errorObject={directorFormError} />
                     </div>
 
                     <div className={`${styles['director-form-field']} col-12 col-sm-6 form-group`}>
@@ -92,7 +104,7 @@ const Director = ({directorFormOpen, setDirectorFormOpen, directorEdit, setDirec
                                 type='date' 
                                 name='date_of_birth' 
                                 onChange={ handleChange } />
-                        <div className={styles['error']}></div>
+                        <Validation field_name='date_of_birth' errorObject={directorFormError} />
                     </div>
 
                     <div className={`${styles['director-form-field']} col-12 col-sm-6 form-group`}>
@@ -102,7 +114,7 @@ const Director = ({directorFormOpen, setDirectorFormOpen, directorEdit, setDirec
                                 name='ssn_cpn' 
                                 placeholder='SSN/CPN' 
                                 onChange={ handleChange } />
-                        <div className={styles['error']}></div>
+                        <Validation field_name='ssn_cpn' errorObject={directorFormError} />
                     </div>
 
                     <div className={`${styles['director-form-field']} col-12 col-sm-6 form-group`}>
@@ -112,7 +124,7 @@ const Director = ({directorFormOpen, setDirectorFormOpen, directorEdit, setDirec
                                 name='company_association' 
                                 placeholder='Company Association' 
                                 onChange={ handleChange } />
-                        <div className={styles['error']}></div>
+                        <Validation field_name='company_association' errorObject={directorFormError} />
                     </div>
 
                     <div className={`${styles['director-form-field']} col-12 col-sm-6 form-group`}>
@@ -128,8 +140,7 @@ const Director = ({directorFormOpen, setDirectorFormOpen, directorEdit, setDirec
                             <option>VoiP</option>
                             <option>Mobile</option>
                         </select>
-
-                        <div className={styles['error']}></div>
+                        <Validation field_name='phone_type' errorObject={directorFormError} />
 
                         { choosedPhoneType && 
                             <div className={`row`}>
@@ -140,7 +151,7 @@ const Director = ({directorFormOpen, setDirectorFormOpen, directorEdit, setDirec
                                             name='phone_number' 
                                             placeholder='Phone Number' 
                                             onChange={ handleChange } />
-                                    <div className={styles['error']}></div>
+                                    <Validation field_name='phone_number' errorObject={directorFormError} />
                                 </div>
                             </div>
                         }
@@ -152,6 +163,7 @@ const Director = ({directorFormOpen, setDirectorFormOpen, directorEdit, setDirec
                                     blockOpen={dlAddressOpen} 
                                     setBlockOpen={setDlAddressOpen} 
                                     handleChange={handleChange}
+                                    directorFormError={directorFormError}
                     />
 
                     <AddressForm parent_head_name='Credit Home Address' 
@@ -159,9 +171,10 @@ const Director = ({directorFormOpen, setDirectorFormOpen, directorEdit, setDirec
                                     blockOpen={creditHomeAddressOpen} 
                                     setBlockOpen={setCreditHomeAddressOpem} 
                                     handleChange={handleChange}
+                                    directorFormError={directorFormError}
                     />
 
-                    <EmailForm handleChange={handleChange} />
+                    <EmailForm handleChange={handleChange} directorFormError={directorFormError} />
 
                     <FileForm blockOpen={ dlUploadOpen } 
                                 setBlockOpen={ setDlUploadOpen }
