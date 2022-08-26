@@ -1,12 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Api from '../../services/Api';
 
 import styles from './Director.module.scss';
 
-import { FaArrowLeft, FaBars, FaPlus, FaUser } from 'react-icons/fa';
+import { FaArrowLeft, FaBars, FaFileAlt, FaMapMarkerAlt, FaPlus, FaUser } from 'react-icons/fa';
 
-const DirectorList = ({ menuOpen, setMenuOpen, directorFormOpen, setDirectorFormOpen, directorEdit, setDirectorEdit }) => {
+const DirectorList = ({ menuOpen, setMenuOpen, directorFormOpen, setDirectorFormOpen, directorEdit, setDirectorEdit, directorList, setDirectorList }) => {
     const navigate = useNavigate();
+    const api = new Api();
+
+    useEffect(() => {
+        api.request('/api/director', 'GET')
+                        .then(res => {
+                            // TODO: Do pagination function
+                            setDirectorList(res.data.data);
+                        });
+    }, []);
 
     async function handleCardClick(e){
         setDirectorEdit(true);
@@ -43,22 +53,27 @@ const DirectorList = ({ menuOpen, setMenuOpen, directorFormOpen, setDirectorForm
             <div className={`${styles['director-card-body']} container-fluid`}>
                 <div className={`${styles['director-list']} row`}>
 
-                    <div className={`col-12 col-sm-6 col-md-4 col-xl-3 mb-3`}>
-                        <div className={`${styles['director-card']} d-flex`} onClick={ handleCardClick }>
-                            <div className={`${styles['director-card-icon']} mr-3 ml-3`}>
-                                <span>
-                                    <FaUser />
-                                </span>
-                            </div>
-                            <div className={`${styles['director-card-info']}`}>
-                                <p>Director 1</p>
-                                <p>Place</p>
-                                <p>File count</p>
-                            </div>
-                        </div>
-                    </div>
+                    {
+                        directorList.map((value, index) => {
+                            return (
+                                <div key={index} className={`col-12 col-sm-6 col-md-4 col-xl-3 mb-3`}>
+                                    <div className={`${styles['director-card']} d-flex`} onClick={ handleCardClick }>
+                                        <div className={`${styles['director-card-icon']} mr-3 ml-3`}>
+                                            <span>
+                                                <FaUser />
+                                            </span>
+                                        </div>
+                                        <div className={`${styles['director-card-info']}`}>
+                                            <p>{value.first_name} {value.middle_name} {value.last_name}</p>
+                                            <p><FaMapMarkerAlt /> address</p>
+                                            <p><FaFileAlt /> {value.files.length}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            );
+                        })
+                    }
                     
-
                 </div>
             </div>
         </div>

@@ -10,7 +10,7 @@ import AddressForm from './AddressForm';
 import EmailForm from './EmailForm';
 import FileForm from './FileForm';
 
-const Director = ({directorFormOpen, setDirectorFormOpen, directorEdit, setDirectorEdit}) => {
+const Director = ({directorFormOpen, setDirectorFormOpen, directorEdit, setDirectorEdit, directorList, setDirectorList}) => {
     const navigate = useNavigate();
     const api = new Api();
     const [directorForm, setDirectorForm] = useState({});
@@ -36,7 +36,7 @@ const Director = ({directorFormOpen, setDirectorFormOpen, directorEdit, setDirec
         api.request('/api/director', 'POST', directorForm, true)
                             .then(res => {
                                 //TODO: if success then show alert
-                                console.log(res);
+                                setDirectorList([ ...directorList, res.data.data ]);
                             });
     }
 

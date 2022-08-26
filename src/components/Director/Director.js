@@ -12,6 +12,7 @@ const Director = () => {
     const [menuOpen, setMenuOpen] = useState(false);
     const [directorFormOpen, setDirectorFormOpen] = useState(false);
     const [directorEdit, setDirectorEdit] = useState(false);
+    const [directorList, setDirectorList] = useState([]);
 
     return (  
         <div>
@@ -21,7 +22,9 @@ const Director = () => {
                                 directorFormOpen={directorFormOpen} 
                                 setDirectorFormOpen={setDirectorFormOpen}
                                 directorEdit={directorEdit}
-                                setDirectorEdit={setDirectorEdit} />
+                                setDirectorEdit={setDirectorEdit}
+                                directorList={directorList}
+                                setDirectorList={setDirectorList} />
             </div>
 
             <Menu menuOpen={menuOpen} 
@@ -30,7 +33,9 @@ const Director = () => {
             <DirectorForm directorFormOpen={directorFormOpen} 
                             setDirectorFormOpen={setDirectorFormOpen} 
                             directorEdit={directorEdit} 
-                            setDirectorEdit={setDirectorEdit} />
+                            setDirectorEdit={setDirectorEdit}
+                            directorList={directorList}
+                            setDirectorList={setDirectorList} />
         </div>
     );
 }
