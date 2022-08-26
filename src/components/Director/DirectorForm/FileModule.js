@@ -8,7 +8,7 @@ const FileModule = ({hasDouble, head_name, head_block_name, parent_name, handleC
     const choosedFilesRef = useRef(null);
 
     const handleLocalChange = (e) => {
-        const tmpChoosedFiles = []
+        const tmpChoosedFiles = [];
         for(let i = 0; i < e.target.files.length; i++){
             tmpChoosedFiles.push(e.target.files[i]);
         }
@@ -48,7 +48,7 @@ const FileModule = ({hasDouble, head_name, head_block_name, parent_name, handleC
                     multiple
                     className={`form-control d-none`} 
                     type='file' 
-                    name={`files[${parent_name}]${(hasDouble?`[${head_block_name}]`:'')}`} 
+                    name={`files[${parent_name}]${(hasDouble?`[${head_block_name}]`:'')}[]`} 
                     ref={ choosedFilesRef } 
                     onChange={ handleLocalChange } />
 

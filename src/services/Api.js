@@ -22,8 +22,15 @@ class Api {
         if (_file){
             config.headers = { ...config.headers, ...{'Content-Type': 'multipart/form-data'} };
             var form_data = new FormData();
-            for (let key in _data) {
-                form_data.append(key, _data[key]);
+            for (let items_key in _data) {
+                // if file 
+                if (typeof _data[items_key] == 'object'){
+                    for (let item_key in _data[items_key]){
+                        form_data.append(items_key, _data[items_key][item_key]);
+                    }
+                }else{
+                    form_data.append(items_key, _data[items_key]);
+                }
             }
             _data = form_data;
         }

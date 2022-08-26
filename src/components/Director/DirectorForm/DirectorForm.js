@@ -35,7 +35,8 @@ const Director = ({directorFormOpen, setDirectorFormOpen, directorEdit, setDirec
         //TODO: send request to add or update
         api.request('/api/director', 'POST', directorForm, true)
                             .then(res => {
-                                
+                                //TODO: if success then show alert
+                                console.log(res);
                             });
     }
 
