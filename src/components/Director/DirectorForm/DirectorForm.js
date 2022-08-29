@@ -1,31 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect, useContext } from 'react';
 
-import Api from '../../../services/Api';
-
-import styles from '../Director.module.scss';
-
-import { FaTimes } from 'react-icons/fa';
 import AddressForm from './AddressForm';
 import EmailForm from './EmailForm';
 import FileForm from './FileForm';
 import Validation from '../../Helper/Validation';
+import { Mediator } from '../../../context/Mediator';
 
-const Director = ({directorFormOpen, setDirectorFormOpen, directorEdit, setDirectorEdit, directorList, setDirectorList}) => {
-    const navigate = useNavigate();
-    const api = new Api();
-    const [directorForm, setDirectorForm] = useState({});
-    const [choosedPhoneType, setChoosedPhoneType] = useState(false);
-    const [dlAddressOpen, setDlAddressOpen] = useState(false);
-    const [creditHomeAddressOpen, setCreditHomeAddressOpem] = useState(false);
-    const [dlUploadOpen, setDlUploadOpen] = useState(false);
-    const [ssnUploadOpen, setSsnUploadOpen] = useState(false);
-    const [cpnDocsUploadOpen, setCpnDocsUploadOpen] = useState(false);
-    const [directorFormError, setDirectorFormError] = useState({});
+import { FaTimes } from 'react-icons/fa';
 
-    useEffect(()=>{
-        console.log(directorFormError);
-    }, [directorFormError]);
+const Director = () => {
+    const { 
+            api, styles,
+            directorFormOpen, setDirectorFormOpen, directorEdit, setDirectorEdit, directorList, setDirectorList, directorForm, setDirectorForm,
+                directorFormError, setDirectorFormError,
+            choosedPhoneType, setChoosedPhoneType, dlAddressOpen, setDlAddressOpen, creditHomeAddressOpen,
+                setCreditHomeAddressOpen, dlUploadOpen, setDlUploadOpen, ssnUploadOpen, setSsnUploadOpen, cpnDocsUploadOpen, setCpnDocsUploadOpen
+    } = useContext(Mediator);
 
     const handleChange = (e, file = false) => {
         let { value, name } = e.target;
@@ -40,26 +30,22 @@ const Director = ({directorFormOpen, setDirectorFormOpen, directorEdit, setDirec
         e.preventDefault();
         //TODO: send request to add or update
         api.request('/api/director', 'POST', directorForm, true)
-                            .then(res => {
-                                //TODO: if success then show alert
-                                if (res.status==200){ // Success
-                                    setDirectorList([ ...directorList, res.data.data ]);
-                                }else if(res.status==409){ // Conflict
+                .then(res => {
+                    //TODO: if success then show alert
+                    if (res.status==200){ // Success
+                        setDirectorList([ ...directorList, res.data.data ]);
+                    }else if(res.status==409){ // Conflict
 
-                                }else if(res.status==422){ // Unprocessable Content
-                                    setDirectorFormError(res.data.errors);
-                                }
-                            });
-    }
-
-    const _resetForm = () => {
-
+                    }else if(res.status==422){ // Unprocessable Content
+                        setDirectorFormError(res.data.errors);
+                    }
+                });
     }
 
     return (  
         <div className={`${styles['director-form-card']} ${directorFormOpen ? styles['director-form-card-active']:''}`}>
             <div className={`${styles['director-form-card-head']} d-flex`}>
-                <div className={`${styles['director-form-card-title']} mr-auto`}>Add new Director</div>
+                <div className={`${styles['director-form-card-title']} mr-auto`}>{(!directorEdit?'Add director':'Edit director')}</div>
                 <div className={styles['director-form-card-close']} onClick={() => setDirectorFormOpen(!directorFormOpen)}>
                     <FaTimes />
                 </div>
@@ -161,39 +147,37 @@ const Director = ({directorFormOpen, setDirectorFormOpen, directorEdit, setDirec
                     <AddressForm parent_head_name='DL Address' 
                                     parent_name='dl_address' 
                                     blockOpen={dlAddressOpen} 
-                                    setBlockOpen={setDlAddressOpen} 
+                                    setBlockOpen={setDlAddressOpen}
                                     handleChange={handleChange}
-                                    directorFormError={directorFormError}
                     />
 
                     <AddressForm parent_head_name='Credit Home Address' 
                                     parent_name='credit_home_address' 
                                     blockOpen={creditHomeAddressOpen} 
-                                    setBlockOpen={setCreditHomeAddressOpem} 
+                                    setBlockOpen={setCreditHomeAddressOpen}
                                     handleChange={handleChange}
-                                    directorFormError={directorFormError}
                     />
 
-                    <EmailForm handleChange={handleChange} directorFormError={directorFormError} />
+                    <EmailForm handleChange={handleChange} />
 
-                    <FileForm blockOpen={ dlUploadOpen } 
-                                setBlockOpen={ setDlUploadOpen }
-                                hasDouble={true}
+                    <FileForm hasDouble={true}
+                                blockOpen={dlUploadOpen}
+                                setBlockOpen={setDlUploadOpen}
                                 parent_head_name='DL Upload'
                                 parent_name='dl_upload'
                                 handleChange={handleChange}
                     />
 
-                    <FileForm blockOpen={ ssnUploadOpen } 
-                                setBlockOpen={ setSsnUploadOpen } 
-                                hasDouble={true}
+                    <FileForm hasDouble={true}
+                                blockOpen={ssnUploadOpen}
+                                setBlockOpen={setSsnUploadOpen}
                                 parent_head_name='SSN Upload'
                                 parent_name='ssn_upload'
                                 handleChange={handleChange}
                     />
 
-                    <FileForm blockOpen={ cpnDocsUploadOpen } 
-                                setBlockOpen={ setCpnDocsUploadOpen } 
+                    <FileForm blockOpen={cpnDocsUploadOpen}
+                                setBlockOpen={setCpnDocsUploadOpen}
                                 parent_head_name='CPN DOCS Upload'
                                 parent_name='cpn_docs_upload'
                                 handleChange={handleChange}
@@ -201,7 +185,7 @@ const Director = ({directorFormOpen, setDirectorFormOpen, directorEdit, setDirec
 
                     <div className={`${styles['director-form-field']} col-12 d-flex form-group`}>
                         <button className={`${styles['submit-form']} ml-auto`}>
-                            Add
+                            {(!directorEdit?'Add':'Edit')}
                         </button>
                     </div>
 

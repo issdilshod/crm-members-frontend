@@ -1,14 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-
+import React, { useState, useEffect, useContext } from 'react';
+import { Mediator } from '../../../context/Mediator';
 import Validation from '../../Helper/Validation';
 
-import Api from '../../../services/Api';
-
-import styles from '../Director.module.scss';
-
-const EmailForm = ({ handleChange, directorFormError }) => {
-    const api = new Api();
+const EmailForm = ({ handleChange }) => {
+    const { api, styles,
+            directorFormError
+    } = useContext(Mediator);
+     
     const [emailHosting, setEmailHosting] = useState([]);
 
     useEffect(() => {

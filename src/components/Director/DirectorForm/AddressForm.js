@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { FaAngleDown, FaAngleUp } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom';
-
+import { Mediator } from '../../../context/Mediator';
 import Validation from '../../Helper/Validation';
 
-import styles from '../Director.module.scss';
+const AddressForm = ({parent_head_name, parent_name, blockOpen, setBlockOpen, handleChange}) => {
 
-const AddressForm = ({parent_head_name, parent_name, blockOpen, setBlockOpen, handleChange, directorFormError}) => {
+    const { 
+        styles,
+        directorFormError
+    } = useContext(Mediator);
 
     return (  
         <div className={`${styles['director-form-field']} col-12 col-sm-6 mt-2 form-group`}>

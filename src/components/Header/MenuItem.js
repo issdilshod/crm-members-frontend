@@ -3,10 +3,9 @@ import { useNavigate, useLocation } from 'react-router-dom';
 
 import styles from './Menu.module.scss';
 
-const MenuItem = ({page_link, icon, page_name}) => {
+const MenuItem = ({page_link, icon, page_name, notificationCount, setNotificationCount}) => {
     const navigate = useNavigate();
     const location = useLocation();
-    const [notificationCount, setNotificationCount] = useState(0);
 
     let path = `${process.env.REACT_APP_FRONTEND_PREFIX}/` + page_link;
     let isActive = location.pathname == path;
