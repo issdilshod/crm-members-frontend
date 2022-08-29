@@ -4,7 +4,7 @@ import Validation from '../../Helper/Validation';
 
 const EmailForm = ({ handleChange }) => {
     const { api, styles,
-            directorFormError
+            directorFormError, directorEdit, directorForm
     } = useContext(Mediator);
      
     const [emailHosting, setEmailHosting] = useState([]);
@@ -21,7 +21,9 @@ const EmailForm = ({ handleChange }) => {
                         <label>Email's hosting</label>
                         <select className={`form-control`}
                                 name='emails[hosting_uuid]'
-                                onChange={ handleChange } >
+                                onChange={ handleChange } 
+                                value={ directorForm['emails[hosting_uuid]'] }
+                                >
                             <option value={`-`}>-</option>
                             {
                                 emailHosting.map((email, index) => 
@@ -39,7 +41,9 @@ const EmailForm = ({ handleChange }) => {
                                 type='text' 
                                 name='emails[email]' 
                                 placeholder='Email' 
-                                onChange={ handleChange } />
+                                onChange={ handleChange } 
+                                value={ directorForm['emails[email]'] }
+                                />
                         <Validation field_name='emails.email' errorObject={directorFormError} />
                     </div>
                 </div>
@@ -50,7 +54,9 @@ const EmailForm = ({ handleChange }) => {
                                 type='text' 
                                 name='emails[password]' 
                                 placeholder='Password' 
-                                onChange={ handleChange }/>
+                                onChange={ handleChange }
+                                value={ directorForm['emails[password]'] }
+                                />
                         <Validation field_name='emails.password' errorObject={directorFormError} />
                     </div>
                 </div>
@@ -61,7 +67,9 @@ const EmailForm = ({ handleChange }) => {
                                 type='text' 
                                 name='emails[phone]' 
                                 placeholder='Phone' 
-                                onChange={ handleChange }/>
+                                onChange={ handleChange }
+                                value={ directorForm['emails[phone]'] }
+                                />
                         <Validation field_name='emails.phone' errorObject={directorFormError} />
                     </div>
                 </div>

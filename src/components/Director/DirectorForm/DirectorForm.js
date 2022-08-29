@@ -20,26 +20,59 @@ const Director = () => {
     const handleChange = (e, file = false) => {
         let { value, name } = e.target;
         // get files
-        if (file){
-            value = e.target.files;
-        }
-        setDirectorForm({...directorForm, [name]: value });
+        if (file){ value = e.target.files; }
+
+        setDirectorForm({ ...directorForm, [name]: value });
+        console.log(directorForm);
     }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        //TODO: send request to add or update
-        api.request('/api/director', 'POST', directorForm, true)
+        if (!directorEdit){
+            api.request('/api/director', 'POST', directorForm, true)
                 .then(res => {
-                    //TODO: if success then show alert
-                    if (res.status==200){ // Success
-                        setDirectorList([ ...directorList, res.data.data ]);
-                    }else if(res.status==409){ // Conflict
+                    switch (res.status){
+                        case 200: // Success
+                        case 201:
+                            setDirectorList([ ...directorList, res.data.data ]);
+                            setDirectorFormOpen(false);
+                            break;
+                        case 409: // Conflict
 
-                    }else if(res.status==422){ // Unprocessable Content
-                        setDirectorFormError(res.data.errors);
+                            break;
+                        case 422: // Unprocessable Content
+                            setDirectorFormError(res.data.errors);
+                            break;
                     }
                 });
+        }else{
+            let uuid = directorForm['uuid'];
+            api.request('/api/director/'+uuid, 'POST', directorForm, true)
+                .then(res => {
+                    switch (res.status){
+                        case 200: // Success
+                        case 201:
+                            let tmp_directorList = directorList;
+                            let updated_data = res.data.data;
+                            for (let key in tmp_directorList){
+                                if (tmp_directorList[key]['uuid']==updated_data['uuid']){
+                                    tmp_directorList[key] = updated_data;
+                                }
+                            }
+                            setDirectorList(tmp_directorList);
+                            setDirectorFormOpen(false);
+                            break;
+                        case 409: // Conflict
+
+                            break;
+                        case 422: // Unprocessable Content
+                            console.log(res.data.errors);
+                            //setDirectorFormError(res.data.errors);
+                            break;
+                    }
+                });
+        }
+        
     }
 
     return (  
@@ -60,7 +93,9 @@ const Director = () => {
                                 type='text' 
                                 name='first_name' 
                                 placeholder='First Name' 
-                                onChange={ handleChange } />
+                                onChange={ handleChange } 
+                                value={ directorForm['first_name'] }
+                                />
                         <Validation field_name='first_name' errorObject={directorFormError} />
                     </div>
 
@@ -70,7 +105,9 @@ const Director = () => {
                                 type='text' 
                                 name='middle_name' 
                                 placeholder='Middle Name' 
-                                onChange={ handleChange } />
+                                onChange={ handleChange } 
+                                value={directorForm['middle_name']}
+                                />
                         <Validation field_name='middle_name' errorObject={directorFormError} />
                     </div>
 
@@ -80,7 +117,9 @@ const Director = () => {
                                 type='text' 
                                 name='last_name' 
                                 placeholder='Last Name' 
-                                onChange={ handleChange } />
+                                onChange={ handleChange } 
+                                value={directorForm['last_name']}
+                                />
                         <Validation field_name='last_name' errorObject={directorFormError} />
                     </div>
 
@@ -89,7 +128,9 @@ const Director = () => {
                         <input className={`form-control`} 
                                 type='date' 
                                 name='date_of_birth' 
-                                onChange={ handleChange } />
+                                onChange={ handleChange } 
+                                value={directorForm['date_of_birth']}
+                                />
                         <Validation field_name='date_of_birth' errorObject={directorFormError} />
                     </div>
 
@@ -99,7 +140,9 @@ const Director = () => {
                                 type='text' 
                                 name='ssn_cpn' 
                                 placeholder='SSN/CPN' 
-                                onChange={ handleChange } />
+                                onChange={ handleChange } 
+                                value={directorForm['ssn_cpn']}
+                                />
                         <Validation field_name='ssn_cpn' errorObject={directorFormError} />
                     </div>
 
@@ -109,7 +152,9 @@ const Director = () => {
                                 type='text' 
                                 name='company_association' 
                                 placeholder='Company Association' 
-                                onChange={ handleChange } />
+                                onChange={ handleChange } 
+                                value={directorForm['company_association']}
+                                />
                         <Validation field_name='company_association' errorObject={directorFormError} />
                     </div>
 
@@ -120,7 +165,9 @@ const Director = () => {
                                 onChange={(e) => { 
                                                     (e.target.value==='-'?setChoosedPhoneType(false):setChoosedPhoneType(true)); 
                                                     handleChange(e); 
-                                                }} >
+                                                }} 
+                                value={directorForm['phone_type']}
+                                >
                             <option>-</option>
                             <option>Phisycal</option>
                             <option>VoiP</option>
@@ -136,7 +183,9 @@ const Director = () => {
                                             type='text' 
                                             name='phone_number' 
                                             placeholder='Phone Number' 
-                                            onChange={ handleChange } />
+                                            onChange={ handleChange } 
+                                            value={directorForm['phone_number']}
+                                            />
                                     <Validation field_name='phone_number' errorObject={directorFormError} />
                                 </div>
                             </div>

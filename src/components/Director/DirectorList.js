@@ -6,7 +6,8 @@ const DirectorList = () => {
     const { 
             api, navigate, styles, 
             menuOpen, setMenuOpen,
-            directorFormOpen, setDirectorFormOpen, directorEdit, setDirectorEdit, directorList, setDirectorList
+            directorForm, setDirectorForm, directorFormOpen, setDirectorFormOpen, directorEdit, setDirectorEdit, directorList, setDirectorList,
+            directorFormEntity, directorFormError, setDirectorFormError
         } = useContext(Mediator);
 
     useEffect(() => {
@@ -19,15 +20,38 @@ const DirectorList = () => {
 
     async function handleCardClick(uuid){
         setDirectorFormOpen(false);
-        setDirectorEdit(true);
-        setDirectorFormOpen(true);
         console.log(uuid);
-        // TODO: prepare form to edit director
+        api.request('/api/director/'+uuid, 'GET')
+                .then(res => {
+                    setDirectorEdit(true);
+                    setDirectorFormOpen(true);
+                    setDirectorFormError({});
+                    let tmp_director = res.data.data;
+
+                    // address
+                    for (let key in tmp_director['address']){
+                        let address_parent = tmp_director['address'][key]['address_parent'];
+                        for (let key2 in tmp_director['address'][key]){
+                            tmp_director['address' + '[' + address_parent + '][' + key2 + ']'] = tmp_director['address'][key][key2];
+                        }
+                    }
+                    delete tmp_director['address'];
+
+                    //emails (first)
+                    for (let key in tmp_director['emails'][0]){
+                        tmp_director['emails[' + key + ']'] = tmp_director['emails'][0][key];
+                    }
+                    delete tmp_director['emails'];
+
+                    tmp_director['_method'] = 'PUT';
+                    setDirectorForm(tmp_director);
+                });  
     }
 
     async function handleAddClick(e){
         setDirectorFormOpen(true);
         setDirectorEdit(false);
+        setDirectorForm(directorFormEntity);
     }
 
     return (  
@@ -69,7 +93,7 @@ const DirectorList = () => {
                                             <div className={`${styles['director-card-info']}`}>
                                                 <p>{value.first_name} {value.middle_name} {value.last_name}</p>
                                                 <p><FaMapMarkerAlt /> address</p>
-                                                <p><FaFileAlt /> {value.files.length}</p>
+                                                <p><FaFileAlt /> {value.uploaded_files.length}</p>
                                             </div>
                                         </div>
                                     </div>

@@ -4,10 +4,9 @@ import { Mediator } from '../../../context/Mediator';
 import Validation from '../../Helper/Validation';
 
 const AddressForm = ({parent_head_name, parent_name, blockOpen, setBlockOpen, handleChange}) => {
-
     const { 
         styles,
-        directorFormError
+        directorFormError, directorEdit, directorForm
     } = useContext(Mediator);
 
     return (  
@@ -30,7 +29,9 @@ const AddressForm = ({parent_head_name, parent_name, blockOpen, setBlockOpen, ha
                                         type='text' 
                                         name={`address[${parent_name}][street_address]`} 
                                         placeholder='Street Address'
-                                        onChange={ handleChange } />
+                                        onChange={ handleChange } 
+                                        value={ directorForm[`address[${parent_name}][street_address]`] }
+                                        />
                                 <Validation field_name={`address.${parent_name}.street_address`} errorObject={directorFormError} />
                             </div>
                             <div className={`col-12 form-group`}>
@@ -39,7 +40,9 @@ const AddressForm = ({parent_head_name, parent_name, blockOpen, setBlockOpen, ha
                                         type='text' 
                                         name={`address[${parent_name}][address_line_2]`} 
                                         placeholder='Address Line 2'
-                                        onChange={ handleChange } />
+                                        onChange={ handleChange } 
+                                        value={ directorForm[`address[${parent_name}][address_line_2]`] }
+                                        />
                                 <Validation field_name={`address.${parent_name}.address_line_2`} errorObject={directorFormError} />
                             </div>
                             <div className={`col-12 col-sm-6 form-group`}>
@@ -48,7 +51,9 @@ const AddressForm = ({parent_head_name, parent_name, blockOpen, setBlockOpen, ha
                                         type='text' 
                                         name={`address[${parent_name}][city]`} 
                                         placeholder='City'
-                                        onChange={ handleChange } />
+                                        onChange={ handleChange } 
+                                        value={ directorForm[`address[${parent_name}][city]`] }
+                                        />
                                 <Validation field_name={`address.${parent_name}.city`} errorObject={directorFormError} />
                             </div>
                             <div className={`col-12 col-sm-6 form-group`}>
@@ -57,7 +62,9 @@ const AddressForm = ({parent_head_name, parent_name, blockOpen, setBlockOpen, ha
                                         type='text' 
                                         name={`address[${parent_name}][state]`} 
                                         placeholder='State'
-                                        onChange={ handleChange } />
+                                        onChange={ handleChange } 
+                                        value={ directorForm[`address[${parent_name}][state]`] }
+                                        />
                                 <Validation field_name={`address.${parent_name}.state`} errorObject={directorFormError} />
                             </div>
                             <div className={`col-12 col-sm-6 form-group`}>
@@ -66,7 +73,9 @@ const AddressForm = ({parent_head_name, parent_name, blockOpen, setBlockOpen, ha
                                         type='text' 
                                         name={`address[${parent_name}][postal]`} 
                                         placeholder='Postal'
-                                        onChange={ handleChange } />
+                                        onChange={ handleChange } 
+                                        value={ directorForm[`address[${parent_name}][postal]`] }
+                                        />
                                 <Validation field_name={`address.${parent_name}.postal`} errorObject={directorFormError} />
                             </div>
                             <div className={`col-12 col-sm-6 form-group`}>
@@ -75,7 +84,9 @@ const AddressForm = ({parent_head_name, parent_name, blockOpen, setBlockOpen, ha
                                         type='text' 
                                         name={`address[${parent_name}][country]`} 
                                         placeholder='Country'
-                                        onChange={ handleChange } />
+                                        onChange={ handleChange } 
+                                        value={ directorForm[`address[${parent_name}][country]`] }
+                                        />
                                 <Validation field_name={`address.${parent_name}.country`} errorObject={directorFormError} />
                             </div>
                         </div>

@@ -14,9 +14,40 @@ const Director = () => {
     // list
     const [directorList, setDirectorList] = useState([]);
     // form
+    const [directorFormEntity, setDirectorFormEntity] = useState({
+        'first_name': '', 
+        'middle_name': '', 
+        'last_name': '', 
+        'date_of_birth': '', 
+        'ssn_cpn': '', 
+        'company_association': '', 
+        'phone_type': '', 
+        'phone_number': '', 
+        'address[dl_address][street_address]': '',
+        'address[dl_address][address_line_2]': '',
+        'address[dl_address][city]': '',
+        'address[dl_address][state]': '',
+        'address[dl_address][postal]': '',
+        'address[dl_address][country]': '',
+        'address[credit_home_address][street_address]': '',
+        'address[credit_home_address][address_line_2]': '',
+        'address[credit_home_address][city]': '',
+        'address[credit_home_address][state]': '',
+        'address[credit_home_address][postal]': '',
+        'address[credit_home_address][country]': '',
+        'emails[hosting_uuid]': '',
+        'emails[email]': '',
+        'emails[password]': '',
+        'emails[phone]': '',
+        'uploaded_files': {
+            'dl_upload': [],
+            'ssn_upload': [],
+            'cpn_docs_upload': [],
+        }
+    });
     const [directorEdit, setDirectorEdit] = useState(false);
     const [directorFormOpen, setDirectorFormOpen] = useState(false);
-    const [directorForm, setDirectorForm] = useState({});
+    const [directorForm, setDirectorForm] = useState(directorFormEntity);
     const [directorFormError, setDirectorFormError] = useState({});
     // phone type
     const [choosedPhoneType, setChoosedPhoneType] = useState(false);
@@ -33,7 +64,7 @@ const Director = () => {
                                 api, navigate, styles,
                                 menuOpen, setMenuOpen, 
                                 directorFormOpen, setDirectorFormOpen, directorEdit, setDirectorEdit, directorList, setDirectorList,
-                                    directorForm, setDirectorForm, directorFormError, setDirectorFormError,
+                                    directorForm, setDirectorForm, directorFormError, setDirectorFormError, directorFormEntity, setDirectorFormEntity,
                                 choosedPhoneType, setChoosedPhoneType, dlAddressOpen, setDlAddressOpen, creditHomeAddressOpen,
                                     setCreditHomeAddressOpen, dlUploadOpen, setDlUploadOpen, ssnUploadOpen, setSsnUploadOpen, cpnDocsUploadOpen, setCpnDocsUploadOpen 
                             } } >
