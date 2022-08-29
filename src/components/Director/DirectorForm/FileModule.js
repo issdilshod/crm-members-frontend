@@ -1,11 +1,18 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import { FaAngleDown, FaAngleUp, FaTimes, FaTrash, FaUndo, FaUpload } from 'react-icons/fa';
+import { Mediator } from '../../../context/Mediator';
 
 import styles from '../Director.module.scss';
 
 const FileModule = ({hasDouble, head_name, head_block_name, parent_name, handleChange}) => {
     const [choosedFiles, setChoosedFiles] = useState([]);
     const choosedFilesRef = useRef(null);
+
+    const { directorFormOpen, setDirectorFormOpen } = useContext(Mediator);
+    
+    useEffect(() => {
+        setChoosedFiles([]);
+    }, [directorFormOpen]);
 
     const handleLocalChange = (e) => {
         const tmpChoosedFiles = [];

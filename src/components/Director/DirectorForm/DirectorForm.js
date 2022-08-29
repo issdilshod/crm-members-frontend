@@ -38,7 +38,7 @@ const Director = () => {
                             setDirectorFormOpen(false);
                             break;
                         case 409: // Conflict
-
+                            // TODO: Get correct conflict from back
                             break;
                         case 422: // Unprocessable Content
                             setDirectorFormError(res.data.errors);
@@ -63,11 +63,10 @@ const Director = () => {
                             setDirectorFormOpen(false);
                             break;
                         case 409: // Conflict
-
+                            // TODO: Get correct conflict from back
                             break;
                         case 422: // Unprocessable Content
-                            console.log(res.data.errors);
-                            //setDirectorFormError(res.data.errors);
+                            setDirectorFormError(res.data.errors);
                             break;
                     }
                 });

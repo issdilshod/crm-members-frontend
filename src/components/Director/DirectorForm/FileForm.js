@@ -7,11 +7,10 @@ import FileModule from './FileModule';
 
 const FileForm = ({blockOpen, setBlockOpen, hasDouble = false, parent_head_name, parent_name, handleChange}) => {
 
-
     return (  
         <div className={`${styles['director-form-field']} col-12 col-sm-4 mt-2 form-group`}>
             <div className={`${styles['file-card']}`}>
-                <div className={`${styles['file-card-head']} d-flex`} onClick={() => { setBlockOpen(!blockOpen) }}>
+                <div className={`${styles['file-card-head']} d-flex`} /*onClick={() => { setBlockOpen(!blockOpen) }}*/>
                     <div className={`${styles['card-head-title']} mr-auto`}>
                         {parent_head_name}
                     </div>

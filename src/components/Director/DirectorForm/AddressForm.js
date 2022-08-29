@@ -12,7 +12,7 @@ const AddressForm = ({parent_head_name, parent_name, blockOpen, setBlockOpen, ha
     return (  
         <div className={`${styles['director-form-field']} col-12 col-sm-6 mt-2 form-group`}>
             <div className={`${styles['address-card']}`}>
-                <div className={`${styles['address-card-head']} d-flex`} onClick={() => {setBlockOpen(!blockOpen)}}>
+                <div className={`${styles['address-card-head']} d-flex`} /*onClick={() => {setBlockOpen(!blockOpen)}}*/ >
                     <div className={`${styles['card-head-title']} mr-auto`}>{parent_head_name}</div>
                     <div>
                         <span>

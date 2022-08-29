@@ -52,12 +52,12 @@ const Director = () => {
     // phone type
     const [choosedPhoneType, setChoosedPhoneType] = useState(false);
     // address
-    const [dlAddressOpen, setDlAddressOpen] = useState(false);
-    const [creditHomeAddressOpen, setCreditHomeAddressOpen] = useState(false);
+    const [dlAddressOpen, setDlAddressOpen] = useState(true);
+    const [creditHomeAddressOpen, setCreditHomeAddressOpen] = useState(true);
     // uploads
-    const [dlUploadOpen, setDlUploadOpen] = useState(false);
-    const [ssnUploadOpen, setSsnUploadOpen] = useState(false);
-    const [cpnDocsUploadOpen, setCpnDocsUploadOpen] = useState(false);
+    const [dlUploadOpen, setDlUploadOpen] = useState(true);
+    const [ssnUploadOpen, setSsnUploadOpen] = useState(true);
+    const [cpnDocsUploadOpen, setCpnDocsUploadOpen] = useState(true);
 
     return (  
         <Mediator.Provider value={ { 
@@ -66,7 +66,7 @@ const Director = () => {
                                 directorFormOpen, setDirectorFormOpen, directorEdit, setDirectorEdit, directorList, setDirectorList,
                                     directorForm, setDirectorForm, directorFormError, setDirectorFormError, directorFormEntity, setDirectorFormEntity,
                                 choosedPhoneType, setChoosedPhoneType, dlAddressOpen, setDlAddressOpen, creditHomeAddressOpen,
-                                    setCreditHomeAddressOpen, dlUploadOpen, setDlUploadOpen, ssnUploadOpen, setSsnUploadOpen, cpnDocsUploadOpen, setCpnDocsUploadOpen 
+                                    setCreditHomeAddressOpen, dlUploadOpen, setDlUploadOpen, ssnUploadOpen, setSsnUploadOpen, cpnDocsUploadOpen, setCpnDocsUploadOpen
                             } } >
             
             <DirectorList />
