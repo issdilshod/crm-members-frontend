@@ -24,7 +24,6 @@ const Menu = ({ menuOpen, setMenuOpen }) => {
                 <MenuItem page_link='dashboard' page_name='Dashboard' icon={<FaTachometerAlt />} />
                 <MenuItem page_link='directors' page_name='Directors' icon={<FaUser />} />
                 <MenuItem page_link='companies' page_name='Companies' icon={<FaBuilding />} />
-                <MenuItem page_link='tasks' page_name='Task' icon={<FaList />} />
                 <MenuItem page_link='departments' page_name='Departments' icon={<FaUsers />} />
                 <MenuItem page_link='settings' page_name='Settings' icon={<FaCog />} />
                 <MenuItem page_link='notification' page_name='Notification' icon={<FaBell />} notificationCount={notificationCount} setNotificationCount={setNotificationCount} />
