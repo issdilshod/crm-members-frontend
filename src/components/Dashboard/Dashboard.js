@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import Header from '../Header/Header';
-import Activity from '../Activity/Activity';
+import Activity from './Activity';
 import TaskListDashboard from '../Task/TaskListDashboard';
 import styles from './Dashboard.module.scss';
 
