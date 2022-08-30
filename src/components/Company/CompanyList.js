@@ -31,9 +31,8 @@ const CompanyList = () => {
 
                     // address
                     for (let key in tmp_company['address']){
-                        let address_parent = tmp_company['address'][key]['address_parent'];
                         for (let key2 in tmp_company['address'][key]){
-                            tmp_company['address' + '[' + address_parent + '][' + key2 + ']'] = tmp_company['address'][key][key2];
+                            tmp_company['address' + '[' + key2 + ']'] = tmp_company['address'][key][key2];
                         }
                     }
                     delete tmp_company['address'];
@@ -44,15 +43,17 @@ const CompanyList = () => {
                     }
                     delete tmp_company['emails'];
 
+                    // bank account
+                    for (let key in tmp_company['bank_account'][0]){
+                        tmp_company['bank_account['+key + ']'] = tmp_company['bank_account'][0][key];
+                    }
+                    delete tmp_company['bank_account'];
+
                     // files
-                    let tmp_files = { 'dl_upload': {'front': [], 'back': []}, 'ssn_upload': {'front': [], 'back': []}, 'cpn_docs_upload': []};
+                    let tmp_files = { 'incorporation_state': [], 'doing_business_in_state': [], 'company_ein': [], 'db_report': []};
                     for (let key in tmp_company['uploaded_files']){
-                        let file_parent = tmp_company['uploaded_files'][key]['file_parent'].split('/');
-                        if (file_parent.length==1){ // hasn't child
-                            tmp_files[file_parent[0]].push(tmp_company['uploaded_files'][key]);
-                        }else{ // has child
-                            tmp_files[file_parent[0]][file_parent[1]].push(tmp_company['uploaded_files'][key]);
-                        }
+                        let file_parent = tmp_company['uploaded_files'][key]['file_parent'];
+                        tmp_files[file_parent].push(tmp_company['uploaded_files'][key]);
                     }
                     tmp_company['uploaded_files'] = tmp_files;
 

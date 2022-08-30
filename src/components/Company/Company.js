@@ -39,6 +39,10 @@ const Company = () => {
         'bank_account[password]': '',
         'bank_account[account_number]': '',
         'bank_account[routing_number]': '',
+        'emails[hosting_uuid]': '',
+        'emails[email]': '',
+        'emails[password]': '',
+        'emails[phone]': '',
         'uploaded_files': {
             'incorporation_state': [],
             'doing_business_in_state': [],

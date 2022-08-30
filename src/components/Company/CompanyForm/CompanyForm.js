@@ -44,7 +44,6 @@ const CompanyForm = () => {
         if (file){ value = e.target.files; }
 
         setCompanyForm({ ...companyForm, [name]: value });
-        console.log(companyForm);
     }
 
     const handleSubmit = async (e) => {
