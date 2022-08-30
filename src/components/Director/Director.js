@@ -40,8 +40,14 @@ const Director = () => {
         'emails[password]': '',
         'emails[phone]': '',
         'uploaded_files': {
-            'dl_upload': [],
-            'ssn_upload': [],
+            'dl_upload': {
+                'front': [],
+                'back': [],
+            },
+            'ssn_upload': {
+                'front': [],
+                'back': [],
+            },
             'cpn_docs_upload': [],
         }
     });

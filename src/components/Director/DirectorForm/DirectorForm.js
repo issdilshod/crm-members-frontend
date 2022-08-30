@@ -23,7 +23,6 @@ const Director = () => {
         if (file){ value = e.target.files; }
 
         setDirectorForm({ ...directorForm, [name]: value });
-        console.log(directorForm);
     }
 
     const handleSubmit = async (e) => {
@@ -64,6 +63,7 @@ const Director = () => {
                             break;
                         case 409: // Conflict
                             // TODO: Get correct conflict from back
+                            console.log(res.data.data);
                             break;
                         case 422: // Unprocessable Content
                             setDirectorFormError(res.data.errors);

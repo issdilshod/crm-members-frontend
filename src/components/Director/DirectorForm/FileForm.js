@@ -1,11 +1,15 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { FaAngleDown, FaAngleUp, FaTimes, FaTrash, FaUndo, FaUpload } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect, useRef, useContext } from 'react';
+import { FaAngleDown, FaAngleUp } from 'react-icons/fa';
+import { Mediator } from '../../../context/Mediator';
 
-import styles from '../Director.module.scss';
 import FileModule from './FileModule';
 
 const FileForm = ({blockOpen, setBlockOpen, hasDouble = false, parent_head_name, parent_name, handleChange}) => {
+
+    const {
+        styles, 
+        directorForm 
+    } = useContext(Mediator);
 
     return (  
         <div className={`${styles['director-form-field']} col-12 col-sm-4 mt-2 form-group`}>
@@ -28,14 +32,18 @@ const FileForm = ({blockOpen, setBlockOpen, hasDouble = false, parent_head_name,
                                         head_name='Front'
                                         head_block_name='front'
                                         parent_name={ parent_name }
-                                        handleChange={ handleChange } />
+                                        handleChange={ handleChange } 
+                                        uploadedFiles={ (hasDouble?directorForm['uploaded_files'][parent_name]['front']:directorForm['uploaded_files'][parent_name]) }
+                                        />
 
                             {   hasDouble &&
                                 <FileModule hasDouble={ hasDouble } 
                                             head_name='Back'
                                             head_block_name='back'
                                             parent_name={ parent_name }
-                                            handleChange={ handleChange } />
+                                            handleChange={ handleChange } 
+                                            uploadedFiles={ directorForm['uploaded_files'][parent_name]['back'] }
+                                            />
                             }
 
                         </div>

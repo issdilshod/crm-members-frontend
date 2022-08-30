@@ -4,7 +4,7 @@ import { Mediator } from '../../../context/Mediator';
 
 import styles from '../Director.module.scss';
 
-const FileModule = ({hasDouble, head_name, head_block_name, parent_name, handleChange}) => {
+const FileModule = ({hasDouble, head_name, head_block_name, parent_name, handleChange, uploadedFiles}) => {
     const [choosedFiles, setChoosedFiles] = useState([]);
     const choosedFilesRef = useRef(null);
 
@@ -75,31 +75,39 @@ const FileModule = ({hasDouble, head_name, head_block_name, parent_name, handleC
                     })
                 }
             </div>
+
+            <div>
+                {
+                    uploadedFiles.map((value, index) => {
+                        return (
+                            <div key={ index } className={`${styles['files-info']} mt-2`}>
+                                <div className={`${styles['file-info']} mt-1 d-flex`}>
+                                    <div className={`${styles['file-name']} mr-auto`}>{ value['file_name'] }</div>
+                                    <div className={`${styles['remove-file']} text-center`}>
+                                        <span>
+                                            <FaTrash />
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        );
+                    })
+                }
+            </div>
             
             { (1==2) && // TODO: Uploaded files & deleted files
-            <div>
-                <div className={`${styles['files-info']} mt-2`}>
-                    <div className={`${styles['file-info']} mt-1 d-flex`}>
-                        <div className={`${styles['file-name']} mr-auto`}>file1.txt</div>
-                        <div className={`${styles['remove-file']} text-center`}>
-                            <span>
-                                <FaTrash />
-                            </span>
+                <div>
+                    <div className={`${styles['files-to-delete-info']} mt-2`}>
+                        <div className={`${styles['file-to-delete-info']} mt-1 d-flex`}>
+                            <div className={`${styles['file-to-delete-name']} mr-auto`}>file-to-delete.txt</div>
+                            <div className={`${styles['return-file-to-delete']} text-center`}>
+                                <span>
+                                    <FaUndo />
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
-
-                <div className={`${styles['files-to-delete-info']} mt-2`}>
-                    <div className={`${styles['file-to-delete-info']} mt-1 d-flex`}>
-                        <div className={`${styles['file-to-delete-name']} mr-auto`}>file-to-delete.txt</div>
-                        <div className={`${styles['return-file-to-delete']} text-center`}>
-                            <span>
-                                <FaUndo />
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
             }
         </div>
     );
