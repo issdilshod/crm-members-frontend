@@ -5,6 +5,7 @@ import Api from '../services/Api';
 import Login from './Login/Login';
 import Dashboard from './Dashboard/Dashboard';
 import Director from './Director/Director';
+import Company from './Company/Company';
 
 const Main = () => {
     const api = new Api();
@@ -30,7 +31,7 @@ const Main = () => {
             <Route path="/p/frontend/login" element={<Login />} />
             <Route path="/p/frontend/dashboard" element={<Dashboard />} />
             <Route path="/p/frontend/directors" element={<Director />} />
-            <Route path="/p/frontend/companies" element={<Dashboard />} />
+            <Route path="/p/frontend/companies" element={<Company />} />
             <Route path="/p/frontend/tasks" element={<Dashboard />} />
             <Route path="/p/frontend/departments" element={<Dashboard />} />
             <Route path="/p/frontend/settings" element={<Dashboard />} />

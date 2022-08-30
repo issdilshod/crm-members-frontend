@@ -8,7 +8,7 @@ import { Mediator } from '../../../context/Mediator';
 
 import { FaTimes } from 'react-icons/fa';
 
-const Director = () => {
+const DirectorForm = () => {
     const { 
             api, styles,
             directorFormOpen, setDirectorFormOpen, directorEdit, setDirectorEdit, directorList, setDirectorList, directorForm, setDirectorForm,
@@ -242,4 +242,4 @@ const Director = () => {
     );
 }
 
-export default Director;
+export default DirectorForm;
