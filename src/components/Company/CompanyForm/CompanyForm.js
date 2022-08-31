@@ -25,16 +25,32 @@ const CompanyForm = () => {
     useEffect(() => {
         api.request('/api/sic_code', 'GET')
                 .then(res => {
-                    setSicCodeList(res.data.data);
+                    switch (res.status){
+                        case 200:
+                        case 201:
+                            setSicCodeList(res.data.data);
+                            break;
+                    }
                 });
 
         api.request('/api/director', 'GET')
                 .then(res => {
-                    setDirectorList(res.data.data);
+                    switch (res.status){
+                        case 200:
+                        case 201:
+                            setDirectorList(res.data.data);
+                            break;
+                    }
+                    
                 });
         api.request('/api/state', 'GET')
                 .then(res => {
-                    setStateList(res.data.data);
+                    switch (res.status){
+                        case 200:
+                        case 201:
+                            setStateList(res.data.data);
+                            break;
+                    } 
                 });
     }, []);
 

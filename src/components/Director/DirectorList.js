@@ -13,7 +13,12 @@ const DirectorList = () => {
     useEffect(() => {
         api.request('/api/director', 'GET')
                         .then(res => {
-                            setDirectorList(res.data.data);
+                            switch (res.status){
+                                case 200:
+                                case 201:
+                                    setDirectorList(res.data.data);
+                                    break;
+                            }
                             // TODO: Do pagination function
                         });
     }, []);

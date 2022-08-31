@@ -10,7 +10,14 @@ const EmailForm = ({ handleChange }) => {
     const [emailHosting, setEmailHosting] = useState([]);
 
     useEffect(() => {
-        api.request('/api/hosting', 'GET').then(res => { setEmailHosting(res.data.data) });
+        api.request('/api/hosting', 'GET').then(res => {
+            switch (res.status){
+                case 200:
+                case 201:
+                    setEmailHosting(res.data.data)
+                    break;
+            }
+        });
     }, [])
 
     return (  
