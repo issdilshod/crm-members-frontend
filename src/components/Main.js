@@ -6,6 +6,7 @@ import Login from './Login/Login';
 import Dashboard from './Dashboard/Dashboard';
 import Director from './Director/Director';
 import Company from './Company/Company';
+import Department from './Department/Department';
 
 const Main = () => {
     const api = new Api();
@@ -14,7 +15,11 @@ const Main = () => {
     const [isAuth, setIsAuth] = useState(false);
 
     useEffect(() => {
-        api.request('/api/is_auth', 'GET').then(res => { (res.status==200?setIsAuth(true):setIsAuth(false)) })
+        api.request('/api/is_auth', 'GET')
+            .then(res => { 
+                (res.status==200?setIsAuth(true):setIsAuth(false)) 
+            });
+
     }, [])
 
     // Routing
@@ -32,7 +37,7 @@ const Main = () => {
             <Route path="/p/frontend/dashboard" element={<Dashboard />} />
             <Route path="/p/frontend/directors" element={<Director />} />
             <Route path="/p/frontend/companies" element={<Company />} />
-            <Route path="/p/frontend/departments" element={<Dashboard />} />
+            <Route path="/p/frontend/departments" element={<Department />} />
             <Route path="/p/frontend/settings" element={<Dashboard />} />
             <Route path="/p/frontend/notification" element={<Dashboard />} />
             <Route path="/p/frontend/reminder" element={<Dashboard />} />
