@@ -29,7 +29,6 @@ const UserForm = () => {
     }, []);
 
     useEffect(() => {
-        console.log('here...');
         if (!userFormOpen){
             setUserFormError({});
             setUserForm(userFormEntity);
