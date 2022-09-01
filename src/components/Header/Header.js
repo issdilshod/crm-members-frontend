@@ -1,19 +1,25 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect, useContext } from 'react';
+import { Mediator } from '../../context/Mediator';
 
 import styles from './Header.module.scss';
 import { FaSignOutAlt, FaRegStickyNote, FaBars } from 'react-icons/fa';
 import Menu from './Menu';
 
 const Header = (props) => {
-    const navigate = useNavigate();
+    const {
+        api, navigate
+    } = useContext(Mediator)
+
     const [menuOpen, setMenuOpen] = useState(false);
 
     async function handleSignOut(e){
         e.preventDefault();
+        let _token = JSON.parse(localStorage.getItem('auth'));
         localStorage.removeItem("auth");
-        // TODO: Request to backend then remove token
-        navigate(`${process.env.REACT_APP_FRONTEND_PREFIX}/login`);
+        api.request('/api/logout', 'POST', { 'token': _token })
+            .then( res => {
+                navigate(`${process.env.REACT_APP_FRONTEND_PREFIX}/login`);
+            });
     }
 
     return (
