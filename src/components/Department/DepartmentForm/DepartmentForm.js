@@ -7,7 +7,8 @@ const DepartmentForm = () => {
 
     const {
         api, styles,
-        departmentForm, setDepartmentForm, departmentFormOpen, setDepartmentFormOpen
+        departmentList, departmentForm, setDepartmentForm, departmentFormOpen, setDepartmentFormOpen,
+        userFormEntity, userForm, setUserForm, userFormOpen, setUserFormOpen
     } = useContext(Mediator);
 
     const handleUserClick = (uuid) => { // User edit
@@ -15,7 +16,14 @@ const DepartmentForm = () => {
     }
 
     const handlePlusUserClick = (uuid) => { // New user
-        console.log(uuid);
+        for (let key in departmentList){
+            if (departmentList[key]['uuid']===uuid){
+                setUserForm({ ...userFormEntity,  ...{ 'department': departmentList[key]}, ...{'department_uuid': departmentList[key]['uuid']} });
+                break;
+            }
+        }
+        setUserFormOpen(true);
+        setDepartmentFormOpen(false);
     }
 
     return (

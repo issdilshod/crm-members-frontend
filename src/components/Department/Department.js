@@ -6,6 +6,7 @@ import { Mediator } from '../../context/Mediator';
 import Header from '../Header/Header';
 import styles from './Department.module.scss';
 import DepartmentForm from './DepartmentForm/DepartmentForm';
+import UserForm from './DepartmentForm/UserForm';
 
 const Department = () => {
     const navigate = useNavigate();
@@ -21,14 +22,37 @@ const Department = () => {
     const [departmentForm, setDepartmentForm] = useState(departmentFormEntity);
     const [departmentFormOpen, setDepartmentFormOpen] = useState(false);
 
+    const [userFormEntity, setUserFormEntity] = useState({
+        'role_uuid': '',
+        'department': {},
+        'department_uuid': '',
+        'first_name': '',
+        'last_name': '',
+        'username': '',
+        'password': '',
+        'telegram': ''
+    });
+    const [userForm, setUserForm] = useState(userFormEntity);
+    const [userFormOpen, setUserFormOpen] = useState(false);
+
     useEffect(() => {
         api.request('/api/department', 'GET')
                 .then(res => {
-                    setDepartmentList(res.data.data);
+                    switch(res.status){
+                        case 200:
+                        case 201:
+                            setDepartmentList(res.data.data);
+                            break;
+                    }
                 });
         api.request('/api/role', 'GET')
                 .then(res => {
-                    setRoleList(res.data.data);
+                    switch(res.status){
+                        case 200:
+                        case 201:
+                            setRoleList(res.data.data);
+                            break;
+                    }
                 })
     }, []);
 
@@ -36,15 +60,23 @@ const Department = () => {
         setDepartmentFormOpen(false);
         api.request('/api/department/'+uuid, 'GET')
                 .then(res => {
-                    setDepartmentForm(res.data.data);
-                    setDepartmentFormOpen(true);
+                    switch(res.status){
+                        case 200:
+                        case 201:
+                            setDepartmentForm(res.data.data);
+                            setDepartmentFormOpen(true);
+                            setUserFormOpen(false);
+                            setUserForm(userFormEntity);
+                            break;
+                    }
                 });
     }
 
     return (
         <Mediator.Provider value={ {
             api, navigate, styles,
-            departmentList, setDepartmentList, departmentForm, setDepartmentForm, departmentFormOpen, setDepartmentFormOpen
+            departmentList, setDepartmentList, departmentForm, setDepartmentForm, departmentFormOpen, setDepartmentFormOpen,
+            userFormEntity, userForm, setUserForm, userFormOpen, setUserFormOpen
         } }>
             <div className={styles['main-content']}>
                 <Header />
@@ -65,6 +97,7 @@ const Department = () => {
                 </div>
             </div>
             <DepartmentForm />
+            <UserForm />
         </Mediator.Provider>
     );
 }

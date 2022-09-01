@@ -1,26 +1,52 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Mediator } from '../../../context/Mediator';
+import { FaTimes } from 'react-icons/fa';
 
-const DepartmentForm = ( { departmentUuid } ) => {
+const UserForm = () => {
+
+    const [role, setRole] = useState([]);
 
     const {
-        api, styles
+        api, styles,
+        departmentFormOpen, setDepartmentFormOpen,
+        userForm, setUserForm, userFormOpen, setUserFormOpen
     } = useContext(Mediator);
 
+    useEffect( () => {
+        api.request('/api/role', 'GET')
+            .then(res => {
+                switch(res.status){
+                    case 200:
+                    case 201:
+                        setRole(res.data.data);
+                        break;
+                }
+
+            });
+    }, []);
+
+    const handleLocalClick = () => {
+        setUserFormOpen(false); 
+        setDepartmentFormOpen(true);
+    }
+
     return (
-        <div className={`row`}>
-            <div className='col-12 col-sm-6'>
-                <div className='form-group'>
-                    <label>First Name</label>
-                    <input className='form-control'
-                            type='text'
-                            name='first_name'
-                            placeholder='First Name'
-                            />
+        <div className={`${styles['department-form-card']} ${userFormOpen ? styles['department-form-card-active']:''}`}>
+            <div className={`${styles['department-form-card-head']} d-flex`}>
+                <div className={`${styles['department-form-card-title']} mr-auto`}>Add new user to { userForm['department']['department_name'] } department</div>
+                <div className={styles['department-form-card-close']} 
+                        onClick={ handleLocalClick }
+                >
+                    <FaTimes />
                 </div>
+            </div>
+            <hr className={styles['divider']} />
+            <div className={`${styles['department-form-card-body']} container-fluid`}>
+                <form className={`${styles['department-form-block']} row`}>
+                </form>
             </div>
         </div>
     );
 }
 
-export default DepartmentForm;
+export default UserForm;
