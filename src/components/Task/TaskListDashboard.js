@@ -1,13 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Mediator } from '../../context/Mediator';
 
 import styles from './TaskListDashboard.module.scss';
 import { FaList, FaPlus } from 'react-icons/fa';
 
 const TaskListDashboard = () => {
-    const navigate = useNavigate();
     const [employeeTaskCount, setEmployeeTaskCount] = useState(0);
     const [mineTaskCount, setMineTaskCount] = useState(0);
+
+    const {
+        api, navigate,
+        setTaskFormOpen
+    } = useContext(Mediator);
+
+    const handleLocalClick = () => {
+        setTaskFormOpen(true);
+    }
 
     return (  
         <div className={`${styles['task-list-dashboard']} row`}>
@@ -17,7 +26,7 @@ const TaskListDashboard = () => {
             <div className='col-12 col-sm-4'>
                 <div className={`${styles['task-list-dashboard-title']} d-flex`}>
                     <div className={`mr-auto`}>Employee Tasks (<span>{employeeTaskCount}</span>)</div>
-                    <div className={`${styles['task-add-button']} text-center`}>
+                    <div className={`${styles['task-add-button']} text-center`} onClick={ handleLocalClick }>
                         <span className={styles['task-add-icon']}>
                             <FaPlus />
                         </span>
