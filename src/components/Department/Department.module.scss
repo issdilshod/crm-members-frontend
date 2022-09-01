@@ -122,6 +122,23 @@
                     font-size: .9em;
                 }
 
+                .input-with-sign{
+                    position: relative;
+
+                    .field{
+                        padding-left: 40px;
+                    }
+
+                    span{
+                        position: absolute;
+                        top: 5px;
+                        left: 15px;
+                        font-weight: 500;
+                    }
+
+                }
+                
+
                 .submit-form{
                     padding: 10px;
                     border-radius: 10px;

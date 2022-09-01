@@ -8,7 +8,7 @@ const DepartmentForm = () => {
     const {
         api, styles,
         departmentList, departmentForm, setDepartmentForm, departmentFormOpen, setDepartmentFormOpen,
-        userFormEntity, userForm, setUserForm, userFormOpen, setUserFormOpen
+        userFormEntity, userForm, setUserForm, setUserFormError, userFormOpen, setUserFormOpen
     } = useContext(Mediator);
 
     const handleUserClick = (uuid) => { // User edit

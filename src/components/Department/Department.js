@@ -33,6 +33,7 @@ const Department = () => {
         'telegram': ''
     });
     const [userForm, setUserForm] = useState(userFormEntity);
+    const [userFormError, setUserFormError] = useState({});
     const [userFormOpen, setUserFormOpen] = useState(false);
 
     useEffect(() => {
@@ -76,7 +77,7 @@ const Department = () => {
         <Mediator.Provider value={ {
             api, navigate, styles,
             departmentList, setDepartmentList, departmentForm, setDepartmentForm, departmentFormOpen, setDepartmentFormOpen,
-            userFormEntity, userForm, setUserForm, userFormOpen, setUserFormOpen
+            userFormEntity, userForm, userFormError, setUserFormError, setUserForm, userFormOpen, setUserFormOpen
         } }>
             <div className={styles['main-content']}>
                 <Header />
