@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
+import InputMask from 'react-input-mask';
 
 import AddressForm from './AddressForm';
 import EmailForm from './EmailForm';
@@ -134,13 +135,14 @@ const DirectorForm = () => {
 
                     <div className={`${styles['director-form-field']} col-12 col-sm-6 form-group`}>
                         <label>SSN/CPN</label>
-                        <input className={`form-control`} 
-                                type='text' 
-                                name='ssn_cpn' 
-                                placeholder='SSN/CPN' 
-                                onChange={ handleChange } 
-                                value={directorForm['ssn_cpn']}
-                                />
+                        <InputMask mask="999-99-9999" 
+                                    maskChar={null} 
+                                    className={`form-control`}
+                                    name='ssn_cpn' 
+                                    placeholder='SSN/CPN' 
+                                    onChange={ handleChange } 
+                                    value={directorForm['ssn_cpn']}
+                        />
                         <Validation field_name='ssn_cpn' errorObject={directorFormError} />
                     </div>
 
@@ -177,13 +179,15 @@ const DirectorForm = () => {
                             <div className={`row`}>
                                 <div className={`col-12 form-group`}>
                                     <label>Phone Number</label>
-                                    <input className={`form-control`} 
-                                            type='text' 
-                                            name='phone_number' 
-                                            placeholder='Phone Number' 
-                                            onChange={ handleChange } 
-                                            value={directorForm['phone_number']}
-                                            />
+                                    <InputMask mask="999-99-9999" 
+                                                maskChar={null} 
+                                                className={`form-control`} 
+                                                type='text' 
+                                                name='phone_number' 
+                                                placeholder='Phone Number' 
+                                                onChange={ handleChange } 
+                                                value={directorForm['phone_number']}
+                                    />
                                     <Validation field_name='phone_number' errorObject={directorFormError} />
                                 </div>
                             </div>

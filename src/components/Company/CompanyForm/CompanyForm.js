@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
+import InputMask from 'react-input-mask';
 
 import BankAccountForm from './BankAccountForm';
 import AddressForm from './AddressForm';
@@ -212,13 +213,15 @@ const CompanyForm = () => {
 
                     <div className={`${styles['company-form-field']} col-12 col-sm-4 form-group`}>
                         <label>Company EIN</label>
-                        <input className={`form-control`} 
-                                type='text' 
-                                name='ein' 
-                                placeholder='Company EIN' 
-                                onChange={ handleChange } 
-                                value={ companyForm['ein'] }
-                                />
+                        <InputMask mask="99-9999999" 
+                                    maskChar={null} 
+                                    className={`form-control`} 
+                                    type='text' 
+                                    name='ein' 
+                                    placeholder='Company EIN' 
+                                    onChange={ handleChange } 
+                                    value={ companyForm['ein'] }
+                        />
                         <Validation field_name='ein' errorObject={companyFormError} />
                     </div>
 
