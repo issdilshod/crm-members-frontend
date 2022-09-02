@@ -70,11 +70,11 @@ const EmailForm = ({ handleChange }) => {
                 </div>
                 <div className={`col-12 col-sm-3`}>
                     <div className={`form-group`}>
-                        <label>Phone</label>
+                        <label>Email's Phone Number</label>
                         <input className={`form-control`} 
                                 type='text' 
                                 name='emails[phone]' 
-                                placeholder='Phone' 
+                                placeholder="Email's Phone Number" 
                                 onChange={ handleChange }
                                 value={ companyForm['emails[phone]'] }
                                 />
