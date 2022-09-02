@@ -124,11 +124,11 @@ const CompanyForm = () => {
                 <form className={`${styles['company-form-block']} row`} encType='multipart/form-data' onSubmit={ handleSubmit }>
 
                     <div className={`${styles['company-form-field']} col-12 col-sm-4 form-group`}>
-                        <label>Legal Name</label>
+                        <label>Company Legal Name</label>
                         <input className={`form-control`} 
                                 type='text' 
                                 name='legal_name' 
-                                placeholder='Legal Name' 
+                                placeholder='Company Legal Name' 
                                 onChange={ handleChange } 
                                 value={ companyForm['legal_name'] }
                                 />
