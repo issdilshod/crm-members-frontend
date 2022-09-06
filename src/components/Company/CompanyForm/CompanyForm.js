@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import InputMask from 'react-input-mask';
+import Select from 'react-select';
 
 import BankAccountForm from './BankAccountForm';
 import AddressForm from './AddressForm';
@@ -29,7 +30,12 @@ const CompanyForm = () => {
                     switch (res.status){
                         case 200:
                         case 201:
-                            setSicCodeList(res.data.data);
+                            //setSicCodeList(res.data.data);
+                            let tmp_sic_code = [];
+                            for (let key in res.data.data){
+                                tmp_sic_code.push({ 'value':  res.data.data[key]['uuid'], 'label': res.data.data[key]['code'] + ' - ' + res.data.data[key]['industry_title'] });
+                            }
+                            setSicCodeList(tmp_sic_code);
                             break;
                     }
                 });
@@ -137,20 +143,10 @@ const CompanyForm = () => {
 
                     <div className={`${styles['company-form-field']} col-12 col-sm-4 form-group`}>
                         <label>SIC code</label>
-                        <select className={`form-control`} 
-                                name='sic_code_uuid' 
-                                onChange={(e) => { handleChange(e); }} 
-                                value={ companyForm['sic_code_uuid']}
-                                >
-                            <option>-</option>
-                            {
-                                sicCodeList.map((value, index) => {
-                                    return (
-                                        <option key={index} value={value['uuid']}>{value['code']} - {value['industry_title']}</option>
-                                    )
-                                })
-                            }
-                        </select>
+                        <Select options={sicCodeList}
+                                value={ sicCodeList.filter(option => { return option.value === companyForm['sic_code_uuid'] }) }
+                                onChange={ (e) => { handleChange({'target': {'name': 'sic_code_uuid', 'value': e.value} }); } }    
+                        />
                         <Validation field_name='sic_code_uuid' errorObject={companyFormError} />
                     </div>
 
