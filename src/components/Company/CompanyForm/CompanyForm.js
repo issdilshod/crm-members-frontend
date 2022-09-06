@@ -282,11 +282,6 @@ const CompanyForm = () => {
                                 handleChange={handleChange}
                     />
 
-                    <BankAccountForm blockOpen={companyBankAccountOpen} 
-                                        setBlockOpen={ setCompanyBankAccountOpen }
-                                        handleChange={handleChange}
-                    />
-
                     <AddressForm parent_head_name='Address' 
                                     blockOpen={companyAddressOpen} 
                                     setBlockOpen={setCompanyAddressOpen}
@@ -326,6 +321,11 @@ const CompanyForm = () => {
                     </div>
 
                     <EmailForm handleChange={handleChange} />
+
+                    <BankAccountForm blockOpen={companyBankAccountOpen} 
+                                        setBlockOpen={ setCompanyBankAccountOpen }
+                                        handleChange={handleChange}
+                    />
 
                     <div className={`${styles['company-form-field']} col-12 col-sm-8 form-group`}>
                         <label>D&B Number</label>
