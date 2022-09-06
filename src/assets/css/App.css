@@ -1,0 +1,25 @@
+.d-card{
+
+}
+
+.d-card-head{
+    padding: 10px;
+    background-color: #e4eef5;
+    border-radius: 20px 20px 0px 0px;
+    cursor: pointer;
+    transition: 0.5s;
+}
+
+.d-card-head-title{
+    font-size: 1.2em;
+    font-weight: 700;
+}
+
+.d-card-body{
+    background-color: #f4f8fb;
+    border-radius: 0px 0px 20px 20px;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}

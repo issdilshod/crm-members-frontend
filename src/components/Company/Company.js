@@ -23,8 +23,14 @@ const Company = () => {
         'doing_business_in_state_uuid': '',
         'doing_business_in_state_name': '',
         'ein': '',
-        'phone_type': '',
-        'phone_number': '',
+        'business_number': '',
+        'business_number_type': '',
+        'voip_provider': '',
+        'voip_login': '',
+        'voip_password': '',
+        'business_mobile_number_provider': '',
+        'business_mobile_number_login': '',
+        'business_mobile_number_password': '',
         'website': '',
         'db_report_number': '',
         'address[street_address]': '',
@@ -56,8 +62,6 @@ const Company = () => {
     const [companyFormError, setCompanyFormError] = useState({});
     // bank account
     const [companyBankAccountOpen, setCompanyBankAccountOpen] = useState(true);
-    // phone type
-    const [choosedPhoneType, setChoosedPhoneType] = useState(false);
     // address
     const [companyAddressOpen, setCompanyAddressOpen] = useState(true);
     // uploads
@@ -73,7 +77,7 @@ const Company = () => {
                                 companyFormOpen, setCompanyFormOpen, companyEdit, setCompanyEdit, companyList, setCompanyList,
                                     companyForm, setCompanyForm, companyFormError, setCompanyFormError, companyFormEntity, setCompanyFormEntity,
                                 companyBankAccountOpen, setCompanyBankAccountOpen,
-                                choosedPhoneType, setChoosedPhoneType, companyAddressOpen, setCompanyAddressOpen, incorporationStateUploadOpen,
+                                companyAddressOpen, setCompanyAddressOpen, incorporationStateUploadOpen,
                                     setIncorporationStateUploadOpen, doingBusinessInStateUploadOpen, setDoingBusinessInStateUploadOpen, companyEinUploadOpen, setCompanyEinUploadOpen, companyDbReportUploadOpen, setCompanyDbReportUploadOpen
                             } } >
             

@@ -10,13 +10,14 @@ import Validation from '../../Helper/Validation';
 import { Mediator } from '../../../context/Mediator';
 
 import { FaTimes } from 'react-icons/fa';
+import '../../../assets/css/App.css';
 
 const CompanyForm = () => {
     const { 
             api, styles,
             companyFormOpen, setCompanyFormOpen, companyEdit, setCompanyEdit, companyList, setCompanyList, companyForm, setCompanyForm,
                 companyFormError, setCompanyFormError,
-            choosedPhoneType, setChoosedPhoneType, companyAddressOpen, setCompanyAddressOpen, incorporationStateUploadOpen,
+            companyAddressOpen, setCompanyAddressOpen, incorporationStateUploadOpen,
                 setIncorporationStateUploadOpen, doingBusinessInStateUploadOpen, setDoingBusinessInStateUploadOpen, companyEinUploadOpen, setCompanyEinUploadOpen, dbReportUpload, setDbReportUpload, companyDbReportUploadOpen, setCompanyDbReportUploadOpen, companyBankAccountOpen, setCompanyBankAccountOpen
     } = useContext(Mediator);
 
@@ -283,37 +284,109 @@ const CompanyForm = () => {
                                     setBlockOpen={setCompanyAddressOpen}
                                     handleChange={handleChange} />
 
-                    <div className={`${styles['director-form-field']} col-12 col-sm-6 form-group`}>
-                        <label>Phone Type</label>
-                        <select className={`form-control`} 
-                                name='phone_type' 
-                                onChange={(e) => { 
-                                                    (e.target.value==='-'?setChoosedPhoneType(false):setChoosedPhoneType(true)); 
-                                                    handleChange(e); 
-                                                }} 
-                                value={companyForm['phone_type']}
-                                >
-                            <option>-</option>
-                            <option>VoiP</option>
-                            <option>Landline</option>
-                        </select>
-                        <Validation field_name='phone_type' errorObject={companyFormError} />
-
-                        { choosedPhoneType && 
-                            <div className={`row`}>
-                                <div className={`col-12 form-group`}>
-                                    <label>Phone Number</label>
-                                    <input className={`form-control`} 
-                                            type='text' 
-                                            name='phone_number' 
-                                            placeholder='Phone Number' 
-                                            onChange={ handleChange } 
-                                            value={companyForm['phone_number']}
-                                            />
-                                    <Validation field_name='phone_number' errorObject={companyFormError} />
+                    <div className={`${styles['company-form-field']} col-12 col-sm-6 mt-2 form-group`}>
+                        <div className='d-card'>
+                            <div className='d-card-head'>
+                                <div className='d-card-head-title'>Phones</div>
+                            </div>
+                            <div className='d-card-body'>
+                                <div className={`row`}>
+                                    <div className={`col-12 col-sm-6 form-group`}>
+                                        <label>Business Number</label>
+                                        <input className={`form-control`} 
+                                                type='text' 
+                                                name='business_number' 
+                                                placeholder='Business Number' 
+                                                onChange={ handleChange } 
+                                                value={companyForm['business_number']}
+                                                />
+                                        <Validation field_name='business_number' errorObject={companyFormError} />
+                                    </div>
+                                    <div className={`col-12 col-sm-6 form-group`}>
+                                        <label>Business Number Type</label>
+                                        <select className={`form-control`} 
+                                                name='business_number_type' 
+                                                onChange={(e) => { handleChange(e); }} 
+                                                value={companyForm['business_number_type']}
+                                                >
+                                            <option>-</option>
+                                            <option>VoiP</option>
+                                            <option>Landline</option>
+                                        </select>
+                                        <Validation field_name='business_number_type' errorObject={companyFormError} />
+                                    </div>
+                                    <div className={`col-12 form-group`}>
+                                        <label>VOIP Provider</label>
+                                        <input className={`form-control`} 
+                                                type='text' 
+                                                name='voip_provider' 
+                                                placeholder='VOIP Provider' 
+                                                onChange={ handleChange } 
+                                                value={companyForm['voip_provider']}
+                                        />
+                                        <Validation field_name='voip_provider' errorObject={companyFormError} />
+                                    </div>
+                                    <div className={`col-12 col-sm-6 form-group`}>
+                                        <label>VOIP Login</label>
+                                        <input className={`form-control`} 
+                                                type='text' 
+                                                name='voip_login' 
+                                                placeholder='VOIP Login' 
+                                                onChange={ handleChange } 
+                                                value={companyForm['voip_login']}
+                                        />
+                                        <Validation field_name='voip_login' errorObject={companyFormError} />
+                                    </div>
+                                    <div className={`col-12 col-sm-6 form-group`}>
+                                        <label>VOIP Password</label>
+                                        <input className={`form-control`} 
+                                                type='text' 
+                                                name='voip_password' 
+                                                placeholder='VOIP Password' 
+                                                onChange={ handleChange } 
+                                                value={companyForm['voip_password']}
+                                        />
+                                        <Validation field_name='voip_password' errorObject={companyFormError} />
+                                    </div>
+                                    <div className={`col-12 form-group`}>
+                                        <label>Business Mobile Number Provider</label>
+                                        <select className={`form-control`} 
+                                                name='business_mobile_number_provider' 
+                                                onChange={(e) => { handleChange(e); }} 
+                                                value={companyForm['business_mobile_number_provider']}
+                                                >
+                                            <option>-</option>
+                                            <option>Verizon</option>
+                                            <option>T-Mobile</option>
+                                            <option>Simple Mobile</option>
+                                        </select>
+                                        <Validation field_name='business_mobile_number_provider' errorObject={companyFormError} />
+                                    </div>
+                                    <div className={`col-12 col-sm-6 form-group`}>
+                                        <label>Business Mobile Number Login</label>
+                                        <input className={`form-control`} 
+                                                type='text' 
+                                                name='business_mobile_number_login' 
+                                                placeholder='Business Mobile Number Login' 
+                                                onChange={ handleChange } 
+                                                value={companyForm['business_mobile_number_login']}
+                                        />
+                                        <Validation field_name='business_mobile_number_login' errorObject={companyFormError} />
+                                    </div>
+                                    <div className={`col-12 col-sm-6 form-group`}>
+                                        <label>Business Mobile Number Password</label>
+                                        <input className={`form-control`} 
+                                                type='text' 
+                                                name='business_mobile_number_password' 
+                                                placeholder='Business Mobile Number Password' 
+                                                onChange={ handleChange } 
+                                                value={companyForm['business_mobile_number_password']}
+                                        />
+                                        <Validation field_name='business_mobile_number_password' errorObject={companyFormError} />
+                                    </div>
                                 </div>
                             </div>
-                        }
+                        </div>
                     </div>
 
                     <EmailForm handleChange={handleChange} />
@@ -332,7 +405,7 @@ const CompanyForm = () => {
                                 onChange={ handleChange } 
                                 value={ companyForm['db_report_number'] }
                                 />
-                        <Validation field_name='db_report_number ' errorObject={companyFormError} />
+                        <Validation field_name='db_report_number' errorObject={companyFormError} />
                     </div>
 
                     <FileForm blockOpen={companyDbReportUploadOpen}
