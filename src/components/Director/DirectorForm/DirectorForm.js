@@ -14,7 +14,7 @@ const DirectorForm = () => {
             api, styles,
             directorFormOpen, setDirectorFormOpen, directorEdit, setDirectorEdit, directorList, setDirectorList, directorForm, setDirectorForm,
                 directorFormError, setDirectorFormError,
-            choosedPhoneType, setChoosedPhoneType, dlAddressOpen, setDlAddressOpen, creditHomeAddressOpen,
+            dlAddressOpen, setDlAddressOpen, creditHomeAddressOpen,
                 setCreditHomeAddressOpen, dlUploadOpen, setDlUploadOpen, ssnUploadOpen, setSsnUploadOpen, cpnDocsUploadOpen, setCpnDocsUploadOpen
     } = useContext(Mediator);
 
@@ -162,10 +162,7 @@ const DirectorForm = () => {
                         <label>Phone Type</label>
                         <select className={`form-control`} 
                                 name='phone_type' 
-                                onChange={(e) => { 
-                                                    (e.target.value==='-'?setChoosedPhoneType(false):setChoosedPhoneType(true)); 
-                                                    handleChange(e); 
-                                                }} 
+                                onChange={ handleChange } 
                                 value={directorForm['phone_type']}
                                 >
                             <option>-</option>
@@ -175,23 +172,21 @@ const DirectorForm = () => {
                         </select>
                         <Validation field_name='phone_type' errorObject={directorFormError} />
 
-                        { choosedPhoneType && 
-                            <div className={`row`}>
-                                <div className={`col-12 form-group`}>
-                                    <label>Phone Number</label>
-                                    <InputMask mask="999-99-9999" 
-                                                maskChar={null} 
-                                                className={`form-control`} 
-                                                type='text' 
-                                                name='phone_number' 
-                                                placeholder='Phone Number' 
-                                                onChange={ handleChange } 
-                                                value={directorForm['phone_number']}
-                                    />
-                                    <Validation field_name='phone_number' errorObject={directorFormError} />
-                                </div>
+                        <div className={`row`}>
+                            <div className={`col-12 form-group`}>
+                                <label>Phone Number</label>
+                                <InputMask mask="999-99-9999" 
+                                            maskChar={null} 
+                                            className={`form-control`} 
+                                            type='text' 
+                                            name='phone_number' 
+                                            placeholder='Phone Number' 
+                                            onChange={ handleChange } 
+                                            value={directorForm['phone_number']}
+                                />
+                                <Validation field_name='phone_number' errorObject={directorFormError} />
                             </div>
-                        }
+                        </div>
 
                     </div>
 

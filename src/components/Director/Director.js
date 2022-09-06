@@ -55,8 +55,6 @@ const Director = () => {
     const [directorFormOpen, setDirectorFormOpen] = useState(false);
     const [directorForm, setDirectorForm] = useState(directorFormEntity);
     const [directorFormError, setDirectorFormError] = useState({});
-    // phone type
-    const [choosedPhoneType, setChoosedPhoneType] = useState(false);
     // address
     const [dlAddressOpen, setDlAddressOpen] = useState(true);
     const [creditHomeAddressOpen, setCreditHomeAddressOpen] = useState(true);
@@ -71,7 +69,7 @@ const Director = () => {
                                 menuOpen, setMenuOpen, 
                                 directorFormOpen, setDirectorFormOpen, directorEdit, setDirectorEdit, directorList, setDirectorList,
                                     directorForm, setDirectorForm, directorFormError, setDirectorFormError, directorFormEntity, setDirectorFormEntity,
-                                choosedPhoneType, setChoosedPhoneType, dlAddressOpen, setDlAddressOpen, creditHomeAddressOpen,
+                                dlAddressOpen, setDlAddressOpen, creditHomeAddressOpen,
                                     setCreditHomeAddressOpen, dlUploadOpen, setDlUploadOpen, ssnUploadOpen, setSsnUploadOpen, cpnDocsUploadOpen, setCpnDocsUploadOpen
                             } } >
             
