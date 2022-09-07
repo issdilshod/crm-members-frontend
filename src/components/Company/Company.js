@@ -70,6 +70,9 @@ const Company = () => {
     const [companyEinUploadOpen, setCompanyEinUploadOpen] = useState(true);
     const [companyDbReportUploadOpen, setCompanyDbReportUploadOpen] = useState(true);
 
+    // card save/discard
+    const [cardStatusOpen, setCardStatusOpen] = useState(false);
+
     return (  
         <Mediator.Provider value={ { 
                                 api, navigate, styles,
@@ -78,7 +81,8 @@ const Company = () => {
                                     companyForm, setCompanyForm, companyFormError, setCompanyFormError, companyFormEntity, setCompanyFormEntity,
                                 companyBankAccountOpen, setCompanyBankAccountOpen,
                                 companyAddressOpen, setCompanyAddressOpen, incorporationStateUploadOpen,
-                                    setIncorporationStateUploadOpen, doingBusinessInStateUploadOpen, setDoingBusinessInStateUploadOpen, companyEinUploadOpen, setCompanyEinUploadOpen, companyDbReportUploadOpen, setCompanyDbReportUploadOpen
+                                    setIncorporationStateUploadOpen, doingBusinessInStateUploadOpen, setDoingBusinessInStateUploadOpen, companyEinUploadOpen, setCompanyEinUploadOpen, companyDbReportUploadOpen, setCompanyDbReportUploadOpen,
+                                cardStatusOpen, setCardStatusOpen
                             } } >
             
             <CompanyList />
