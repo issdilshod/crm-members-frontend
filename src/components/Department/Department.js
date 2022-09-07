@@ -35,6 +35,7 @@ const Department = () => {
     const [userForm, setUserForm] = useState(userFormEntity);
     const [userFormError, setUserFormError] = useState({});
     const [userFormOpen, setUserFormOpen] = useState(false);
+    const [userEdit, setUserEdit] = useState(false);
 
     useEffect(() => {
         api.request('/api/department', 'GET')
@@ -68,6 +69,7 @@ const Department = () => {
                             setDepartmentFormOpen(true);
                             setUserFormOpen(false);
                             setUserForm(userFormEntity);
+                            console.log(departmentForm);
                             break;
                     }
                 });
@@ -77,7 +79,8 @@ const Department = () => {
         <Mediator.Provider value={ {
             api, navigate, styles,
             departmentList, setDepartmentList, departmentForm, setDepartmentForm, departmentFormOpen, setDepartmentFormOpen,
-            userFormEntity, userForm, userFormError, setUserFormError, setUserForm, userFormOpen, setUserFormOpen
+            userFormEntity, userForm, userFormError, setUserFormError, setUserForm, userFormOpen, setUserFormOpen,
+            userEdit, setUserEdit
         } }>
             <div className={styles['main-content']}>
                 <Header />

@@ -8,11 +8,23 @@ const DepartmentForm = () => {
     const {
         api, styles,
         departmentList, departmentForm, setDepartmentForm, departmentFormOpen, setDepartmentFormOpen,
-        userFormEntity, userForm, setUserForm, setUserFormError, userFormOpen, setUserFormOpen
+        userFormEntity, userForm, setUserForm, setUserFormError, userFormOpen, setUserFormOpen,
+        userEdit, setUserEdit
     } = useContext(Mediator);
 
     const handleUserClick = (uuid) => { // User edit
-        console.log(uuid);
+        setUserEdit(true);
+        api.request('/api/user/'+uuid, 'GET')
+            .then(res => {
+                switch (res.status){
+                    case 200: // Success
+                    case 201:
+                        setUserForm(res.data.data);
+                        setUserFormOpen(true);
+                        setDepartmentFormOpen(false);
+                        break;
+                }
+            });
     }
 
     const handlePlusUserClick = (uuid) => { // New user
@@ -24,6 +36,7 @@ const DepartmentForm = () => {
         }
         setUserFormOpen(true);
         setDepartmentFormOpen(false);
+        setUserEdit(false);
     }
 
     return (

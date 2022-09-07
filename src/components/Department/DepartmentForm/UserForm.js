@@ -7,21 +7,36 @@ import Validation from '../../Helper/Validation';
 const UserForm = () => {
 
     const [roleList, setRoleList] = useState([]);
+    const [departmentList, setDepartmentList] = useState([]);
 
     const {
         api, styles,
         departmentForm, setDepartmentForm, departmentFormOpen, setDepartmentFormOpen,
         userForm, setUserForm, userFormEntity, userFormError, setUserFormError, userFormOpen, setUserFormOpen,
-        handleChange
+        handleChange,
+        userEdit, setUserEdit
     } = useContext(Mediator);
 
     useEffect( () => {
+        // get roles
         api.request('/api/role', 'GET')
             .then(res => {
                 switch(res.status){
                     case 200:
                     case 201:
                         setRoleList(res.data.data);
+                        break;
+                }
+
+            });
+
+        // get departments
+        api.request('/api/department', 'GET')
+            .then(res => {
+                switch(res.status){
+                    case 200:
+                    case 201:
+                        setDepartmentList(res.data.data);
                         break;
                 }
 
@@ -48,29 +63,60 @@ const UserForm = () => {
     const handleLocalSubmit = (e) => {
         e.preventDefault();
         setUserFormError({});
-        api.request('/api/user', 'POST', userForm)
-            .then(res => {
-                switch (res.status){
-                    case 200: // Success
-                    case 201:
-                        setDepartmentForm( { ...departmentForm, 'users': [ ...departmentForm['users'], res.data.data ] } );
-                        setUserFormOpen(false);
-                        setDepartmentFormOpen(true);
-                        break;
-                    case 409: // Conflict
-                        setUserFormError(res.data.data);
-                        break;
-                    case 422: // Unprocessable Content
-                        setUserFormError(res.data.errors);
-                        break;
-                }
-            });
+        if (userEdit){
+            api.request('/api/user/'+userForm['uuid'], 'PUT', userForm)
+                .then(res => {
+                    switch (res.status){
+                        case 200: // Success
+                        case 201:
+                            api.request('/api/department/'+departmentForm['uuid'], 'GET')
+                                .then(res => {
+                                    switch(res.status){
+                                        case 200:
+                                        case 201:
+                                            setDepartmentForm(res.data.data);
+                                            setDepartmentFormOpen(true);
+                                            setUserFormOpen(false);
+                                            setUserForm(userFormEntity);
+                                            break;
+                                    }
+                                });
+                            break;
+                        case 409: // Conflict
+                            setUserFormError(res.data.data);
+                            break;
+                        case 422: // Unprocessable Content
+                            setUserFormError(res.data.errors);
+                            break;
+                    }
+                });
+        }else{
+            api.request('/api/user', 'POST', userForm)
+                .then(res => {
+                    switch (res.status){
+                        case 200: // Success
+                        case 201:
+                            setDepartmentForm( { ...departmentForm, 'users': [ ...departmentForm['users'], res.data.data ] } );
+                            setUserFormOpen(false);
+                            setDepartmentFormOpen(true);
+                            break;
+                        case 409: // Conflict
+                            setUserFormError(res.data.data);
+                            break;
+                        case 422: // Unprocessable Content
+                            setUserFormError(res.data.errors);
+                            break;
+                    }
+                });
+        } 
     }
 
     return (
         <div className={`${styles['department-form-card']} ${userFormOpen ? styles['department-form-card-active']:''}`}>
             <div className={`${styles['department-form-card-head']} d-flex`}>
-                <div className={`${styles['department-form-card-title']} mr-auto`}>Add new user to { userForm['department']['department_name'] } department</div>
+                <div className={`${styles['department-form-card-title']} mr-auto`}>
+                    { (userEdit?'Edit user':'Add new user') } 
+                </div>
                 <div className={styles['department-form-card-close']} 
                         onClick={ handleLocalClick }
                 >
@@ -156,9 +202,29 @@ const UserForm = () => {
                         </div>
                     </div>
 
+                    {   userEdit &&
+                        <div className={`${styles['department-form-field']} form-group col-12 col-sm-6`}>
+                            <label>Department</label>
+                            <select className='form-control'
+                                    name='department_uuid'
+                                    onChange={ (e) => { handleLocalChange(e) } }
+                                    value={ userForm['department_uuid'] }
+                            >
+                                {
+                                    departmentList.map((value, index) => {
+                                        return (
+                                            <option key={index} value={value['uuid']}>{value['department_name']}</option>
+                                        )
+                                    })
+                                }
+                            </select>
+                            <Validation field_name='password' errorObject={userFormError} />
+                        </div>
+                    }
+
                     <div className={`${styles['department-form-field']} form-group col-12 text-right`}>
                         <button className={`${styles['submit-form']} ml-auto`}>
-                            Add
+                            { (userEdit?'Edit':'Add') }
                         </button>
                     </div>
                 </form>
