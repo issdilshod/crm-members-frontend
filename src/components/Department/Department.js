@@ -69,7 +69,6 @@ const Department = () => {
                             setDepartmentFormOpen(true);
                             setUserFormOpen(false);
                             setUserForm(userFormEntity);
-                            console.log(departmentForm);
                             break;
                     }
                 });

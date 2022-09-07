@@ -25,8 +25,6 @@ const DirectorList = () => {
 
     async function handleCardClick(uuid){
         setDirectorFormOpen(false);
-        // TODO: Remove console.log on prod
-        console.log(uuid);
         api.request('/api/director/'+uuid, 'GET')
                 .then(res => {
                     setDirectorEdit(true);
