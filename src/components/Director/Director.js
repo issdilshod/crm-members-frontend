@@ -63,6 +63,9 @@ const Director = () => {
     const [ssnUploadOpen, setSsnUploadOpen] = useState(true);
     const [cpnDocsUploadOpen, setCpnDocsUploadOpen] = useState(true);
 
+    // card save/discard
+    const [cardStatusOpen, setCardStatusOpen] = useState(false);
+
     return (  
         <Mediator.Provider value={ { 
                                 api, navigate, styles,
@@ -70,7 +73,8 @@ const Director = () => {
                                 directorFormOpen, setDirectorFormOpen, directorEdit, setDirectorEdit, directorList, setDirectorList,
                                     directorForm, setDirectorForm, directorFormError, setDirectorFormError, directorFormEntity, setDirectorFormEntity,
                                 dlAddressOpen, setDlAddressOpen, creditHomeAddressOpen,
-                                    setCreditHomeAddressOpen, dlUploadOpen, setDlUploadOpen, ssnUploadOpen, setSsnUploadOpen, cpnDocsUploadOpen, setCpnDocsUploadOpen
+                                    setCreditHomeAddressOpen, dlUploadOpen, setDlUploadOpen, ssnUploadOpen, setSsnUploadOpen, cpnDocsUploadOpen, setCpnDocsUploadOpen,
+                                cardStatusOpen, setCardStatusOpen
                             } } >
             
             <DirectorList />
