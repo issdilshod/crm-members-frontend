@@ -14,10 +14,10 @@ const Main = () => {
     return (
         <Routes>
             <Route element={<NonProtected />}>
-                <Route path="/p/frontend/" element={<Login />} />
                 <Route path="/p/frontend/login" element={<Login />} />
             </Route>     
             <Route element={<Protected />}>
+                <Route path="/p/frontend/" element={<Dashboard />} />
                 <Route path="/p/frontend/dashboard" element={<Dashboard />} />
                 <Route path="/p/frontend/directors" element={<Director />} />
                 <Route path="/p/frontend/companies" element={<Company />} />
@@ -30,7 +30,7 @@ const Main = () => {
                 <Route path="/p/frontend/calendar" element={<Dashboard />} />
             </Route>
             <Route path="*" element={<E404 />} />
-        </Routes>  
+        </Routes> 
     );
 }
 

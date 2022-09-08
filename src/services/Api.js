@@ -1,4 +1,5 @@
 import axios from "axios";
+import { Navigate } from "react-router-dom";
 
 class Api {
     constructor(){
@@ -53,6 +54,12 @@ class Api {
         }).catch((error) => {
             respond = error.response;
         });
+
+        // if 401 then remove token
+        if (respond.status === 401){
+            localStorage.removeItem('auth');
+        }
+
         return respond;
     }
 }

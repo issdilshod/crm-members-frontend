@@ -18,7 +18,7 @@ const Header = (props) => {
         localStorage.removeItem("auth");
         api.request('/api/logout', 'POST', { 'token': _token })
             .then( res => {
-                navigate(`${process.env.REACT_APP_FRONTEND_PREFIX}/login`);
+                navigate(`${process.env.REACT_APP_FRONTEND_PREFIX}/`);
             });
     }
 
