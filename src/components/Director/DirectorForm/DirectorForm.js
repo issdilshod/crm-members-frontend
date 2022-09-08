@@ -19,7 +19,8 @@ const DirectorForm = () => {
                 directorFormError, setDirectorFormError,
             dlAddressOpen, setDlAddressOpen, creditHomeAddressOpen,
                 setCreditHomeAddressOpen, dlUploadOpen, setDlUploadOpen, ssnUploadOpen, setSsnUploadOpen, cpnDocsUploadOpen, setCpnDocsUploadOpen,
-            cardStatusOpen, setCardStatusOpen
+            cardStatusOpen, setCardStatusOpen,
+            setLoadingShow
     } = useContext(Mediator);
 
     useEffect(() => {
@@ -36,6 +37,7 @@ const DirectorForm = () => {
     }
 
     const handleSubmit = async (e, trigger = false) => {
+        setLoadingShow(true);
         if (!trigger){
             e.preventDefault();
         }
@@ -56,6 +58,7 @@ const DirectorForm = () => {
                             setDirectorFormError(res.data.errors);
                             break;
                     }
+                    setLoadingShow(false);
                 });
         }else{
             let uuid = directorForm['uuid'];
@@ -82,6 +85,7 @@ const DirectorForm = () => {
                             setDirectorFormError(res.data.errors);
                             break;
                     }
+                    setLoadingShow(false);
                 });
         }
     }

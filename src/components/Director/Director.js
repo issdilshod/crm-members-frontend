@@ -6,6 +6,7 @@ import DirectorForm from './DirectorForm/DirectorForm';
 import Menu from '../Header/Menu';
 import styles from './Director.module.scss';
 import Api from '../../services/Api';
+import Loading from '../Helper/Loading';
 
 const Director = () => {
     const api = new Api();
@@ -66,6 +67,8 @@ const Director = () => {
     // card save/discard
     const [cardStatusOpen, setCardStatusOpen] = useState(false);
 
+    const [loadingShow, setLoadingShow] = useState(true);
+
     return (  
         <Mediator.Provider value={ { 
                                 api, navigate, styles,
@@ -74,7 +77,8 @@ const Director = () => {
                                     directorForm, setDirectorForm, directorFormError, setDirectorFormError, directorFormEntity, setDirectorFormEntity,
                                 dlAddressOpen, setDlAddressOpen, creditHomeAddressOpen,
                                     setCreditHomeAddressOpen, dlUploadOpen, setDlUploadOpen, ssnUploadOpen, setSsnUploadOpen, cpnDocsUploadOpen, setCpnDocsUploadOpen,
-                                cardStatusOpen, setCardStatusOpen
+                                cardStatusOpen, setCardStatusOpen,
+                                setLoadingShow
                             } } >
             
             <DirectorList />
@@ -82,6 +86,8 @@ const Director = () => {
             <Menu menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
 
             <DirectorForm />
+
+            { loadingShow && <Loading /> }
         </Mediator.Provider>
     );
 }

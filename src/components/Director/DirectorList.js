@@ -7,7 +7,8 @@ const DirectorList = () => {
             api, navigate, styles, 
             menuOpen, setMenuOpen,
             directorForm, setDirectorForm, directorFormOpen, setDirectorFormOpen, directorEdit, setDirectorEdit, directorList, setDirectorList,
-            directorFormEntity, directorFormError, setDirectorFormError
+            directorFormEntity, directorFormError, setDirectorFormError,
+            setLoadingShow
         } = useContext(Mediator);
 
     useEffect(() => {
@@ -19,6 +20,7 @@ const DirectorList = () => {
                                     setDirectorList(res.data.data);
                                     break;
                             }
+                            setLoadingShow(false);
                             // TODO: Do pagination function
                         });
     }, []);
