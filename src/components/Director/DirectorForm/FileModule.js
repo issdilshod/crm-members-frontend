@@ -103,7 +103,11 @@ const FileModule = ({hasDouble, head_name, head_block_name, parent_name, handleC
                         return (
                             <div key={ index } className={`${styles['files-info']} mt-2`}>
                                 <div className={`${styles['file-info']} mt-1 d-flex`}>
-                                    <div className={`${styles['file-name']} mr-auto`}>{ value['file_name'] }</div>
+                                    <div className={`${styles['file-name']} mr-auto`}>
+                                        <a href={`${process.env.REACT_APP_BACKEND_DOMAIN}/uploads/${value['file_path']}`} target='_blank'>
+                                            { value['file_name'] }
+                                        </a>
+                                    </div>
                                     <div className={`${styles['remove-file']} text-center`} 
                                             onClick={ () => { handleLocalDelete(value['uuid']) } }
                                     >
