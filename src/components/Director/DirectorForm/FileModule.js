@@ -61,8 +61,6 @@ const FileModule = ({hasDouble, head_name, head_block_name, parent_name, handleC
         console.log(directorForm);
     }
 
-    useEffect(() => { console.log(directorForm); }, [directorForm])
-
     return (  
         <div className={`col-12 form-group`}>
             {

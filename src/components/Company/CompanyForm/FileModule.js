@@ -6,12 +6,14 @@ import styles from '../Company.module.scss';
 
 const FileModule = ({parent_name, handleChange, uploadedFiles}) => {
     const [choosedFiles, setChoosedFiles] = useState([]);
+    const [uploadedFilesShow, setUploadedFilesShow] = useState([]);
     const choosedFilesRef = useRef(null);
 
-    const { companyFormOpen, setCompanyFormOpen } = useContext(Mediator);
+    const { companyForm, setCompanyForm, companyFormOpen, setCompanyFormOpen } = useContext(Mediator);
     
     useEffect(() => {
         setChoosedFiles([]);
+        setUploadedFilesShow(uploadedFiles);
     }, [companyFormOpen]);
 
     const handleLocalChange = (e) => {
@@ -37,6 +39,25 @@ const FileModule = ({parent_name, handleChange, uploadedFiles}) => {
         let formatted_object = {target: choosedFilesRef.current};
         formatted_object.target['files'] = choosedFilesRef.current.files;
         handleChange(formatted_object, true);
+    }
+
+    const handleLocalDelete = (uuid) => {
+        // remove from form
+        let tmp_arr = uploadedFilesShow;
+        const index = tmp_arr.findIndex(e => e.uuid === uuid);
+        if (index > -1){
+            tmp_arr.splice(index, 1);
+        }
+        setUploadedFilesShow([...tmp_arr]);
+
+        // set deleted
+        tmp_arr = companyForm;
+        if ('files_to_delete[]' in tmp_arr){
+            tmp_arr['files_to_delete[]'].push(uuid);
+        }else{
+            tmp_arr['files_to_delete[]'] = [uuid];
+        }
+        setCompanyForm(tmp_arr);
     }
 
     return (  
@@ -74,12 +95,14 @@ const FileModule = ({parent_name, handleChange, uploadedFiles}) => {
 
             <div>
                 {
-                    uploadedFiles.map((value, index) => {
+                    uploadedFilesShow.map((value, index) => {
                         return (
                             <div key={ index } className={`${styles['files-info']} mt-2`}>
                                 <div className={`${styles['file-info']} mt-1 d-flex`}>
                                     <div className={`${styles['file-name']} mr-auto`}>{ value['file_name'] }</div>
-                                    <div className={`${styles['remove-file']} text-center`}>
+                                    <div className={`${styles['remove-file']} text-center`} 
+                                            onClick={ () => { handleLocalDelete(value['uuid']) } }
+                                    >
                                         <span>
                                             <FaTrash />
                                         </span>
