@@ -58,7 +58,6 @@ const FileModule = ({hasDouble, head_name, head_block_name, parent_name, handleC
             tmp_arr['files_to_delete[]'] = [uuid];
         }
         setDirectorForm(tmp_arr);
-        console.log(directorForm);
     }
 
     return (  
