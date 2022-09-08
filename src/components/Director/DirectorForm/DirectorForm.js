@@ -11,6 +11,8 @@ import { FaTimes } from 'react-icons/fa';
 import Alert from '../../Helper/Alert';
 
 const DirectorForm = () => {
+    const [formChanged, setFormChanged] = useState(false);
+
     const { 
             api, styles,
             directorFormOpen, setDirectorFormOpen, directorEdit, setDirectorEdit, directorList, setDirectorList, directorForm, setDirectorForm,
@@ -20,12 +22,17 @@ const DirectorForm = () => {
             cardStatusOpen, setCardStatusOpen
     } = useContext(Mediator);
 
+    useEffect(() => {
+        setDirectorFormError({});
+    }, [directorFormOpen])
+
     const handleChange = (e, file = false) => {
         let { value, name } = e.target;
         // get files
         if (file){ value = e.target.files; }
 
         setDirectorForm({ ...directorForm, [name]: value });
+        setFormChanged(true);
     }
 
     const handleSubmit = async (e, trigger = false) => {
@@ -40,6 +47,7 @@ const DirectorForm = () => {
                         case 201:
                             setDirectorList([ ...directorList, res.data.data ]);
                             setDirectorFormOpen(false);
+                            setFormChanged(false);
                             break;
                         case 409: // Conflict
                             setDirectorFormError(res.data.data);
@@ -65,6 +73,7 @@ const DirectorForm = () => {
                             }
                             setDirectorList(tmp_directorList);
                             setDirectorFormOpen(false);
+                            setFormChanged(false);
                             break;
                         case 409: // Conflict
                             setDirectorFormError(res.data.data);
@@ -75,11 +84,14 @@ const DirectorForm = () => {
                     }
                 });
         }
-        
     }
 
     const handleClose = (e) => {
-        setCardStatusOpen(true);
+        if (formChanged){
+            setCardStatusOpen(true);
+        }else{
+            setDirectorFormOpen(false);
+        }
     }
 
     return (  
@@ -253,6 +265,7 @@ const DirectorForm = () => {
                 setCardStatusOpen={setCardStatusOpen}
                 handleSubmit={ handleSubmit }
                 setFormOpen = { setDirectorFormOpen }
+                setFormChanged = {setFormChanged}
             />
         </div>
     );

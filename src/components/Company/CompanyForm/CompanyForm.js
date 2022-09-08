@@ -14,6 +14,8 @@ import { FaTimes } from 'react-icons/fa';
 import '../../../assets/css/App.css';
 
 const CompanyForm = () => {
+    const [formChanged, setFormChanged] = useState(false);
+
     const { 
             api, styles,
             companyFormOpen, setCompanyFormOpen, companyEdit, setCompanyEdit, companyList, setCompanyList, companyForm, setCompanyForm,
@@ -64,12 +66,17 @@ const CompanyForm = () => {
                 });
     }, []);
 
+    useEffect(() => {
+        setCompanyFormError({});
+    }, [companyFormOpen])
+
     const handleChange = (e, file = false) => {
         let { value, name } = e.target;
         // get files
         if (file){ value = e.target.files; }
 
         setCompanyForm({ ...companyForm, [name]: value });
+        setFormChanged(true);
     }
 
     const handleSubmit = async (e, trigger = false) => {
@@ -84,6 +91,7 @@ const CompanyForm = () => {
                         case 201:
                             setCompanyList([ ...companyList, res.data.data ]);
                             setCompanyFormOpen(false);
+                            setFormChanged(false);
                             break;
                         case 409: // Conflict
                             setCompanyFormError(res.data.data);
@@ -109,6 +117,7 @@ const CompanyForm = () => {
                             }
                             setCompanyList(tmp_companyList);
                             setCompanyFormOpen(false);
+                            setFormChanged(false);
                             break;
                         case 409: // Conflict
                             setCompanyFormError(res.data.data);
@@ -123,7 +132,11 @@ const CompanyForm = () => {
     }
 
     const handleClose = (e) => {
-        setCardStatusOpen(true);
+        if (formChanged){
+            setCardStatusOpen(true);
+        }else{
+            setCompanyFormOpen(false);
+        }
     }
 
     return (  
@@ -441,6 +454,7 @@ const CompanyForm = () => {
                 setCardStatusOpen={setCardStatusOpen}
                 handleSubmit={ handleSubmit }
                 setFormOpen = {setCompanyFormOpen}
+                setFormChanged = {setFormChanged}
             />
         </div>
     );

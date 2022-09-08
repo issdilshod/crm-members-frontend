@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-const Alert = ({ msg = '', cardStatusOpen, setCardStatusOpen, handleSubmit, setFormOpen }) => {
+const Alert = ({ msg = '', cardStatusOpen, setCardStatusOpen, handleSubmit, setFormOpen, setFormChanged }) => {
 
     return ( 
         <div className={`alert-black-wall ${ cardStatusOpen ? 'alert-show':'' }`}> 
@@ -13,7 +13,7 @@ const Alert = ({ msg = '', cardStatusOpen, setCardStatusOpen, handleSubmit, setF
                         onClick={ () => { setCardStatusOpen(false); handleSubmit('', true) } }                
                     >Save</div>
                     <div className='d-btn d-btn-danger'
-                        onClick={ () => { setCardStatusOpen(false); setFormOpen(false) } }
+                        onClick={ () => { setCardStatusOpen(false); setFormOpen(false); setFormChanged(false); } }
                     >Discard</div>
                 </div>
             </div>
