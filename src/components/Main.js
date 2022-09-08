@@ -7,6 +7,7 @@ import Dashboard from './Dashboard/Dashboard';
 import Director from './Director/Director';
 import Company from './Company/Company';
 import Department from './Department/Department';
+import E404 from './Error/404';
 
 const Main = () => {
     const api = new Api();
@@ -15,24 +16,24 @@ const Main = () => {
     const [isAuth, setIsAuth] = useState(false);
 
     useEffect(() => {
-        api.request('/api/is_auth', 'GET')
+        /*api.request('/api/is_auth', 'GET')
             .then(res => { 
                 (res.status==200?setIsAuth(true):setIsAuth(false)) 
-            });
-
+            });*/
     }, [])
 
     // Routing
     useEffect(() => {
-        if (isAuth && location.pathname==`${process.env.REACT_APP_FRONTEND_PREFIX}/login`){
+        /*if (isAuth && location.pathname==`${process.env.REACT_APP_FRONTEND_PREFIX}/login`){
             navigate(`${process.env.REACT_APP_FRONTEND_PREFIX}/dashboard`);
         }else if(!isAuth && location.pathname!=`${process.env.REACT_APP_FRONTEND_PREFIX}/login`){
             navigate(`${process.env.REACT_APP_FRONTEND_PREFIX}/login`);
-        }
+        }*/
     }, [isAuth]);
 
     return (
         <Routes>
+            <Route path="/p/frontend/" element={<Login />} />
             <Route path="/p/frontend/login" element={<Login />} />
             <Route path="/p/frontend/dashboard" element={<Dashboard />} />
             <Route path="/p/frontend/directors" element={<Director />} />
@@ -44,6 +45,7 @@ const Main = () => {
             <Route path="/p/frontend/chat" element={<Dashboard />} />
             <Route path="/p/frontend/activity" element={<Dashboard />} />
             <Route path="/p/frontend/calendar" element={<Dashboard />} />
+            <Route path="*" element={<E404 />} />
         </Routes>  
     );
 }
