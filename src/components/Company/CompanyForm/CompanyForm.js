@@ -22,7 +22,8 @@ const CompanyForm = () => {
                 companyFormError, setCompanyFormError,
             companyAddressOpen, setCompanyAddressOpen, incorporationStateUploadOpen,
                 setIncorporationStateUploadOpen, doingBusinessInStateUploadOpen, setDoingBusinessInStateUploadOpen, companyEinUploadOpen, setCompanyEinUploadOpen, dbReportUpload, setDbReportUpload, companyDbReportUploadOpen, setCompanyDbReportUploadOpen, companyBankAccountOpen, setCompanyBankAccountOpen,
-            cardStatusOpen, setCardStatusOpen, cardSaveDiscard, setCardSaveDiscard
+            cardStatusOpen, setCardStatusOpen, cardSaveDiscard, setCardSaveDiscard,
+            setLoadingShow
     } = useContext(Mediator);
 
     const [sicCodeList, setSicCodeList] = useState([]);
@@ -83,6 +84,7 @@ const CompanyForm = () => {
         if (!trigger){
             e.preventDefault();
         }
+        setLoadingShow(true);
         if (!companyEdit){
             api.request('/api/company', 'POST', companyForm, true)
                 .then(res => {
@@ -100,6 +102,7 @@ const CompanyForm = () => {
                             setCompanyFormError(res.data.errors);
                             break;
                     }
+                    setLoadingShow(false);
                 });
         }else{
             let uuid = companyForm['uuid'];
@@ -126,6 +129,7 @@ const CompanyForm = () => {
                             setCompanyFormError(res.data.errors);
                             break;
                     }
+                    setLoadingShow(false);
                 });
         }
         

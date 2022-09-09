@@ -6,6 +6,7 @@ import CompanyForm from './CompanyForm/CompanyForm';
 import Menu from '../Header/Menu';
 import styles from './Company.module.scss';
 import Api from '../../services/Api';
+import Loading from '../Helper/Loading';
 
 const Company = () => {
     const api = new Api();
@@ -73,6 +74,8 @@ const Company = () => {
     // card save/discard
     const [cardStatusOpen, setCardStatusOpen] = useState(false);
 
+    const [loadingShow, setLoadingShow] = useState(true);
+
     return (  
         <Mediator.Provider value={ { 
                                 api, navigate, styles,
@@ -82,7 +85,8 @@ const Company = () => {
                                 companyBankAccountOpen, setCompanyBankAccountOpen,
                                 companyAddressOpen, setCompanyAddressOpen, incorporationStateUploadOpen,
                                     setIncorporationStateUploadOpen, doingBusinessInStateUploadOpen, setDoingBusinessInStateUploadOpen, companyEinUploadOpen, setCompanyEinUploadOpen, companyDbReportUploadOpen, setCompanyDbReportUploadOpen,
-                                cardStatusOpen, setCardStatusOpen
+                                cardStatusOpen, setCardStatusOpen,
+                                setLoadingShow
                             } } >
             
             <CompanyList />
@@ -90,6 +94,8 @@ const Company = () => {
             <Menu menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
 
             <CompanyForm />
+
+            { loadingShow && <Loading /> }
         </Mediator.Provider>
     );
 }

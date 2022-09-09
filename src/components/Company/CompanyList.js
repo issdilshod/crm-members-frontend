@@ -7,7 +7,8 @@ const CompanyList = () => {
             api, navigate, styles, 
             menuOpen, setMenuOpen,
             companyForm, setCompanyForm, companyFormOpen, setCompanyFormOpen, companyEdit, setCompanyEdit, companyList, setCompanyList,
-            companyFormEntity, companyFormError, setCompanyFormError
+            companyFormEntity, companyFormError, setCompanyFormError,
+            setLoadingShow
         } = useContext(Mediator);
 
     useEffect(() => {
@@ -19,6 +20,7 @@ const CompanyList = () => {
                                     setCompanyList(res.data.data);
                                     break;
                             }
+                            setLoadingShow(false);
                             // TODO: Do pagination function
                         });
     }, []);
