@@ -7,6 +7,7 @@ import Header from '../Header/Header';
 import styles from './Department.module.scss';
 import DepartmentForm from './DepartmentForm/DepartmentForm';
 import UserForm from './DepartmentForm/UserForm';
+import Loading from '../Helper/Loading';
 
 const Department = () => {
     const navigate = useNavigate();
@@ -37,6 +38,8 @@ const Department = () => {
     const [userFormOpen, setUserFormOpen] = useState(false);
     const [userEdit, setUserEdit] = useState(false);
 
+    const [loadingShow, setLoadingShow] = useState(true);
+
     useEffect(() => {
         api.request('/api/department', 'GET')
                 .then(res => {
@@ -44,6 +47,7 @@ const Department = () => {
                         case 200:
                         case 201:
                             setDepartmentList(res.data.data);
+                            setLoadingShow(false);
                             break;
                     }
                 });
@@ -79,7 +83,8 @@ const Department = () => {
             api, navigate, styles,
             departmentList, setDepartmentList, departmentForm, setDepartmentForm, departmentFormOpen, setDepartmentFormOpen,
             userFormEntity, userForm, userFormError, setUserFormError, setUserForm, userFormOpen, setUserFormOpen,
-            userEdit, setUserEdit
+            userEdit, setUserEdit,
+            setLoadingShow
         } }>
             <div className={styles['main-content']}>
                 <Header />
@@ -101,6 +106,8 @@ const Department = () => {
             </div>
             <DepartmentForm />
             <UserForm />
+
+            { loadingShow && <Loading /> }
         </Mediator.Provider>
     );
 }
