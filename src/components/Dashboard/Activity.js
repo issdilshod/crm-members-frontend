@@ -1,12 +1,27 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect, useContext } from 'react';
+import { Mediator } from '../../context/Mediator';
+import DateFormatter from '../../services/DateFormatter';
 
 import styles from './Activity.module.scss';
 import { FaClock } from 'react-icons/fa';
 
 const Activity = () => {
-    const navigate = useNavigate();
-    // TODO: Get activity from back and set to state then show 
+
+    const { api } = useContext(Mediator);
+
+    const [activityList, setActivityList] = useState([]);
+
+    useEffect(() => {
+        api.request('/api/activity', 'GET')
+            .then(res => {
+                switch(res.status){
+                    case 200:
+                    case 201:
+                        setActivityList(res.data.data);
+                        break;
+                }
+            });
+    }, [])
 
     return (
         <div className={styles['activity-card']}>
@@ -14,15 +29,21 @@ const Activity = () => {
             <div className={styles['activity-card-body']}>
                 <div className={styles['activity-block']}>
 
-                    <div className={`${styles['activity']} mb-3`}>
-                        <span className={styles['activity-status']}>
-                            <FaClock />
-                        </span>
-                        <div className={`${styles['activity-user']}`}>Admin</div>
-                        <div className={`${styles['activity-description']}`}>Logged in</div>
-                        <div className={`${styles['activity-date']}`}>15 aug 2022 on 14:43</div>
-                    </div>
-
+                    {
+                        activityList.map((value, index) => {
+                            return (
+                                <div key={index} className={`${styles['activity']} mb-3`}>
+                                    <span className={styles['activity-status']}>
+                                        <FaClock />
+                                    </span>
+                                    <div className={`${styles['activity-user']}`}>{value['user']['first_name']} {value['user']['last_name']}</div>
+                                    <div className={`${styles['activity-description']}`}>{value['description']}</div>
+                                    <div className={`${styles['activity-date']}`}>{ DateFormatter.beautifulDate(value['updated_at']) }</div>
+                                </div>
+                            )
+                        })
+                    }
+                    
                 </div>
             </div>
         </div>
