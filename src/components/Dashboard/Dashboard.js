@@ -34,7 +34,7 @@ const Dashboard = () => {
         >
             <div className={styles['main-content']}>
                 <Header />
-                <div className={`${styles['dashboard-block']} container-fluid`}>
+                <div className={`${styles['dashboard-block']} container-fluid mb-4`}>
                     <div className='row'>
                         <div className='col-12 col-sm-8'>
                             <TaskListDashboard />
