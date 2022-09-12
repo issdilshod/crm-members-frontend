@@ -9,6 +9,8 @@ import Department from './Department/Department';
 import E404 from './Error/404';
 import Protected from '../routes/Protected';
 import NonProtected from '../routes/NonProtected';
+import Register from './Login/Register';
+
 import Pusher from 'pusher-js';
 
 const Main = () => {
@@ -30,6 +32,7 @@ const Main = () => {
         <Routes>
             <Route element={<NonProtected />}>
                 <Route path="/p/frontend/login" element={<Login />} />
+                <Route exact path="/p/frontend/register/:entry_token" element={<Register />} />
             </Route>     
             <Route element={<Protected />}>
                 <Route path="/p/frontend/" element={<Dashboard />} />
