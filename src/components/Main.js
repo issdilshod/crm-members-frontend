@@ -9,8 +9,23 @@ import Department from './Department/Department';
 import E404 from './Error/404';
 import Protected from '../routes/Protected';
 import NonProtected from '../routes/NonProtected';
+import Pusher from 'pusher-js';
 
 const Main = () => {
+
+    useEffect(() => {
+        // notification
+        let pusher = new Pusher(process.env.REACT_APP_PUSHER_KEY, {
+            cluster: 'eu',
+            forceTLS: true
+        })
+    
+        let channel_notification = pusher.subscribe('notification');
+        channel_notification.bind('notification-push', function(data) {
+            console.log(data);
+        })
+    }, []);
+
     return (
         <Routes>
             <Route element={<NonProtected />}>

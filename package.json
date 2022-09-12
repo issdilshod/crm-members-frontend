@@ -43,6 +43,8 @@
     ]
   },
   "devDependencies": {
+    "laravel-echo": "^1.14.0",
+    "pusher-js": "^7.4.0",
     "sass": "^1.54.4"
   }
 }
