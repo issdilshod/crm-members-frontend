@@ -70,9 +70,9 @@ const InviteUserForm = () => {
                 <div className='row mb-4'>
                     <div className='col-12'>
                         <div className='form-group'>
-                            <label>Identify</label>
+                            <label>Identity</label>
                             <input className='form-control' 
-                                    placeholder='Identify'
+                                    placeholder='Identity'
                                     value={inviteForm['unique_identify']}
                                     onChange={ (e) => { setInviteForm({'unique_identify': e.target.value}) } }
                             />
