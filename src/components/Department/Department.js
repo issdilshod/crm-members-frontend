@@ -8,8 +8,9 @@ import styles from './Department.module.scss';
 import DepartmentForm from './DepartmentForm/DepartmentForm';
 import UserForm from './DepartmentForm/UserForm';
 import Loading from '../Helper/Loading';
-import { FaEnvelope, FaTelegram } from 'react-icons/fa';
+import { FaEnvelope, FaShareAlt, FaTelegram } from 'react-icons/fa';
 import Validation from '../Helper/Validation';
+import InviteUserForm from './DepartmentForm/InviteUserForm';
 
 const Department = () => {
     const navigate = useNavigate();
@@ -40,8 +41,9 @@ const Department = () => {
     const [userFormOpen, setUserFormOpen] = useState(false);
     const [userEdit, setUserEdit] = useState(false);
 
-    const [inviteForm, setInviteForm] = useState({'unique_identify': ''});
-    const [inviteFormError, setInviteFormError] = useState({});
+    const [pendingUsers, setPendingUsers] = useState([]);
+    const [inviteUserFormOpen, setInviteUserFormOpen] = useState(false);
+    const [activeUser, setActiveUser] = useState(false);
 
     const [loadingShow, setLoadingShow] = useState(true);
 
@@ -67,8 +69,26 @@ const Department = () => {
                 })
     }, []);
 
-    const handleClick = (uuid) => {
+    const handleInviteUserClick = () => {
         setDepartmentFormOpen(false);
+        setUserFormOpen(false);
+        api.request('/api/pending-users', 'GET')
+            .then(res => {
+                switch(res.status){
+                    case 200:
+                    case 201:
+                        setInviteUserFormOpen(true);
+                        setPendingUsers(res.data.data);
+                        break;
+                    default:
+                        break;
+                }
+            });
+    }
+
+    const handleClick = (uuid) => {
+        setInviteUserFormOpen(false);
+        setUserFormOpen(false);
         api.request('/api/department/'+uuid, 'GET')
                 .then(res => {
                     switch(res.status){
@@ -76,28 +96,9 @@ const Department = () => {
                         case 201:
                             setDepartmentForm(res.data.data);
                             setDepartmentFormOpen(true);
-                            setUserFormOpen(false);
-                            setUserForm(userFormEntity);
                             break;
                     }
                 });
-    }
-
-    const handleInvite = (via) => {
-        setInviteFormError({});
-        api.request('/api/invite-via-'+via, 'POST', inviteForm)
-            .then(res => {
-                switch(res.status){
-                    case 200:
-                    case 201:
-                        // TODO: Show some success message
-                        break;
-                    default:
-                        console.log('error');
-                        break;
-                }
-                
-            });
     }
 
     return (
@@ -106,35 +107,19 @@ const Department = () => {
             departmentList, setDepartmentList, departmentForm, setDepartmentForm, departmentFormOpen, setDepartmentFormOpen,
             userFormEntity, userForm, userFormError, setUserFormError, setUserForm, userFormOpen, setUserFormOpen,
             userEdit, setUserEdit,
-            setLoadingShow
+            setLoadingShow,
+
+            inviteUserFormOpen, setInviteUserFormOpen, activeUser, setActiveUser, pendingUsers, setPendingUsers
         } }>
             <div className={styles['main-content']}>
                 <Header />
                 <div className={`${styles['department-block']} container`}>
                     <div className='row mb-4'>
                         <div className='col-12'>
-                            <div className='form-group'>
-                                <label>Identify</label>
-                                <input className='form-control' 
-                                        placeholder='Identify'
-                                        value={inviteForm['unique_identify']}
-                                        onChange={ (e) => { setInviteForm({'unique_identify': e.target.value}) } }
-                                />
-                                <Validation field_name='unique_identify' errorObject={inviteFormError} />
-                            </div>
-                        </div>
-                        <div className='col-12 col-sm-6'>
-                            <div className='d-btn d-btn-primary text-center'
-                                    onClick={() => { handleInvite('email') } }
+                            <div className={`${styles['department-item']}`}
+                                    onClick={ () => { handleInviteUserClick() } }
                             >
-                                <FaEnvelope /> Invite via Email
-                            </div>
-                        </div>
-                        <div className='col-12 col-sm-6'>
-                            <div className={`d-btn d-btn-primary text-center ${styles['button-telegram-color']}`}
-                                onClick={() => { handleInvite('telegram') } }
-                            >
-                                <FaTelegram /> Invite via Telegram
+                                <FaShareAlt /> Invite User
                             </div>
                         </div>
                     </div>
@@ -155,6 +140,8 @@ const Department = () => {
             </div>
             <DepartmentForm />
             <UserForm />
+
+            <InviteUserForm />
 
             { loadingShow && <Loading /> }
         </Mediator.Provider>

@@ -19,10 +19,6 @@
             font-size: 1.1em;
             font-weight: 700;
         }
-
-        .button-telegram-color{
-            background-color: #0088cc;
-        }
     }
 }
 
@@ -63,6 +59,10 @@
     .department-form-card-body{
         padding: 20px;
         padding-bottom: 0px;
+
+        .button-telegram-color{
+            background-color: #0088cc;
+        }
 
         .department-form-block{
 

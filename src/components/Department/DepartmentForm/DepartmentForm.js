@@ -9,7 +9,8 @@ const DepartmentForm = () => {
         api, styles,
         departmentList, departmentForm, setDepartmentForm, departmentFormOpen, setDepartmentFormOpen,
         userFormEntity, userForm, setUserForm, setUserFormError, userFormOpen, setUserFormOpen,
-        userEdit, setUserEdit
+        userEdit, setUserEdit,
+        setActiveUser
     } = useContext(Mediator);
 
     const handleUserClick = (uuid) => { // User edit
@@ -22,6 +23,7 @@ const DepartmentForm = () => {
                         setUserForm(res.data.data);
                         setUserFormOpen(true);
                         setDepartmentFormOpen(false);
+                        setActiveUser(false);
                         break;
                 }
             });

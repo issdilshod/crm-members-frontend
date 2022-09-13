@@ -69,7 +69,7 @@ const UserForm = () => {
                     switch (res.status){
                         case 200: // Success
                         case 201:
-                            api.request('/api/department/'+departmentForm['uuid'], 'GET')
+                            api.request('/api/department/'+res.data.data.department_uuid, 'GET')
                                 .then(res => {
                                     switch(res.status){
                                         case 200:
@@ -210,6 +210,7 @@ const UserForm = () => {
                                     onChange={ (e) => { handleLocalChange(e) } }
                                     value={ userForm['department_uuid'] }
                             >
+                                <option value={null}>-</option>
                                 {
                                     departmentList.map((value, index) => {
                                         return (
