@@ -85,21 +85,19 @@ const Department = () => {
 
     const handleInvite = (via) => {
         setInviteFormError({});
-        if (via=='email'){
-            api.request('/api/invite-via-email', 'POST', inviteForm)
-                .then(res => {
-                    switch(res.status){
-                        case 200:
-                        case 201:
-                            // TODO: Show some success message
-                            break;
-                        case 422:
-                            setInviteFormError(res.data.errors);
-                            break;
-                    }
-                    
-                });
-        }
+        api.request('/api/invite-via-'+via, 'POST', inviteForm)
+            .then(res => {
+                switch(res.status){
+                    case 200:
+                    case 201:
+                        // TODO: Show some success message
+                        break;
+                    case 422:
+                        setInviteFormError(res.data.errors);
+                        break;
+                }
+                
+            });
     }
 
     return (
@@ -133,7 +131,9 @@ const Department = () => {
                             </div>
                         </div>
                         <div className='col-12 col-sm-6'>
-                            <div className={`d-btn d-btn-primary text-center ${styles['button-telegram-color']}`}>
+                            <div className={`d-btn d-btn-primary text-center ${styles['button-telegram-color']}`}
+                                onClick={() => { handleInvite('telegram') } }
+                            >
                                 <FaTelegram /> Invite via Telegram
                             </div>
                         </div>
