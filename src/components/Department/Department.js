@@ -92,8 +92,8 @@ const Department = () => {
                     case 201:
                         // TODO: Show some success message
                         break;
-                    case 422:
-                        setInviteFormError(res.data.errors);
+                    default:
+                        console.log('error');
                         break;
                 }
                 
@@ -114,9 +114,9 @@ const Department = () => {
                     <div className='row mb-4'>
                         <div className='col-12'>
                             <div className='form-group'>
-                                <label>Email</label>
+                                <label>Identify</label>
                                 <input className='form-control' 
-                                        placeholder='Email'
+                                        placeholder='Identify'
                                         value={inviteForm['unique_identify']}
                                         onChange={ (e) => { setInviteForm({'unique_identify': e.target.value}) } }
                                 />
