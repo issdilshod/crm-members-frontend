@@ -4,6 +4,7 @@ import { Mediator } from '../../context/Mediator';
 import styles from './Header.module.scss';
 import { FaSignOutAlt, FaRegStickyNote, FaBars } from 'react-icons/fa';
 import Menu from './Menu';
+import Note from '../Note/Note';
 
 const Header = (props) => {
     const {
@@ -11,6 +12,7 @@ const Header = (props) => {
     } = useContext(Mediator)
 
     const [menuOpen, setMenuOpen] = useState(false);
+    const [noteOpen, setNoteOpen] = useState(false);
 
     async function handleSignOut(e){
         e.preventDefault();
@@ -33,7 +35,7 @@ const Header = (props) => {
                     <div className={`${styles['header-sign-out']} ml-2`} onClick={handleSignOut}>
                         <FaSignOutAlt />
                     </div>
-                    <div className={`${styles['header-note']} ml-2`}>
+                    <div className={`${styles['header-note']} ml-2`} onClick={ () => { setNoteOpen(!noteOpen) }}>
                         <FaRegStickyNote />
                     </div>
                     <div className={`${styles['header-menu']} ml-2`} onClick={() => { setMenuOpen(!menuOpen) }}>
@@ -42,6 +44,7 @@ const Header = (props) => {
                 </div>
             </div>
             <Menu menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
+            <Note noteOpen={noteOpen} setNoteOpen={setNoteOpen} />
         </div>
     );
 }
