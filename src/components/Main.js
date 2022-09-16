@@ -12,20 +12,42 @@ import NonProtected from '../routes/NonProtected';
 import Register from './Login/Register';
 
 import Pusher from 'pusher-js';
+import Api from '../services/Api';
 
 const Main = () => {
 
-    useEffect(() => {
-        // notification
-        let pusher = new Pusher(process.env.REACT_APP_PUSHER_KEY, {
-            cluster: 'eu',
-            forceTLS: true
-        })
-    
-        let channel_notification = pusher.subscribe('notification');
-        channel_notification.bind('notification-push', function(data) {
-            console.log(data);
-        })
+    const navigate = useNavigate();
+    const api = new Api();
+
+    useEffect(() => { // check auth
+        api.request('/api/is_auth', 'GET')
+            .then(res => {
+                if (res.status!=200){
+                    localStorage.removeItem('auth');
+                    navigate(process.env.REACT_APP_FRONTEND_PREFIX + '/login');
+                }else{ // websocket
+                    api.request('/api/get_me', 'GET')
+                        .then(res => {
+                            switch(res.status){
+                                case 200:
+                                case 201:
+                                    let pusher = new Pusher(process.env.REACT_APP_PUSHER_KEY, {
+                                        cluster: 'eu',
+                                        forceTLS: true
+                                    })
+                                
+                                    let channel_notification = pusher.subscribe('notification' + res.data.data.uuid);
+                                    channel_notification.bind('notification-push', function(data) {
+                                        console.log(data);
+                                    })
+                                    break;
+                                default:
+                                    break;
+                            }
+                            
+                        });
+                }
+            });
     }, []);
 
     return (
