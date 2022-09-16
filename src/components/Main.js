@@ -24,7 +24,6 @@ const Main = () => {
             .then(res => {
                 if (res.status!=200){
                     localStorage.removeItem('auth');
-                    navigate(process.env.REACT_APP_FRONTEND_PREFIX + '/login');
                 }else{ // websocket
                     api.request('/api/get_me', 'GET')
                         .then(res => {
