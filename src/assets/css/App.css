@@ -146,3 +146,67 @@ a:hover{
         clip-path: inset(0 -.8ch 0 0)
     }
 }
+
+/* D-Pagination */
+.d-pagination{
+
+}
+
+.d-pagination-item-arrows{
+    padding: 10px;
+    background-color: #e4eef5;
+    border-radius: 50%;
+    width: 44px;
+    text-align: center;
+    cursor: pointer;
+    transition: .4s;
+}
+
+.d-pagination-item-arrows:hover{
+    background-color: #607cab;
+    color: #fff;
+}
+
+.d-pagination-item-arrows:active{
+    box-shadow: 0 0rem 0.625rem 0px rgb(0 0 0 / 12%) !important;
+}
+
+.d-pagination-item-arrows span{
+    position: relative;
+    top: -2px;
+}
+
+.d-pagination-numbers{
+    background-color: #e4eef5;
+    border-radius: 20px;
+    padding: 0px 20px;
+}
+
+.d-pagination-item{
+    padding: 10px;
+    width: 44px;
+    text-align: center;
+    font-weight: 500;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: .4s;
+}
+
+.d-pagination-item:hover{
+    color: #607cab;
+}
+
+.d-pagination-item-active{
+    background-color: #607cab;
+    color: #fff;
+    box-shadow: 0 0rem 0.625rem 0px rgb(0 0 0 / 12%) !important;
+}
+
+.d-pagination-item-active:hover{
+    color: #fff;
+}
+
+.d-disable{
+    pointer-events: none;
+    opacity: 0.5;
+}

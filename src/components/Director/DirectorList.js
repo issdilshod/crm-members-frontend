@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Mediator } from '../../context/Mediator';
 import { FaArrowLeft, FaBars, FaFileAlt, FaMapMarkerAlt, FaPlus, FaUser } from 'react-icons/fa';
+import Pagination from '../Helper/Pagination';
 
 const DirectorList = () => {
     const { 
@@ -66,11 +67,19 @@ const DirectorList = () => {
                 });  
     }
 
-    async function handleAddClick(e){
+    const handleAddClick = (e) => {
         setDirectorFormOpen(true);
         setDirectorEdit(false);
         setDirectorForm(directorFormEntity);
     }
+
+    const handlePaginatioClick = (number) => {
+        setCurrentPage(number);
+    }
+
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPage, setTotalPage] = useState(10);
+    const [rangeShow, setRangeShow] = useState(5);
 
     return (  
         <div className={`${styles['main-content']} container-fluid`}>
@@ -122,6 +131,11 @@ const DirectorList = () => {
                     </div>
                 </div>
             </div>
+            <Pagination handlePaginatioClick={ handlePaginatioClick } 
+                        currentPage={currentPage}
+                        totalPage={totalPage}
+                        rangeShow={rangeShow}
+            />
         </div>
     );
 }
