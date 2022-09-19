@@ -14,16 +14,16 @@ const DirectorList = () => {
 
     useEffect(() => {
         api.request('/api/director', 'GET')
-                        .then(res => {
-                            switch (res.status){
-                                case 200:
-                                case 201:
-                                    setDirectorList(res.data.data);
-                                    break;
-                            }
-                            setLoadingShow(false);
-                            // TODO: Do pagination function
-                        });
+            .then(res => {
+                switch (res.status){
+                    case 200:
+                    case 201:
+                        setDirectorList(res.data.data);
+                        break;
+                }
+                setLoadingShow(false);
+                setTotalPage(res.data.meta['last_page']);
+            });
     }, []);
 
     async function handleCardClick(uuid){
@@ -75,11 +75,17 @@ const DirectorList = () => {
 
     const handlePaginatioClick = (number) => {
         setCurrentPage(number);
+        setLoadingShow(true);
+        api.request('/api/director?page='+number, 'GET')
+            .then(res => {
+                setDirectorList(res.data.data);
+                setLoadingShow(false);
+            });
     }
 
     const [currentPage, setCurrentPage] = useState(1);
-    const [totalPage, setTotalPage] = useState(10);
-    const [rangeShow, setRangeShow] = useState(5);
+    const [totalPage, setTotalPage] = useState(1);
+    const [rangeShow, setRangeShow] = useState(9);
 
     return (  
         <div className={`${styles['main-content']} container-fluid`}>
