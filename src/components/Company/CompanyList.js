@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Mediator } from '../../context/Mediator';
 import { FaArrowLeft, FaBars, FaBuilding, FaFileAlt, FaMapMarkerAlt, FaPlus } from 'react-icons/fa';
+import Search from '../Helper/Search';
+import Pagination from '../Helper/Pagination';
 
 const CompanyList = () => {
     const { 
@@ -12,18 +14,22 @@ const CompanyList = () => {
         } = useContext(Mediator);
 
     useEffect(() => {
-        api.request('/api/company', 'GET')
-                        .then(res => {
-                            switch (res.status){
-                                case 200:
-                                case 201:
-                                    setCompanyList(res.data.data);
-                                    break;
-                            }
-                            setLoadingShow(false);
-                            // TODO: Do pagination function
-                        });
+        firstInit();
     }, []);
+
+    const firstInit = () => {
+        api.request('/api/company', 'GET')
+            .then(res => {
+                switch (res.status){
+                    case 200:
+                    case 201:
+                        setCompanyList(res.data.data);
+                        break;
+                }
+                setLoadingShow(false);
+                setTotalPage(res.data.meta['last_page']);
+            });
+    }
 
     async function handleCardClick(uuid){
         setCompanyFormOpen(false);
@@ -78,6 +84,40 @@ const CompanyList = () => {
         setCompanyForm(companyFormEntity);
     }
 
+    const handlePaginatioClick = (number) => {
+        setCurrentPage(number);
+        setLoadingShow(true);
+        api.request('/api/company?page='+number, 'GET')
+            .then(res => {
+                setCompanyList(res.data.data);
+                setLoadingShow(false);
+            });
+    }
+
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPage, setTotalPage] = useState(1);
+    const [rangeShow, setRangeShow] = useState(9);
+
+    const [defaultList, setDefaultList] = useState(true);
+    const handleTextChange = (text) => {
+        if (text.length>=3){
+            setLoadingShow(true);
+            setDefaultList(false);
+            api.request('/api/company-search/'+text, 'GET')
+                .then(res => {
+                    setCompanyList(res.data.data);
+                    setTotalPage(res.data.meta['last_page']);
+                    setLoadingShow(false);
+                });
+        }else{
+            if (!defaultList){
+                setLoadingShow(true);
+                firstInit();
+                setDefaultList(true);
+            }
+        }
+    }
+
     return (  
         <div className={`${styles['main-content']} container-fluid`}>
             <div className={styles['company-cards']}>
@@ -102,6 +142,7 @@ const CompanyList = () => {
                     </div>
                 </div>
                 <div className={`${styles['company-card-body']} container-fluid`}>
+                    <Search handleTextChange={ handleTextChange } />
                     <div className={`${styles['company-list']} row`}>
 
                         {
@@ -128,6 +169,11 @@ const CompanyList = () => {
                     </div>
                 </div>
             </div>
+            <Pagination handlePaginatioClick={ handlePaginatioClick } 
+                        currentPage={currentPage}
+                        totalPage={totalPage}
+                        rangeShow={rangeShow}
+            />
         </div>
     );
 }
