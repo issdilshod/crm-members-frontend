@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { Mediator } from '../../context/Mediator';
 import { FaArrowLeft, FaBars, FaFileAlt, FaMapMarkerAlt, FaPlus, FaUser } from 'react-icons/fa';
 import Pagination from '../Helper/Pagination';
+import Search from '../Helper/Search';
 
 const DirectorList = () => {
     const { 
@@ -13,6 +14,10 @@ const DirectorList = () => {
         } = useContext(Mediator);
 
     useEffect(() => {
+        firstInit();
+    }, []);
+
+    const firstInit = () => {
         api.request('/api/director', 'GET')
             .then(res => {
                 switch (res.status){
@@ -24,7 +29,7 @@ const DirectorList = () => {
                 setLoadingShow(false);
                 setTotalPage(res.data.meta['last_page']);
             });
-    }, []);
+    }
 
     async function handleCardClick(uuid){
         setDirectorFormOpen(false);
@@ -87,6 +92,26 @@ const DirectorList = () => {
     const [totalPage, setTotalPage] = useState(1);
     const [rangeShow, setRangeShow] = useState(9);
 
+    const [defaultList, setDefaultList] = useState(true);
+    const handleTextChange = (text) => {
+        if (text.length>=3){
+            setLoadingShow(true);
+            setDefaultList(false);
+            api.request('/api/director-search/'+text, 'GET')
+                .then(res => {
+                    setDirectorList(res.data.data);
+                    setTotalPage(res.data.meta['last_page']);
+                    setLoadingShow(false);
+                });
+        }else{
+            if (!defaultList){
+                setLoadingShow(true);
+                firstInit();
+                setDefaultList(true);
+            }
+        }
+    } 
+
     return (  
         <div className={`${styles['main-content']} container-fluid`}>
             <div className={styles['director-cards']}>
@@ -111,8 +136,8 @@ const DirectorList = () => {
                     </div>
                 </div>
                 <div className={`${styles['director-card-body']} container-fluid`}>
+                    <Search handleTextChange={ handleTextChange } />
                     <div className={`${styles['director-list']} row`}>
-
                         {
                             directorList.map((value, index) => {
                                 return (

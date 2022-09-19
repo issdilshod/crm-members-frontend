@@ -12,8 +12,11 @@ const Pagination = ({handlePaginatioClick, currentPage, totalPage, rangeShow}) =
 
     useEffect(() => {
         if (totalPage>1){
-            setAbleShow(true);
+            setAbleShow(true);   
+        }else{
+            setAbleShow(false);
         }
+        paginationNumber();
     }, [totalPage]);
 
     useEffect(() => {

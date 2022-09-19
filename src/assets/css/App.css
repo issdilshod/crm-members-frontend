@@ -210,3 +210,35 @@ a:hover{
     pointer-events: none;
     opacity: 0.5;
 }
+
+.d-search{
+    padding: 20px 20px 5px 20px;
+}
+
+.d-search-input{
+    border: 0;
+    outline: none;
+    padding: 10px 40px;
+    width: 100%;
+    border-radius: 20px 0px 0px 20px;
+    color: #344767;
+    transition: .4s;
+}
+
+.d-search-input:hover, .d-search-input:focus{
+    box-shadow: 0 0.1125rem 0.625rem 0px rgb(0 0 0 / 12%) !important;
+}
+
+.d-search-button{
+    width: 48px;
+    text-align: center;
+    background-color: #607cab;
+    color: #fff;
+    font-weight: 500;
+    border-radius: 0px 20px 20px 0px;
+}
+
+.d-search-button span{
+    position: relative;
+    top: -2px;
+}
