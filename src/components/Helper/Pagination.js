@@ -3,8 +3,9 @@ import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
 
 const Pagination = ({handlePaginatioClick, currentPage, totalPage, rangeShow}) => {
 
+    const [items, setItems] = useState([]);
+
     const [ableShow, setAbleShow] = useState(false);
-    const [startShow, setStartShow] = useState(currentPage);
 
     const [previousDisable, setPreviousDisable] = useState(true);
     const [nextDisable, setNextDisable] = useState(true);
@@ -16,16 +17,39 @@ const Pagination = ({handlePaginatioClick, currentPage, totalPage, rangeShow}) =
     }, [totalPage]);
 
     useEffect(() => {
-        if (currentPage>1){
-            let start = currentPage - Math.round(rangeShow/2);
-            if (start<1){
-                start = 1;
-            }
-            setStartShow(start);
-        }else{
-            setStartShow(currentPage); 
+        paginationArrow();
+        paginationNumber();
+    }, []);
+
+    useEffect(() => {
+        paginationArrow();
+        paginationNumber();
+    }, [currentPage]);
+
+    const paginationNumber = () => {
+        let start = currentPage - Math.floor(rangeShow/2);
+        if (start<1){
+            start = 1;
         }
 
+        if (totalPage>rangeShow){
+            let front = totalPage - currentPage;
+            if (front < Math.floor(rangeShow/2)){
+                start -= Math.floor(rangeShow/2) - front;
+            }
+        }
+        
+        let tmp_items = [];
+        for (let i = start, counter = 1; 
+                i <= totalPage && counter<=rangeShow;
+                i++, counter++ )
+        {
+            tmp_items.push(i);
+        }
+        setItems(tmp_items);
+    }
+
+    const paginationArrow = () => {
         if (currentPage==1){
             setPreviousDisable(true);
             setNextDisable(false);
@@ -36,7 +60,7 @@ const Pagination = ({handlePaginatioClick, currentPage, totalPage, rangeShow}) =
             setPreviousDisable(false);
             setNextDisable(false); 
         }
-    }, [currentPage]);
+    }
 
     return ( 
         <>
@@ -51,26 +75,18 @@ const Pagination = ({handlePaginatioClick, currentPage, totalPage, rangeShow}) =
                                 <span><FaAngleLeft /></span>
                             </div>
                             <div className='d-pagination-numbers d-flex'>
-
-                                {(() => {
-                                    const items = [];
-                                    for (let i = startShow, counter = 1; 
-                                            i <= totalPage && counter<=rangeShow; 
-                                            i++, counter++
-                                        ) {
-                                            items.push(
-                                                <div key={i} 
-                                                    className={`d-pagination-item ${currentPage==i?'d-pagination-item-active':''}`}
-                                                    onClick={() => { handlePaginatioClick(i) }}
-                                                >
-                                                    {i}
-                                                </div>
-                                            );
-                                    }
-
-                                    return items;
-                                })()}
-                                
+                                {
+                                    items.map((value, index) => {
+                                        return (
+                                            <div key={index} 
+                                                className={`d-pagination-item ${currentPage==value?'d-pagination-item-active':''}`}
+                                                onClick={() => { handlePaginatioClick(value) }}
+                                            >
+                                                {value}
+                                            </div>
+                                        )
+                                    })
+                                }
                             </div>
                             <div className={`d-pagination-item-arrows ml-2 ${nextDisable?'d-disable':''}`}
                                     onClick={() => { handlePaginatioClick(currentPage+1) }}
