@@ -47,7 +47,7 @@ const DirectorForm = () => {
                     switch (res.status){
                         case 200: // Success
                         case 201:
-                            setDirectorList([ ...directorList, res.data.data ]);
+                            setDirectorList([ res.data.data, ...directorList ]);
                             setDirectorFormOpen(false);
                             setFormChanged(false);
                             break;
