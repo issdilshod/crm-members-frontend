@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
+import { Link } from 'react-router-dom';
 import { Mediator } from '../../context/Mediator';
 import DateFormatter from '../../services/DateFormatter';
 
@@ -32,14 +33,16 @@ const Activity = () => {
                     {
                         activityList.map((value, index) => {
                             return (
-                                <div key={index} className={`${styles['activity']} mb-3`}>
-                                    <span className={styles['activity-status']}>
-                                        <FaClock />
-                                    </span>
-                                    <div className={`${styles['activity-user']}`}>{value['user']['first_name']} {value['user']['last_name']}</div>
-                                    <div className={`${styles['activity-description']}`}>{value['description']}</div>
-                                    <div className={`${styles['activity-date']}`}>{ DateFormatter.beautifulDate(value['updated_at']) }</div>
-                                </div>
+                                <Link key={index} to={ process.env.REACT_APP_FRONTEND_PREFIX + value['link']}>
+                                    <div className={`${styles['activity']} mb-3`}>
+                                        <span className={styles['activity-status']}>
+                                            <FaClock />
+                                        </span>
+                                        <div className={`${styles['activity-user']}`}>{value['user']['first_name']} {value['user']['last_name']}</div>
+                                        <div className={`${styles['activity-description']}`}>{value['description']}</div>
+                                        <div className={`${styles['activity-date']}`}>{ DateFormatter.beautifulDate(value['updated_at']) }</div>
+                                    </div>
+                                </Link>
                             )
                         })
                     }
