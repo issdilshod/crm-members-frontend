@@ -8,7 +8,7 @@ const MenuItem = ({page_link, icon, page_name, notificationCount, setNotificatio
     const location = useLocation();
 
     let path = `${process.env.REACT_APP_FRONTEND_PREFIX}/` + page_link;
-    let isActive = location.pathname == path;
+    let isActive = location.pathname.includes(path);
     let classActive = isActive?styles['menu-item-active']:'';
 
     return (
