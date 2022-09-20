@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Mediator } from '../../context/Mediator';
 import DirectorList from './DirectorList';
 import DirectorForm from './DirectorForm/DirectorForm';
@@ -9,6 +9,7 @@ import Api from '../../services/Api';
 import Loading from '../Helper/Loading';
 
 const Director = () => {
+
     const api = new Api();
     const navigate = useNavigate();
     const [menuOpen, setMenuOpen] = useState(false);
@@ -69,12 +70,64 @@ const Director = () => {
 
     const [loadingShow, setLoadingShow] = useState(true);
 
+    const { uuid } = useParams();
+    useEffect(() => {
+        firstInit();
+    }, []);
+
+    const firstInit = () => {
+        if (uuid){
+            handleCardClick(uuid);
+        }
+    }
+
+    const handleCardClick = (uuid) => {
+        setDirectorFormOpen(false);
+        api.request('/api/director/'+uuid, 'GET')
+                .then(res => {
+                    setDirectorEdit(true);
+                    setDirectorFormOpen(true);
+                    setDirectorFormError({});
+                    let tmp_director = res.data.data;
+
+                    // address
+                    for (let key in tmp_director['address']){
+                        let address_parent = tmp_director['address'][key]['address_parent'];
+                        for (let key2 in tmp_director['address'][key]){
+                            tmp_director['address' + '[' + address_parent + '][' + key2 + ']'] = tmp_director['address'][key][key2];
+                        }
+                    }
+                    delete tmp_director['address'];
+
+                    //emails (first)
+                    for (let key in tmp_director['emails'][0]){
+                        tmp_director['emails[' + key + ']'] = tmp_director['emails'][0][key];
+                    }
+                    delete tmp_director['emails'];
+
+                    // files
+                    let tmp_files = { 'dl_upload': {'front': [], 'back': []}, 'ssn_upload': {'front': [], 'back': []}, 'cpn_docs_upload': []};
+                    for (let key in tmp_director['uploaded_files']){
+                        let file_parent = tmp_director['uploaded_files'][key]['file_parent'].split('/');
+                        if (file_parent.length==1){ // hasn't child
+                            tmp_files[file_parent[0]].push(tmp_director['uploaded_files'][key]);
+                        }else{ // has child
+                            tmp_files[file_parent[0]][file_parent[1]].push(tmp_director['uploaded_files'][key]);
+                        }
+                    }
+                    tmp_director['uploaded_files'] = tmp_files;
+
+                    tmp_director['_method'] = 'PUT';
+                    setDirectorForm(tmp_director);
+                });  
+    }
+
     return (  
         <Mediator.Provider value={ { 
                                 api, navigate, styles,
                                 menuOpen, setMenuOpen, 
                                 directorFormOpen, setDirectorFormOpen, directorEdit, setDirectorEdit, directorList, setDirectorList,
-                                    directorForm, setDirectorForm, directorFormError, setDirectorFormError, directorFormEntity, setDirectorFormEntity,
+                                    directorForm, setDirectorForm, directorFormError, setDirectorFormError, directorFormEntity, setDirectorFormEntity, handleCardClick,
                                 dlAddressOpen, setDlAddressOpen, creditHomeAddressOpen,
                                     setCreditHomeAddressOpen, dlUploadOpen, setDlUploadOpen, ssnUploadOpen, setSsnUploadOpen, cpnDocsUploadOpen, setCpnDocsUploadOpen,
                                 cardStatusOpen, setCardStatusOpen,
