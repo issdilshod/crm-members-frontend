@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Mediator } from '../../context/Mediator';
 import CompanyList from './CompanyList';
 import CompanyForm from './CompanyForm/CompanyForm';
@@ -76,6 +76,64 @@ const Company = () => {
 
     const [loadingShow, setLoadingShow] = useState(true);
 
+    const { uuid } = useParams();
+    useEffect(() => {
+        firstInit();
+    }, []);
+
+    const firstInit = () => {
+        if (uuid){
+            handleCardClick(uuid);
+        }
+    }
+
+    const handleCardClick = (uuid) => {
+        setCompanyFormOpen(false);
+        api.request('/api/company/'+uuid, 'GET')
+                .then(res => {
+                    switch (res.status){
+                        case 200:
+                        case 201:
+                            setCompanyEdit(true);
+                            setCompanyFormOpen(true);
+                            setCompanyFormError({});
+                            let tmp_company = res.data.data;
+
+                            // address
+                            for (let key in tmp_company['address']){
+                                for (let key2 in tmp_company['address'][key]){
+                                    tmp_company['address' + '[' + key2 + ']'] = tmp_company['address'][key][key2];
+                                }
+                            }
+                            delete tmp_company['address'];
+
+                            //emails (first)
+                            for (let key in tmp_company['emails'][0]){
+                                tmp_company['emails[' + key + ']'] = tmp_company['emails'][0][key];
+                            }
+                            delete tmp_company['emails'];
+
+                            // bank account
+                            for (let key in tmp_company['bank_account'][0]){
+                                tmp_company['bank_account['+key + ']'] = tmp_company['bank_account'][0][key];
+                            }
+                            delete tmp_company['bank_account'];
+
+                            // files
+                            let tmp_files = { 'incorporation_state': [], 'doing_business_in_state': [], 'company_ein': [], 'db_report': []};
+                            for (let key in tmp_company['uploaded_files']){
+                                let file_parent = tmp_company['uploaded_files'][key]['file_parent'];
+                                tmp_files[file_parent].push(tmp_company['uploaded_files'][key]);
+                            }
+                            tmp_company['uploaded_files'] = tmp_files;
+
+                            tmp_company['_method'] = 'PUT';
+                            setCompanyForm(tmp_company);
+                            break;
+                    }
+                });  
+    }
+
     return (  
         <Mediator.Provider value={ { 
                                 api, navigate, styles,
@@ -85,7 +143,7 @@ const Company = () => {
                                 companyBankAccountOpen, setCompanyBankAccountOpen,
                                 companyAddressOpen, setCompanyAddressOpen, incorporationStateUploadOpen,
                                     setIncorporationStateUploadOpen, doingBusinessInStateUploadOpen, setDoingBusinessInStateUploadOpen, companyEinUploadOpen, setCompanyEinUploadOpen, companyDbReportUploadOpen, setCompanyDbReportUploadOpen,
-                                cardStatusOpen, setCardStatusOpen,
+                                cardStatusOpen, setCardStatusOpen, handleCardClick,
                                 setLoadingShow
                             } } >
             
