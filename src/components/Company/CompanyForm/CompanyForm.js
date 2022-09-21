@@ -91,7 +91,7 @@ const CompanyForm = () => {
                     switch (res.status){
                         case 200: // Success
                         case 201:
-                            setCompanyList([ ...companyList, res.data.data ]);
+                            setCompanyList([ res.data.data, ...companyList ]);
                             setCompanyFormOpen(false);
                             setFormChanged(false);
                             break;
