@@ -17,21 +17,32 @@ const InviteUserForm = () => {
     const [inviteForm, setInviteForm] = useState({'unique_identify': ''});
     const [inviteFormError, setInviteFormError] = useState({});
 
+    const [error, setError] = useState({'msg': '', 'show': false, 'type': ''});
+
+    const errorNull = () => {
+        setError({'msg': '', 'show': false, 'type': ''});
+    }
+
+    useEffect(() => {
+        errorNull();
+    }, [inviteUserFormOpen]);
+
     const handleLocalClick = () => {
         setInviteUserFormOpen(false);
     }
 
     const handleInvite = (via) => {
         setInviteFormError({});
+        errorNull();
         api.request('/api/invite-via-'+via, 'POST', inviteForm)
             .then(res => {
                 switch(res.status){
                     case 200:
                     case 201:
-                        // TODO: Show some success message
+                        setError({'msg': 'Invite link sent successfully.', 'show': true, 'type': 'd-alert-success'});
                         break;
                     default:
-                        // console.log('error');
+                        setError({'msg': res.data.data + ' User have to start Telegram bot @project_iss_bot to recieve the message.', 'show': true, 'type': 'd-alert-danger'});
                         break;
                 }
                 
@@ -68,6 +79,11 @@ const InviteUserForm = () => {
             <hr className={styles['divider']} />
             <div className={`${styles['department-form-card-body']} container-fluid`}>
                 <div className='row mb-4'>
+                    <div className='col-12'>
+                        { error['show'] && 
+                            <div className={`alert ${error['type']}`} >{ error['msg'] }</div>
+                        }
+                    </div>
                     <div className='col-12'>
                         <div className='form-group'>
                             <label>Identity</label>
