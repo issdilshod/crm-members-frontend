@@ -33,7 +33,7 @@ const Activity = () => {
                     {
                         activityList.map((value, index) => {
                             return (
-                                <Link key={index} to={ process.env.REACT_APP_FRONTEND_PREFIX + value['link']}>
+                                <Link className={styles['activity-a']} key={index} to={ process.env.REACT_APP_FRONTEND_PREFIX + value['link']}>
                                     <div className={`${styles['activity']} mb-3`}>
                                         <span className={styles['activity-status']}>
                                             <FaClock />
