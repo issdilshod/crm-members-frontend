@@ -242,3 +242,8 @@ a:hover{
     position: relative;
     top: -2px;
 }
+
+/* Required sign */
+label .req {
+    color: #eb2929;
+}
