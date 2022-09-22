@@ -24,7 +24,7 @@ const AddressForm = ({parent_head_name, parent_name, blockOpen, setBlockOpen, ha
                     <div className={`${styles['address-card-body']} container-fluid`}>
                         <div className={`row`}>
                             <div className={`col-12 form-group`}>
-                                <label>Street Address</label>
+                                <label>Street Address <i className='req'>*</i></label>
                                 <input className={`form-control`} 
                                         type='text' 
                                         name={`address[${parent_name}][street_address]`} 
@@ -35,7 +35,7 @@ const AddressForm = ({parent_head_name, parent_name, blockOpen, setBlockOpen, ha
                                 <Validation field_name={`address.${parent_name}.street_address`} errorObject={directorFormError} />
                             </div>
                             <div className={`col-12 form-group`}>
-                                <label>Address Line 2</label>
+                                <label>Address Line 2 <i className='req'>*</i></label>
                                 <input className={`form-control`} 
                                         type='text' 
                                         name={`address[${parent_name}][address_line_2]`} 
@@ -46,7 +46,7 @@ const AddressForm = ({parent_head_name, parent_name, blockOpen, setBlockOpen, ha
                                 <Validation field_name={`address.${parent_name}.address_line_2`} errorObject={directorFormError} />
                             </div>
                             <div className={`col-12 col-sm-6 form-group`}>
-                                <label>City</label>
+                                <label>City <i className='req'>*</i></label>
                                 <input className={`form-control`} 
                                         type='text' 
                                         name={`address[${parent_name}][city]`} 
@@ -57,7 +57,7 @@ const AddressForm = ({parent_head_name, parent_name, blockOpen, setBlockOpen, ha
                                 <Validation field_name={`address.${parent_name}.city`} errorObject={directorFormError} />
                             </div>
                             <div className={`col-12 col-sm-6 form-group`}>
-                                <label>State</label>
+                                <label>State <i className='req'>*</i></label>
                                 <input className={`form-control`} 
                                         type='text' 
                                         name={`address[${parent_name}][state]`} 
@@ -68,7 +68,7 @@ const AddressForm = ({parent_head_name, parent_name, blockOpen, setBlockOpen, ha
                                 <Validation field_name={`address.${parent_name}.state`} errorObject={directorFormError} />
                             </div>
                             <div className={`col-12 col-sm-6 form-group`}>
-                                <label>Postal</label>
+                                <label>Postal <i className='req'>*</i></label>
                                 <input className={`form-control`} 
                                         type='text' 
                                         name={`address[${parent_name}][postal]`} 
@@ -79,7 +79,7 @@ const AddressForm = ({parent_head_name, parent_name, blockOpen, setBlockOpen, ha
                                 <Validation field_name={`address.${parent_name}.postal`} errorObject={directorFormError} />
                             </div>
                             <div className={`col-12 col-sm-6 form-group`}>
-                                <label>Country</label>
+                                <label>Country <i className='req'>*</i></label>
                                 <input className={`form-control`} 
                                         type='text' 
                                         name={`address[${parent_name}][country]`} 

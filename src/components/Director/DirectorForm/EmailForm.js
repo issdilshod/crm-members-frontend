@@ -25,7 +25,7 @@ const EmailForm = ({ handleChange }) => {
             <div className={`row`}>
                 <div className={`col-12 col-sm-3`}>
                     <div className={`form-group`}>
-                        <label>Email's hosting</label>
+                        <label>Email's hosting <i className='req'>*</i></label>
                         <select className={`form-control`}
                                 name='emails[hosting_uuid]'
                                 onChange={ handleChange } 
@@ -43,7 +43,7 @@ const EmailForm = ({ handleChange }) => {
                 </div>
                 <div className={`col-12 col-sm-3`}>
                     <div className={`form-group`}>
-                        <label>Email</label>
+                        <label>Email <i className='req'>*</i></label>
                         <input className={`form-control`} 
                                 type='text' 
                                 name='emails[email]' 
@@ -56,7 +56,7 @@ const EmailForm = ({ handleChange }) => {
                 </div>
                 <div className={`col-12 col-sm-3`}>
                     <div className={`form-group`}>
-                        <label>Password</label>
+                        <label>Password <i className='req'>*</i></label>
                         <input className={`form-control`}
                                 type='text' 
                                 name='emails[password]' 
@@ -69,7 +69,7 @@ const EmailForm = ({ handleChange }) => {
                 </div>
                 <div className={`col-12 col-sm-3`}>
                     <div className={`form-group`}>
-                        <label>Email's Phone Number</label>
+                        <label>Email's Phone Number <i className='req'>*</i></label>
                         <input className={`form-control`} 
                                 type='text' 
                                 name='emails[phone]' 

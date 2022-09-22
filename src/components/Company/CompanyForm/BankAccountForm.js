@@ -63,10 +63,6 @@ const BankAccountForm = ({blockOpen, setBlockOpen, handleChange}) => {
         setCompanyForm(tmp_arr);
     }
 
-    useEffect(() => {
-        console.log(companyForm);
-    }, [companyForm]);
-
     return (  
         <div className={`${styles['company-form-field']} col-12 mt-2 form-group`}>
             <div className={`${styles['address-card']}`}>

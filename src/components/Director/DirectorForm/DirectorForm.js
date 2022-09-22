@@ -112,7 +112,7 @@ const DirectorForm = () => {
                     <form className={`${styles['director-form-block']} row`} encType='multipart/form-data' onSubmit={ handleSubmit }>
 
                         <div className={`${styles['director-form-field']} col-12 col-sm-4 form-group`}>
-                            <label>First Name</label>
+                            <label>First Name <i className='req'>*</i></label>
                             <input className={`form-control`} 
                                     type='text' 
                                     name='first_name' 
@@ -136,7 +136,7 @@ const DirectorForm = () => {
                         </div>
 
                         <div className={`${styles['director-form-field']} col-12 col-sm-4 form-group`}>
-                            <label>Last Name</label>
+                            <label>Last Name <i className='req'>*</i></label>
                             <input className={`form-control`} 
                                     type='text' 
                                     name='last_name' 
@@ -148,7 +148,7 @@ const DirectorForm = () => {
                         </div>
 
                         <div className={`${styles['director-form-field']} col-12 col-sm-6 form-group`}>
-                            <label>Date of Birth</label>
+                            <label>Date of Birth <i className='req'>*</i></label>
                             <input className={`form-control`} 
                                     type='date' 
                                     name='date_of_birth' 
@@ -159,7 +159,7 @@ const DirectorForm = () => {
                         </div>
 
                         <div className={`${styles['director-form-field']} col-12 col-sm-6 form-group`}>
-                            <label>SSN/CPN</label>
+                            <label>SSN/CPN <i className='req'>*</i></label>
                             <InputMask mask="999-99-9999" 
                                         maskChar={null} 
                                         className={`form-control`}
@@ -172,7 +172,7 @@ const DirectorForm = () => {
                         </div>
 
                         <div className={`${styles['director-form-field']} col-12 col-sm-6 form-group`}>
-                            <label>Company Association</label>
+                            <label>Company Association <i className='req'>*</i></label>
                             <input className={`form-control`} 
                                     type='text' 
                                     name='company_association' 
@@ -184,7 +184,7 @@ const DirectorForm = () => {
                         </div>
 
                         <div className={`${styles['director-form-field']} col-12 col-sm-6 form-group`}>
-                            <label>Phone Type</label>
+                            <label>Phone Type <i className='req'>*</i></label>
                             <select className={`form-control`} 
                                     name='phone_type' 
                                     onChange={ handleChange } 
@@ -199,7 +199,7 @@ const DirectorForm = () => {
 
                             <div className={`row`}>
                                 <div className={`col-12 form-group`}>
-                                    <label>Phone Number</label>
+                                    <label>Phone Number <i className='req'>*</i></label>
                                     <InputMask mask="999-99-9999" 
                                                 maskChar={null} 
                                                 className={`form-control`} 
