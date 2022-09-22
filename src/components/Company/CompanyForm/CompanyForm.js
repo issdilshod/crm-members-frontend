@@ -85,6 +85,19 @@ const CompanyForm = () => {
             e.preventDefault();
         }
         setLoadingShow(true);
+        // set bank account
+        let cForm = companyForm;
+        if ('security' in cForm){
+            for (let key in cForm['security']){
+                for (let key1 in cForm['security'][key]){
+                    cForm[key1] = cForm['security'][key][key1];
+                }
+                
+            }
+            delete cForm['security'];
+        }
+        console.log(cForm);
+        
         if (!companyEdit){
             api.request('/api/company', 'POST', companyForm, true)
                 .then(res => {
