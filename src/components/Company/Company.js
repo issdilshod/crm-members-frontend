@@ -46,6 +46,7 @@ const Company = () => {
         'bank_account[password]': '',
         'bank_account[account_number]': '',
         'bank_account[routing_number]': '',
+        'bank_account[bank_account_security]': [],
         'emails[hosting_uuid]': '',
         'emails[email]': '',
         'emails[password]': '',
@@ -89,6 +90,7 @@ const Company = () => {
 
     const handleCardClick = (uuid) => {
         setCompanyFormOpen(false);
+        setCompanyForm(companyFormEntity);
         api.request('/api/company/'+uuid, 'GET')
                 .then(res => {
                     switch (res.status){

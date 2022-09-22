@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { FaAngleDown, FaAngleUp, FaPlus, FaTimes } from 'react-icons/fa';
+import { FaAngleDown, FaAngleUp, FaPlus, FaTimes, FaTrash } from 'react-icons/fa';
 import { Mediator } from '../../../context/Mediator';
 import Validation from '../../Helper/Validation';
 
@@ -38,7 +38,34 @@ const BankAccountForm = ({blockOpen, setBlockOpen, handleChange}) => {
     useEffect(() => {
         setSecurityForm({'question': '', 'answer': ''});
         setSecurity([]);
+
+        setSecurityDb(companyForm['bank_account[bank_account_security]']);
     }, [companyFormOpen]);
+
+    const [securityDb, setSecurityDb] = useState([]);
+
+    const handleSecurityDelete = (uuid) => {
+        // remove from form
+        let tmp_arr = securityDb;
+        const index = securityDb.findIndex(e => e.uuid === uuid);
+        if (index > -1){
+            tmp_arr.splice(index, 1);
+        }
+        setSecurityDb([...tmp_arr]);
+
+        // set deleted
+        tmp_arr = companyForm;
+        if ('bank_account_security_to_delete[]' in tmp_arr){
+            tmp_arr['bank_account_security_to_delete[]'].push(uuid);
+        }else{
+            tmp_arr['bank_account_security_to_delete[]'] = [uuid];
+        }
+        setCompanyForm(tmp_arr);
+    }
+
+    useEffect(() => {
+        console.log(companyForm);
+    }, [companyForm]);
 
     return (  
         <div className={`${styles['company-form-field']} col-12 mt-2 form-group`}>
@@ -149,6 +176,32 @@ const BankAccountForm = ({blockOpen, setBlockOpen, handleChange}) => {
                                             value={securityForm['answer']}
                                             placeholder='Security Answer'
                                 />
+                            </div>
+
+                            <div className={`col-12 form-group`}>
+                                {
+                                    securityDb.map((value, index) => {
+                                        return (
+                                            <div key={index} className={`${styles['security-block']} row`}>
+                                                <div className='col-12 mb-2 pt-2'>
+                                                    <div className={`${styles['security-one']} d-flex`}>
+                                                        <div className='pr-3 w-50'>
+                                                            <span className={`d-btn d-btn-danger mr-2 ${styles['remove-security']}`}
+                                                                    onClick={ () => { handleSecurityDelete(value['uuid']) } }
+                                                            >
+                                                                <span><FaTrash /></span>
+                                                            </span>
+                                                            {value['question']} 
+                                                        </div>
+                                                        <div className='pl-3 w-50'>
+                                                            {value['answer']}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        )
+                                    })
+                                }
                             </div>
 
                             <div className={`col-12 form-group`}>
