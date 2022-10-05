@@ -71,6 +71,8 @@ a:hover{
     transition: .5s;
     font-weight: 500;
     color: #fff;
+    border: 0px;
+    outline: none;
 }
 
 .d-btn:hover{

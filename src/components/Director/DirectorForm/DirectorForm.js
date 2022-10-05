@@ -90,6 +90,28 @@ const DirectorForm = () => {
         }
     }
 
+    const handleDelete = (e, uuid) => {
+        e.preventDefault();
+        api.request('/api/director/' + uuid, 'DELETE')
+            .then(res => {
+                switch (res.status){
+                    case 200:
+                    case 201:
+                        let tmpArray = [...directorList];
+                        for (let key in tmpArray){
+                            if (tmpArray[key]['uuid']==uuid){
+                                tmpArray.splice(key, 1);
+                            }
+                        }
+                        setDirectorList(tmpArray);
+                        setDirectorFormOpen(false);
+                        setFormChanged(false);
+                        break;
+                }
+            })
+        console.log(uuid);
+    }
+
     const handleClose = (e) => {
         if (formChanged){
             setCardStatusOpen(true);
@@ -255,7 +277,15 @@ const DirectorForm = () => {
                         />
 
                         <div className={`${styles['director-form-field']} col-12 d-flex form-group`}>
-                            <button className={`${styles['submit-form']} ml-auto`}>
+                            {   directorEdit &&
+                                <button className={`d-btn d-btn-danger ml-auto mr-2`} 
+                                onClick={ (e) => { handleDelete(e, directorForm['uuid']) } }
+                                >
+                                    Delete
+                                </button>
+                            }
+                            
+                            <button className={`${styles['submit-form']}`}>
                                 {(!directorEdit?'Add':'Edit')}
                             </button>
                         </div>
