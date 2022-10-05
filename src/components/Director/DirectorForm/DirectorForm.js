@@ -109,7 +109,6 @@ const DirectorForm = () => {
                         break;
                 }
             })
-        console.log(uuid);
     }
 
     const handleClose = (e) => {

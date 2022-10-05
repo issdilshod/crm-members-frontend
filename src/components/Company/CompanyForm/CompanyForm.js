@@ -96,7 +96,6 @@ const CompanyForm = () => {
             }
             delete cForm['security'];
         }
-        console.log(cForm);
         
         if (!companyEdit){
             api.request('/api/company', 'POST', companyForm, true)
@@ -146,6 +145,28 @@ const CompanyForm = () => {
                 });
         }
         
+    }
+
+    const handleDelete = (e, uuid) => {
+        e.preventDefault();
+        api.request('/api/company/' + uuid, 'DELETE')
+            .then(res => {
+                switch (res.status){
+                    case 200:
+                    case 201:
+                        let tmpArray = [...companyList];
+                        for (let key in tmpArray){
+                            if (tmpArray[key]['uuid']==uuid){
+                                tmpArray.splice(key, 1);
+                            }
+                        }
+                        setCompanyList(tmpArray);
+                        setCompanyFormOpen(false);
+                        setFormChanged(false);
+                        break;
+                }
+            })
+        console.log(uuid);
     }
 
     const handleClose = (e) => {
@@ -455,7 +476,14 @@ const CompanyForm = () => {
                         />
 
                         <div className={`${styles['company-form-field']} col-12 d-flex form-group`}>
-                            <button className={`${styles['submit-form']} ml-auto`}>
+                            {   companyEdit &&
+                                    <button className={`d-btn d-btn-danger ml-auto mr-2`} 
+                                    onClick={ (e) => { handleDelete(e, companyForm['uuid']) } }
+                                    >
+                                        Delete
+                                    </button>
+                            }
+                            <button className={`${styles['submit-form']}`}>
                                 {(!companyEdit?'Add':'Edit')}
                             </button>
                         </div>
