@@ -54,9 +54,9 @@ const Department = () => {
                         case 200:
                         case 201:
                             setDepartmentList(res.data.data);
-                            setLoadingShow(false);
                             break;
                     }
+                    setLoadingShow(false);
                 });
         api.request('/api/role', 'GET')
                 .then(res => {
