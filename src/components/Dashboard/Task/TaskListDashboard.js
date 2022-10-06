@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Mediator } from '../../context/Mediator';
+import { Mediator } from '../../../context/Mediator';
 
 import styles from './TaskListDashboard.module.scss';
 import { FaList, FaPlus } from 'react-icons/fa';
@@ -20,10 +20,7 @@ const TaskListDashboard = () => {
 
     return (  
         <div className={`${styles['task-list-dashboard']} row`}>
-            <div className='col-12 col-sm-4'>
-
-            </div>
-            <div className='col-12 col-sm-4'>
+            <div className='col-12 col-sm-6'>
                 <div className={`${styles['task-list-dashboard-title']} d-flex`}>
                     <div className={`mr-auto`}>Employee Tasks (<span>{employeeTaskCount}</span>)</div>
                     <div className={`${styles['task-add-button']} text-center`} onClick={ handleLocalClick }>
@@ -44,8 +41,8 @@ const TaskListDashboard = () => {
                     </div>
                 </div>
             </div>
-            <div className='col-12 col-sm-4'>
-                <div className={styles['task-list-dashboard-title']}>Mine Tasks (<span>{mineTaskCount}</span>)</div>
+            <div className='col-12 col-sm-6'>
+                <div className={styles['task-list-dashboard-title']}>My Tasks (<span>{mineTaskCount}</span>)</div>
             </div>
         </div>
     );

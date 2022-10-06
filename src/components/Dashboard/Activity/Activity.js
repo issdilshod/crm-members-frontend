@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { Mediator } from '../../context/Mediator';
-import DateFormatter from '../../services/DateFormatter';
+import { Mediator } from '../../../context/Mediator';
+import DateFormatter from '../../../services/DateFormatter';
 
 import styles from './Activity.module.scss';
 import { FaClock } from 'react-icons/fa';

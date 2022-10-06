@@ -249,3 +249,51 @@ a:hover{
 label .req {
     color: #eb2929;
 }
+
+/* T-CARDS */
+
+.t-card{
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 20px;
+    box-shadow: 0 20px 27px 0 rgb(0 0 0 / 5%);
+    transition: .5s;
+    cursor: pointer;
+}
+
+.t-card-success{
+    background-color: #20da9b;
+    color: #fff;
+}
+
+.t-card-danger{
+    background-color: #f26051;
+    color: #fff;
+}
+
+.t-card:hover{
+    box-shadow: 0 20px 27px 20px rgb(0 0 0 / 5%);
+}
+
+.t-card-name{
+    font-weight: 700;
+}
+
+.t-card-due-date{
+    font-weight: 500;
+    opacity: .8;
+}
+
+.t-card-icons{
+    width: 48px;
+    height: 48px;
+    background-color: #607cab;
+    border-radius: 10px;
+    color: #fff;
+    box-shadow: 0 .3125rem .625rem 0 rgba(0,0,0,.12)!important;
+}
+
+.t-card-icon{
+    position: relative;
+    top: 9px;
+}

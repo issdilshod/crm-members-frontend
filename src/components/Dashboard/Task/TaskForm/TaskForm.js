@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Mediator } from '../../../context/Mediator';
+import { Mediator } from '../../../../context/Mediator';
 
 import styles from './TaskForm.module.scss';
 import { FaAngleUp, FaCircle, FaTimes } from 'react-icons/fa';

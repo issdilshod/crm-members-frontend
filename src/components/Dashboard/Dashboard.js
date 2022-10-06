@@ -3,11 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import Api from '../../services/Api';
 
 import Header from '../Header/Header';
-import Activity from './Activity';
-import TaskListDashboard from '../Task/TaskListDashboard';
-import TaskForm from '../Task/TaskForm/TaskForm';
+import Activity from './Activity/Activity';
+import TaskListDashboard from './Task/TaskListDashboard';
+import TaskForm from './Task/TaskForm/TaskForm';
 import styles from './Dashboard.module.scss';
 import { Mediator } from '../../context/Mediator';
+import Pending from './Pending/Pending';
 
 const Dashboard = () => {
     const navigate = useNavigate();
@@ -36,8 +37,11 @@ const Dashboard = () => {
                 <Header />
                 <div className={`${styles['dashboard-block']} container-fluid mb-4`}>
                     <div className='row'>
-                        <div className='col-12 col-sm-8'>
+                        <div className='col-12 col-sm-4'>
                             <TaskListDashboard />
+                        </div>
+                        <div className='col-12 col-sm-4'>
+                            <Pending />
                         </div>
                         <div className='col-12 col-sm-4'>
                             <Activity />
