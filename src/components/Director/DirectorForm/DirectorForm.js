@@ -35,6 +35,7 @@ const DirectorForm = () => {
 
     const handleStore = (e) => {
         e.preventDefault();
+        setDirectorFormError([]);
         api.request('/api/director', 'POST', directorForm, true)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
@@ -53,6 +54,7 @@ const DirectorForm = () => {
 
     const handleUpdate = (e) => {
         e.preventDefault();
+        setDirectorFormError([]);
         api.request('/api/director/'+directorForm['uuid'], 'POST', directorForm, true)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
@@ -131,7 +133,7 @@ const DirectorForm = () => {
 
     const handlePendingReject = (e) => {
         e.preventDefault();
-        api.request('/api/director-reject/'+directorForm['uuid'], 'POST')
+        api.request('/api/director-reject/'+directorForm['uuid'], 'PUT')
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
                     setDirectorFormOpen(false);
@@ -148,6 +150,21 @@ const DirectorForm = () => {
 
     const handlePendingAccept = (e) => {
         e.preventDefault();
+        setDirectorFormError([]);
+        api.request('/api/director-accept/'+directorForm['uuid'], 'POST', directorForm, true)
+            .then(res => {
+                if (res.status===200 || res.status===201){ // success
+                    setDirectorList([ res.data.data, ...directorList ]);
+                    setDirectorFormOpen(false);
+                }else if (res.status===403){ // permission
+
+                }else if (res.status===409){ // conflict
+                    setDirectorFormError(res.data.data);
+                }else if (res.status===422){ // unprocessable content
+                    setDirectorFormError(res.data.errors);
+                }
+                setLoadingShow(false);
+            });
     }
 
     const handleClose = (e) => {
