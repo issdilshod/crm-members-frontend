@@ -100,7 +100,6 @@ const DirectorForm = () => {
         api.request('/api/director-pending', 'POST', directorForm, true)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
-                    console.log(res.data.data);
                     setDirectorFormOpen(false);
                 }else if (res.status===403){ // permission
 
@@ -118,7 +117,6 @@ const DirectorForm = () => {
         api.request('/api/director-pending-update/'+directorForm['uuid'], 'POST', directorForm, true)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
-                    console.log(res.data.data);
                     setDirectorFormOpen(false);
                 }else if (res.status===403){ // permission
 
@@ -133,6 +131,19 @@ const DirectorForm = () => {
 
     const handlePendingReject = (e) => {
         e.preventDefault();
+        api.request('/api/director-reject/'+directorForm['uuid'], 'POST')
+            .then(res => {
+                if (res.status===200 || res.status===201){ // success
+                    setDirectorFormOpen(false);
+                }else if (res.status===403){ // permission
+
+                }else if (res.status===409){ // conflict
+                    setDirectorFormError(res.data.data);
+                }else if (res.status===422){ // unprocessable content
+                    setDirectorFormError(res.data.errors);
+                }
+                setLoadingShow(false);
+            });
     }
 
     const handlePendingAccept = (e) => {
