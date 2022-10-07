@@ -8,10 +8,8 @@ import Validation from '../../Helper/Validation';
 import { Mediator } from '../../../context/Mediator';
 
 import { FaTimes } from 'react-icons/fa';
-import Alert from '../../Helper/Alert';
 
 const DirectorForm = () => {
-    const [formChanged, setFormChanged] = useState(false);
 
     const { 
             api, styles,
@@ -33,90 +31,116 @@ const DirectorForm = () => {
         if (file){ value = e.target.files; }
 
         setDirectorForm({ ...directorForm, [name]: value });
-        setFormChanged(true);
     }
 
-    const handleSubmit = async (e, trigger = false) => {
-        setLoadingShow(true);
-        if (!trigger){
-            e.preventDefault();
-        }
-        if (!directorEdit){
-            api.request('/api/director', 'POST', directorForm, true)
-                .then(res => {
-                    switch (res.status){
-                        case 200: // Success
-                        case 201:
-                            setDirectorList([ res.data.data, ...directorList ]);
-                            setDirectorFormOpen(false);
-                            setFormChanged(false);
-                            break;
-                        case 409: // Conflict
-                            setDirectorFormError(res.data.data);
-                            break;
-                        case 422: // Unprocessable Content
-                            setDirectorFormError(res.data.errors);
-                            break;
+    const handleStore = (e) => {
+        e.preventDefault();
+        api.request('/api/director', 'POST', directorForm, true)
+            .then(res => {
+                if (res.status===200 || res.status===201){ // success
+                    setDirectorList([ res.data.data, ...directorList ]);
+                    setDirectorFormOpen(false);
+                }else if (res.status===403){ // permission
+
+                }else if (res.status===409){ // conflict
+                    setDirectorFormError(res.data.data);
+                }else if (res.status===422){ // unprocessable content
+                    setDirectorFormError(res.data.errors);
+                }
+                setLoadingShow(false);
+            });
+    } 
+
+    const handleUpdate = (e) => {
+        e.preventDefault();
+        api.request('/api/director/'+directorForm['uuid'], 'POST', directorForm, true)
+            .then(res => {
+                if (res.status===200 || res.status===201){ // success
+                    let tmp_directorList = directorList;
+                    let updated_data = res.data.data;
+                    for (let key in tmp_directorList){
+                        if (tmp_directorList[key]['uuid']==updated_data['uuid']){
+                            tmp_directorList[key] = updated_data;
+                        }
                     }
-                    setLoadingShow(false);
-                });
-        }else{
-            let uuid = directorForm['uuid'];
-            api.request('/api/director/'+uuid, 'POST', directorForm, true)
-                .then(res => {
-                    switch (res.status){
-                        case 200: // Success
-                        case 201:
-                            let tmp_directorList = directorList;
-                            let updated_data = res.data.data;
-                            for (let key in tmp_directorList){
-                                if (tmp_directorList[key]['uuid']==updated_data['uuid']){
-                                    tmp_directorList[key] = updated_data;
-                                }
-                            }
-                            setDirectorList(tmp_directorList);
-                            setDirectorFormOpen(false);
-                            setFormChanged(false);
-                            break;
-                        case 409: // Conflict
-                            setDirectorFormError(res.data.data);
-                            break;
-                        case 422: // Unprocessable Content
-                            setDirectorFormError(res.data.errors);
-                            break;
-                    }
-                    setLoadingShow(false);
-                });
-        }
-    }
+                    setDirectorList(tmp_directorList);
+                    setDirectorFormOpen(false);
+                }else if (res.status===403){ // permission
+
+                }else if (res.status===409){ // conflict
+                    setDirectorFormError(res.data.data);
+                }else if (res.status===422){ // unprocessable content
+                    setDirectorFormError(res.data.errors);
+                }
+                setLoadingShow(false);
+            });
+    } 
 
     const handleDelete = (e, uuid) => {
         e.preventDefault();
         api.request('/api/director/' + uuid, 'DELETE')
             .then(res => {
-                switch (res.status){
-                    case 200:
-                    case 201:
-                        let tmpArray = [...directorList];
-                        for (let key in tmpArray){
-                            if (tmpArray[key]['uuid']==uuid){
-                                tmpArray.splice(key, 1);
-                            }
+                if (res.status===200 || res.status===201){ // success
+                    let tmpArray = [...directorList];
+                    for (let key in tmpArray){
+                        if (tmpArray[key]['uuid']==uuid){
+                            tmpArray.splice(key, 1);
                         }
-                        setDirectorList(tmpArray);
-                        setDirectorFormOpen(false);
-                        setFormChanged(false);
-                        break;
+                    }
+                    setDirectorList(tmpArray);
+                    setDirectorFormOpen(false);
+                }else if (res.status===403){ // permission
+                    
                 }
             })
     }
 
+    const handlePending = (e) => {
+        e.preventDefault();
+        api.request('/api/director-pending', 'POST', directorForm, true)
+            .then(res => {
+                if (res.status===200 || res.status===201){ // success
+                    console.log(res.data.data);
+                    setDirectorFormOpen(false);
+                }else if (res.status===403){ // permission
+
+                }else if (res.status===409){ // conflict
+                    setDirectorFormError(res.data.data);
+                }else if (res.status===422){ // unprocessable content
+                    setDirectorFormError(res.data.errors);
+                }
+                setLoadingShow(false);
+            });
+    }
+
+    const handlePendingUpdate = (e) => {
+        e.preventDefault();
+        api.request('/api/director-pending-update/'+directorForm['uuid'], 'POST', directorForm, true)
+            .then(res => {
+                if (res.status===200 || res.status===201){ // success
+                    console.log(res.data.data);
+                    setDirectorFormOpen(false);
+                }else if (res.status===403){ // permission
+
+                }else if (res.status===409){ // conflict
+                    setDirectorFormError(res.data.data);
+                }else if (res.status===422){ // unprocessable content
+                    setDirectorFormError(res.data.errors);
+                }
+                setLoadingShow(false);
+            });
+    }
+
+    const handlePendingReject = (e) => {
+        e.preventDefault();
+    }
+
+    const handlePendingAccept = (e) => {
+        e.preventDefault();
+    }
+
     const handleClose = (e) => {
-        if (formChanged){
-            setCardStatusOpen(true);
-        }else{
-            setDirectorFormOpen(false);
-        }
+        setDirectorFormOpen(false);
     }
 
     return (  
@@ -130,7 +154,7 @@ const DirectorForm = () => {
                 </div>
                 <hr className={styles['divider']} />
                 <div className={`${styles['director-form-card-body']} container-fluid`}>
-                    <form className={`${styles['director-form-block']} row`} encType='multipart/form-data' onSubmit={ handleSubmit }>
+                    <form className={`${styles['director-form-block']} row`} encType='multipart/form-data'>
 
                         <div className={`${styles['director-form-field']} col-12 col-sm-4 form-group`}>
                             <label>First Name <i className='req'>*</i></label>
@@ -276,30 +300,52 @@ const DirectorForm = () => {
                         />
 
                         <div className={`${styles['director-form-field']} col-12 d-flex form-group`}>
-                            {   directorEdit &&
-                                <button className={`d-btn d-btn-danger ml-auto mr-2`} 
-                                onClick={ (e) => { handleDelete(e, directorForm['uuid']) } }
-                                >
-                                    Delete
+                            <div className='ml-auto'>
+
+                                <button className='d-btn d-btn-success mr-2' onClick={ (e) => { handlePendingAccept(e) } }>
+                                    Pending accept
                                 </button>
-                            }
-                            
-                            <button className={`${styles['submit-form']}`}>
-                                {(!directorEdit?'Add':'Edit')}
-                            </button>
+
+                                <button className='d-btn d-btn-danger mr-2' onClick={ (e) => { handlePendingReject(e) } }>
+                                    Pending reject
+                                </button>
+
+                                <button className='d-btn d-btn-primary mr-2' onClick={ (e) => { handlePendingUpdate(e) } }>
+                                    Pending update
+                                </button>
+                                
+                                <button className='d-btn d-btn-primary mr-2' onClick={ (e) => { handlePending(e) } }>
+                                    Pending
+                                </button>
+
+                                {   !directorEdit &&
+                                    <button className='d-btn d-btn-primary mr-2' onClick={ (e) => { handleStore(e) } }>
+                                        Save
+                                    </button>
+                                }
+
+                                {   directorEdit &&
+                                    <>
+                                        <button 
+                                            className={`d-btn d-btn-danger mr-2`} 
+                                            onClick={ (e) => { handleDelete(e, directorForm['uuid']) } }
+                                        >
+                                            Delete
+                                        </button>
+                                        <button 
+                                            className='d-btn d-btn-primary mr-2' 
+                                            onClick={ (e) => { handleUpdate(e) } }
+                                        >
+                                            Update
+                                        </button>
+                                    </>
+                                }
+                            </div>
                         </div>
 
                     </form>
                 </div>
             </div>
-            <Alert 
-                msg='You have unsaved data...'
-                cardStatusOpen={cardStatusOpen}
-                setCardStatusOpen={setCardStatusOpen}
-                handleSubmit={ handleSubmit }
-                setFormOpen = { setDirectorFormOpen }
-                setFormChanged = {setFormChanged}
-            />
         </div>
     );
 }

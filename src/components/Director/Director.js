@@ -83,6 +83,7 @@ const Director = () => {
 
     const handleCardClick = (uuid) => {
         setDirectorFormOpen(false);
+        setDirectorForm(directorFormEntity);
         api.request('/api/director/'+uuid, 'GET')
                 .then(res => {
                     setDirectorEdit(true);

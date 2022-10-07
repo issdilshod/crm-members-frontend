@@ -84,7 +84,11 @@ a:hover{
 }
 
 .d-btn-danger{
-    background-color: #ab6060;
+    background-color: #f26051;
+}
+
+.d-btn-success{
+    background-color: #20da9b;
 }
 
 /* D-Alert */
@@ -99,7 +103,7 @@ a:hover{
 }
 
 .d-alert-success{
-    color: #155724;
+    color: #20da9b;
     background-color: #d4edda;
     border-color: #c3e6cb;
 }
@@ -247,7 +251,7 @@ a:hover{
 
 /* Required sign */
 label .req {
-    color: #eb2929;
+    color: #f26051;
 }
 
 /* T-CARDS */
