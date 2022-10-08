@@ -20,14 +20,11 @@ const DirectorList = () => {
     const firstInit = () => {
         api.request('/api/director', 'GET')
             .then(res => {
-                switch (res.status){
-                    case 200:
-                    case 201:
-                        setDirectorList(res.data.data);
-                        break;
+                if (res.status===200 || res.status===201){ //success
+                    setDirectorList(res.data.data);
+                    setTotalPage(res.data.meta['last_page']);
                 }
                 setLoadingShow(false);
-                setTotalPage(res.data.meta['last_page']);
             });
     }
 
@@ -42,7 +39,9 @@ const DirectorList = () => {
         setLoadingShow(true);
         api.request('/api/director?page='+number, 'GET')
             .then(res => {
-                setDirectorList(res.data.data);
+                if (res.status===200 || res.status===201){ // success
+                    setDirectorList(res.data.data);
+                }
                 setLoadingShow(false);
             });
     }
@@ -58,8 +57,10 @@ const DirectorList = () => {
             setDefaultList(false);
             api.request('/api/director-search/'+text, 'GET')
                 .then(res => {
-                    setDirectorList(res.data.data);
-                    setTotalPage(res.data.meta['last_page']);
+                    if (res.status===200 || res.status===201){ // success
+                        setDirectorList(res.data.data);
+                        setTotalPage(res.data.meta['last_page']);
+                    }
                     setLoadingShow(false);
                 });
         }else{
