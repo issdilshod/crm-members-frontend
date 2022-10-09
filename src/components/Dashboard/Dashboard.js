@@ -37,10 +37,10 @@ const Dashboard = () => {
                 <Header />
                 <div className={`${styles['dashboard-block']} container-fluid mb-4`}>
                     <div className='row'>
-                        <div className='col-12 col-sm-4'>
+                        <div className='col-12 col-sm-5'>
                             <TaskListDashboard />
                         </div>
-                        <div className='col-12 col-sm-4'>
+                        <div className='col-12 col-sm-3'>
                             <Pending />
                         </div>
                         <div className='col-12 col-sm-4'>
