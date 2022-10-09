@@ -20,14 +20,11 @@ const CompanyList = () => {
     const firstInit = () => {
         api.request('/api/company', 'GET')
             .then(res => {
-                switch (res.status){
-                    case 200:
-                    case 201:
-                        setCompanyList(res.data.data);
-                        break;
+                if (res.status===200||res.status===201){
+                    setCompanyList(res.data.data);
+                    setTotalPage(res.data.meta['last_page']);
                 }
                 setLoadingShow(false);
-                setTotalPage(res.data.meta['last_page']);
             });
     }
 
@@ -42,7 +39,9 @@ const CompanyList = () => {
         setLoadingShow(true);
         api.request('/api/company?page='+number, 'GET')
             .then(res => {
-                setCompanyList(res.data.data);
+                if (res.status===200||res.status===201){
+                    setCompanyList(res.data.data);
+                }
                 setLoadingShow(false);
             });
     }
@@ -58,8 +57,10 @@ const CompanyList = () => {
             setDefaultList(false);
             api.request('/api/company-search/'+text, 'GET')
                 .then(res => {
-                    setCompanyList(res.data.data);
-                    setTotalPage(res.data.meta['last_page']);
+                    if (res.status===200||res.status===201){
+                        setCompanyList(res.data.data);
+                        setTotalPage(res.data.meta['last_page']);
+                    }
                     setLoadingShow(false);
                 });
         }else{
@@ -110,7 +111,7 @@ const CompanyList = () => {
                                             </div>
                                             <div className={`${styles['company-card-info']}`}>
                                                 <p>{value.legal_name}</p>
-                                                <p><FaMapMarkerAlt /> address</p>
+                                                <p><FaMapMarkerAlt /> {value.address[0].street_address}, {value.address[0].city}, {value.address[0].state}</p>
                                                 <p><FaFileAlt /> {value.uploaded_files.length}</p>
                                             </div>
                                         </div>
