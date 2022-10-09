@@ -86,40 +86,43 @@ const Director = () => {
         setDirectorForm(directorFormEntity);
         api.request('/api/director/'+uuid, 'GET')
                 .then(res => {
-                    setDirectorEdit(true);
-                    setDirectorFormOpen(true);
-                    setDirectorFormError({});
-                    let tmp_director = res.data.data;
+                    if (res.status===200||res.status===201){
+                        setDirectorEdit(true);
+                        setDirectorFormOpen(true);
+                        setDirectorFormError({});
+                        let tmp_director = res.data.data;
 
-                    // address
-                    for (let key in tmp_director['address']){
-                        let address_parent = tmp_director['address'][key]['address_parent'];
-                        for (let key2 in tmp_director['address'][key]){
-                            tmp_director['address' + '[' + address_parent + '][' + key2 + ']'] = tmp_director['address'][key][key2];
+                        // address
+                        for (let key in tmp_director['address']){
+                            let address_parent = tmp_director['address'][key]['address_parent'];
+                            for (let key2 in tmp_director['address'][key]){
+                                tmp_director['address' + '[' + address_parent + '][' + key2 + ']'] = tmp_director['address'][key][key2];
+                            }
                         }
-                    }
-                    delete tmp_director['address'];
+                        delete tmp_director['address'];
 
-                    //emails (first)
-                    for (let key in tmp_director['emails'][0]){
-                        tmp_director['emails[' + key + ']'] = tmp_director['emails'][0][key];
-                    }
-                    delete tmp_director['emails'];
-
-                    // files
-                    let tmp_files = { 'dl_upload': {'front': [], 'back': []}, 'ssn_upload': {'front': [], 'back': []}, 'cpn_docs_upload': []};
-                    for (let key in tmp_director['uploaded_files']){
-                        let file_parent = tmp_director['uploaded_files'][key]['file_parent'].split('/');
-                        if (file_parent.length==1){ // hasn't child
-                            tmp_files[file_parent[0]].push(tmp_director['uploaded_files'][key]);
-                        }else{ // has child
-                            tmp_files[file_parent[0]][file_parent[1]].push(tmp_director['uploaded_files'][key]);
+                        //emails (first)
+                        for (let key in tmp_director['emails'][0]){
+                            tmp_director['emails[' + key + ']'] = tmp_director['emails'][0][key];
                         }
-                    }
-                    tmp_director['uploaded_files'] = tmp_files;
+                        delete tmp_director['emails'];
 
-                    tmp_director['_method'] = 'PUT';
-                    setDirectorForm(tmp_director);
+                        // files
+                        let tmp_files = { 'dl_upload': {'front': [], 'back': []}, 'ssn_upload': {'front': [], 'back': []}, 'cpn_docs_upload': []};
+                        for (let key in tmp_director['uploaded_files']){
+                            let file_parent = tmp_director['uploaded_files'][key]['file_parent'].split('/');
+                            if (file_parent.length==1){ // hasn't child
+                                tmp_files[file_parent[0]].push(tmp_director['uploaded_files'][key]);
+                            }else{ // has child
+                                tmp_files[file_parent[0]][file_parent[1]].push(tmp_director['uploaded_files'][key]);
+                            }
+                        }
+                        tmp_director['uploaded_files'] = tmp_files;
+
+                        tmp_director['_method'] = 'PUT';
+                        setDirectorForm(tmp_director);
+                    }
+                    
                 });  
     }
 
