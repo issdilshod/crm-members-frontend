@@ -21,7 +21,11 @@ const Pending = () => {
         api.request('/api/pending', 'GET')
             .then(res => {
                 if (res.status===200||res.status===201){ // success
-                    setPending([...res.data.companies, ...res.data.directors]);
+                    let tmpArr = [...res.data.companies, ...res.data.directors];
+                    tmpArr.sort((a, b) => {
+                        return new Date(b.updated_at) - new Date(a.updated_at);
+                    });
+                    setPending(tmpArr);
                 }
             })
     }
