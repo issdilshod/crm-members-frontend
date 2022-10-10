@@ -2,6 +2,9 @@ import React, { useState, useEffect, useContext, useRef } from 'react';
 import InputMask from 'react-input-mask';
 import Select from 'react-select';
 
+import * as STATUS from '../../../consts/Status';
+import * as COMPANY from '../../../consts/Company';
+
 import BankAccountForm from './BankAccountForm';
 import AddressForm from './AddressForm';
 import EmailForm from './EmailForm';
@@ -15,7 +18,7 @@ import '../../../assets/css/App.css';
 const CompanyForm = () => {
 
     const { 
-            api, styles,
+            api, styles, permissions,
             companyFormOpen, setCompanyFormOpen, companyEdit, setCompanyEdit, companyList, setCompanyList, companyForm, setCompanyForm,
                 companyFormError, setCompanyFormError,
             companyAddressOpen, setCompanyAddressOpen, incorporationStateUploadOpen,
@@ -75,71 +78,6 @@ const CompanyForm = () => {
         if (file){ value = e.target.files; }
 
         setCompanyForm({ ...companyForm, [name]: value });
-    }
-
-    const handleSubmit = async (e, trigger = false) => {
-        if (!trigger){
-            e.preventDefault();
-        }
-        setLoadingShow(true);
-        // set bank account
-        let cForm = companyForm;
-        if ('security' in cForm){
-            for (let key in cForm['security']){
-                for (let key1 in cForm['security'][key]){
-                    cForm[key1] = cForm['security'][key][key1];
-                }
-                
-            }
-            delete cForm['security'];
-        }
-        
-        if (!companyEdit){
-            api.request('/api/company', 'POST', companyForm, true)
-                .then(res => {
-                    switch (res.status){
-                        case 200: // Success
-                        case 201:
-                            setCompanyList([ res.data.data, ...companyList ]);
-                            setCompanyFormOpen(false);
-                            break;
-                        case 409: // Conflict
-                            setCompanyFormError(res.data.data);
-                            break;
-                        case 422: // Unprocessable Content
-                            setCompanyFormError(res.data.errors);
-                            break;
-                    }
-                    setLoadingShow(false);
-                });
-        }else{
-            let uuid = companyForm['uuid'];
-            api.request('/api/company/'+uuid, 'POST', companyForm, true)
-                .then(res => {
-                    switch (res.status){
-                        case 200: // Success
-                        case 201:
-                            let tmp_companyList = companyList;
-                            let updated_data = res.data.data;
-                            for (let key in tmp_companyList){
-                                if (tmp_companyList[key]['uuid']==updated_data['uuid']){
-                                    tmp_companyList[key] = updated_data;
-                                }
-                            }
-                            setCompanyList(tmp_companyList);
-                            setCompanyFormOpen(false);
-                            break;
-                        case 409: // Conflict
-                            setCompanyFormError(res.data.data);
-                            break;
-                        case 422: // Unprocessable Content
-                            setCompanyFormError(res.data.errors);
-                            break;
-                    }
-                    setLoadingShow(false);
-                });
-        }
-        
     }
 
     const handleStore = (e) => {
@@ -291,7 +229,7 @@ const CompanyForm = () => {
                 </div>
                 <hr className={styles['divider']} />
                 <div className={`${styles['company-form-card-body']} container-fluid`}>
-                    <form className={`${styles['company-form-block']} row`} encType='multipart/form-data' onSubmit={ handleSubmit }>
+                    <form className={`${styles['company-form-block']} row`} encType='multipart/form-data'>
 
                         <div className={`${styles['company-form-field']} col-12 col-sm-4 form-group`}>
                             <label>Company Legal Name <i className='req'>*</i></label>
@@ -581,44 +519,62 @@ const CompanyForm = () => {
                         <div className={`${styles['company-form-field']} col-12 d-flex form-group`}>
                             
                             <div className='ml-auto'>
-                                <button className='d-btn d-btn-success mr-2' onClick={ (e) => { handlePendingAccept(e) } }>
-                                    Pending accept
-                                </button>
-
-                                <button className='d-btn d-btn-danger mr-2' onClick={ (e) => { handlePendingReject(e) } }>
-                                    Pending reject
-                                </button>
-
-                                <button className='d-btn d-btn-primary mr-2' onClick={ (e) => { handlePendingUpdate(e) } }>
-                                    Pending update
-                                </button>
                                 
-                                <button className='d-btn d-btn-primary mr-2' onClick={ (e) => { handlePending(e) } }>
-                                    Pending
-                                </button>
-
-                                {   !companyEdit &&
-                                    <button className='d-btn d-btn-primary mr-2' onClick={ (e) => { handleStore(e) } }>
-                                        Save
-                                    </button>
-                                }
-
-                                {   companyEdit &&
+                                { permissions.includes(COMPANY.STORE)  && //permitted to add
                                     <>
-                                        <button 
-                                            className={`d-btn d-btn-danger mr-2`} 
-                                            onClick={ (e) => { handleDelete(e, companyForm['uuid']) } }
-                                        >
-                                            Delete
-                                        </button>
-                                        <button 
-                                            className='d-btn d-btn-primary mr-2' 
-                                            onClick={ (e) => { handleUpdate(e) } }
-                                        >
-                                            Update
-                                        </button>
+                                        { companyForm['status']==='' &&
+                                            <button className='d-btn d-btn-primary mr-2' onClick={ (e) => { handleStore(e) } }>
+                                                Save
+                                            </button>
+                                        }
+
+                                        { companyForm['status']===STATUS.ACTIVED &&
+                                            <>
+                                                <button 
+                                                    className={`d-btn d-btn-danger mr-2`} 
+                                                    onClick={ (e) => { handleDelete(e, companyForm['uuid']) } }
+                                                >
+                                                    Delete
+                                                </button>
+                                                <button 
+                                                    className='d-btn d-btn-primary mr-2' 
+                                                    onClick={ (e) => { handleUpdate(e) } }
+                                                >
+                                                    Update
+                                                </button>
+                                            </>
+                                        }
+
+                                        { (companyForm['status']!=='' && companyForm['status']!==STATUS.ACTIVED) && 
+                                            <>
+                                                <button className='d-btn d-btn-success mr-2' onClick={ (e) => { handlePendingAccept(e) } }>
+                                                    Pending accept
+                                                </button>
+
+                                                <button className='d-btn d-btn-danger mr-2' onClick={ (e) => { handlePendingReject(e) } }>
+                                                    Pending reject
+                                                </button>
+                                            </>
+                                        }
                                     </>
                                 }
+
+                                { (!permissions.includes(COMPANY.STORE) && permissions.includes(COMPANY.SAVE)) && // not permitted to add
+                                    <>
+                                        { companyEdit &&
+                                            <button className='d-btn d-btn-primary mr-2' onClick={ (e) => { handlePendingUpdate(e) } }>
+                                                Pending update
+                                            </button>
+                                        }
+
+                                        { !companyEdit &&
+                                            <button className='d-btn d-btn-primary mr-2' onClick={ (e) => { handlePending(e) } }>
+                                                Pending
+                                            </button>
+                                        }
+                                    </>
+                                }
+
                             </div>
 
                         </div>

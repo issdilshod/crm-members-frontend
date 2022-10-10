@@ -56,7 +56,8 @@ const Company = () => {
             'doing_business_in_state': [],
             'company_ein': [],
             'db_report': []
-        }
+        },
+        'status': ''
     });
     const [companyEdit, setCompanyEdit] = useState(false);
     const [companyFormOpen, setCompanyFormOpen] = useState(false);
@@ -72,6 +73,9 @@ const Company = () => {
     const [companyEinUploadOpen, setCompanyEinUploadOpen] = useState(true);
     const [companyDbReportUploadOpen, setCompanyDbReportUploadOpen] = useState(true);
 
+    // permissions
+    const [permissions, setPermissions] = useState([]);
+
     // card save/discard
     const [cardStatusOpen, setCardStatusOpen] = useState(false);
 
@@ -86,6 +90,11 @@ const Company = () => {
         if (uuid){
             handleCardClick(uuid);
         }
+
+        api.request('/api/company-permission', 'GET')
+            .then(res => {
+                setPermissions(res.data);
+            })
     }
 
     const handleCardClick = (uuid) => {
@@ -135,7 +144,7 @@ const Company = () => {
 
     return (  
         <Mediator.Provider value={ { 
-                                api, navigate, styles,
+                                api, navigate, styles, permissions,
                                 menuOpen, setMenuOpen, 
                                 companyFormOpen, setCompanyFormOpen, companyEdit, setCompanyEdit, companyList, setCompanyList,
                                     companyForm, setCompanyForm, companyFormError, setCompanyFormError, companyFormEntity, setCompanyFormEntity,
