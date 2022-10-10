@@ -6,35 +6,37 @@ import * as STATUS from '../../../consts/Status';
 import Api from '../../../services/Api';
 
 import './Pending.scss';
+import { useNavigate } from 'react-router-dom';
 
 const Pending = () => {
 
     const api = new Api();
+    const nav = useNavigate();
 
     useEffect(() => {
         firstInit();
     }, []);
 
     const firstInit = () => {
-        api.request('/api/director-user', 'GET')
+        api.request('/api/pending', 'GET')
             .then(res => {
                 if (res.status===200||res.status===201){ // success
-                    setDirectorPending(res.data.data);
+                    setPending([...res.data.companies, ...res.data.directors]);
                 }
             })
     }
 
-    const [directorPending, setDirectorPending] = useState([]);
+    const [pending, setPending] = useState([]);
 
     const handlePendingClick = (link) => {
-        console.log(link);
+        nav(process.env.REACT_APP_FRONTEND_PREFIX + link);
     } 
 
     return (
         <div className='pending-block'>
         
             {
-                directorPending.map((value, index) => {
+                pending.map((value, index) => {
                     return (
                         <div 
                             key={index} 
@@ -44,7 +46,12 @@ const Pending = () => {
                                 `${value['status']===STATUS.ACTIVED?'t-card-success':''} ` +
                                 `d-flex mb-2`
                             }
-                            onClick={ () => { handlePendingClick(value['last_activity']['link']) } }
+                            onClick={ () => { 
+                                    if(value['status']!==STATUS.ACTIVED){
+                                        handlePendingClick(value['last_activity']['link'])
+                                    } 
+                                } 
+                            }
                         >
                             <div className={`mr-auto`}>
                                 <div className={`t-card-name`}>{value['name']}</div>
