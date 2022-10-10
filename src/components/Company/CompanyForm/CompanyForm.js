@@ -229,7 +229,7 @@ const CompanyForm = () => {
                     setAlert({'msg': 'Some data already exists', 'show': true, 'type': 'danger'});
                 }else if (res.status===422){ // unprocessable content
                     setCompanyFormError(res.data.errors);
-                    setAlert({'msg': 'Some data already exists', 'show': true, 'type': 'danger'});
+                    setAlert({'msg': 'Fill the important fields', 'show': true, 'type': 'danger'});
                 }
                 setLoadingShow(false);
             });
