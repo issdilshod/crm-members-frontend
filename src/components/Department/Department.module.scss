@@ -101,18 +101,6 @@
                         width: 50px;
                     }
 
-                    .users-list li div:last-of-type svg{
-                        color: #63b359;
-                        animation: blinker 1.5s linear infinite;
-                        border-radius: 50%;
-                        font-size: .6em;
-                    }
-
-                    @keyframes blinker {
-                        50% {
-                            box-shadow: 0 0 6px 2px #63b359;
-                        }
-                    }
                 }
             }
 

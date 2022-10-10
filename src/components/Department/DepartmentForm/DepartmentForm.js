@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Mediator } from '../../../context/Mediator';
 
-import { FaTimes, FaAngleUp, FaCircle, FaPlus } from 'react-icons/fa';
+import { FaTimes, FaPlus, FaCog, FaTrash, FaPencilAlt } from 'react-icons/fa';
 
 const DepartmentForm = () => {
 
@@ -10,10 +10,13 @@ const DepartmentForm = () => {
         departmentList, departmentForm, setDepartmentForm, departmentFormOpen, setDepartmentFormOpen,
         userFormEntity, userForm, setUserForm, setUserFormError, userFormOpen, setUserFormOpen,
         userEdit, setUserEdit,
-        setActiveUser
+        setActiveUser,
+
+        permissionFormOpen, setPermissionFormOpen, entityPermission, setEntityPermission, permissionEntityIs, setPermissionEntityIs, selectedPermissionEntity, setSelectedPermissionEntity
     } = useContext(Mediator);
 
-    const handleUserClick = (uuid) => { // User edit
+    const handleUserClick = (e, uuid) => { // User edit
+        e.preventDefault();
         setUserEdit(true);
         api.request('/api/user/'+uuid, 'GET')
             .then(res => {
@@ -41,6 +44,35 @@ const DepartmentForm = () => {
         setUserEdit(false);
     }
 
+    const handleDeleteUser = (e, uuid) => {
+        e.preventDefault();
+        console.log(uuid);
+    }
+
+    const handleUserPermission = (e, uuid) => {
+        e.preventDefault();
+        api.request('/api/permission-user/'+uuid, 'GET')
+            .then(res => {
+                setSelectedPermissionEntity(uuid);
+                setPermissionEntityIs('user');
+                setEntityPermission(res.data.data);
+                setDepartmentFormOpen(false);
+                setPermissionFormOpen(true);
+            })
+    }
+
+    const handleDepartmentPermission = (e, uuid) => {
+        e.preventDefault();
+        api.request('/api/permission-department/'+uuid, 'GET')
+            .then(res => {
+                setSelectedPermissionEntity(uuid);
+                setPermissionEntityIs('department');
+                setEntityPermission(res.data.data);
+                setDepartmentFormOpen(false);
+                setPermissionFormOpen(true);
+            })
+    }
+
     return (
         <div className={`${styles['department-form-card']} ${departmentFormOpen ? styles['department-form-card-active']:''}`}>
             <div className={`${styles['department-form-card-head']} d-flex`}>
@@ -57,8 +89,14 @@ const DepartmentForm = () => {
                         <div className={`${styles['user-card']}`}>
                             <div className={`${styles['user-card-head']} d-flex`} >
                                 <div className={`${styles['card-head-title']} mr-auto`}>Users of {departmentForm['department_name']} department</div>
-                                <div onClick={ () => { handlePlusUserClick(departmentForm['uuid']) } }>
-                                    <span>
+                                <div>
+                                    <span 
+                                        className='mr-2'
+                                        onClick={ (e) => { handleDepartmentPermission(e, departmentForm['uuid']) } }
+                                    >
+                                        <FaCog />
+                                    </span>
+                                    <span  onClick={ () => { handlePlusUserClick(departmentForm['uuid']) } }>
                                         <FaPlus />
                                     </span>
                                 </div>
@@ -68,11 +106,30 @@ const DepartmentForm = () => {
                                     {
                                         departmentForm['users'].map((value, index) => {
                                             return (
-                                                <li key={index} className='d-flex' onClick={ () => { handleUserClick(value['uuid']) } }>
+                                                <li key={index} className='d-flex'>
                                                     <div>{index+1}</div>
                                                     <div className='mr-auto'>{value['first_name']} {value['last_name']}</div>
                                                     <div>
-                                                        <FaCircle />
+                                                        <button
+                                                            className='d-btn d-btn-primary mr-2'
+                                                            onClick={ (e) => { handleUserClick(e, value['uuid']) } }
+                                                        >
+                                                            <FaPencilAlt />
+                                                        </button>
+
+                                                        <button 
+                                                            className='d-btn d-btn-primary mr-2' 
+                                                            onClick={ (e) => { handleUserPermission(e, value['uuid']) } } 
+                                                        >
+                                                            <FaCog />
+                                                        </button> 
+
+                                                        <button 
+                                                            className='d-btn d-btn-danger' 
+                                                            onClick={ (e) => { handleDeleteUser(e, value['uuid']) } }
+                                                        >
+                                                            <FaTrash />
+                                                        </button> 
                                                     </div>
                                                 </li>
                                             )

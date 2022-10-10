@@ -75,6 +75,10 @@ a:hover{
     outline: none;
 }
 
+.d-btn:focus{
+    outline: none;
+}
+
 .d-btn:hover{
     box-shadow: 0 0.3125rem 0.625rem 6px rgb(0 0 0 / 12%) !important;
 }
@@ -300,4 +304,48 @@ label .req {
 .t-card-icon{
     position: relative;
     top: 9px;
+}
+
+/* OnOff */
+.on-off{
+    position: relative;
+    background-color: #b3b3b3;
+    border-radius: 20px;
+    box-shadow: 0px 0px 10px 0px rgba(200, 200, 200, 0.5);
+    padding: 10px 12px;
+    cursor: pointer;
+}
+
+.on-off div{
+    font-weight: 700;
+    color: #fff;
+    
+    
+}
+
+.on-off div div{
+    width: 50%;
+    text-align: center;
+}
+
+.on-off:before{
+    content: '';
+    background-color: #f3f3f3;
+    position: absolute;
+    top:10px;
+    left:5%;
+    width: 45%;
+    height: 25px;
+    border-radius: 30px;
+    box-shadow: 0px 0px 5px 0px rgb(102 102 102 / 80%);
+    transition: 0.4s;
+}
+
+.on-off-active{
+    background-color: #19bf5e;
+
+}
+
+.on-off-active:before{
+    left: 50%;
 }

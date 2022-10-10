@@ -11,6 +11,7 @@ import Loading from '../Helper/Loading';
 import { FaEnvelope, FaShareAlt, FaTelegram } from 'react-icons/fa';
 import Validation from '../Helper/Validation';
 import InviteUserForm from './DepartmentForm/InviteUserForm';
+import PermissionForm from './DepartmentForm/PermissionForm';
 
 const Department = () => {
     const navigate = useNavigate();
@@ -45,28 +46,38 @@ const Department = () => {
     const [inviteUserFormOpen, setInviteUserFormOpen] = useState(false);
     const [activeUser, setActiveUser] = useState(false);
 
+    const [permissionList, setPermissionList] = useState([]);
+    const [permissionFormOpen, setPermissionFormOpen] = useState(false);
+    const [entityPermission, setEntityPermission] = useState([]);
+    const [permissionEntityIs, setPermissionEntityIs] = useState('department');
+    const [selectedPermissionEntity, setSelectedPermissionEntity] = useState('');
+
     const [loadingShow, setLoadingShow] = useState(true);
 
     useEffect(() => {
         api.request('/api/department', 'GET')
-                .then(res => {
-                    switch(res.status){
-                        case 200:
-                        case 201:
-                            setDepartmentList(res.data.data);
-                            break;
-                    }
-                    setLoadingShow(false);
-                });
+            .then(res => {
+                if (res.status===200||res.status===201){ // success
+                    setDepartmentList(res.data.data);
+                }
+                setLoadingShow(false);
+            });
+
         api.request('/api/role', 'GET')
-                .then(res => {
-                    switch(res.status){
-                        case 200:
-                        case 201:
-                            setRoleList(res.data.data);
-                            break;
-                    }
-                })
+            .then(res => {
+                if (res.status===200||res.status===201){ // success
+                    setRoleList(res.data.data);
+                }
+            })
+
+        // permission
+        api.request('/api/permission', 'GET')
+            .then(res => {
+                if (res.status===200||res.status===201){ // success
+                    setPermissionList(res.data.data);
+                } 
+            })
+
     }, []);
 
     const handleInviteUserClick = () => {
@@ -89,6 +100,8 @@ const Department = () => {
     const handleClick = (uuid) => {
         setInviteUserFormOpen(false);
         setUserFormOpen(false);
+        setPermissionFormOpen(false);
+        setDepartmentFormOpen(false);
         api.request('/api/department/'+uuid, 'GET')
                 .then(res => {
                     switch(res.status){
@@ -109,7 +122,9 @@ const Department = () => {
             userEdit, setUserEdit,
             setLoadingShow,
 
-            inviteUserFormOpen, setInviteUserFormOpen, activeUser, setActiveUser, pendingUsers, setPendingUsers
+            inviteUserFormOpen, setInviteUserFormOpen, activeUser, setActiveUser, pendingUsers, setPendingUsers,
+
+            permissionFormOpen, setPermissionFormOpen, permissionList, setPermissionList, entityPermission, setEntityPermission, permissionEntityIs, setPermissionEntityIs, selectedPermissionEntity, setSelectedPermissionEntity
         } }>
             <div className={styles['main-content']}>
                 <Header />
@@ -142,6 +157,8 @@ const Department = () => {
             <UserForm />
 
             <InviteUserForm />
+
+            <PermissionForm />
 
             { loadingShow && <Loading /> }
         </Mediator.Provider>
