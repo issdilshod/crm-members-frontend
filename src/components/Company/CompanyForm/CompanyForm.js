@@ -13,6 +13,8 @@ import Validation from '../../Helper/Validation';
 import { Mediator } from '../../../context/Mediator';
 
 import { FaTimes } from 'react-icons/fa';
+import Notification from '../../Helper/Notification/Notification';
+
 import '../../../assets/css/App.css';
 
 const CompanyForm = () => {
@@ -72,6 +74,8 @@ const CompanyForm = () => {
         setCompanyFormError({});
     }, [companyFormOpen])
 
+    const [alert, setAlert] = useState({'msg': '', 'show': false, 'type': ''});
+
     const handleChange = (e, file = false) => {
         let { value, name } = e.target;
         // get files
@@ -88,12 +92,15 @@ const CompanyForm = () => {
                 if (res.status===200 || res.status===201){ // success
                     setCompanyList([ res.data.data, ...companyList ]);
                     setCompanyFormOpen(false);
+                    setAlert({'msg': 'Successfully company added', 'show': true, 'type': 'success'});
                 }else if (res.status===403){ // permission
 
                 }else if (res.status===409){ // conflict
                     setCompanyFormError(res.data.data);
+                    setAlert({'msg': 'Some data already exists', 'show': true, 'type': 'danger'});
                 }else if (res.status===422){ // unprocessable content
                     setCompanyFormError(res.data.errors);
+                    setAlert({'msg': 'Fill the important fields', 'show': true, 'type': 'danger'});
                 }
                 setLoadingShow(false);
             });
@@ -114,12 +121,15 @@ const CompanyForm = () => {
                     }
                     setCompanyList(tmp_companyList);
                     setCompanyFormOpen(false);
+                    setAlert({'msg': 'Successfully company updated', 'show': true, 'type': 'success'});
                 }else if (res.status===403){ // permission
 
                 }else if (res.status===409){ // conflict
                     setCompanyFormError(res.data.data);
+                    setAlert({'msg': 'Some data already exists', 'show': true, 'type': 'danger'});
                 }else if (res.status===422){ // unprocessable content
                     setCompanyFormError(res.data.errors);
+                    setAlert({'msg': 'Fill the important fields', 'show': true, 'type': 'danger'});
                 }
                 setLoadingShow(false);
             });
@@ -138,6 +148,7 @@ const CompanyForm = () => {
                     }
                     setCompanyList(tmpArray);
                     setCompanyFormOpen(false);
+                    setAlert({'msg': 'Successfully company deleted', 'show': true, 'type': 'success'});
                 }else if (res.status===403){ // permission
 
                 }
@@ -150,12 +161,15 @@ const CompanyForm = () => {
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
                     setCompanyFormOpen(false);
+                    setAlert({'msg': 'Succefully sent company to approve', 'show': true, 'type': 'success'});
                 }else if (res.status===403){ // permission
 
                 }else if (res.status===409){ // conflict
                     setCompanyFormError(res.data.data);
+                    setAlert({'msg': 'Some data already exists', 'show': true, 'type': 'danger'});
                 }else if (res.status===422){ // unprocessable content
                     setCompanyFormError(res.data.errors);
+                    setAlert({'msg': 'Fill the important fields', 'show': true, 'type': 'danger'});
                 }
                 setLoadingShow(false);
             });
@@ -167,12 +181,15 @@ const CompanyForm = () => {
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
                     setCompanyFormOpen(false);
+                    setAlert({'msg': 'Succefully sent updates to approve', 'show': true, 'type': 'success'});
                 }else if (res.status===403){ // permission
 
                 }else if (res.status===409){ // conflict
                     setCompanyFormError(res.data.data);
+                    setAlert({'msg': 'Some data already exists', 'show': true, 'type': 'danger'});
                 }else if (res.status===422){ // unprocessable content
                     setCompanyFormError(res.data.errors);
+                    setAlert({'msg': 'Fill the important fields', 'show': true, 'type': 'danger'});
                 }
                 setLoadingShow(false);
             });
@@ -184,6 +201,7 @@ const CompanyForm = () => {
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
                     setCompanyFormOpen(false);
+                    setAlert({'msg': 'Succefully company rejected', 'show': true, 'type': 'success'});
                 }else if (res.status===403){ // permission
 
                 }else if (res.status===409){ // conflict
@@ -203,12 +221,15 @@ const CompanyForm = () => {
                 if (res.status===200 || res.status===201){ // success
                     setCompanyList([ res.data.data, ...companyList ]);
                     setCompanyFormOpen(false);
+                    setAlert({'msg': 'Succefully company approve', 'show': true, 'type': 'success'});
                 }else if (res.status===403){ // permission
 
                 }else if (res.status===409){ // conflict
                     setCompanyFormError(res.data.data);
+                    setAlert({'msg': 'Some data already exists', 'show': true, 'type': 'danger'});
                 }else if (res.status===422){ // unprocessable content
                     setCompanyFormError(res.data.errors);
+                    setAlert({'msg': 'Some data already exists', 'show': true, 'type': 'danger'});
                 }
                 setLoadingShow(false);
             });
@@ -220,6 +241,7 @@ const CompanyForm = () => {
 
     return (  
         <div>
+            <Notification Alert={alert} SetAlert={setAlert} />
             <div className={`${styles['company-form-card']} ${companyFormOpen ? styles['company-form-card-active']:''}`}>
                 <div className={`${styles['company-form-card-head']} d-flex`}>
                     <div className={`${styles['company-form-card-title']} mr-auto`}>{(!companyEdit?'Add company':'Edit company')}</div>
