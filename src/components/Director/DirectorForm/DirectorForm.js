@@ -372,7 +372,7 @@ const DirectorForm = () => {
                                     </>
                                 }
 
-                                { !permissions.includes(DIRECTOR.STORE) && // not permitted to add
+                                { (!permissions.includes(DIRECTOR.STORE) && permissions.includes(DIRECTOR.SAVE)) && // not permitted to add
                                     <>
                                         { directorEdit &&
                                             <button className='d-btn d-btn-primary mr-2' onClick={ (e) => { handlePendingUpdate(e) } }>
