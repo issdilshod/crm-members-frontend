@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { FaClock } from 'react-icons/fa';
+import { FaCheck, FaClock } from 'react-icons/fa';
 import DateFormatter from '../../../services/DateFormatter';
 import * as STATUS from '../../../consts/Status';
 
@@ -55,12 +55,12 @@ const Pending = () => {
                         >
                             <div className={`mr-auto`}>
                                 <div className={`t-card-name`}>{value['name']}</div>
-                                <div className={`t-card-name`}>{value['last_activity']['description']}</div>
+                                <div className={``}>{value['last_activity']['description']}</div>
                                 <div className={`t-card-due-date`}>{ DateFormatter.beautifulDate(value['last_activity']['updated_at']) }</div>
                             </div>
                             <div className={`tcard-icons text-center`}>
                                 <span className={`t-card-icon`}>
-                                    <FaClock />
+                                    { STATUS.ACTIVED===value['status']?<FaCheck />:<FaClock />}
                                 </span>
                             </div>
                         </div>
