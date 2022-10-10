@@ -51,7 +51,8 @@ const Director = () => {
                 'back': [],
             },
             'cpn_docs_upload': [],
-        }
+        },
+        'status': ''
     });
     const [directorEdit, setDirectorEdit] = useState(false);
     const [directorFormOpen, setDirectorFormOpen] = useState(false);
@@ -68,6 +69,9 @@ const Director = () => {
     // card save/discard
     const [cardStatusOpen, setCardStatusOpen] = useState(false);
 
+    // permissions
+    const [permissions, setPermissions] = useState([]);
+
     const [loadingShow, setLoadingShow] = useState(true);
 
     const { uuid } = useParams();
@@ -79,6 +83,11 @@ const Director = () => {
         if (uuid){
             handleCardClick(uuid);
         }
+
+        api.request('/api/director-permission', 'GET')
+            .then(res => {
+                setPermissions(res.data);
+            })
     }
 
     const handleCardClick = (uuid) => {
@@ -128,7 +137,7 @@ const Director = () => {
 
     return (  
         <Mediator.Provider value={ { 
-                                api, navigate, styles,
+                                api, navigate, styles, permissions,
                                 menuOpen, setMenuOpen, 
                                 directorFormOpen, setDirectorFormOpen, directorEdit, setDirectorEdit, directorList, setDirectorList,
                                     directorForm, setDirectorForm, directorFormError, setDirectorFormError, directorFormEntity, setDirectorFormEntity, handleCardClick,

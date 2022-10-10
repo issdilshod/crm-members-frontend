@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
 import InputMask from 'react-input-mask';
 
+import * as STATUS from '../../../consts/Status';
+import * as DIRECTOR from '../../../consts/Director';
+
 import AddressForm from './AddressForm';
 import EmailForm from './EmailForm';
 import FileForm from './FileForm';
@@ -12,7 +15,7 @@ import { FaTimes } from 'react-icons/fa';
 const DirectorForm = () => {
 
     const { 
-            api, styles,
+            api, styles, permissions,
             directorFormOpen, setDirectorFormOpen, directorEdit, setDirectorEdit, directorList, setDirectorList, directorForm, setDirectorForm,
                 directorFormError, setDirectorFormError,
             dlAddressOpen, setDlAddressOpen, creditHomeAddressOpen,
@@ -330,44 +333,61 @@ const DirectorForm = () => {
                         <div className={`${styles['director-form-field']} col-12 d-flex form-group`}>
                             <div className='ml-auto'>
 
-                                <button className='d-btn d-btn-success mr-2' onClick={ (e) => { handlePendingAccept(e) } }>
-                                    Pending accept
-                                </button>
-
-                                <button className='d-btn d-btn-danger mr-2' onClick={ (e) => { handlePendingReject(e) } }>
-                                    Pending reject
-                                </button>
-
-                                <button className='d-btn d-btn-primary mr-2' onClick={ (e) => { handlePendingUpdate(e) } }>
-                                    Pending update
-                                </button>
-                                
-                                <button className='d-btn d-btn-primary mr-2' onClick={ (e) => { handlePending(e) } }>
-                                    Pending
-                                </button>
-
-                                {   !directorEdit &&
-                                    <button className='d-btn d-btn-primary mr-2' onClick={ (e) => { handleStore(e) } }>
-                                        Save
-                                    </button>
-                                }
-
-                                {   directorEdit &&
+                                { permissions.includes(DIRECTOR.STORE)  && //permitted to add
                                     <>
-                                        <button 
-                                            className={`d-btn d-btn-danger mr-2`} 
-                                            onClick={ (e) => { handleDelete(e, directorForm['uuid']) } }
-                                        >
-                                            Delete
-                                        </button>
-                                        <button 
-                                            className='d-btn d-btn-primary mr-2' 
-                                            onClick={ (e) => { handleUpdate(e) } }
-                                        >
-                                            Update
-                                        </button>
+                                        { directorForm['status']==='' &&
+                                            <button className='d-btn d-btn-primary mr-2' onClick={ (e) => { handleStore(e) } }>
+                                                Save
+                                            </button>
+                                        }
+
+                                        { directorForm['status']===STATUS.ACTIVED &&
+                                            <>
+                                                <button 
+                                                    className={`d-btn d-btn-danger mr-2`} 
+                                                    onClick={ (e) => { handleDelete(e, directorForm['uuid']) } }
+                                                >
+                                                    Delete
+                                                </button>
+                                                <button 
+                                                    className='d-btn d-btn-primary mr-2' 
+                                                    onClick={ (e) => { handleUpdate(e) } }
+                                                >
+                                                    Update
+                                                </button>
+                                            </>
+                                        }
+
+                                        { (directorForm['status']!=='' && directorForm['status']!==STATUS.ACTIVED) && 
+                                            <>
+                                                <button className='d-btn d-btn-success mr-2' onClick={ (e) => { handlePendingAccept(e) } }>
+                                                    Pending accept
+                                                </button>
+
+                                                <button className='d-btn d-btn-danger mr-2' onClick={ (e) => { handlePendingReject(e) } }>
+                                                    Pending reject
+                                                </button>
+                                            </>
+                                        }
                                     </>
                                 }
+
+                                { !permissions.includes(DIRECTOR.STORE) && // not permitted to add
+                                    <>
+                                        { directorEdit &&
+                                            <button className='d-btn d-btn-primary mr-2' onClick={ (e) => { handlePendingUpdate(e) } }>
+                                                Pending update
+                                            </button>
+                                        }
+
+                                        { !directorEdit &&
+                                            <button className='d-btn d-btn-primary mr-2' onClick={ (e) => { handlePending(e) } }>
+                                                Pending
+                                            </button>
+                                        }
+                                    </>
+                                }
+
                             </div>
                         </div>
 
