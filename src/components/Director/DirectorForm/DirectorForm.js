@@ -11,6 +11,7 @@ import Validation from '../../Helper/Validation';
 import { Mediator } from '../../../context/Mediator';
 
 import { FaTimes } from 'react-icons/fa';
+import Notification from '../../Helper/Notification/Notification';
 
 const DirectorForm = () => {
 
@@ -28,6 +29,8 @@ const DirectorForm = () => {
         setDirectorFormError({});
     }, [directorFormOpen])
 
+    const [alert, setAlert] = useState({'msg': '', 'show': false, 'type': ''});
+
     const handleChange = (e, file = false) => {
         let { value, name } = e.target;
         // get files
@@ -44,12 +47,15 @@ const DirectorForm = () => {
                 if (res.status===200 || res.status===201){ // success
                     setDirectorList([ res.data.data, ...directorList ]);
                     setDirectorFormOpen(false);
+                    setAlert({'msg': 'Successfully director added', 'show': true, 'type': 'success'});
                 }else if (res.status===403){ // permission
 
                 }else if (res.status===409){ // conflict
                     setDirectorFormError(res.data.data);
+                    setAlert({'msg': 'Some data already exists', 'show': true, 'type': 'danger'});
                 }else if (res.status===422){ // unprocessable content
                     setDirectorFormError(res.data.errors);
+                    setAlert({'msg': 'Fill the important fields', 'show': true, 'type': 'danger'});
                 }
                 setLoadingShow(false);
             });
@@ -70,12 +76,15 @@ const DirectorForm = () => {
                     }
                     setDirectorList(tmp_directorList);
                     setDirectorFormOpen(false);
+                    setAlert({'msg': 'Successfully director updated', 'show': true, 'type': 'success'});
                 }else if (res.status===403){ // permission
 
                 }else if (res.status===409){ // conflict
                     setDirectorFormError(res.data.data);
+                    setAlert({'msg': 'Some data already exists', 'show': true, 'type': 'danger'});
                 }else if (res.status===422){ // unprocessable content
                     setDirectorFormError(res.data.errors);
+                    setAlert({'msg': 'Fill the important fields', 'show': true, 'type': 'danger'});
                 }
                 setLoadingShow(false);
             });
@@ -94,24 +103,27 @@ const DirectorForm = () => {
                     }
                     setDirectorList(tmpArray);
                     setDirectorFormOpen(false);
+                    setAlert({'msg': 'Successfully director deleted', 'show': true, 'type': 'success'});
                 }else if (res.status===403){ // permission
                     
                 }
             })
     }
-
+ 
     const handlePending = (e) => {
         e.preventDefault();
         api.request('/api/director-pending', 'POST', directorForm, true)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
                     setDirectorFormOpen(false);
+                    setAlert({'msg': 'Succefully sent director to approve', 'show': true, 'type': 'success'});
                 }else if (res.status===403){ // permission
 
                 }else if (res.status===409){ // conflict
                     setDirectorFormError(res.data.data);
                 }else if (res.status===422){ // unprocessable content
                     setDirectorFormError(res.data.errors);
+                    setAlert({'msg': 'Fill the important fields', 'show': true, 'type': 'danger'});
                 }
                 setLoadingShow(false);
             });
@@ -122,12 +134,15 @@ const DirectorForm = () => {
         api.request('/api/director-pending-update/'+directorForm['uuid'], 'POST', directorForm, true)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
+                    setAlert({'msg': 'Succefully sent updates to approve', 'show': true, 'type': 'success'});
                     setDirectorFormOpen(false);
                 }else if (res.status===403){ // permission
 
                 }else if (res.status===409){ // conflict
                     setDirectorFormError(res.data.data);
+                    setAlert({'msg': 'Some data already exists', 'show': true, 'type': 'danger'});
                 }else if (res.status===422){ // unprocessable content
+                    setAlert({'msg': 'Fill the important fields', 'show': true, 'type': 'danger'});
                     setDirectorFormError(res.data.errors);
                 }
                 setLoadingShow(false);
@@ -139,6 +154,7 @@ const DirectorForm = () => {
         api.request('/api/director-reject/'+directorForm['uuid'], 'PUT')
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
+                    setAlert({'msg': 'Succefully director rejected', 'show': true, 'type': 'success'});
                     setDirectorFormOpen(false);
                 }else if (res.status===403){ // permission
 
@@ -157,13 +173,16 @@ const DirectorForm = () => {
         api.request('/api/director-accept/'+directorForm['uuid'], 'POST', directorForm, true)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
+                    setAlert({'msg': 'Succefully director approve', 'show': true, 'type': 'success'});
                     setDirectorList([ res.data.data, ...directorList ]);
                     setDirectorFormOpen(false);
                 }else if (res.status===403){ // permission
 
                 }else if (res.status===409){ // conflict
                     setDirectorFormError(res.data.data);
+                    setAlert({'msg': 'Some data already exists', 'show': true, 'type': 'danger'});
                 }else if (res.status===422){ // unprocessable content
+                    setAlert({'msg': 'Fill the important fields', 'show': true, 'type': 'danger'});
                     setDirectorFormError(res.data.errors);
                 }
                 setLoadingShow(false);
@@ -176,6 +195,7 @@ const DirectorForm = () => {
 
     return (  
         <div>
+            <Notification Alert={alert} SetAlert={setAlert} />
             <div className={`${styles['director-form-card']} ${directorFormOpen ? styles['director-form-card-active']:''}`}>
                 <div className={`${styles['director-form-card-head']} d-flex`}>
                     <div className={`${styles['director-form-card-title']} mr-auto`}>{(!directorEdit?'Add director':'Edit director')}</div>

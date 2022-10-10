@@ -349,3 +349,67 @@ label .req {
 .on-off-active:before{
     left: 50%;
 }
+
+/* Notification  */
+.d-notification{
+    position: absolute;
+    top: 20px;
+    right: -100%;
+    width: 320px;
+    z-index: 20;
+    background-color: #ffffff;
+    color:#344767;
+    padding: 20px;
+    border-radius: 20px;
+    overflow: hidden;
+    transition: .4s;
+}
+
+.d-notification-active{
+    right: 2%;
+}
+
+.d-notification-primary{
+    border: 1px solid #607cab;
+    box-shadow: 0px 0px 10px 0px #607cab5e;
+}
+
+.d-notification-primary:before{
+    content: '';
+    position: absolute;
+    background-color: #607cab;
+    top: 0;
+    left: 0;
+    width: 10px;
+    height: 100%;
+}
+
+.d-notification-danger{
+    border: 1px solid #f26051;
+    box-shadow: 0px 0px 10px 0px #f260515e;
+}
+
+.d-notification-danger:before{
+    content: '';
+    position: absolute;
+    background-color: #f26051;
+    top: 0;
+    left: 0;
+    width: 10px;
+    height: 100%;
+}
+
+.d-notification-success{
+    border: 1px solid #20da9b;
+    box-shadow: 0px 0px 10px 0px #20da9b5e;
+}
+
+.d-notification-success:before{
+    content: '';
+    position: absolute;
+    background-color: #20da9b;
+    top: 0;
+    left: 0;
+    width: 10px;
+    height: 100%;
+}
