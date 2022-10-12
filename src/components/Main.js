@@ -26,6 +26,7 @@ const Main = () => {
                 <Route path="/p/frontend/companies" element={<Company />} />
                 <Route path="/p/frontend/companies/:uuid" element={<Company />} />
                 <Route path="/p/frontend/departments" element={<Department />} />
+                <Route path="/p/frontend/departments/user/:uuid" element={<Department />} />
                 <Route path="/p/frontend/settings" element={<Dashboard />} />
                 <Route path="/p/frontend/notification" element={<Dashboard />} />
                 <Route path="/p/frontend/reminder" element={<Dashboard />} />

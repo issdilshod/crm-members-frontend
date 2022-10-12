@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { Mediator } from '../../../context/Mediator';
 
 import { FaTimes, FaPlus, FaCog, FaTrash, FaPencilAlt } from 'react-icons/fa';
+import { useParams } from 'react-router-dom';
 
 const DepartmentForm = () => {
 
@@ -15,8 +16,23 @@ const DepartmentForm = () => {
         permissionFormOpen, setPermissionFormOpen, entityPermission, setEntityPermission, permissionEntityIs, setPermissionEntityIs, selectedPermissionEntity, setSelectedPermissionEntity
     } = useContext(Mediator);
 
-    const handleUserClick = (e, uuid) => { // User edit
-        e.preventDefault();
+
+    const { uuid } = useParams();
+
+    useEffect(() => {
+        firstInit();
+    }, []);
+
+    const firstInit = () => {
+        if (uuid){
+            handleUserClick({}, uuid, true);
+        }
+    }
+
+    const handleUserClick = (e, uuid, trigger = false) => { // User edit
+        if (!trigger){
+            e.preventDefault();
+        }
         setUserEdit(true);
         api.request('/api/user/'+uuid, 'GET')
             .then(res => {
@@ -46,7 +62,18 @@ const DepartmentForm = () => {
 
     const handleDeleteUser = (e, uuid) => {
         e.preventDefault();
-        console.log(uuid);
+        api.request('/api/user/'+uuid, 'DELETE')
+            .then(res => {
+                if (res.status===200||res.status===201){ // success
+                    let tmpArray = {...departmentForm};
+                    for (let key in departmentForm['users']){
+                        if (tmpArray['users'][key]['uuid']===uuid){
+                            tmpArray['users'].splice(key, 1);
+                        }
+                    }
+                    setDepartmentForm(tmpArray);
+                }
+            })
     }
 
     const handleUserPermission = (e, uuid) => {

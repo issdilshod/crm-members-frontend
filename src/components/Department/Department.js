@@ -35,7 +35,8 @@ const Department = () => {
         'last_name': '',
         'username': '',
         'password': '',
-        'telegram': ''
+        'telegram': '',
+        'status': ''
     });
     const [userForm, setUserForm] = useState(userFormEntity);
     const [userFormError, setUserFormError] = useState({});
@@ -55,6 +56,10 @@ const Department = () => {
     const [loadingShow, setLoadingShow] = useState(true);
 
     useEffect(() => {
+        firstInit()
+    }, []);
+
+    const firstInit = () => {
         api.request('/api/department', 'GET')
             .then(res => {
                 if (res.status===200||res.status===201){ // success
@@ -77,8 +82,7 @@ const Department = () => {
                     setPermissionList(res.data.data);
                 } 
             })
-
-    }, []);
+    }
 
     const handleInviteUserClick = () => {
         setDepartmentFormOpen(false);

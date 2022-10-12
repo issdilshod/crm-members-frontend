@@ -48,7 +48,7 @@ const Register = () => {
         setErrorMsg({'show': false, 'text': ''});
         setShowLoading(true);
         setSuccessMsg({'show': false, 'text': ''})
-        api.request('/api/invite-register', 'POST', registerForm)
+        api.request('/api/register', 'POST', registerForm)
             .then(res => {
                 switch(res.status){
                     case 200:

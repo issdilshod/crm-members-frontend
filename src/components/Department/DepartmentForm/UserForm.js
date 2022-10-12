@@ -2,6 +2,8 @@ import React, { useState, useEffect, useContext } from 'react';
 import { Mediator } from '../../../context/Mediator';
 import { FaTimes } from 'react-icons/fa';
 
+import * as STATUS from '../../../consts/Status';
+
 import Validation from '../../Helper/Validation';
 
 const UserForm = () => {
@@ -60,62 +62,84 @@ const UserForm = () => {
         setUserForm( { ...userForm, [name]: value } );
     }
 
-    const handleLocalSubmit = (e) => {
+    const onAdd = (e) => {
         e.preventDefault();
         setUserFormError({});
-        if (userEdit){
-            api.request('/api/user/'+userForm['uuid'], 'PUT', userForm)
-                .then(res => {
-                    switch (res.status){
-                        case 200: // Success
-                        case 201:
-                            api.request('/api/department/'+res.data.data.department_uuid, 'GET')
-                                .then(res => {
-                                    switch(res.status){
-                                        case 200:
-                                        case 201:
-                                            setDepartmentForm(res.data.data);
-                                            setDepartmentFormOpen(true);
-                                            setUserFormOpen(false);
-                                            setUserForm(userFormEntity);
-                                            break;
-                                    }
-                                });
-                            break;
-                        case 409: // Conflict
-                            setUserFormError(res.data.data);
-                            break;
-                        case 422: // Unprocessable Content
-                            setUserFormError(res.data.errors);
-                            break;
-                    }
-                });
-        }else{
-            api.request('/api/user', 'POST', userForm)
-                .then(res => {
-                    switch (res.status){
-                        case 200: // Success
-                        case 201:
-                            setDepartmentForm( { ...departmentForm, 'users': [ ...departmentForm['users'], res.data.data ] } );
-                            setUserFormOpen(false);
-                            setDepartmentFormOpen(true);
-                            break;
-                        case 409: // Conflict
-                            setUserFormError(res.data.data);
-                            break;
-                        case 422: // Unprocessable Content
-                            setUserFormError(res.data.errors);
-                            break;
-                    }
-                });
-        } 
+        api.request('/api/user', 'POST', userForm)
+            .then(res => {
+                if (res.status===200||res.status===201){
+                    setDepartmentForm( { ...departmentForm, 'users': [ ...departmentForm['users'], res.data.data ] } );
+                    setUserFormOpen(false);
+                    setDepartmentFormOpen(true);
+                }else if (res.status===409){
+                    setUserFormError(res.data.data);
+                }else if (res.status===422){
+                    setUserFormError(res.data.errors);
+                }
+            });
+    }
+
+    const onUpdate = (e) => {
+        e.preventDefault();
+        setUserFormError({});
+        api.request('/api/user/'+userForm['uuid'], 'PUT', userForm)
+            .then(res => {
+                if (res.status===200||res.status===201){
+                    api.request('/api/department/'+res.data.data.department_uuid, 'GET')
+                        .then(res => {
+                            if (res.status===200||res.status===201){
+                                setDepartmentForm(res.data.data);
+                                setDepartmentFormOpen(true);
+                                setUserFormOpen(false);
+                                setUserForm(userFormEntity);
+                            }
+                        });
+                }else if (res.status===409){
+                    setUserFormError(res.data.data);
+                }else if (res.status===422){
+                    setUserFormError(res.data.errors);
+                }
+            });
+    }
+
+    const onAccept = (e) => {
+        e.preventDefault();
+        api.request('/api/user/accept/'+userForm['uuid'], 'PUT', userForm)
+            .then(res => {
+                if (res.status===200||res.status===201){
+                    api.request('/api/department/'+res.data.data.department_uuid, 'GET')
+                        .then(res => {
+                            if (res.status===200||res.status===201){
+                                setDepartmentForm(res.data.data);
+                                setDepartmentFormOpen(true);
+                                setUserFormOpen(false);
+                                setUserForm(userFormEntity);
+                            }
+                        });
+                } else if (res.status===409) {
+                    setUserFormError(res.data.data);
+                } else if (res.status===422) {
+                    setUserFormError(res.data.errors);
+                }
+            });
+    }
+
+    const onReject = (e) => {
+        e.preventDefault();
+        setUserFormError({});
+        api.request('/api/user/reject/'+userForm['uuid'], 'PUT')
+            .then(res => {
+                if (res.status===200||res.status===201){
+                    setUserFormOpen(false);
+                }
+            });
     }
 
     return (
         <div className={`${styles['department-form-card']} ${userFormOpen ? styles['department-form-card-active']:''}`}>
             <div className={`${styles['department-form-card-head']} d-flex`}>
                 <div className={`${styles['department-form-card-title']} mr-auto`}>
-                    { (userEdit?'Edit user':'Add new user') } 
+                    User control
                 </div>
                 <div className={styles['department-form-card-close']} 
                         onClick={ handleLocalClick }
@@ -125,7 +149,7 @@ const UserForm = () => {
             </div>
             <hr className={styles['divider']} />
             <div className={`${styles['department-form-card-body']} container-fluid`}>
-                <form className={`${styles['department-form-block']} row`} onSubmit={ handleLocalSubmit }>
+                <form className={`${styles['department-form-block']} row`}>
                     <div className='form-group col-12 col-sm-4'>
                         <label>First Name</label>
                         <input className='form-control'
@@ -219,14 +243,54 @@ const UserForm = () => {
                                     })
                                 }
                             </select>
-                            <Validation field_name='password' errorObject={userFormError} />
+                            <Validation field_name='department_uuid' errorObject={userFormError} />
                         </div>
                     }
 
-                    <div className={`${styles['department-form-field']} form-group col-12 text-right`}>
-                        <button className={`${styles['submit-form']} ml-auto`}>
-                            { (userEdit?'Edit':'Add') }
-                        </button>
+                    <div className={`${styles['department-form-field']} form-group col-12 d-flex`}>
+                        <div className='ml-auto'>
+
+                            {   userForm['status']===STATUS.PENDING &&
+                                <>
+                                    <button 
+                                        className={`d-btn d-btn-danger mr-2`}
+                                        onClick={ (e) => { onReject(e) } }
+                                    >
+                                        Reject
+                                    </button>
+
+                                    <button 
+                                        className={`d-btn d-btn-success mr-2`}
+                                        onClick={ (e) => { onAccept(e) } }
+                                    >
+                                        Accept
+                                    </button>
+                                </> 
+                            }
+                        
+                            {   (userForm['status']===STATUS.ACTIVED || userForm['status']==='') &&
+                                <>
+                                    {   userEdit &&
+                                        <button 
+                                            className={`d-btn d-btn-primary`}
+                                            onClick={ (e) => { onUpdate(e) } }
+                                        >
+                                            Save
+                                        </button>
+                                    }
+                                    {   !userEdit &&
+                                        <button 
+                                            className={`d-btn d-btn-primary`}
+                                            onClick={ (e) => { onAdd(e) } }
+                                        >
+                                            Add
+                                        </button>
+                                    }
+                                </>
+                                
+                            }
+                            
+                        </div>
                     </div>
                 </form>
             </div>
