@@ -3,7 +3,7 @@
 
     .form-login, .title-login{
         max-width: 400px;
-        margin: 10% auto;
+        margin: 5% auto;
     
         .button-login-block{
             text-align: center;
@@ -45,6 +45,12 @@
 
 @media (max-width: 400px) {
     .form-login{
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 800px) {
+    .form-register{
         max-width: 100%;
     }
 }

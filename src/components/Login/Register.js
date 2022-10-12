@@ -95,29 +95,72 @@ const Register = () => {
                                 }
                             </div>
                             { showRegister && 
-                                <form className={styles['form-login']} onSubmit={ handleSubmit }>
-                                    <div className='form-group'>
-                                        <label>Username</label>
-                                        <input onChange={ handleChange } 
-                                                className='form-control' 
-                                                name='username'
-                                                type='text' 
-                                                placeholder='Username' />
-                                        <Validation field_name='username' errorObject={registerFormError} />
+                                <form className={`row`} onSubmit={ handleSubmit }>
+                                    <div className='col-12 col-sm-6'>
+                                        <div className='form-group'>
+                                            <label>First name <i className='req'>*</i></label>
+                                            <input onChange={ handleChange } 
+                                                    className='form-control' 
+                                                    name='first_name'
+                                                    type='text' 
+                                                    placeholder='First name' />
+                                            <Validation field_name='first_name' errorObject={registerFormError} />
+                                        </div>
                                     </div>
-                                    <div className='form-group'>
-                                        <label>Password</label>
-                                        <input onChange={ handleChange } 
-                                                className='form-control' 
-                                                name='password'
-                                                type='password' 
-                                                placeholder='Password' />
-                                        <Validation field_name='password' errorObject={registerFormError} />
+                                    <div className='col-12 col-sm-6'>
+                                        <div className='form-group'>
+                                            <label>Last name <i className='req'>*</i></label>
+                                            <input onChange={ handleChange } 
+                                                    className='form-control' 
+                                                    name='last_name'
+                                                    type='text' 
+                                                    placeholder='Last name' />
+                                            <Validation field_name='last_name' errorObject={registerFormError} />
+                                        </div>
                                     </div>
-                                    <div className={`${styles['button-login-block']} form-group`}>
-                                        <button className={styles['button-login']}>
-                                            Register
-                                        </button>
+
+                                    <div className='col-12'>
+                                        <div className='form-group'>
+                                            <label>Telegram <i className='req'>*</i></label>
+                                            <input onChange={ handleChange } 
+                                                    className='form-control' 
+                                                    name='telegram'
+                                                    type='text' 
+                                                    placeholder='Telegram' />
+                                            <Validation field_name='telegram' errorObject={registerFormError} />
+                                        </div>
+                                    </div>
+
+                                    <div className='col-12'>
+                                        <div className='form-group'>
+                                            <label>Username <i className='req'>*</i></label>
+                                            <input onChange={ handleChange } 
+                                                    className='form-control' 
+                                                    name='username'
+                                                    type='text' 
+                                                    placeholder='Username' />
+                                            <Validation field_name='username' errorObject={registerFormError} />
+                                        </div>
+                                    </div>
+
+                                    <div className='col-12'>
+                                        <div className='form-group'>
+                                            <label>Password <i className='req'>*</i></label>
+                                            <input onChange={ handleChange } 
+                                                    className='form-control' 
+                                                    name='password'
+                                                    type='password' 
+                                                    placeholder='Password' />
+                                            <Validation field_name='password' errorObject={registerFormError} />
+                                        </div>
+                                    </div>
+                                    
+                                    <div className='col-12'>
+                                        <div className={`form-group text-center`}>
+                                            <button className={`d-btn d-btn-primary`}>
+                                                Register
+                                            </button>
+                                        </div>
                                     </div>
                                 </form>
                             }
