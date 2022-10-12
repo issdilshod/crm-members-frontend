@@ -17,10 +17,10 @@ const Header = (props) => {
     async function handleSignOut(e){
         e.preventDefault();
         let _token = JSON.parse(localStorage.getItem('auth'));
-        localStorage.removeItem("auth");
         api.request('/api/logout', 'POST', { 'token': _token })
             .then( res => {
                 navigate(`${process.env.REACT_APP_FRONTEND_PREFIX}/`);
+                localStorage.removeItem("auth");
             });
     }
 
