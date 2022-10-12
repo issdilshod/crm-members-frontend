@@ -250,7 +250,7 @@ const UserForm = () => {
                     <div className={`${styles['department-form-field']} form-group col-12 d-flex`}>
                         <div className='ml-auto'>
 
-                            {   userForm['status']===STATUS.PENDING &&
+                            {   userForm['status']==STATUS.PENDING &&
                                 <>
                                     <button 
                                         className={`d-btn d-btn-danger mr-2`}
@@ -268,7 +268,7 @@ const UserForm = () => {
                                 </> 
                             }
                         
-                            {   (userForm['status']===STATUS.ACTIVED || userForm['status']==='') &&
+                            {   (userForm['status']==STATUS.ACTIVED || userForm['status']=='') &&
                                 <>
                                     {   userEdit &&
                                         <button 

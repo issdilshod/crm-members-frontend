@@ -46,8 +46,8 @@ const Pending = () => {
                             key={index} 
                             className={
                                 `t-card ` +
-                                `${value['status']===STATUS.REJECTED?'t-card-danger':''} ` +
-                                `${value['status']===STATUS.ACTIVED?'t-card-success':''} ` +
+                                `${value['status']==STATUS.REJECTED?'t-card-danger':''} ` +
+                                `${value['status']==STATUS.ACTIVED?'t-card-success':''} ` +
                                 `d-flex mb-2`
                             }
                             onClick={ () => { 
@@ -64,7 +64,7 @@ const Pending = () => {
                             </div>
                             <div className={`tcard-icons text-center`}>
                                 <span className={`t-card-icon`}>
-                                    { STATUS.ACTIVED===value['status']?<FaCheck />:<FaClock />}
+                                    { STATUS.ACTIVED==value['status']?<FaCheck />:<FaClock />}
                                 </span>
                             </div>
                         </div>

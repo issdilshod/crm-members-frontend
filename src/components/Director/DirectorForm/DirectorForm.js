@@ -355,13 +355,13 @@ const DirectorForm = () => {
 
                                 { permissions.includes(DIRECTOR.STORE)  && //permitted to add
                                     <>
-                                        { directorForm['status']==='' &&
+                                        { directorForm['status']=='' &&
                                             <button className='d-btn d-btn-primary mr-2' onClick={ (e) => { handleStore(e) } }>
                                                 Save
                                             </button>
                                         }
 
-                                        { directorForm['status']===STATUS.ACTIVED &&
+                                        { directorForm['status']==STATUS.ACTIVED &&
                                             <>
                                                 <button 
                                                     className={`d-btn d-btn-danger mr-2`} 
@@ -378,7 +378,7 @@ const DirectorForm = () => {
                                             </>
                                         }
 
-                                        { (directorForm['status']!=='' && directorForm['status']!==STATUS.ACTIVED) && 
+                                        { (directorForm['status']!='' && directorForm['status']!=STATUS.ACTIVED) && 
                                             <>
                                                 <button className='d-btn d-btn-success mr-2' onClick={ (e) => { handlePendingAccept(e) } }>
                                                     Pending accept

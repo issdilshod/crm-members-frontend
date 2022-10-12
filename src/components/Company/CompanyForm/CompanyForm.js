@@ -544,13 +544,13 @@ const CompanyForm = () => {
                                 
                                 { permissions.includes(COMPANY.STORE)  && //permitted to add
                                     <>
-                                        { companyForm['status']==='' &&
+                                        { companyForm['status']=='' &&
                                             <button className='d-btn d-btn-primary mr-2' onClick={ (e) => { handleStore(e) } }>
                                                 Save
                                             </button>
                                         }
 
-                                        { companyForm['status']===STATUS.ACTIVED &&
+                                        { companyForm['status']==STATUS.ACTIVED &&
                                             <>
                                                 <button 
                                                     className={`d-btn d-btn-danger mr-2`} 
@@ -567,7 +567,7 @@ const CompanyForm = () => {
                                             </>
                                         }
 
-                                        { (companyForm['status']!=='' && companyForm['status']!==STATUS.ACTIVED) && 
+                                        { (companyForm['status']!='' && companyForm['status']!=STATUS.ACTIVED) && 
                                             <>
                                                 <button className='d-btn d-btn-success mr-2' onClick={ (e) => { handlePendingAccept(e) } }>
                                                     Pending accept
