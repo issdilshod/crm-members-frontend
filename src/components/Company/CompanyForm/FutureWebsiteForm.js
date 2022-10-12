@@ -29,7 +29,7 @@ const FutureWebsite = ({ handleChange }) => {
                 ['future_web['+key+'][category]']: futureWebsites[key]['category'],
             });   
         }
-        setCompanyForm({ ...companyForm, 'future_web': tmpArray });
+        setCompanyForm({ ...companyForm, 'future_w': tmpArray });
         console.log(companyForm);
     }, [futureWebsites])
 

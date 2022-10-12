@@ -77,6 +77,32 @@ const CompanyForm = () => {
 
     const [alert, setAlert] = useState({'msg': '', 'show': false, 'type': ''});
 
+    const ObjectsConvert = () => {
+        // set bank account
+        let cForm = companyForm;
+        if ('security' in cForm){
+            for (let key in cForm['security']){
+                for (let key1 in cForm['security'][key]){
+                    cForm[key1] = cForm['security'][key][key1];
+                }
+                
+            }
+            delete cForm['security'];
+        }
+
+        // future web
+        cForm = companyForm;
+        if ('future_w' in cForm){
+            for (let key in cForm['future_w']){
+                for (let key1 in cForm['future_w'][key]){
+                    cForm[key1] = cForm['future_w'][key][key1];
+                }
+                
+            }
+            delete cForm['future_w'];
+        }
+    }
+
     const handleChange = (e, file = false) => {
         let { value, name } = e.target;
         // get files
@@ -88,6 +114,7 @@ const CompanyForm = () => {
     const handleStore = (e) => {
         e.preventDefault();
         setCompanyFormError([]);
+        ObjectsConvert();
         api.request('/api/company', 'POST', companyForm, true)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
@@ -110,6 +137,7 @@ const CompanyForm = () => {
     const handleUpdate = (e) => {
         e.preventDefault();
         setCompanyFormError([]);
+        ObjectsConvert();
         api.request('/api/company/'+companyForm['uuid'], 'POST', companyForm, true)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
@@ -158,6 +186,7 @@ const CompanyForm = () => {
 
     const handlePending = (e) => {
         e.preventDefault();
+        ObjectsConvert();
         api.request('/api/company-pending', 'POST', companyForm, true)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
@@ -178,6 +207,7 @@ const CompanyForm = () => {
 
     const handlePendingUpdate = (e) => {
         e.preventDefault();
+        ObjectsConvert();
         api.request('/api/company-pending-update/'+companyForm['uuid'], 'POST', companyForm, true)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
@@ -217,6 +247,7 @@ const CompanyForm = () => {
     const handlePendingAccept = (e) => {
         e.preventDefault();
         setCompanyFormError([]);
+        ObjectsConvert();
         api.request('/api/company-accept/'+companyForm['uuid'], 'POST', companyForm, true)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
