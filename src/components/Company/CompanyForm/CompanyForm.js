@@ -16,6 +16,7 @@ import { FaTimes } from 'react-icons/fa';
 import Notification from '../../Helper/Notification/Notification';
 
 import '../../../assets/css/App.css';
+import FutureWebsite from './FutureWebsiteForm';
 
 const CompanyForm = () => {
 
@@ -400,6 +401,10 @@ const CompanyForm = () => {
                                     parent_head_name='Company EIN upload'
                                     parent_name='company_ein'
                                     handleChange={handleChange}
+                        />
+
+                        <FutureWebsite
+                            handleChange={handleChange}
                         />
 
                         <AddressForm parent_head_name='Address' 

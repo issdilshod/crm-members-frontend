@@ -175,26 +175,6 @@
                         padding-top: 20px;
                         padding-bottom: 20px;
 
-                        .security-block{
-
-                            .security-one{
-                                width: 100%;
-                                padding:10px;
-                                background-color: #fff;
-                                border-radius: 10px;
-                                box-shadow: 0 0.3125rem 0.625rem 0 rgb(0 0 0 / 12%) !important;
-
-                                .remove-security{
-                                    padding: 5px;
-        
-                                    span{
-                                        position: relative;
-                                        top: -2px;
-                                    }
-                                }
-                            }
-                        }
-
                         
                     }
                 }
@@ -353,6 +333,26 @@
 
             .submit-form:hover{
                 box-shadow: 0 0.3125rem 0.625rem 6px rgb(0 0 0 / 12%) !important;
+            }
+        }
+    }
+}
+
+.security-block{
+
+    .security-one{
+        width: 100%;
+        padding:10px;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 0.3125rem 0.625rem 0 rgb(0 0 0 / 12%) !important;
+
+        .remove-security{
+            padding: 5px;
+
+            span{
+                position: relative;
+                top: -2px;
             }
         }
     }

@@ -51,6 +51,7 @@ const Company = () => {
         'emails[email]': '',
         'emails[password]': '',
         'emails[phone]': '',
+        'future_websites': [],
         'uploaded_files': {
             'incorporation_state': [],
             'doing_business_in_state': [],
