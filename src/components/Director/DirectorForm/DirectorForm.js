@@ -296,14 +296,12 @@ const DirectorForm = () => {
                             <div className={`row`}>
                                 <div className={`col-12 form-group`}>
                                     <label>Phone Number <i className='req'>*</i></label>
-                                    <InputMask mask="999-99-9999" 
-                                                maskChar={null} 
-                                                className={`form-control`} 
-                                                type='text' 
-                                                name='phone_number' 
-                                                placeholder='Phone Number' 
-                                                onChange={ handleChange } 
-                                                value={directorForm['phone_number']}
+                                    <input className='form-control'
+                                        type='text'
+                                        name='phone_number'
+                                        placeholder='Phone Number'
+                                        onChange={ handleChange } 
+                                        value={directorForm['phone_number']}
                                     />
                                     <Validation field_name='phone_number' errorObject={directorFormError} />
                                 </div>
