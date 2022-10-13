@@ -30,7 +30,6 @@ const FutureWebsite = ({ handleChange }) => {
             });   
         }
         setCompanyForm({ ...companyForm, 'future_w': tmpArray });
-        console.log(companyForm);
     }, [futureWebsites])
 
     const handleFutureWebsitesPlusClick = (e) => {

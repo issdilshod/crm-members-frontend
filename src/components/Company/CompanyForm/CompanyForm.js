@@ -31,48 +31,58 @@ const CompanyForm = () => {
     } = useContext(Mediator);
 
     const [sicCodeList, setSicCodeList] = useState([]);
-    const [directorList, setDirectorList] = useState([]);
     const [stateList, setStateList] = useState([]);
+    const [optDirectorList, setOptDirectorList] = useState([]);
 
     useEffect(() => {
-        api.request('/api/sic_code', 'GET')
-                .then(res => {
-                    switch (res.status){
-                        case 200:
-                        case 201:
-                            //setSicCodeList(res.data.data);
-                            let tmp_sic_code = [];
-                            for (let key in res.data.data){
-                                tmp_sic_code.push({ 'value':  res.data.data[key]['uuid'], 'label': res.data.data[key]['code'] + ' - ' + res.data.data[key]['industry_title'] });
-                            }
-                            setSicCodeList(tmp_sic_code);
-                            break;
-                    }
-                });
-
-        api.request('/api/director', 'GET')
-                .then(res => {
-                    switch (res.status){
-                        case 200:
-                        case 201:
-                            setDirectorList(res.data.data);
-                            break;
-                    }
-                    
-                });
-        api.request('/api/state', 'GET')
-                .then(res => {
-                    switch (res.status){
-                        case 200:
-                        case 201:
-                            setStateList(res.data.data);
-                            break;
-                    } 
-                });
+        loadSicCodes();
+        loadStates();
     }, []);
+
+    const loadDirectorList = (inputValue = '') => {
+        let search = '';
+        if (inputValue!=''){
+            search = '/' + inputValue;
+        }
+        api.request('/api/director-list'+search, 'GET')
+            .then(res => {
+                if (res.status===200||res.status===201){
+                    let tmpArray = [];
+                    res.data.map((director) => {
+                        return tmpArray.push({value: director.uuid, label: director.first_name + ' ' + director.last_name});
+                    });
+                    setOptDirectorList(tmpArray);
+                }
+            })
+    };
+
+    const loadSicCodes = () => {
+        api.request('/api/sic_code', 'GET')
+            .then(res => {
+                if (res.status===200||res.status===201){
+                    let tmp_sic_code = [];
+                    for (let key in res.data.data){
+                        tmp_sic_code.push({ 'value':  res.data.data[key]['uuid'], 'label': res.data.data[key]['code'] + ' - ' + res.data.data[key]['industry_title'] });
+                    }
+                    setSicCodeList(tmp_sic_code);
+                }
+            });
+    }
+
+    const loadStates = () => {
+        api.request('/api/state', 'GET')
+            .then(res => {
+                if (res.status===200||res.status===201){
+                    setStateList(res.data.data);
+                }
+            });
+    }
 
     useEffect(() => {
         setCompanyFormError({});
+        if (companyFormOpen && companyEdit){
+            loadDirectorList(companyForm['director']['first_name'] + ' ' + companyForm['director']['last_name']);
+        }
     }, [companyFormOpen])
 
     const [alert, setAlert] = useState({'msg': '', 'show': false, 'type': ''});
@@ -308,20 +318,12 @@ const CompanyForm = () => {
 
                         <div className={`${styles['company-form-field']} col-12 col-sm-4 form-group`}>
                             <label>Director <i className='req'>*</i></label>
-                            <select className={`form-control`} 
-                                    name='director_uuid' 
-                                    onChange={(e) => { handleChange(e); }} 
-                                    value={ companyForm['director_uuid'] }
-                                    >
-                                <option>-</option>
-                                {
-                                    directorList.map((value, index) => {
-                                        return (
-                                            <option key={index} value={value['uuid']}>{value['first_name']} {value['middle_name']} {value['last_name']}</option>
-                                        )
-                                    })
-                                }
-                            </select>
+                            <Select 
+                                options={optDirectorList}
+                                onInputChange={ (e) => { loadDirectorList(e) } }
+                                value={ optDirectorList.filter(option => { return option.value === companyForm['director_uuid'] }) }
+                                onChange={ (e) => { handleChange({'target': {'name': 'director_uuid', 'value': e.value} }); } }
+                            />
                             <Validation field_name='director_uuid' errorObject={companyFormError} />
                         </div>
 
