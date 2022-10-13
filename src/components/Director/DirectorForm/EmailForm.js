@@ -25,7 +25,33 @@ const EmailForm = ({ handleChange }) => {
             <div className={`row`}>
                 <div className={`col-12 col-sm-3`}>
                     <div className={`form-group`}>
-                        <label>Email's hosting <i className='req'>*</i></label>
+                        <label>Email</label>
+                        <input className={`form-control`} 
+                                type='text' 
+                                name='emails[email]' 
+                                placeholder='Email' 
+                                onChange={ handleChange } 
+                                value={ directorForm['emails[email]'] }
+                                />
+                        <Validation field_name='emails.email' errorObject={directorFormError} />
+                    </div>
+                </div>
+                <div className={`col-12 col-sm-3`}>
+                    <div className={`form-group`}>
+                        <label>Password</label>
+                        <input className={`form-control`}
+                                type='text' 
+                                name='emails[password]' 
+                                placeholder='Password' 
+                                onChange={ handleChange }
+                                value={ directorForm['emails[password]'] }
+                                />
+                        <Validation field_name='emails.password' errorObject={directorFormError} />
+                    </div>
+                </div>
+                <div className={`col-12 col-sm-3`}>
+                    <div className={`form-group`}>
+                        <label>Email's hosting</label>
                         <select className={`form-control`}
                                 name='emails[hosting_uuid]'
                                 onChange={ handleChange } 
@@ -43,33 +69,7 @@ const EmailForm = ({ handleChange }) => {
                 </div>
                 <div className={`col-12 col-sm-3`}>
                     <div className={`form-group`}>
-                        <label>Email <i className='req'>*</i></label>
-                        <input className={`form-control`} 
-                                type='text' 
-                                name='emails[email]' 
-                                placeholder='Email' 
-                                onChange={ handleChange } 
-                                value={ directorForm['emails[email]'] }
-                                />
-                        <Validation field_name='emails.email' errorObject={directorFormError} />
-                    </div>
-                </div>
-                <div className={`col-12 col-sm-3`}>
-                    <div className={`form-group`}>
-                        <label>Password <i className='req'>*</i></label>
-                        <input className={`form-control`}
-                                type='text' 
-                                name='emails[password]' 
-                                placeholder='Password' 
-                                onChange={ handleChange }
-                                value={ directorForm['emails[password]'] }
-                                />
-                        <Validation field_name='emails.password' errorObject={directorFormError} />
-                    </div>
-                </div>
-                <div className={`col-12 col-sm-3`}>
-                    <div className={`form-group`}>
-                        <label>Email's Phone Number <i className='req'>*</i></label>
+                        <label>Email's Phone Number</label>
                         <input className={`form-control`} 
                                 type='text' 
                                 name='emails[phone]' 

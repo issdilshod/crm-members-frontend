@@ -268,7 +268,7 @@ const DirectorForm = () => {
                         </div>
 
                         <div className={`${styles['director-form-field']} col-12 col-sm-6 form-group`}>
-                            <label>Company Association <i className='req'>*</i></label>
+                            <label>Company Association</label>
                             <input className={`form-control`} 
                                     type='text' 
                                     name='company_association' 
@@ -280,6 +280,21 @@ const DirectorForm = () => {
                         </div>
 
                         <div className={`${styles['director-form-field']} col-12 col-sm-6 form-group`}>
+
+                            <div className={`row`}>
+                                <div className={`col-12 form-group`}>
+                                    <label>Director's Phone Number <i className='req'>*</i></label>
+                                    <input className='form-control'
+                                        type='text'
+                                        name='phone_number'
+                                        placeholder='Phone Number'
+                                        onChange={ handleChange } 
+                                        value={directorForm['phone_number']}
+                                    />
+                                    <Validation field_name='phone_number' errorObject={directorFormError} />
+                                </div>
+                            </div>
+
                             <label>Phone Type <i className='req'>*</i></label>
                             <select className={`form-control`} 
                                     name='phone_type' 
@@ -292,20 +307,6 @@ const DirectorForm = () => {
                                 <option>Mobile</option>
                             </select>
                             <Validation field_name='phone_type' errorObject={directorFormError} />
-
-                            <div className={`row`}>
-                                <div className={`col-12 form-group`}>
-                                    <label>Phone Number <i className='req'>*</i></label>
-                                    <input className='form-control'
-                                        type='text'
-                                        name='phone_number'
-                                        placeholder='Phone Number'
-                                        onChange={ handleChange } 
-                                        value={directorForm['phone_number']}
-                                    />
-                                    <Validation field_name='phone_number' errorObject={directorFormError} />
-                                </div>
-                            </div>
 
                         </div>
 
