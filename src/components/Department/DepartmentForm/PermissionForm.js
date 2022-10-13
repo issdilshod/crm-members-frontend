@@ -16,7 +16,7 @@ const PermissionForm = () => {
         if (permissionEntityIs==='department'){
             api.request('/api/permission-department', 'POST', {'permission_uuid': e.permission, 'department_uuid': e.entity, 'status': e.status})
         }else if (permissionEntityIs==='user'){
-            api.request('/api/permission-user', 'POST', {'permission_uuid': e.permission, 'user_uuid': e.entity, 'status': e.status})
+            api.request('/api/permission-user', 'POST', {'permission_uuid': e.permission, 'sel_user_uuid': e.entity, 'status': e.status})
         }
     }
 
