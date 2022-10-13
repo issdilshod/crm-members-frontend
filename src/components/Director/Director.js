@@ -128,6 +128,11 @@ const Director = () => {
                     }
                     tmp_director['uploaded_files'] = tmp_files;
 
+                    // company if isset then to company assoc
+                    if (tmp_director['company']!=null){
+                        tmp_director['company_association'] = tmp_director['company']['legal_name'];
+                    }
+
                     tmp_director['_method'] = 'PUT';
                     setDirectorForm(tmp_director);
                 }
