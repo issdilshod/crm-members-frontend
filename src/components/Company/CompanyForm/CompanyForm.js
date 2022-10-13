@@ -298,7 +298,7 @@ const CompanyForm = () => {
                         </div>
 
                         <div className={`${styles['company-form-field']} col-12 col-sm-4 form-group`}>
-                            <label>SIC code <i className='req'>*</i></label>
+                            <label>SIC code</label>
                             <Select options={sicCodeList}
                                     value={ sicCodeList.filter(option => { return option.value === companyForm['sic_code_uuid'] }) }
                                     onChange={ (e) => { handleChange({'target': {'name': 'sic_code_uuid', 'value': e.value} }); } }    
@@ -378,7 +378,7 @@ const CompanyForm = () => {
                         </div>
 
                         <div className={`${styles['company-form-field']} col-12 col-sm-4 form-group`}>
-                            <label>Incorporation State business name <i className='req'>*</i></label>
+                            <label>Incorporation State business name</label>
                             <input className={`form-control`} 
                                     type='text' 
                                     name='incorporation_state_name' 
@@ -390,7 +390,7 @@ const CompanyForm = () => {
                         </div>
 
                         <div className={`${styles['company-form-field']} col-12 col-sm-4 form-group`}>
-                            <label>Doing business in state name <i className='req'>*</i></label>
+                            <label>Doing business in state name</label>
                             <input className={`form-control`} 
                                     type='text' 
                                     name='doing_business_in_state_name' 
@@ -402,7 +402,7 @@ const CompanyForm = () => {
                         </div>
 
                         <div className={`${styles['company-form-field']} col-12 col-sm-4 form-group`}>
-                            <label>Company website <i className='req'>*</i></label>
+                            <label>Company website</label>
                             <input className={`form-control`} 
                                     type='text' 
                                     name='website' 
@@ -451,7 +451,7 @@ const CompanyForm = () => {
                                 <div className='d-card-body'>
                                     <div className={`row`}>
                                         <div className={`col-12 col-sm-6 form-group`}>
-                                            <label>Business Number <i className='req'>*</i></label>
+                                            <label>Business Number</label>
                                             <input className={`form-control`} 
                                                     type='text' 
                                                     name='business_number' 
@@ -462,7 +462,7 @@ const CompanyForm = () => {
                                             <Validation field_name='business_number' errorObject={companyFormError} />
                                         </div>
                                         <div className={`col-12 col-sm-6 form-group`}>
-                                            <label>Business Number Type <i className='req'>*</i></label>
+                                            <label>Business Number Type</label>
                                             <select className={`form-control`} 
                                                     name='business_number_type' 
                                                     onChange={(e) => { handleChange(e); }} 
@@ -475,7 +475,7 @@ const CompanyForm = () => {
                                             <Validation field_name='business_number_type' errorObject={companyFormError} />
                                         </div>
                                         <div className={`col-12 form-group`}>
-                                            <label>VOIP Provider <i className='req'>*</i></label>
+                                            <label>VOIP Provider</label>
                                             <input className={`form-control`} 
                                                     type='text' 
                                                     name='voip_provider' 
@@ -486,7 +486,7 @@ const CompanyForm = () => {
                                             <Validation field_name='voip_provider' errorObject={companyFormError} />
                                         </div>
                                         <div className={`col-12 col-sm-6 form-group`}>
-                                            <label>VOIP Login <i className='req'>*</i></label>
+                                            <label>VOIP Login</label>
                                             <input className={`form-control`} 
                                                     type='text' 
                                                     name='voip_login' 
@@ -497,7 +497,7 @@ const CompanyForm = () => {
                                             <Validation field_name='voip_login' errorObject={companyFormError} />
                                         </div>
                                         <div className={`col-12 col-sm-6 form-group`}>
-                                            <label>VOIP Password <i className='req'>*</i></label>
+                                            <label>VOIP Password</label>
                                             <input className={`form-control`} 
                                                     type='text' 
                                                     name='voip_password' 
@@ -508,7 +508,7 @@ const CompanyForm = () => {
                                             <Validation field_name='voip_password' errorObject={companyFormError} />
                                         </div>
                                         <div className={`col-12 form-group`}>
-                                            <label>Business Mobile Number Provider <i className='req'>*</i></label>
+                                            <label>Business Mobile Number Provider</label>
                                             <select className={`form-control`} 
                                                     name='business_mobile_number_provider' 
                                                     onChange={(e) => { handleChange(e); }} 
@@ -522,7 +522,7 @@ const CompanyForm = () => {
                                             <Validation field_name='business_mobile_number_provider' errorObject={companyFormError} />
                                         </div>
                                         <div className={`col-12 col-sm-6 form-group`}>
-                                            <label>Business Mobile Number Login <i className='req'>*</i></label>
+                                            <label>Business Mobile Number Login</label>
                                             <input className={`form-control`} 
                                                     type='text' 
                                                     name='business_mobile_number_login' 
@@ -533,7 +533,7 @@ const CompanyForm = () => {
                                             <Validation field_name='business_mobile_number_login' errorObject={companyFormError} />
                                         </div>
                                         <div className={`col-12 col-sm-6 form-group`}>
-                                            <label>Business Mobile Number Password <i className='req'>*</i></label>
+                                            <label>Business Mobile Number Password</label>
                                             <input className={`form-control`} 
                                                     type='text' 
                                                     name='business_mobile_number_password' 
