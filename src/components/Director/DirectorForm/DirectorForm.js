@@ -386,6 +386,12 @@ const DirectorForm = () => {
                                                 <button className='d-btn d-btn-danger mr-2' onClick={ (e) => { handlePendingReject(e) } }>
                                                     Pending reject
                                                 </button>
+                                                <button 
+                                                    className={`d-btn d-btn-danger mr-2`} 
+                                                    onClick={ (e) => { handleDelete(e, directorForm['uuid']) } }
+                                                >
+                                                    Delete
+                                                </button>
                                             </>
                                         }
                                     </>
