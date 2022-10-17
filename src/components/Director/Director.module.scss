@@ -58,34 +58,23 @@
             .director-list{
                 padding: 20px;
 
-                .director-card{
-                    background-color: #607cab;
-                    color: #fff;
-                    border-radius: 20px;
-                    padding-top: 10px;
-                    padding-bottom: 10px;
-                    box-shadow: 0 0.3125rem 0.625rem 0 rgb(0 0 0 / 12%) !important;
-                    cursor: pointer;
-                    transition: .5s;
+                .director-card-icon{
+                    font-size: 3em;
 
-                    .director-card-icon{
-                        font-size: 3em;
+                    span{
+                        position: relative;
+                        top: -9px;
+                    }
+                }
 
-                        span{
-                            position: relative;
-                            top: -9px;
-                        }
+                .director-card-info{
+
+                    p:first-of-type{
+                        font-weight: 700;
                     }
 
-                    .director-card-info{
-
-                        p:first-of-type{
-                            font-weight: 700;
-                        }
-
-                        p{
-                            margin-bottom: 0;
-                        }
+                    p{
+                        margin-bottom: 0;
                     }
                 }
 

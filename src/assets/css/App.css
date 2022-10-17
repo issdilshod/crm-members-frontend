@@ -284,6 +284,11 @@ label .req {
     cursor: pointer;
 }
 
+.t-card-primary{
+    background-color: #607cab;
+    color: #fff;
+}
+
 .t-card-success{
     background-color: #20da9b;
     color: #fff;

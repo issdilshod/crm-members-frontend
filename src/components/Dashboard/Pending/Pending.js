@@ -50,12 +50,7 @@ const Pending = () => {
                                 `${value['status']==STATUS.ACTIVED?'t-card-success':''} ` +
                                 `d-flex mb-2`
                             }
-                            onClick={ () => { 
-                                    if(value['status']!==STATUS.ACTIVED){
-                                        handlePendingClick(value['last_activity']['link'])
-                                    } 
-                                } 
-                            }
+                            onClick={ () => { handlePendingClick(value['last_activity']['link']) } }
                         >
                             <div className={`mr-auto`}>
                                 <div className={`t-card-name`}>{value['name']}</div>
