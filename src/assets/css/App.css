@@ -284,6 +284,10 @@ label .req {
     cursor: pointer;
 }
 
+.t-card-sm{
+    padding: 20px 5px;
+}
+
 .t-card-primary{
     background-color: #607cab;
     color: #fff;

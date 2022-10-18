@@ -104,7 +104,7 @@ const DirectorList = () => {
                             directorList.map((value, index) => {
                                 return (
                                     <div key={index} className={`col-12 col-sm-6 col-md-4 col-xl-3 mb-3`}>
-                                        <div className={`t-card ${STATUS.ACTIVED==value['status']?'t-card-primary':''} d-flex`} onClick={ () => { handleCardClick(value['uuid']) } }>
+                                        <div className={`t-card t-card-sm ${STATUS.ACTIVED==value['status']?'t-card-primary':''} d-flex`} onClick={ () => { handleCardClick(value['uuid']) } }>
                                             <div className={`${styles['director-card-icon']} mr-3 ml-3`}>
                                                 <span>
                                                     <FaUser />
