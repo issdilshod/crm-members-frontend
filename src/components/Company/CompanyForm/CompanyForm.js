@@ -39,17 +39,17 @@ const CompanyForm = () => {
         loadStates();
     }, []);
 
-    const loadDirectorList = (inputValue = '') => {
+    const loadDirectorList = (value = '') => {
         let search = '';
-        if (inputValue!=''){
-            search = '/' + inputValue;
+        if (value!=''){
+            search = '/' + value;
         }
         api.request('/api/director-list'+search, 'GET')
             .then(res => {
                 if (res.status===200||res.status===201){
                     let tmpArray = [];
                     res.data.map((director) => {
-                        return tmpArray.push({value: director.uuid, label: director.first_name + ' ' + director.last_name});
+                        return tmpArray.push({ 'value': director.uuid, 'label': director.first_name + ' ' + director.last_name});
                     });
                     setOptDirectorList(tmpArray);
                 }
@@ -310,7 +310,7 @@ const CompanyForm = () => {
                         <div className={`${styles['company-form-field']} col-12 col-sm-4 form-group`}>
                             <label>SIC code</label>
                             <Select options={sicCodeList}
-                                    value={ sicCodeList.filter(option => { return option.value === companyForm['sic_code_uuid'] }) }
+                                    value={ sicCodeList.filter(option => { return option.value == companyForm['sic_code_uuid'] }) }
                                     onChange={ (e) => { handleChange({'target': {'name': 'sic_code_uuid', 'value': e.value} }); } }    
                             />
                             <Validation field_name='sic_code_uuid' errorObject={companyFormError} />
@@ -320,8 +320,8 @@ const CompanyForm = () => {
                             <label>Director <i className='req'>*</i></label>
                             <Select 
                                 options={optDirectorList}
-                                onInputChange={ (e) => { loadDirectorList(e) } }
-                                value={ optDirectorList.filter(option => { return option.value === companyForm['director_uuid'] }) }
+                                onKeyDown={ (e) => { loadDirectorList(e.target.value) } }
+                                value={ optDirectorList.filter(option => { return option.value == companyForm['director_uuid'] }) }
                                 onChange={ (e) => { handleChange({'target': {'name': 'director_uuid', 'value': e.value} }); } }
                             />
                             <Validation field_name='director_uuid' errorObject={companyFormError} />
