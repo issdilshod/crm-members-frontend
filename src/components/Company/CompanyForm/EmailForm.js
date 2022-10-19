@@ -16,6 +16,15 @@ const EmailForm = ({ handleChange }) => {
 
     const [addedEmails, setAddedEmails] = useState([]);
 
+    const getHostingName = (uuid) => {
+        let tmpArray = emailHosting;
+        const index = tmpArray.findIndex(e => e.uuid === uuid);
+        if (index > -1){
+            return tmpArray[index]['host'];
+        }
+        return uuid;
+    }
+
     useEffect(() => {
         setEmail(emailEntity);
         setEmails([]);
@@ -175,7 +184,7 @@ const EmailForm = ({ handleChange }) => {
                                                                 {value['email']}
                                                             </div>
                                                             <div className='col-12 col-sm-3'>{value['password']}</div>
-                                                            <div className='col-12 col-sm-3'>{value['hosting_uuid']}</div>
+                                                            <div className='col-12 col-sm-3'>{ getHostingName(value['hosting_uuid']) }</div>
                                                             <div className='col-12 col-sm-3'>{value['phone']}</div>
                                                         </div>
                                                     </div>
@@ -202,7 +211,7 @@ const EmailForm = ({ handleChange }) => {
                                                                 {value['email']}
                                                             </div>
                                                             <div className='col-12 col-sm-3'>{value['password']}</div>
-                                                            <div className='col-12 col-sm-3'>{value['hosting_uuid']}</div>
+                                                            <div className='col-12 col-sm-3'>{ getHostingName(value['hosting_uuid']) }</div>
                                                             <div className='col-12 col-sm-3'>{value['phone']}</div>
                                                         </div>
                                                     </div>
