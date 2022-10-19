@@ -29,6 +29,8 @@ const Company = () => {
         'voip_provider': '',
         'voip_login': '',
         'voip_password': '',
+        'business_mobile_number': '',
+        'business_mobile_number_type': '',
         'business_mobile_number_provider': '',
         'business_mobile_number_login': '',
         'business_mobile_number_password': '',

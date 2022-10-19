@@ -533,6 +533,28 @@ const CompanyForm = () => {
                                             />
                                             <Validation field_name='voip_password' errorObject={companyFormError} />
                                         </div>
+                                        <div className={`col-12 col-sm-6 form-group`}>
+                                            <label>Business Mobile Number</label>
+                                            <input className={`form-control`} 
+                                                    type='text' 
+                                                    name='business_mobile_number' 
+                                                    placeholder='Business Mobile Number' 
+                                                    onChange={ handleChange } 
+                                                    value={companyForm['business_mobile_number']}
+                                                    />
+                                            <Validation field_name='business_mobile_number' errorObject={companyFormError} />
+                                        </div>
+                                        <div className={`col-12 col-sm-6 form-group`}>
+                                            <label>Business Mobile Number Type</label>
+                                            <input className={`form-control`} 
+                                                    type='text' 
+                                                    name='business_mobile_number_type' 
+                                                    placeholder='Business Mobile Number Type' 
+                                                    onChange={ handleChange } 
+                                                    value={companyForm['business_mobile_number_type']}
+                                                    />
+                                            <Validation field_name='business_mobile_number_type' errorObject={companyFormError} />
+                                        </div>
                                         <div className={`col-12 form-group`}>
                                             <label>Business Mobile Number Provider</label>
                                             <select className={`form-control`} 
@@ -544,6 +566,7 @@ const CompanyForm = () => {
                                                 <option>Verizon</option>
                                                 <option>T-Mobile</option>
                                                 <option>Simple Mobile</option>
+                                                <option>None</option>
                                             </select>
                                             <Validation field_name='business_mobile_number_provider' errorObject={companyFormError} />
                                         </div>
