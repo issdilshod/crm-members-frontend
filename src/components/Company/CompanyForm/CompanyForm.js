@@ -40,6 +40,16 @@ const CompanyForm = () => {
         loadStates();
     }, []);
 
+    const [meUuid, setMeUuid] = useState('');
+    useEffect(() => {
+        api.request('/api/get_me', 'GET')
+            .then(res => {
+                if (res.status===200||res.status===201){
+                    setMeUuid(res.data.data.uuid);
+                }
+            })
+    }, [])
+
     const loadDirectorList = (value = '') => {
         let search = '';
         if (value!=''){
@@ -636,9 +646,14 @@ const CompanyForm = () => {
                                 { (!permissions.includes(COMPANY.STORE) && permissions.includes(COMPANY.SAVE)) && // not permitted to add
                                     <>
                                         { companyEdit &&
-                                            <button className='d-btn d-btn-primary mr-2' onClick={ (e) => { handlePendingUpdate(e) } }>
-                                                Pending update
-                                            </button>
+                                            <>
+                                                {   companyForm['user_uuid']==meUuid &&
+                                                    <button className='d-btn d-btn-primary mr-2' onClick={ (e) => { handlePendingUpdate(e) } }>
+                                                        Pending update
+                                                    </button>
+                                                }
+                                            </>
+                                            
                                         }
 
                                         { !companyEdit &&
