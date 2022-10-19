@@ -111,6 +111,18 @@ const CompanyForm = () => {
             }
             delete cForm['future_w'];
         }
+
+        // emails
+        cForm = companyForm;
+        if ('emails_tmp' in cForm){
+            for (let key in cForm['emails_tmp']){
+                for (let key1 in cForm['emails_tmp'][key]){
+                    cForm[key1] = cForm['emails_tmp'][key][key1];
+                }
+                
+            }
+            delete cForm['emails_tmp'];
+        }
     }
 
     const handleChange = (e, file = false) => {

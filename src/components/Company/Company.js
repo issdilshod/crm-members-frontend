@@ -47,10 +47,7 @@ const Company = () => {
         'bank_account[account_number]': '',
         'bank_account[routing_number]': '',
         'bank_account[bank_account_security]': [],
-        'emails[hosting_uuid]': '',
-        'emails[email]': '',
-        'emails[password]': '',
-        'emails[phone]': '',
+        'emailsdb': [],
         'future_websites': [],
         'uploaded_files': {
             'incorporation_state': [],
@@ -116,12 +113,6 @@ const Company = () => {
                         }
                     }
                     delete tmp_company['address'];
-
-                    //emails (first)
-                    for (let key in tmp_company['emails'][0]){
-                        tmp_company['emails[' + key + ']'] = tmp_company['emails'][0][key];
-                    }
-                    delete tmp_company['emails'];
 
                     // bank account
                     for (let key in tmp_company['bank_account'][0]){
