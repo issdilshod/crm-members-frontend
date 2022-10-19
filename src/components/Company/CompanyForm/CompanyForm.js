@@ -35,6 +35,7 @@ const CompanyForm = () => {
     const [optDirectorList, setOptDirectorList] = useState([]);
 
     useEffect(() => {
+        loadDirectorList();
         loadSicCodes();
         loadStates();
     }, []);
@@ -49,7 +50,8 @@ const CompanyForm = () => {
                 if (res.status===200||res.status===201){
                     let tmpArray = [];
                     res.data.map((director) => {
-                        return tmpArray.push({ 'value': director.uuid, 'label': director.first_name + ' ' + director.last_name});
+                        let full_name = director.first_name + ' ' + (director.middle_name!=null?director.middle_name+' ':'') + director.last_name;
+                        return tmpArray.push({ 'value': director.uuid, 'label': full_name});
                     });
                     setOptDirectorList(tmpArray);
                 }
