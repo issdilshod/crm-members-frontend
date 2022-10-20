@@ -8,15 +8,10 @@ const OnClose = () => {
 
     useEffect(() => {
         const handleTabClose = event => {
-            event.returnValue = '';
             api.request('/api/user-offline', 'GET');
         };
     
-        window.addEventListener('beforeunload', handleTabClose);
-    
-        return () => {
-            window.removeEventListener('beforeunload', handleTabClose);
-        };
+        return () => window.removeEventListener('beforeunload', handleTabClose);
     }, []);
 
     return <></>
