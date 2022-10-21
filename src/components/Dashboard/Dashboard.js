@@ -9,6 +9,7 @@ import TaskForm from './Task/TaskForm/TaskForm';
 import styles from './Dashboard.module.scss';
 import { Mediator } from '../../context/Mediator';
 import Pending from './Pending/Pending';
+import Users from './User/Users';
 
 const Dashboard = () => {
     const navigate = useNavigate();
@@ -50,6 +51,8 @@ const Dashboard = () => {
                 </div>
             </div>
             <TaskForm />
+
+            <Users />
         </Mediator.Provider>
     );
 }

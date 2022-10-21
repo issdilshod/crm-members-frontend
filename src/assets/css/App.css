@@ -437,3 +437,7 @@ label .req {
     width: 10px;
     height: 100%;
 }
+
+.d-cursor-pointer{
+    cursor: pointer;
+}
