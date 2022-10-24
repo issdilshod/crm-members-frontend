@@ -352,7 +352,7 @@ const CompanyForm = () => {
                         </div>
 
                         <div className={`${styles['company-form-field']} col-12 col-sm-4 form-group`}>
-                            <label>Incorporation State <i className='req'>*</i></label>
+                            <label>Incorporation State</label>
                             <select className={`form-control`} 
                                     name='incorporation_state_uuid' 
                                     onChange={(e) => { handleChange(e); }} 
@@ -371,7 +371,7 @@ const CompanyForm = () => {
                         </div>
 
                         <div className={`${styles['company-form-field']} col-12 col-sm-4 form-group`}>
-                            <label>Doing business in state <i className='req'>*</i></label>
+                            <label>Doing business in state</label>
                             <select className={`form-control`} 
                                     name='doing_business_in_state_uuid' 
                                     onChange={(e) => { handleChange(e); }} 
