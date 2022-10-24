@@ -58,39 +58,24 @@
             .company-list{
                 padding: 20px;
 
-                .company-card{
-                    background-color: #607cab;
-                    color: #fff;
-                    border-radius: 20px;
-                    padding-top: 10px;
-                    padding-bottom: 10px;
-                    box-shadow: 0 0.3125rem 0.625rem 0 rgb(0 0 0 / 12%) !important;
-                    cursor: pointer;
-                    transition: .5s;
+                .company-card-icon{
+                    font-size: 3em;
 
-                    .company-card-icon{
-                        font-size: 3em;
-
-                        span{
-                            position: relative;
-                            top: -9px;
-                        }
-                    }
-
-                    .company-card-info{
-
-                        p:first-of-type{
-                            font-weight: 700;
-                        }
-
-                        p{
-                            margin-bottom: 0;
-                        }
+                    span{
+                        position: relative;
+                        top: -9px;
                     }
                 }
 
-                .company-card:hover{
-                    box-shadow: 0 0.3125rem 0.625rem 6px rgb(0 0 0 / 12%) !important;
+                .company-card-info{
+
+                    p:first-of-type{
+                        font-weight: 700;
+                    }
+
+                    p{
+                        margin-bottom: 0;
+                    }
                 }
 
             }

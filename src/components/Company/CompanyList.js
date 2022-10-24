@@ -3,6 +3,7 @@ import { Mediator } from '../../context/Mediator';
 import { FaArrowLeft, FaBars, FaBuilding, FaFileAlt, FaMapMarkerAlt, FaPlus } from 'react-icons/fa';
 import Search from '../Helper/Search';
 import Pagination from '../Helper/Pagination';
+import * as STATUS from '../../consts/Status';
 
 const CompanyList = () => {
     const { 
@@ -103,7 +104,13 @@ const CompanyList = () => {
                             companyList.map((value, index) => {
                                 return (
                                     <div key={index} className={`col-12 col-sm-6 col-md-4 col-xl-3 mb-3`}>
-                                        <div className={`${styles['company-card']} d-flex`} onClick={ () => { handleCardClick(value['uuid']) } }>
+                                        <div 
+                                        className={`t-card t-card-sm 
+                                                    ${STATUS.ACTIVED==value['status']?'t-card-primary':''}
+                                                    ${STATUS.REJECTED==value['status']?'t-card-danger':''}
+                                                     d-flex`} 
+                                        onClick={ () => { handleCardClick(value['uuid']) } }
+                                        >
                                             <div className={`${styles['company-card-icon']} mr-3 ml-3`}>
                                                 <span>
                                                     <FaBuilding />
