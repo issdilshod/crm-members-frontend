@@ -28,6 +28,27 @@ const Dashboard = () => {
     const [taskFormOpen, setTaskFormOpen] = useState(false);
     const [taskFormError, setTaskFormError] = useState({});
 
+    const [firstPending, setFirstPending] = useState([]);
+    const [pending, setPending] = useState([]);
+
+    useEffect(() => {
+        firstInit();
+    }, [])
+
+    const firstInit = () => {
+        api.request('/api/pending', 'GET')
+            .then(res => {
+                if (res.status===200||res.status===201){ // success
+                    let tmpArr = [...res.data.companies, ...res.data.directors];
+                    tmpArr.sort((a, b) => {
+                        return new Date(b.updated_at) - new Date(a.updated_at);
+                    });
+                    setPending(tmpArr);
+                    setFirstPending(tmpArr);
+                }
+            })
+    }
+
     return (
         <Mediator.Provider value={{
                     api, navigate,
@@ -35,14 +56,14 @@ const Dashboard = () => {
                 }}
         >
             <div className={styles['main-content']}>
-                <Header />
+                <Header firstPending={firstPending} pending={pending} setPending={setPending} />
                 <div className={`${styles['dashboard-block']} container-fluid mb-4`}>
                     <div className='row'>
                         <div className='col-12 col-sm-5'>
                             <TaskListDashboard />
                         </div>
                         <div className='col-12 col-sm-3'>
-                            <Pending />
+                            <Pending pending={pending} setPending={setPending} />
                         </div>
                         <div className='col-12 col-sm-4'>
                             <Activity />

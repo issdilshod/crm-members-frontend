@@ -6,7 +6,7 @@ import { FaSignOutAlt, FaRegStickyNote, FaBars } from 'react-icons/fa';
 import Menu from './Menu';
 import Note from '../Note/Note';
 
-const Header = (props) => {
+const Header = ({ firstPending, pending, setPending }) => {
     const {
         api, navigate
     } = useContext(Mediator)
@@ -25,13 +25,30 @@ const Header = (props) => {
             });
     }
 
+    const handleSearch = (e) => {
+        if (e.target.value.length>=3){
+            api.request('/api/pending/search/'+e.target.value, 'GET')
+            .then(res => {
+                if (res.status===200||res.status===201){ // success
+                    let tmpArr = [...res.data.companies, ...res.data.directors];
+                    tmpArr.sort((a, b) => {
+                        return new Date(b.updated_at) - new Date(a.updated_at);
+                    });
+                    setPending(tmpArr);
+                }
+            })
+        }else{
+            setPending(firstPending);
+        }
+    }
+
     return (
         <div>
             <div className={`${styles['header']} container-fluid`}>
                 <div className={`${styles['header-sticky']} d-flex`}>
                     <div className={`${styles['header-breadcrumbs']} mr-auto`}>Dashboard</div>
                     <div className={`${styles['header-search']}`}>
-                        <input className={`${styles['search-input']} form-control`} type='text' placeholder='Type here...' />
+                        <input className={`${styles['search-input']} form-control`} type='text' placeholder='Type here...' onChange={ (e) => { handleSearch(e) } } />
                     </div>
                     <div className={`${styles['header-sign-out']} ml-2`} onClick={handleSignOut}>
                         <FaSignOutAlt />

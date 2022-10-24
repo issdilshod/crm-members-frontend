@@ -8,29 +8,10 @@ import Api from '../../../services/Api';
 import './Pending.scss';
 import { useNavigate } from 'react-router-dom';
 
-const Pending = () => {
+const Pending = ({ pending, setPending }) => {
 
     const api = new Api();
     const nav = useNavigate();
-
-    useEffect(() => {
-        firstInit();
-    }, []);
-
-    const firstInit = () => {
-        api.request('/api/pending', 'GET')
-            .then(res => {
-                if (res.status===200||res.status===201){ // success
-                    let tmpArr = [...res.data.companies, ...res.data.directors];
-                    tmpArr.sort((a, b) => {
-                        return new Date(b.updated_at) - new Date(a.updated_at);
-                    });
-                    setPending(tmpArr);
-                }
-            })
-    }
-
-    const [pending, setPending] = useState([]);
 
     const handlePendingClick = (link) => {
         nav(process.env.REACT_APP_FRONTEND_PREFIX + link);
