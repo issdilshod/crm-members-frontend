@@ -16,9 +16,6 @@ const Users = () => {
         api.request('/api/user', 'GET')
             .then( res => {
                 if (res.status===200||res.status===201){
-                    res.data.data.sort((a, b) => {
-                        return new Date(a.last_seen) - new Date(b.last_seen);
-                    });
                     setUsers(res.data.data);
                 }
             })
@@ -54,7 +51,7 @@ const Users = () => {
                                 <div>
                                     <b className='mr-2'>{value['first_name'] + ' ' + value['last_name']}</b>
                                     { (value['last_seen']!=null) &&
-                                        <ReactTimeAgo date={value['last_seen']} locale="en-US" /> 
+                                        <ReactTimeAgo date={new Date(value['last_seen'])} locale="en-US" /> 
                                     }
                                     { (value['last_seen']==null) &&
                                         <span className='online'></span>

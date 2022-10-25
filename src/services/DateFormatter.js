@@ -1,29 +1,15 @@
 class DateFormatter {
 
     static beautifulDate(dateTime){
-        let year = dateTime.substr(0, 4);
-        let month = dateTime.substr(5, 2);
-        let day = dateTime.substr(8, 2);
-        let monthes = {
-            '01' : 'jan.', 
-            '02' : 'feb.', 
-            '03' : 'mar.', 
-            '04' : 'apr.', 
-            '05' : 'may', 
-            '06' : 'jun.', 
-            '07' : 'jul.', 
-            '08' : 'aug.', 
-            '09' : 'sep.', 
-            '10' : 'oct.', 
-            '11' : 'nov.', 
-            '12' : 'dec.'
-        };
-        if(month!=0){
-            month = monthes[month];
-        }
-        let date = day + ' ' + month + ' ' + year;
-        let time = dateTime.substr(11, 5);
-        let result = date + ' on ' + time;
+        let months = ['jan.', 'feb.', 'mar.', 'apr.', 'may', 'jun.', 'jul.', 'aug.', 'sep.', 'oct.', 'nov.', 'dec.'];
+        dateTime = new Date(dateTime);
+
+        let year = dateTime.getFullYear();
+        let month = dateTime.getMonth();
+        let day = (dateTime.getDate()<10?'0'+dateTime.getDate():dateTime.getDate());
+        let hours = (dateTime.getHours()<10?'0'+dateTime.getHours():dateTime.getHours());
+        let minutes = (dateTime.getMinutes()<10?'0'+dateTime.getMinutes():dateTime.getMinutes());
+        let result = day + ' ' + months[month] + ' ' + year + ' on ' + hours + ':' + minutes;
         return result;
     }
 }
