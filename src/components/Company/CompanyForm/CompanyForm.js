@@ -149,6 +149,7 @@ const CompanyForm = () => {
         e.preventDefault();
         setCompanyFormError([]);
         ObjectsConvert();
+        setLoadingShow(true);
         api.request('/api/company', 'POST', companyForm, true)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
@@ -172,6 +173,7 @@ const CompanyForm = () => {
         e.preventDefault();
         setCompanyFormError([]);
         ObjectsConvert();
+        setLoadingShow(true);
         api.request('/api/company/'+companyForm['uuid'], 'POST', companyForm, true)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
@@ -200,6 +202,7 @@ const CompanyForm = () => {
 
     const handleDelete = (e, uuid) => {
         e.preventDefault();
+        setLoadingShow(true);
         api.request('/api/company/' + uuid, 'DELETE')
             .then(res => {
                 if (res.status===200||res.status===201){ // success
@@ -215,12 +218,14 @@ const CompanyForm = () => {
                 }else if (res.status===403){ // permission
 
                 }
+                setLoadingShow(false);
             })
     }
 
     const handlePending = (e) => {
         e.preventDefault();
         ObjectsConvert();
+        setLoadingShow(true);
         api.request('/api/company-pending', 'POST', companyForm, true)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
@@ -242,6 +247,7 @@ const CompanyForm = () => {
     const handlePendingUpdate = (e) => {
         e.preventDefault();
         ObjectsConvert();
+        setLoadingShow(true);
         api.request('/api/company-pending-update/'+companyForm['uuid'], 'POST', companyForm, true)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
@@ -262,6 +268,7 @@ const CompanyForm = () => {
 
     const handlePendingReject = (e) => {
         e.preventDefault();
+        setLoadingShow(true);
         api.request('/api/company-reject/'+companyForm['uuid'], 'PUT')
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
@@ -282,6 +289,7 @@ const CompanyForm = () => {
         e.preventDefault();
         setCompanyFormError([]);
         ObjectsConvert();
+        setLoadingShow(true);
         api.request('/api/company-accept/'+companyForm['uuid'], 'POST', companyForm, true)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success

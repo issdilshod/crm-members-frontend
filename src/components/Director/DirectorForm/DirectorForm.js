@@ -52,6 +52,7 @@ const DirectorForm = () => {
     const handleStore = (e) => {
         e.preventDefault();
         setDirectorFormError([]);
+        setLoadingShow(true);
         api.request('/api/director', 'POST', directorForm, true)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
@@ -74,6 +75,7 @@ const DirectorForm = () => {
     const handleUpdate = (e) => {
         e.preventDefault();
         setDirectorFormError([]);
+        setLoadingShow(true);
         api.request('/api/director/'+directorForm['uuid'], 'POST', directorForm, true)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
@@ -102,6 +104,7 @@ const DirectorForm = () => {
 
     const handleDelete = (e, uuid) => {
         e.preventDefault();
+        setLoadingShow(true);
         api.request('/api/director/' + uuid, 'DELETE')
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
@@ -117,11 +120,13 @@ const DirectorForm = () => {
                 }else if (res.status===403){ // permission
                     
                 }
+                setLoadingShow(false);
             })
     }
  
     const handlePending = (e) => {
         e.preventDefault();
+        setLoadingShow(true);
         api.request('/api/director-pending', 'POST', directorForm, true)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
@@ -141,6 +146,7 @@ const DirectorForm = () => {
 
     const handlePendingUpdate = (e) => {
         e.preventDefault();
+        setLoadingShow(true);
         api.request('/api/director-pending-update/'+directorForm['uuid'], 'POST', directorForm, true)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
@@ -161,6 +167,7 @@ const DirectorForm = () => {
 
     const handlePendingReject = (e) => {
         e.preventDefault();
+        setLoadingShow(true);
         api.request('/api/director-reject/'+directorForm['uuid'], 'PUT')
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
@@ -180,6 +187,7 @@ const DirectorForm = () => {
     const handlePendingAccept = (e) => {
         e.preventDefault();
         setDirectorFormError([]);
+        setLoadingShow(true);
         api.request('/api/director-accept/'+directorForm['uuid'], 'POST', directorForm, true)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
