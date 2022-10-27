@@ -17,6 +17,7 @@ const DirectorForm = () => {
 
     const { 
             api, styles, permissions,
+            directorFormOriginal, setDirectorFormOriginal,
             directorFormOpen, setDirectorFormOpen, directorEdit, setDirectorEdit, directorList, setDirectorList, directorForm, setDirectorForm,
                 directorFormError, setDirectorFormError,
             dlAddressOpen, setDlAddressOpen, creditHomeAddressOpen,
@@ -208,6 +209,12 @@ const DirectorForm = () => {
     }
 
     const handleClose = (e) => {
+        let confirm = true;
+        if (JSON.stringify(directorFormOriginal) != JSON.stringify(directorForm)){
+            confirm = window.confirm('You have unsaved changes, are you sure you want to close this card?');
+        }
+        
+        if (!confirm){ return false; }
         setDirectorFormOpen(false);
     }
 

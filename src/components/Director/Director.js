@@ -57,6 +57,7 @@ const Director = () => {
     const [directorEdit, setDirectorEdit] = useState(false);
     const [directorFormOpen, setDirectorFormOpen] = useState(false);
     const [directorForm, setDirectorForm] = useState(directorFormEntity);
+    const [directorFormOriginal, setDirectorFormOriginal] = useState(directorFormEntity);
     const [directorFormError, setDirectorFormError] = useState({});
     // address
     const [dlAddressOpen, setDlAddressOpen] = useState(true);
@@ -93,6 +94,7 @@ const Director = () => {
     const handleCardClick = (uuid) => {
         setDirectorFormOpen(false);
         setDirectorForm(directorFormEntity);
+        setDirectorFormOriginal(directorFormEntity);
         api.request('/api/director/'+uuid, 'GET')
             .then(res => {
                 if (res.status===200||res.status===201){
@@ -135,6 +137,7 @@ const Director = () => {
 
                     tmp_director['_method'] = 'PUT';
                     setDirectorForm(tmp_director);
+                    setDirectorFormOriginal(tmp_director);
                 }
                 
             });  
@@ -144,6 +147,7 @@ const Director = () => {
         <Mediator.Provider value={ { 
                                 api, navigate, styles, permissions,
                                 menuOpen, setMenuOpen, 
+                                directorFormOriginal, setDirectorFormOriginal,
                                 directorFormOpen, setDirectorFormOpen, directorEdit, setDirectorEdit, directorList, setDirectorList,
                                     directorForm, setDirectorForm, directorFormError, setDirectorFormError, directorFormEntity, setDirectorFormEntity, handleCardClick,
                                 dlAddressOpen, setDlAddressOpen, creditHomeAddressOpen,

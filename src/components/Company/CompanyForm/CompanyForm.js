@@ -22,6 +22,7 @@ const CompanyForm = () => {
 
     const { 
             api, styles, permissions,
+            companyFormOriginal, setCompanyFormOriginal,
             companyFormOpen, setCompanyFormOpen, companyEdit, setCompanyEdit, companyList, setCompanyList, companyForm, setCompanyForm,
                 companyFormError, setCompanyFormError,
             companyAddressOpen, setCompanyAddressOpen, incorporationStateUploadOpen,
@@ -312,6 +313,12 @@ const CompanyForm = () => {
     }
 
     const handleClose = (e) => {
+        let confirm = true;
+        if (JSON.stringify(companyFormOriginal) != JSON.stringify(companyForm)){
+            confirm = window.confirm('You have unsaved changes, are you sure you want to close this card?');
+        }
+        
+        if (!confirm){ return false; }
         setCompanyFormOpen(false);
     }
 

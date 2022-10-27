@@ -9,6 +9,7 @@ const CompanyList = () => {
     const { 
             api, navigate, styles, 
             menuOpen, setMenuOpen,
+            companyFormOriginal, setCompanyFormOriginal,
             companyForm, setCompanyForm, companyFormOpen, setCompanyFormOpen, companyEdit, setCompanyEdit, companyList, setCompanyList,
             companyFormEntity, companyFormError, setCompanyFormError, handleCardClick,
             setLoadingShow
@@ -33,6 +34,7 @@ const CompanyList = () => {
         setCompanyFormOpen(true);
         setCompanyEdit(false);
         setCompanyForm(companyFormEntity);
+        setCompanyFormOriginal(companyFormEntity);
     }
 
     const handlePaginatioClick = (number) => {

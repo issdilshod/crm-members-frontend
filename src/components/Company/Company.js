@@ -49,6 +49,7 @@ const Company = () => {
         'bank_account[account_number]': '',
         'bank_account[routing_number]': '',
         'bank_account[bank_account_security]': [],
+        'security': [],
         'emailsdb': [],
         'future_websites': [],
         'uploaded_files': {
@@ -62,6 +63,7 @@ const Company = () => {
     const [companyEdit, setCompanyEdit] = useState(false);
     const [companyFormOpen, setCompanyFormOpen] = useState(false);
     const [companyForm, setCompanyForm] = useState(companyFormEntity);
+    const [companyFormOriginal, setCompanyFormOriginal] = useState(companyFormEntity);
     const [companyFormError, setCompanyFormError] = useState({});
     // bank account
     const [companyBankAccountOpen, setCompanyBankAccountOpen] = useState(true);
@@ -100,6 +102,7 @@ const Company = () => {
     const handleCardClick = (uuid) => {
         setCompanyFormOpen(false);
         setCompanyForm(companyFormEntity);
+        setCompanyFormOriginal(companyFormEntity);
         api.request('/api/company/'+uuid, 'GET')
             .then(res => {
                 if (res.status===200||res.status===201){
@@ -132,6 +135,7 @@ const Company = () => {
 
                     tmp_company['_method'] = 'PUT';
                     setCompanyForm(tmp_company);
+                    setCompanyFormOriginal({ ...tmp_company, 'security': [] } );
                 }
             });  
     }
@@ -140,6 +144,7 @@ const Company = () => {
         <Mediator.Provider value={ { 
                                 api, navigate, styles, permissions,
                                 menuOpen, setMenuOpen, 
+                                companyFormOriginal, setCompanyFormOriginal,
                                 companyFormOpen, setCompanyFormOpen, companyEdit, setCompanyEdit, companyList, setCompanyList,
                                     companyForm, setCompanyForm, companyFormError, setCompanyFormError, companyFormEntity, setCompanyFormEntity,
                                 companyBankAccountOpen, setCompanyBankAccountOpen,

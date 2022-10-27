@@ -10,6 +10,7 @@ const DirectorList = () => {
     const { 
             api, navigate, styles, 
             menuOpen, setMenuOpen,
+            directorFormOriginal, setDirectorFormOriginal,
             directorForm, setDirectorForm, directorFormOpen, setDirectorFormOpen, directorEdit, setDirectorEdit, directorList, setDirectorList,
             directorFormEntity, directorFormError, setDirectorFormError, handleCardClick,
             setLoadingShow
@@ -34,6 +35,7 @@ const DirectorList = () => {
         setDirectorFormOpen(true);
         setDirectorEdit(false);
         setDirectorForm(directorFormEntity);
+        setDirectorFormOriginal(directorFormEntity);
     }
 
     const handlePaginatioClick = (number) => {
