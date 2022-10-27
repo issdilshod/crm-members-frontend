@@ -441,3 +441,24 @@ label .req {
 .d-cursor-pointer{
     cursor: pointer;
 }
+
+/* c-card-background */
+.c-card-left{
+    width: 25%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background-color: hsla(0deg, 0%, 100%, 0.8);
+    transition: .6s;
+}
+
+.w-0{
+    width: 0;
+}
+
+@media (max-width: 800px){
+    .c-card-left{
+        width: 0;
+    }
+}

@@ -312,7 +312,7 @@ const CompanyForm = () => {
             });
     }
 
-    const handleClose = (e) => {
+    const handleClose = () => {
         let confirm = true;
         if (JSON.stringify(companyFormOriginal) != JSON.stringify(companyForm)){
             confirm = window.confirm('You have unsaved changes, are you sure you want to close this card?');
@@ -322,9 +322,14 @@ const CompanyForm = () => {
         setCompanyFormOpen(false);
     }
 
+    const handleClickOutCard = () => {
+        handleClose();
+    }
+
     return (  
         <div>
             <Notification Alert={alert} SetAlert={setAlert} />
+            <div className={`c-card-left ${!companyFormOpen?'w-0':''}`} onClick={ () => { handleClickOutCard() } }></div>
             <div className={`${styles['company-form-card']} ${companyFormOpen ? styles['company-form-card-active']:''}`}>
                 <div className={`${styles['company-form-card-head']} d-flex`}>
                     <div className={`${styles['company-form-card-title']} mr-auto`}>{(!companyEdit?'Add company':'Edit company')}</div>

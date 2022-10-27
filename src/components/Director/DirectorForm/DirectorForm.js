@@ -12,6 +12,7 @@ import { Mediator } from '../../../context/Mediator';
 
 import { FaTimes } from 'react-icons/fa';
 import Notification from '../../Helper/Notification/Notification';
+import { useRef } from 'react';
 
 const DirectorForm = () => {
 
@@ -208,7 +209,7 @@ const DirectorForm = () => {
             });
     }
 
-    const handleClose = (e) => {
+    const handleClose = () => {
         let confirm = true;
         if (JSON.stringify(directorFormOriginal) != JSON.stringify(directorForm)){
             confirm = window.confirm('You have unsaved changes, are you sure you want to close this card?');
@@ -218,9 +219,14 @@ const DirectorForm = () => {
         setDirectorFormOpen(false);
     }
 
+    const handleClickOutCard = () => {
+        handleClose();
+    }
+
     return (  
         <div>
             <Notification Alert={alert} SetAlert={setAlert} />
+            <div className={`c-card-left ${!directorFormOpen?'w-0':''}`} onClick={ () => { handleClickOutCard() } }></div>
             <div className={`${styles['director-form-card']} ${directorFormOpen ? styles['director-form-card-active']:''}`}>
                 <div className={`${styles['director-form-card-head']} d-flex`}>
                     <div className={`${styles['director-form-card-title']} mr-auto`}>{(!directorEdit?'Add director':'Edit director')}</div>
