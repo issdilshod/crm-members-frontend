@@ -41,7 +41,7 @@ const Dashboard = () => {
                 if (res.status===200||res.status===201){ // success
                     let tmpArr = [...res.data.companies, ...res.data.directors];
                     tmpArr.sort((a, b) => {
-                        return new Date(b.updated_at) - new Date(a.updated_at);
+                        return new Date(b.last_activity.updated_at) - new Date(a.last_activity.updated_at);
                     });
                     setPending(tmpArr);
                     setFirstPending(tmpArr);

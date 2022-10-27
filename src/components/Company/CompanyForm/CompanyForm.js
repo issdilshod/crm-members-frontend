@@ -93,7 +93,9 @@ const CompanyForm = () => {
     useEffect(() => {
         setCompanyFormError({});
         if (companyFormOpen && companyEdit){
-            loadDirectorList(companyForm['director']['first_name'] + ' ' + companyForm['director']['last_name']);
+            if (companyForm['director']!=null){
+                loadDirectorList(companyForm['director']['first_name'] + ' ' + companyForm['director']['last_name']);
+            }
         }
     }, [companyFormOpen])
 
