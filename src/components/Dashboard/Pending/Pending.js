@@ -8,8 +8,9 @@ import Api from '../../../services/Api';
 import './Pending.scss';
 import { useNavigate } from 'react-router-dom';
 import LoadingMini from '../../Helper/LoadingMini';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
-const Pending = ({ pending, setPending, loading }) => {
+const Pending = ({ pendingNextFetch, pendingMeta, pending, setPending }) => {
 
     const api = new Api();
     const nav = useNavigate();
@@ -21,6 +22,17 @@ const Pending = ({ pending, setPending, loading }) => {
     return (
         <div className='pending-block'>
         
+            <InfiniteScroll 
+                dataLength={pending.length}
+                next={pendingNextFetch}
+                hasMore={(pendingMeta['current_page']<pendingMeta['max_page'])}
+                loader={<LoadingMini />}
+                endMessage={
+                    <p style={{ textAlign: "center" }}>
+                        <b>Yay! You have seen it all</b>
+                    </p>
+                }
+            >
             {
                 pending.map((value, index) => {
                     return (
@@ -48,10 +60,7 @@ const Pending = ({ pending, setPending, loading }) => {
                     )
                 })
             }
-
-            { loading && 
-                <LoadingMini />
-            }
+            </InfiniteScroll>
 
         </div>
     )

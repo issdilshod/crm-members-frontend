@@ -30,8 +30,8 @@ const Dashboard = () => {
 
     const [firstPending, setFirstPending] = useState([]);
     const [pending, setPending] = useState([]);
+    const [pendingMeta, setPendingMeta] = useState({'current_page': 0, 'max_page': 1});
 
-    const [pendingLoadingMiniShow, setPendingLoadingMiniShow] = useState(false);
     const [activityLoadingMiniShow, setActivityLoadingMiniShow] = useState(false);
 
     useEffect(() => {
@@ -39,17 +39,20 @@ const Dashboard = () => {
     }, [])
 
     const firstInit = () => {
-        setPendingLoadingMiniShow(true);
-        api.request('/api/pending', 'GET')
+        pendingNextFetch();
+    }
+
+    const pendingNextFetch = () => {
+        api.request('/api/pending?page='+parseInt(pendingMeta['current_page']+1), 'GET')
             .then(res => {
                 if (res.status===200||res.status===201){ // success
                     let tmpArr = [...res.data.companies, ...res.data.directors];
                     tmpArr.sort((a, b) => {
                         return new Date(b.last_activity.updated_at) - new Date(a.last_activity.updated_at);
                     });
-                    setPending(tmpArr);
+                    setPending([ ...pending, ...tmpArr ]);
                     setFirstPending(tmpArr);
-                    setPendingLoadingMiniShow(false);
+                    setPendingMeta(res.data.meta);
                 }
             })
     }
@@ -68,7 +71,7 @@ const Dashboard = () => {
                             <TaskListDashboard />
                         </div>
                         <div className='col-12 col-sm-3'>
-                            <Pending pending={pending} setPending={setPending} loading={pendingLoadingMiniShow} />
+                            <Pending pendingNextFetch={pendingNextFetch} pendingMeta={pendingMeta} pending={pending} setPending={setPending} />
                         </div>
                         <div className='col-12 col-sm-4'>
                             <Activity loading={activityLoadingMiniShow} setLoading={setActivityLoadingMiniShow} />
