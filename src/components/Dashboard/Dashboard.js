@@ -31,11 +31,15 @@ const Dashboard = () => {
     const [firstPending, setFirstPending] = useState([]);
     const [pending, setPending] = useState([]);
 
+    const [pendingLoadingMiniShow, setPendingLoadingMiniShow] = useState(false);
+    const [activityLoadingMiniShow, setActivityLoadingMiniShow] = useState(false);
+
     useEffect(() => {
         firstInit();
     }, [])
 
     const firstInit = () => {
+        setPendingLoadingMiniShow(true);
         api.request('/api/pending', 'GET')
             .then(res => {
                 if (res.status===200||res.status===201){ // success
@@ -45,6 +49,7 @@ const Dashboard = () => {
                     });
                     setPending(tmpArr);
                     setFirstPending(tmpArr);
+                    setPendingLoadingMiniShow(false);
                 }
             })
     }
@@ -63,10 +68,10 @@ const Dashboard = () => {
                             <TaskListDashboard />
                         </div>
                         <div className='col-12 col-sm-3'>
-                            <Pending pending={pending} setPending={setPending} />
+                            <Pending pending={pending} setPending={setPending} loading={pendingLoadingMiniShow} />
                         </div>
                         <div className='col-12 col-sm-4'>
-                            <Activity />
+                            <Activity loading={activityLoadingMiniShow} setLoading={setActivityLoadingMiniShow} />
                         </div>
                     </div>
                 </div>

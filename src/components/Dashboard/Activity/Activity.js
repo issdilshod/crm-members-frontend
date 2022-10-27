@@ -5,22 +5,22 @@ import DateFormatter from '../../../services/DateFormatter';
 
 import styles from './Activity.module.scss';
 import { FaClock } from 'react-icons/fa';
+import LoadingMini from '../../Helper/LoadingMini';
 
-const Activity = () => {
+const Activity = ({loading, setLoading}) => {
 
     const { api } = useContext(Mediator);
 
     const [activityList, setActivityList] = useState([]);
 
     useEffect(() => {
+        setLoading(true);
         api.request('/api/activity', 'GET')
             .then(res => {
-                switch(res.status){
-                    case 200:
-                    case 201:
-                        setActivityList(res.data.data);
-                        break;
+                if (res.status===200||res.status===201){
+                    setActivityList(res.data.data);
                 }
+                setLoading(false);
             });
     }, [])
 
@@ -49,6 +49,9 @@ const Activity = () => {
                     
                 </div>
             </div>
+            {   loading &&
+                <LoadingMini />
+            }
         </div>
     );
 }

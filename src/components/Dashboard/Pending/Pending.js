@@ -7,8 +7,9 @@ import Api from '../../../services/Api';
 
 import './Pending.scss';
 import { useNavigate } from 'react-router-dom';
+import LoadingMini from '../../Helper/LoadingMini';
 
-const Pending = ({ pending, setPending }) => {
+const Pending = ({ pending, setPending, loading }) => {
 
     const api = new Api();
     const nav = useNavigate();
@@ -46,6 +47,10 @@ const Pending = ({ pending, setPending }) => {
                         </div>
                     )
                 })
+            }
+
+            { loading && 
+                <LoadingMini />
             }
 
         </div>
