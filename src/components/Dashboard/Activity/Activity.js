@@ -8,33 +8,44 @@ import { FaClock } from 'react-icons/fa';
 import LoadingMini from '../../Helper/LoadingMini';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
-const Activity = ({loading, setLoading}) => {
+const Activity = ({}) => {
 
     const { api } = useContext(Mediator);
 
     const [activityList, setActivityList] = useState([]);
+    const [activityMeta, setActivityMeta] = useState({'current_page': 0, 'max_page': 1});
 
     useEffect(() => {
-        setLoading(true);
-        api.request('/api/activity', 'GET')
+        activityNextFetch();
+    }, [])
+
+    const activityNextFetch = () => {
+        api.request('/api/activity?page='+parseInt(activityMeta['current_page']+1), 'GET')
             .then(res => {
                 if (res.status===200||res.status===201){
-                    setActivityList(res.data.data);
+                    setActivityList([ ...activityList, ...res.data.data]);
+                    setActivityMeta({'current_page': res.data.meta.current_page, 'max_page': res.data.meta.last_page})
                 }
-                setLoading(false);
             });
-    }, [])
+    }
 
     return (
         <div className={styles['activity-card']}>
             <div className={styles['activity-card-head']}>Activity</div>
             <div className={styles['activity-card-body']}>
-                <div className={styles['activity-block']}>
+                <div className={styles['activity-block']} id='activity-block'>
 
                     <InfiniteScroll
                         dataLength={activityList.length}
-                        hasMore={(activityList.length==0)}
+                        next={activityNextFetch}
+                        hasMore={activityMeta['current_page']<activityMeta['max_page']}
                         loader={<LoadingMini />}
+                        endMessage={
+                            <p style={{ textAlign: "center" }}>
+                                <b>Yay! You have seen it all</b>
+                            </p>
+                        }
+                        scrollableTarget='activity-block'
                     >
 
                     {
