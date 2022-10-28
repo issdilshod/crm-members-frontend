@@ -20,8 +20,7 @@ const Pending = ({ pendingNextFetch, pendingMeta, pending, setPending }) => {
     } 
 
     return (
-        <div className='pending-block'>
-        
+        <div className='pending-block' id='pending-block'>
             <InfiniteScroll 
                 dataLength={pending.length}
                 next={pendingNextFetch}
@@ -32,6 +31,7 @@ const Pending = ({ pendingNextFetch, pendingMeta, pending, setPending }) => {
                         <b>Yay! You have seen it all</b>
                     </p>
                 }
+                scrollableTarget='pending-block'
             >
             {
                 pending.map((value, index) => {
@@ -61,7 +61,6 @@ const Pending = ({ pendingNextFetch, pendingMeta, pending, setPending }) => {
                 })
             }
             </InfiniteScroll>
-
         </div>
     )
 }

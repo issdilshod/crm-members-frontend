@@ -6,7 +6,7 @@ import { FaSignOutAlt, FaRegStickyNote, FaBars } from 'react-icons/fa';
 import Menu from './Menu';
 import Note from '../Note/Note';
 
-const Header = ({ firstPending, pending, setPending }) => {
+const Header = ({ firstPending, pending, setPending, setPendingMeta }) => {
     const {
         api, navigate
     } = useContext(Mediator)
@@ -39,6 +39,7 @@ const Header = ({ firstPending, pending, setPending }) => {
             })
         }else{
             setPending(firstPending);
+            setPendingMeta({'current_page': 0, 'max_page': 1});
         }
     }
 

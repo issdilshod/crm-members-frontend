@@ -51,7 +51,9 @@ const Dashboard = () => {
                         return new Date(b.last_activity.updated_at) - new Date(a.last_activity.updated_at);
                     });
                     setPending([ ...pending, ...tmpArr ]);
-                    setFirstPending(tmpArr);
+                    if (pendingMeta['current_page']==0){
+                        setFirstPending(tmpArr);
+                    }
                     setPendingMeta(res.data.meta);
                 }
             })
@@ -64,7 +66,7 @@ const Dashboard = () => {
                 }}
         >
             <div className={styles['main-content']}>
-                <Header firstPending={firstPending} pending={pending} setPending={setPending} />
+                <Header firstPending={firstPending} pending={pending} setPending={setPending} setPendingMeta={setPendingMeta} />
                 <div className={`${styles['dashboard-block']} container-fluid mb-4`}>
                     <div className='row'>
                         <div className='col-12 col-sm-5'>
