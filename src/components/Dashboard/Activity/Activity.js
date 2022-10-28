@@ -6,6 +6,7 @@ import DateFormatter from '../../../services/DateFormatter';
 import styles from './Activity.module.scss';
 import { FaClock } from 'react-icons/fa';
 import LoadingMini from '../../Helper/LoadingMini';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 const Activity = ({loading, setLoading}) => {
 
@@ -30,6 +31,12 @@ const Activity = ({loading, setLoading}) => {
             <div className={styles['activity-card-body']}>
                 <div className={styles['activity-block']}>
 
+                    <InfiniteScroll
+                        dataLength={activityList.length}
+                        hasMore={(activityList.length==0)}
+                        loader={<LoadingMini />}
+                    >
+
                     {
                         activityList.map((value, index) => {
                             return (
@@ -46,12 +53,11 @@ const Activity = ({loading, setLoading}) => {
                             )
                         })
                     }
+
+                    </InfiniteScroll>
                     
                 </div>
             </div>
-            {   loading &&
-                <LoadingMini />
-            }
         </div>
     );
 }
