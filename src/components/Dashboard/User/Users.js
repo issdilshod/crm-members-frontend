@@ -30,6 +30,9 @@ const Users = () => {
                     </i>
                 </div>
             </div>
+            <div 
+                className={`c-card-left-lg ${!usersForm?'w-0':''}`} 
+                onClick={ () => { setUsersForm(false) } }></div>
             <div className={`users-list ${usersForm?'users-list-active':''}`}>
                 <div className='users-list-head mb-3 d-flex'>
                     <div className='mr-auto'>Users</div>

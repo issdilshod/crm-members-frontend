@@ -443,7 +443,7 @@ label .req {
 }
 
 /* c-card-background */
-.c-card-left{
+.c-card-left, .c-card-left-lg, .c-card-left-sm{
     width: 25%;
     height: 100%;
     position: absolute;
@@ -451,6 +451,12 @@ label .req {
     top: 0;
     background-color: hsla(0deg, 0%, 100%, 0.8);
     transition: .6s;
+    z-index: 10;
+}
+
+.c-card-left-lg{
+    width: 75%;
+    transition: .4s;
 }
 
 .w-0{
@@ -458,7 +464,7 @@ label .req {
 }
 
 @media (max-width: 800px){
-    .c-card-left{
+    .c-card-left, .c-card-left-lg{
         width: 0;
     }
 }
