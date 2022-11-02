@@ -101,75 +101,78 @@ const DepartmentForm = () => {
     }
 
     return (
-        <div className={`${styles['department-form-card']} ${departmentFormOpen ? styles['department-form-card-active']:''}`}>
-            <div className={`${styles['department-form-card-head']} d-flex`}>
-                <div className={`${styles['department-form-card-title']} mr-auto`}>{departmentForm['department_name']} department</div>
-                <div className={styles['department-form-card-close']} onClick={() => { setDepartmentFormOpen(!departmentFormOpen) } }>
-                    <FaTimes />
+        <>
+            <div className={`c-card-left ${!departmentFormOpen?'w-0':''}`} onClick={ () => { setDepartmentFormOpen(false) } }></div>
+            <div className={`${styles['department-form-card']} ${departmentFormOpen ? styles['department-form-card-active']:''}`}>
+                <div className={`${styles['department-form-card-head']} d-flex`}>
+                    <div className={`${styles['department-form-card-title']} mr-auto`}>{departmentForm['department_name']} department</div>
+                    <div className={styles['department-form-card-close']} onClick={() => { setDepartmentFormOpen(!departmentFormOpen) } }>
+                        <FaTimes />
+                    </div>
                 </div>
-            </div>
-            <hr className={styles['divider']} />
-            <div className={`${styles['department-form-card-body']} container-fluid`}>
-                <form className={`${styles['department-form-block']} row`}>
+                <hr className={styles['divider']} />
+                <div className={`${styles['department-form-card-body']} container-fluid`}>
+                    <form className={`${styles['department-form-block']} row`}>
 
-                    <div className='col-12'>
-                        <div className={`${styles['user-card']}`}>
-                            <div className={`${styles['user-card-head']} d-flex`} >
-                                <div className={`${styles['card-head-title']} mr-auto`}>Users of {departmentForm['department_name']} department</div>
-                                <div>
-                                    <span 
-                                        className='mr-2'
-                                        onClick={ (e) => { handleDepartmentPermission(e, departmentForm['uuid']) } }
-                                    >
-                                        <FaCog />
-                                    </span>
-                                    <span  onClick={ () => { handlePlusUserClick(departmentForm['uuid']) } }>
-                                        <FaPlus />
-                                    </span>
+                        <div className='col-12'>
+                            <div className={`${styles['user-card']}`}>
+                                <div className={`${styles['user-card-head']} d-flex`} >
+                                    <div className={`${styles['card-head-title']} mr-auto`}>Users of {departmentForm['department_name']} department</div>
+                                    <div>
+                                        <span 
+                                            className='mr-2'
+                                            onClick={ (e) => { handleDepartmentPermission(e, departmentForm['uuid']) } }
+                                        >
+                                            <FaCog />
+                                        </span>
+                                        <span  onClick={ () => { handlePlusUserClick(departmentForm['uuid']) } }>
+                                            <FaPlus />
+                                        </span>
+                                    </div>
+                                </div>
+                                <div className={`${styles['user-card-body']} container-fluid`}>
+                                    <ul className={`${styles['users-list']}`}>
+                                        {
+                                            departmentForm['users'].map((value, index) => {
+                                                return (
+                                                    <li key={index} className='d-flex'>
+                                                        <div>{index+1}</div>
+                                                        <div className='mr-auto'>{value['first_name']} {value['last_name']}</div>
+                                                        <div>
+                                                            <button
+                                                                className='d-btn d-btn-primary mr-2'
+                                                                onClick={ (e) => { handleUserClick(e, value['uuid']) } }
+                                                            >
+                                                                <FaPencilAlt />
+                                                            </button>
+
+                                                            <button 
+                                                                className='d-btn d-btn-primary mr-2' 
+                                                                onClick={ (e) => { handleUserPermission(e, value['uuid']) } } 
+                                                            >
+                                                                <FaCog />
+                                                            </button> 
+
+                                                            <button 
+                                                                className='d-btn d-btn-danger' 
+                                                                onClick={ (e) => { handleDeleteUser(e, value['uuid']) } }
+                                                            >
+                                                                <FaTrash />
+                                                            </button> 
+                                                        </div>
+                                                    </li>
+                                                )
+                                            })
+                                        }  
+                                    </ul>
                                 </div>
                             </div>
-                            <div className={`${styles['user-card-body']} container-fluid`}>
-                                <ul className={`${styles['users-list']}`}>
-                                    {
-                                        departmentForm['users'].map((value, index) => {
-                                            return (
-                                                <li key={index} className='d-flex'>
-                                                    <div>{index+1}</div>
-                                                    <div className='mr-auto'>{value['first_name']} {value['last_name']}</div>
-                                                    <div>
-                                                        <button
-                                                            className='d-btn d-btn-primary mr-2'
-                                                            onClick={ (e) => { handleUserClick(e, value['uuid']) } }
-                                                        >
-                                                            <FaPencilAlt />
-                                                        </button>
-
-                                                        <button 
-                                                            className='d-btn d-btn-primary mr-2' 
-                                                            onClick={ (e) => { handleUserPermission(e, value['uuid']) } } 
-                                                        >
-                                                            <FaCog />
-                                                        </button> 
-
-                                                        <button 
-                                                            className='d-btn d-btn-danger' 
-                                                            onClick={ (e) => { handleDeleteUser(e, value['uuid']) } }
-                                                        >
-                                                            <FaTrash />
-                                                        </button> 
-                                                    </div>
-                                                </li>
-                                            )
-                                        })
-                                    }  
-                                </ul>
-                            </div>
                         </div>
-                    </div>
 
-                </form>
+                    </form>
+                </div>
             </div>
-        </div>
+        </>
     );
 }
 

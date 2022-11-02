@@ -21,34 +21,38 @@ const PermissionForm = () => {
     }
 
     return (
-        <div className={`${styles['department-form-card']} ${permissionFormOpen ? styles['department-form-card-active']:''}`}>
-            <div className={`${styles['department-form-card-head']} d-flex`}>
-                <div className={`${styles['department-form-card-title']} mr-auto`}>
-                    Permission control
+        <>
+            <div className={`c-card-left ${!permissionFormOpen?'w-0':''}`} onClick={ () => { setPermissionFormOpen(false) } }></div>
+
+            <div className={`${styles['department-form-card']} ${permissionFormOpen ? styles['department-form-card-active']:''}`}>
+                <div className={`${styles['department-form-card-head']} d-flex`}>
+                    <div className={`${styles['department-form-card-title']} mr-auto`}>
+                        Permission control
+                    </div>
+                    <div className={styles['department-form-card-close']} 
+                            onClick={ () => { setPermissionFormOpen(false) } }
+                    >
+                        <FaTimes />
+                    </div>
                 </div>
-                <div className={styles['department-form-card-close']} 
-                        onClick={ () => { setPermissionFormOpen(false) } }
-                >
-                    <FaTimes />
+                <hr className={styles['divider']} />
+                <div className={`${styles['department-form-card-body']} container-fluid`}>
+                    {
+                        permissionList.map((value, index) => {
+                            return (
+                                <div 
+                                    key={index}
+                                    className='d-flex mb-2'
+                                >
+                                    <div className='w-50'>{value['permission_name']}</div>
+                                    <div><OnOff permissionUuid={value['uuid']} entityUuid={selectedPermissionEntity} onChange={handleChange} entityPermission={entityPermission} /></div>
+                                </div>
+                            )
+                        })
+                    }
                 </div>
             </div>
-            <hr className={styles['divider']} />
-            <div className={`${styles['department-form-card-body']} container-fluid`}>
-                {
-                    permissionList.map((value, index) => {
-                        return (
-                            <div 
-                                key={index}
-                                className='d-flex mb-2'
-                            >
-                                <div className='w-50'>{value['permission_name']}</div>
-                                <div><OnOff permissionUuid={value['uuid']} entityUuid={selectedPermissionEntity} onChange={handleChange} entityPermission={entityPermission} /></div>
-                            </div>
-                        )
-                    })
-                }
-            </div>
-        </div>
+        </>
     );
 }
 

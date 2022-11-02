@@ -54,7 +54,7 @@ const UserForm = () => {
 
     const handleLocalClick = () => {
         setUserFormOpen(false); 
-        setDepartmentFormOpen(true);
+        //setDepartmentFormOpen(true);
     }
 
     const handleLocalChange = (e) => {
@@ -136,165 +136,169 @@ const UserForm = () => {
     }
 
     return (
-        <div className={`${styles['department-form-card']} ${userFormOpen ? styles['department-form-card-active']:''}`}>
-            <div className={`${styles['department-form-card-head']} d-flex`}>
-                <div className={`${styles['department-form-card-title']} mr-auto`}>
-                    User control
+        <>
+            <div className={`c-card-left ${!userFormOpen?'w-0':''}`} onClick={ () => { setUserFormOpen(false) } }></div>
+            
+            <div className={`${styles['department-form-card']} ${userFormOpen ? styles['department-form-card-active']:''}`}>
+                <div className={`${styles['department-form-card-head']} d-flex`}>
+                    <div className={`${styles['department-form-card-title']} mr-auto`}>
+                        User control
+                    </div>
+                    <div className={styles['department-form-card-close']} 
+                            onClick={ () => { setUserFormOpen(false) } }
+                    >
+                        <FaTimes />
+                    </div>
                 </div>
-                <div className={styles['department-form-card-close']} 
-                        onClick={ handleLocalClick }
-                >
-                    <FaTimes />
-                </div>
-            </div>
-            <hr className={styles['divider']} />
-            <div className={`${styles['department-form-card-body']} container-fluid`}>
-                <form className={`${styles['department-form-block']} row`}>
-                    <div className='form-group col-12 col-sm-4'>
-                        <label>First Name</label>
-                        <input className='form-control'
-                                name='first_name'
-                                onChange={ handleLocalChange }
-                                placeholder='First Name'
-                                value={ userForm['first_name'] }
-                        />
-                        <Validation field_name='first_name' errorObject={userFormError} />
-                    </div>
-                    <div className='form-group col-12 col-sm-4'>
-                        <label>Last Name</label>
-                        <input className='form-control'
-                                name='last_name'
-                                onChange={ (e) => { handleLocalChange(e) } }
-                                placeholder='Last Name'
-                                value={ userForm['last_name'] }
-                        />
-                        <Validation field_name='last_name' errorObject={userFormError} />
-                    </div>
-
-                    <div className='form-group col-12 col-sm-4'>
-                        <label>Role</label>
-                        <select className='form-control'
-                                name='role_uuid'
-                                onChange={ (e) => { handleLocalChange(e) } }
-                                value={ userForm['role_uuid'] }
-                                >
-                            <option>-</option>
-                            {
-                                roleList.map((value, index) => {
-                                    return (
-                                        <option key={index} value={value['uuid']}>{value['role_name']}</option>
-                                    );
-                                })
-                            }
-                        </select>
-                        <Validation field_name='role_uuid' errorObject={userFormError} />
-                    </div>
-
-                    <div className='form-group col-12 col-sm-6'>
-                        <label>Username</label>
-                        <input className='form-control'
-                                name='username'
-                                onChange={ (e) => { handleLocalChange(e) } }
-                                placeholder='Username'
-                                value={ userForm['username'] }
-                        />
-                        <Validation field_name='username' errorObject={userFormError} />
-                    </div>
-
-                    <div className='form-group col-12 col-sm-6'>
-                        <label>Password</label>
-                        <input className='form-control'
-                                name='password'
-                                onChange={ (e) => { handleLocalChange(e) } }
-                                placeholder='Password'
-                                value={ userForm['password'] }
-                        />
-                        <Validation field_name='password' errorObject={userFormError} />
-                    </div>
-
-                    <div className={`${styles['department-form-field']} form-group col-12 col-sm-6`}>
-                        <label>Telegram</label>
-                        <div className={styles['input-with-sign']}>
-                            <span>@</span>
-                            <input className={`${styles['field']} form-control`}
-                                    name='telegram'
-                                    onChange={ (e) => { handleLocalChange(e) } }
-                                    placeholder='Telegram'
-                                    value={ userForm['telegram'] }
+                <hr className={styles['divider']} />
+                <div className={`${styles['department-form-card-body']} container-fluid`}>
+                    <form className={`${styles['department-form-block']} row`}>
+                        <div className='form-group col-12 col-sm-4'>
+                            <label>First Name</label>
+                            <input className='form-control'
+                                    name='first_name'
+                                    onChange={ handleLocalChange }
+                                    placeholder='First Name'
+                                    value={ userForm['first_name'] }
                             />
-                            <Validation field_name='telegram' errorObject={userFormError} />
+                            <Validation field_name='first_name' errorObject={userFormError} />
                         </div>
-                    </div>
-
-                    {   userEdit &&
-                        <div className={`${styles['department-form-field']} form-group col-12 col-sm-6`}>
-                            <label>Department</label>
-                            <select className='form-control'
-                                    name='department_uuid'
+                        <div className='form-group col-12 col-sm-4'>
+                            <label>Last Name</label>
+                            <input className='form-control'
+                                    name='last_name'
                                     onChange={ (e) => { handleLocalChange(e) } }
-                                    value={ userForm['department_uuid'] }
-                            >
-                                <option value={null}>-</option>
+                                    placeholder='Last Name'
+                                    value={ userForm['last_name'] }
+                            />
+                            <Validation field_name='last_name' errorObject={userFormError} />
+                        </div>
+
+                        <div className='form-group col-12 col-sm-4'>
+                            <label>Role</label>
+                            <select className='form-control'
+                                    name='role_uuid'
+                                    onChange={ (e) => { handleLocalChange(e) } }
+                                    value={ userForm['role_uuid'] }
+                                    >
+                                <option>-</option>
                                 {
-                                    departmentList.map((value, index) => {
+                                    roleList.map((value, index) => {
                                         return (
-                                            <option key={index} value={value['uuid']}>{value['department_name']}</option>
-                                        )
+                                            <option key={index} value={value['uuid']}>{value['role_name']}</option>
+                                        );
                                     })
                                 }
                             </select>
-                            <Validation field_name='department_uuid' errorObject={userFormError} />
+                            <Validation field_name='role_uuid' errorObject={userFormError} />
                         </div>
-                    }
 
-                    <div className={`${styles['department-form-field']} form-group col-12 d-flex`}>
-                        <div className='ml-auto'>
+                        <div className='form-group col-12 col-sm-6'>
+                            <label>Username</label>
+                            <input className='form-control'
+                                    name='username'
+                                    onChange={ (e) => { handleLocalChange(e) } }
+                                    placeholder='Username'
+                                    value={ userForm['username'] }
+                            />
+                            <Validation field_name='username' errorObject={userFormError} />
+                        </div>
 
-                            {   userForm['status']==STATUS.PENDING &&
-                                <>
-                                    <button 
-                                        className={`d-btn d-btn-danger mr-2`}
-                                        onClick={ (e) => { onReject(e) } }
-                                    >
-                                        Reject
-                                    </button>
+                        <div className='form-group col-12 col-sm-6'>
+                            <label>Password</label>
+                            <input className='form-control'
+                                    name='password'
+                                    onChange={ (e) => { handleLocalChange(e) } }
+                                    placeholder='Password'
+                                    value={ userForm['password'] }
+                            />
+                            <Validation field_name='password' errorObject={userFormError} />
+                        </div>
 
-                                    <button 
-                                        className={`d-btn d-btn-success mr-2`}
-                                        onClick={ (e) => { onAccept(e) } }
-                                    >
-                                        Accept
-                                    </button>
-                                </> 
-                            }
-                        
-                            {   (userForm['status']==STATUS.ACTIVED || userForm['status']=='') &&
-                                <>
-                                    {   userEdit &&
-                                        <button 
-                                            className={`d-btn d-btn-primary`}
-                                            onClick={ (e) => { onUpdate(e) } }
-                                        >
-                                            Save
-                                        </button>
+                        <div className={`${styles['department-form-field']} form-group col-12 col-sm-6`}>
+                            <label>Telegram</label>
+                            <div className={styles['input-with-sign']}>
+                                <span>@</span>
+                                <input className={`${styles['field']} form-control`}
+                                        name='telegram'
+                                        onChange={ (e) => { handleLocalChange(e) } }
+                                        placeholder='Telegram'
+                                        value={ userForm['telegram'] }
+                                />
+                                <Validation field_name='telegram' errorObject={userFormError} />
+                            </div>
+                        </div>
+
+                        {   userEdit &&
+                            <div className={`${styles['department-form-field']} form-group col-12 col-sm-6`}>
+                                <label>Department</label>
+                                <select className='form-control'
+                                        name='department_uuid'
+                                        onChange={ (e) => { handleLocalChange(e) } }
+                                        value={ userForm['department_uuid'] }
+                                >
+                                    <option value={null}>-</option>
+                                    {
+                                        departmentList.map((value, index) => {
+                                            return (
+                                                <option key={index} value={value['uuid']}>{value['department_name']}</option>
+                                            )
+                                        })
                                     }
-                                    {   !userEdit &&
+                                </select>
+                                <Validation field_name='department_uuid' errorObject={userFormError} />
+                            </div>
+                        }
+
+                        <div className={`${styles['department-form-field']} form-group col-12 d-flex`}>
+                            <div className='ml-auto'>
+
+                                {   userForm['status']==STATUS.PENDING &&
+                                    <>
                                         <button 
-                                            className={`d-btn d-btn-primary`}
-                                            onClick={ (e) => { onAdd(e) } }
+                                            className={`d-btn d-btn-danger mr-2`}
+                                            onClick={ (e) => { onReject(e) } }
                                         >
-                                            Add
+                                            Reject
                                         </button>
-                                    }
-                                </>
-                                
-                            }
+
+                                        <button 
+                                            className={`d-btn d-btn-success mr-2`}
+                                            onClick={ (e) => { onAccept(e) } }
+                                        >
+                                            Accept
+                                        </button>
+                                    </> 
+                                }
                             
+                                {   (userForm['status']==STATUS.ACTIVED || userForm['status']=='') &&
+                                    <>
+                                        {   userEdit &&
+                                            <button 
+                                                className={`d-btn d-btn-primary`}
+                                                onClick={ (e) => { onUpdate(e) } }
+                                            >
+                                                Save
+                                            </button>
+                                        }
+                                        {   !userEdit &&
+                                            <button 
+                                                className={`d-btn d-btn-primary`}
+                                                onClick={ (e) => { onAdd(e) } }
+                                            >
+                                                Add
+                                            </button>
+                                        }
+                                    </>
+                                    
+                                }
+                                
+                            </div>
                         </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
-        </div>
+        </>
     );
 }
 
