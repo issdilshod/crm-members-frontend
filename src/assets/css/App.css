@@ -592,6 +592,27 @@ label .req {
     right: 0%;
 }
 
+/* DD-Card */
+.dd-card{
+    color:#344767;
+}
+
+.dd-card-head{
+    padding: 10px;
+    background-color: #e4eef5;
+    border-radius: 20px 20px 0px 0px;
+    cursor: pointer;
+    transition: .5s;
+    font-size: 1.2em;
+    font-weight: 700;
+}
+
+.dd-card-body{
+    background-color: #f4f8fb;
+    border-radius: 0px 0px 20px 20px;
+    padding: 10px;
+}
+
 /* Medias */
 
 @media (max-width: 800px){

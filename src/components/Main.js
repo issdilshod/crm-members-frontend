@@ -14,6 +14,7 @@ import Register from './Login/Register';
 import OnClose from './System/OnClose';
 import OnFocus from './System/OnFocus';
 import FutureWebsite from './FutureWebsite/FutureWebsite';
+import VirtualOffice from './VirtualOffice/VirtualOffice';
 
 const Main = () => {
     return (
@@ -37,6 +38,9 @@ const Main = () => {
 
                     <Route path="/p/frontend/future-websites" element={<FutureWebsite />} />
                     <Route path="/p/frontend/future-websites/:uuid" element={<FutureWebsite />} />
+
+                    <Route path="/p/frontend/virtual-offices" element={<VirtualOffice />} />
+                    <Route path="/p/frontend/virtual-offices/:uuid" element={<VirtualOffice />} />
 
                     <Route path="/p/frontend/departments" element={<Department />} />
                     <Route path="/p/frontend/departments/user/:uuid" element={<Department />} />
