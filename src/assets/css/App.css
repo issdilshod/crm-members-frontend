@@ -90,6 +90,10 @@ a:hover{
     outline: none;
 }
 
+.d-btn-sm{
+    padding: 5px;
+}
+
 .d-btn:focus{
     outline: none;
 }
@@ -613,6 +617,18 @@ label .req {
     padding: 10px;
 }
 
+.d-title{
+    font-weight: 500;
+}
+
+.color-primary{
+    color:#344767;
+}
+
+[role=tooltip].popup-content{
+    width: 250px !important;
+}
+
 /* Medias */
 
 @media (max-width: 800px){
@@ -627,5 +643,9 @@ label .req {
 
     .c-form-active{
         right: 0%;
+    }
+
+    [role=tooltip].popup-content{
+        width: 80% !important;
     }
 }

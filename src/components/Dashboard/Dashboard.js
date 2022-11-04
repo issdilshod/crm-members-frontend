@@ -31,6 +31,7 @@ const Dashboard = () => {
     const [firstPending, setFirstPending] = useState([]);
     const [pending, setPending] = useState([]);
     const [pendingMeta, setPendingMeta] = useState({'current_page': 0, 'max_page': 1});
+    const [pendingSummary, setPendingSummary] = useState({'directors':{'all':0,'active':0,'pending':0}, 'companies':{'all':0,'active':0,'pending':0}});
 
     const [activityLoadingMiniShow, setActivityLoadingMiniShow] = useState(false);
 
@@ -55,6 +56,7 @@ const Dashboard = () => {
                         setFirstPending(tmpArr);
                     }
                     setPendingMeta(res.data.meta);
+                    setPendingSummary(res.data.summary);
                 }
             })
     }
@@ -73,7 +75,7 @@ const Dashboard = () => {
                             <TaskListDashboard />
                         </div>
                         <div className='col-12 col-sm-3'>
-                            <Pending pendingNextFetch={pendingNextFetch} pendingMeta={pendingMeta} pending={pending} setPending={setPending} />
+                            <Pending pendingNextFetch={pendingNextFetch} pendingSummary={pendingSummary} pendingMeta={pendingMeta} pending={pending} setPending={setPending} />
                         </div>
                         <div className='col-12 col-sm-4'>
                             <Activity loading={activityLoadingMiniShow} setLoading={setActivityLoadingMiniShow} />
