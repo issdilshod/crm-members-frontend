@@ -3,7 +3,11 @@ import { Link } from 'react-router-dom';
 
 import styles from './Error.module.scss';
 
-const E404 = () => {
+const E403 = () => {
+
+    useEffect(() => {
+        document.title = 'You\'re not permitted! Error 403';
+    }, [])
 
     return (
         <div className='container'>
@@ -18,4 +22,4 @@ const E404 = () => {
     )
 }
 
-export default E404;
+export default E403;

@@ -22,6 +22,10 @@ const Register = () => {
     const [underTitle, setUnderTitle] = useState('Please register to work on platform'); // Your token is not valid.
 
     useEffect(() => {
+        document.title = 'Regiter page';
+    }, [])
+
+    useEffect(() => {
         api.request('/api/invite-check-token', 'POST', {'entry_token': entry_token})
             .then(res => {
                 switch (res.status){

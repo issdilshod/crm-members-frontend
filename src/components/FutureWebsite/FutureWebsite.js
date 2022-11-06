@@ -38,6 +38,8 @@ const FutureWebsite = () => {
     }, []);
 
     const firstInit = () => {
+        document.title = 'Future Websites';
+
         if (uuid){
             handleCardClick(uuid);
         }

@@ -81,6 +81,8 @@ const Director = () => {
     }, []);
 
     const firstInit = () => {
+        document.title = 'Directors';
+        
         if (uuid){
             handleCardClick(uuid);
         }

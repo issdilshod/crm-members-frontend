@@ -40,6 +40,7 @@ const Dashboard = () => {
     }, [])
 
     const firstInit = () => {
+        document.title = 'Dashboard';
         pendingNextFetch();
     }
 

@@ -10,6 +10,10 @@ const Login = () => {
     const [loginForm, setLoginForm] = useState({});
     const [errorMsg, setErrorMsg] = useState({'show': false, 'text': ''});
 
+    useEffect(() => {
+        document.title = 'Login page';
+    }, [])
+
     const handleSubmit = async (e) =>{
         e.preventDefault();
         setErrorMsg({'show': false, 'text': ''});

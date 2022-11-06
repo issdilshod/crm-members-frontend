@@ -60,6 +60,8 @@ const Department = () => {
     }, []);
 
     const firstInit = () => {
+        document.title = 'Departments';
+
         api.request('/api/department', 'GET')
             .then(res => {
                 if (res.status===200||res.status===201){ // success

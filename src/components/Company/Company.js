@@ -89,6 +89,8 @@ const Company = () => {
     }, []);
 
     const firstInit = () => {
+        document.title = 'Companies';
+
         if (uuid){
             handleCardClick(uuid);
         }

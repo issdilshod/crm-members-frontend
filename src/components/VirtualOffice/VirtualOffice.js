@@ -47,6 +47,8 @@ const VirtualOffice = () => {
     }, []);
 
     const firstInit = () => {
+        document.title = 'Virtual Offices';
+
         if (uuid){
             handleCardClick(uuid);
         }
