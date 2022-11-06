@@ -25,31 +25,31 @@ const Main = () => {
             </>
             <Routes>
                 <Route element={<NonProtected />}>
-                    <Route path="/p/frontend/login" element={<Login />} />
-                    <Route exact path="/p/frontend/register/:entry_token" element={<Register />} />
+                    <Route path={`${process.env.REACT_APP_FRONTEND_PREFIX}/login`} element={<Login />} />
+                    <Route exact path={`${process.env.REACT_APP_FRONTEND_PREFIX}/register/:entry_token`} element={<Register />} />
                 </Route>     
                 <Route element={<Protected />}>
-                    <Route path="/p/frontend/" element={<Dashboard />} />
-                    <Route path="/p/frontend/dashboard" element={<Dashboard />} />
-                    <Route path="/p/frontend/directors" element={<Director />} />
-                    <Route path="/p/frontend/directors/:uuid" element={<Director />} />
-                    <Route path="/p/frontend/companies" element={<Company />} />
-                    <Route path="/p/frontend/companies/:uuid" element={<Company />} />
+                    <Route path={`${process.env.REACT_APP_FRONTEND_PREFIX}`} element={<Dashboard />} />
+                    <Route path={`${process.env.REACT_APP_FRONTEND_PREFIX}/dashboard`} element={<Dashboard />} />
+                    <Route path={`${process.env.REACT_APP_FRONTEND_PREFIX}/directors`} element={<Director />} />
+                    <Route path={`${process.env.REACT_APP_FRONTEND_PREFIX}/directors/:uuid`} element={<Director />} />
+                    <Route path={`${process.env.REACT_APP_FRONTEND_PREFIX}/companies`} element={<Company />} />
+                    <Route path={`${process.env.REACT_APP_FRONTEND_PREFIX}/companies/:uuid`} element={<Company />} />
 
-                    <Route path="/p/frontend/future-websites" element={<FutureWebsite />} />
-                    <Route path="/p/frontend/future-websites/:uuid" element={<FutureWebsite />} />
+                    <Route path={`${process.env.REACT_APP_FRONTEND_PREFIX}/future-websites`} element={<FutureWebsite />} />
+                    <Route path={`${process.env.REACT_APP_FRONTEND_PREFIX}/future-websites/:uuid`} element={<FutureWebsite />} />
 
-                    <Route path="/p/frontend/virtual-offices" element={<VirtualOffice />} />
-                    <Route path="/p/frontend/virtual-offices/:uuid" element={<VirtualOffice />} />
+                    <Route path={`${process.env.REACT_APP_FRONTEND_PREFIX}/virtual-offices`} element={<VirtualOffice />} />
+                    <Route path={`${process.env.REACT_APP_FRONTEND_PREFIX}/virtual-offices/:uuid`} element={<VirtualOffice />} />
 
-                    <Route path="/p/frontend/departments" element={<Department />} />
-                    <Route path="/p/frontend/departments/user/:uuid" element={<Department />} />
-                    <Route path="/p/frontend/settings" element={<Dashboard />} />
-                    <Route path="/p/frontend/notification" element={<Dashboard />} />
-                    <Route path="/p/frontend/reminder" element={<Dashboard />} />
-                    <Route path="/p/frontend/chat" element={<Dashboard />} />
-                    <Route path="/p/frontend/activity" element={<Dashboard />} />
-                    <Route path="/p/frontend/calendar" element={<Dashboard />} />
+                    <Route path={`${process.env.REACT_APP_FRONTEND_PREFIX}/departments`} element={<Department />} />
+                    <Route path={`${process.env.REACT_APP_FRONTEND_PREFIX}/departments/user/:uuid`} element={<Department />} />
+                    <Route path={`${process.env.REACT_APP_FRONTEND_PREFIX}/settings`} element={<Dashboard />} />
+                    <Route path={`${process.env.REACT_APP_FRONTEND_PREFIX}/notification`} element={<Dashboard />} />
+                    <Route path={`${process.env.REACT_APP_FRONTEND_PREFIX}/reminder`} element={<Dashboard />} />
+                    <Route path={`${process.env.REACT_APP_FRONTEND_PREFIX}/chat`} element={<Dashboard />} />
+                    <Route path={`${process.env.REACT_APP_FRONTEND_PREFIX}/activity`} element={<Dashboard />} />
+                    <Route path={`${process.env.REACT_APP_FRONTEND_PREFIX}/calendar`} element={<Dashboard />} />
                 </Route>
                 <Route path="*" element={<E404 />} />
             </Routes> 

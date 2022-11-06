@@ -11,7 +11,7 @@ const E404 = () => {
                 <div className={`${styles['error-code']}`}>403</div>
                 <div className={`${styles['main-msg']}`}>You don't have permission to view this page</div>
                 <div className='mt-4'>
-                    <Link to='/p/frontend/'>Go home</Link>
+                    <Link to={`${process.env.REACT_APP_FRONTEND_PREFIX}`}>Go home</Link>
                 </div>
             </div>
         </div>

@@ -11,7 +11,7 @@ const E404 = () => {
                 <div className={`${styles['error-code']}`}>404</div>
                 <div className={`${styles['main-msg']}`}>Oops! This Page Could Not Be Found</div>
                 <div className='mt-4'>
-                    <Link to='/p/frontend/'>Go home</Link>
+                    <Link to={`${process.env.REACT_APP_FRONTEND_PREFIX}`}>Go home</Link>
                 </div>
             </div>
         </div>
