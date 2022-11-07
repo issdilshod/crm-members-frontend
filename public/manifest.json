@@ -1,6 +1,6 @@
 {
-  "short_name": "Proj",
-  "name": "Proj",
+  "short_name": "CRM-Mem",
+  "name": "CRM-Members",
   "icons": [
     {
       "src": "favicon.svg",
