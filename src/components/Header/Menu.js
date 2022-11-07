@@ -4,7 +4,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import MenuItem from './MenuItem';
 
 import styles from './Menu.module.scss';
-import { FaBell, FaBuilding, FaCalendar, FaCog, FaConnectdevelop, FaGlobe, FaList, FaRegBell, FaRegClock, FaRegComment, FaTachometerAlt, FaTimes, FaUser, FaUsers } from 'react-icons/fa';
+import { FaBell, FaBuilding, FaCalendar, FaCog, FaConnectdevelop, FaGlobe, FaList, FaRegBell, FaRegBuilding, FaRegClock, FaRegComment, FaTachometerAlt, FaTimes, FaUser, FaUsers } from 'react-icons/fa';
 
 const Menu = ({ menuOpen, setMenuOpen }) => {
     const navigate = useNavigate();
@@ -30,6 +30,7 @@ const Menu = ({ menuOpen, setMenuOpen }) => {
                     <MenuItem page_link='companies' page_name='Companies' icon={<FaBuilding />} />
                     <MenuItem page_link='future-websites' page_name='Future Websites' icon={<FaGlobe />} />
                     <MenuItem page_link='virtual-offices' page_name='Virtual Office' icon={<FaConnectdevelop />} />
+                    <MenuItem page_link='future-companies' page_name='Future Companies' icon={<FaRegBuilding />} />
                     <MenuItem page_link='departments' page_name='Departments' icon={<FaUsers />} />
                     <MenuItem page_link='settings' page_name='Settings' icon={<FaCog />} />
                     <MenuItem page_link='notification' page_name='Notification' icon={<FaBell />} notificationCount={notificationCount} setNotificationCount={setNotificationCount} />

@@ -1,15 +1,16 @@
 import React, { useState, useEffect, useContext } from 'react';
 
 import * as STATUS from '../../../consts/Status';
-import * as VIRTUALOFFICE from '../../../consts/VirtualOffice';
+import * as FUTURECOMPANY from '../../../consts/FutureCompany';
 
 import Validation from '../../Helper/Validation';
 import { Mediator } from '../../../context/Mediator';
 
 import { FaTimes } from 'react-icons/fa';
 import Notification from '../../Helper/Notification/Notification';
+import Select from 'react-select';
 
-const VirtualOfficeForm = () => {
+const FutureCompanyForm = () => {
 
     const { 
         api, navigate, permissions,
@@ -17,7 +18,9 @@ const VirtualOfficeForm = () => {
         formOriginal, setFormOriginal,
         formOpen, setFormOpen, edit, setEdit, list, setList,
             form, setForm, formError, setFormError, formEntity, setFormEntity, handleCardClick,
-        setLoadingShow
+        setLoadingShow,
+        sicCodeList, stateList,
+        virtualOfficeList, searchVO
     } = useContext(Mediator);
 
     useEffect(() => {
@@ -46,12 +49,12 @@ const VirtualOfficeForm = () => {
         e.preventDefault();
         setFormError([]);
         setLoadingShow(true);
-        api.request('/api/virtual-office', 'POST', form)
+        api.request('/api/future-company', 'POST', form)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
                     setList([ res.data.data, ...list ]);
                     setFormOpen(false);
-                    setAlert({'msg': 'Successfully virtual office added', 'show': true, 'type': 'success'});
+                    setAlert({'msg': 'Successfully future company added', 'show': true, 'type': 'success'});
                 }else if (res.status===403){ // permission
 
                 }else if (res.status===409){ // conflict
@@ -69,7 +72,7 @@ const VirtualOfficeForm = () => {
         e.preventDefault();
         setFormError([]);
         setLoadingShow(true);
-        api.request('/api/virtual-office/'+form['uuid'], 'PUT', form)
+        api.request('/api/future-company/'+form['uuid'], 'PUT', form)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
                     let tmpList = list;
@@ -81,7 +84,7 @@ const VirtualOfficeForm = () => {
                     }
                     setList(tmpList);
                     setFormOpen(false);
-                    setAlert({'msg': 'Successfully virtual office updated', 'show': true, 'type': 'success'});
+                    setAlert({'msg': 'Successfully future-company updated', 'show': true, 'type': 'success'});
                 }else if (res.status===403){ // permission
 
                 }else if (res.status===409){ // conflict
@@ -98,7 +101,7 @@ const VirtualOfficeForm = () => {
     const handleDelete = (e, uuid) => {
         e.preventDefault();
         setLoadingShow(true);
-        api.request('/api/virtual-office/' + uuid, 'DELETE')
+        api.request('/api/future-company/' + uuid, 'DELETE')
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
                     let tmpArray = [...list];
@@ -109,7 +112,7 @@ const VirtualOfficeForm = () => {
                     }
                     setList(tmpArray);
                     setFormOpen(false);
-                    setAlert({'msg': 'Successfully virtual office deleted', 'show': true, 'type': 'success'});
+                    setAlert({'msg': 'Successfully future company deleted', 'show': true, 'type': 'success'});
                 }else if (res.status===403){ // permission
                     
                 }
@@ -120,11 +123,11 @@ const VirtualOfficeForm = () => {
     const handlePending = (e) => {
         e.preventDefault();
         setLoadingShow(true);
-        api.request('/api/virtual-office-pending', 'POST', form)
+        api.request('/api/future-company-pending', 'POST', form)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
                     setFormOpen(false);
-                    setAlert({'msg': 'Succefully sent virtual office to approve', 'show': true, 'type': 'success'});
+                    setAlert({'msg': 'Succefully sent future company to approve', 'show': true, 'type': 'success'});
                 }else if (res.status===403){ // permission
 
                 }else if (res.status===409){ // conflict
@@ -140,7 +143,7 @@ const VirtualOfficeForm = () => {
     const handlePendingUpdate = (e) => {
         e.preventDefault();
         setLoadingShow(true);
-        api.request('/api/virtual-office-pending-update/'+form['uuid'], 'PUT', form)
+        api.request('/api/future-company-pending-update/'+form['uuid'], 'PUT', form)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
                     setAlert({'msg': 'Succefully sent updates to approve', 'show': true, 'type': 'success'});
@@ -161,10 +164,10 @@ const VirtualOfficeForm = () => {
     const handlePendingReject = (e) => {
         e.preventDefault();
         setLoadingShow(true);
-        api.request('/api/virtual-office-reject/'+form['uuid'], 'PUT')
+        api.request('/api/future-company-reject/'+form['uuid'], 'PUT')
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
-                    setAlert({'msg': 'Succefully virtual office rejected', 'show': true, 'type': 'success'});
+                    setAlert({'msg': 'Succefully future company rejected', 'show': true, 'type': 'success'});
                     setFormOpen(false);
                 }else if (res.status===403){ // permission
 
@@ -181,10 +184,10 @@ const VirtualOfficeForm = () => {
         e.preventDefault();
         setFormError([]);
         setLoadingShow(true);
-        api.request('/api/virtual-office-accept/'+form['uuid'], 'PUT', form)
+        api.request('/api/future-company-accept/'+form['uuid'], 'PUT', form)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
-                    setAlert({'msg': 'Succefully virtual office approve', 'show': true, 'type': 'success'});
+                    setAlert({'msg': 'Succefully future company approve', 'show': true, 'type': 'success'});
                     setList([ res.data.data, ...list ]);
                     setFormOpen(false);
                 }else if (res.status===403){ // permission
@@ -220,7 +223,7 @@ const VirtualOfficeForm = () => {
             <div className={`c-card-left ${!formOpen?'w-0':''}`} onClick={ () => { handleClickOutCard() } }></div>
             <div className={`c-form ${formOpen ?'c-form-active':''}`}>
                 <div className={`c-form-head d-flex`}>
-                    <div className={`c-form-head-title mr-auto`}>{(!edit?'Add virtual office':'Edit virtual office')}</div>
+                    <div className={`c-form-head-title mr-auto`}>{(!edit?'Add future company':'Edit future company')}</div>
                     <div className={`c-form-close`} onClick={(e) => { handleClose(e) } }>
                         <FaTimes />
                     </div>
@@ -229,139 +232,71 @@ const VirtualOfficeForm = () => {
                 <div className={`c-form-body container-fluid`}>
                     <form className={`c-form-body-block row`}>
 
-                        <div className={`c-form-field col-12 col-sm-6 form-group`}>
-                            <label>VO Provider Name <i className='req'>*</i></label>
-                            <input className={`form-control`} 
-                                    type='text' 
-                                    name='vo_provider_name' 
-                                    placeholder='VO Provider Name' 
-                                    onChange={ handleChange } 
-                                    value={ form['vo_provider_name'] }
-                                    />
-                            <Validation field_name='vo_provider_name' errorObject={formError} />
+                        <div className={`c-form-field col-12 col-sm-4 form-group`}>
+                            <label>SIC code <i className='req'>*</i></label>
+                            <Select options={sicCodeList}
+                                    value={ sicCodeList.filter(option => { return option.value == form['sic_code_uuid'] }) }
+                                    onChange={ (e) => { handleChange({'target': {'name': 'sic_code_uuid', 'value': e.value} }); } }    
+                            />
+                            <Validation field_name='sic_code_uuid' errorObject={formError} />
                         </div>
 
-                        <div className={`c-form-field col-12 col-sm-6 form-group`}>
-                            <label>VO Provider Domain <i className='req'>*</i></label>
-                            <input className={`form-control`} 
-                                    type='text' 
-                                    name='vo_provider_domain' 
-                                    placeholder='VO Provider Domain' 
-                                    onChange={ handleChange } 
-                                    value={ form['vo_provider_domain'] }
-                                    />
-                            <Validation field_name='vo_provider_domain' errorObject={formError} />
+                        <div className={`c-form-field col-12 col-sm-4 form-group`}>
+                            <label>Incorporation State <i className='req'>*</i></label>
+                            <Select options={stateList}
+                                    value={ stateList.filter(option => { return option.value == form['incorporation_state_uuid'] }) }
+                                    onChange={ (e) => { handleChange({'target': {'name': 'incorporation_state_uuid', 'value': e.value} }); } }    
+                            />
+                            <Validation field_name='incorporation_state_uuid' errorObject={formError} />
                         </div>
 
-                        <div className={`c-form-field col-12 col-sm-6 form-group`}>
-                            <label>VO Provider Username <i className='req'>*</i></label>
-                            <input className={`form-control`} 
-                                    type='text' 
-                                    name='vo_provider_username' 
-                                    placeholder='VO Provider Username' 
-                                    onChange={ handleChange } 
-                                    value={ form['vo_provider_username'] }
-                                    />
-                            <Validation field_name='vo_provider_username' errorObject={formError} />
+                        <div className={`c-form-field col-12 col-sm-4 form-group`}>
+                            <label>Doing Business in State <i className='req'>*</i></label>
+                            <Select options={stateList}
+                                    value={ stateList.filter(option => { return option.value == form['doing_business_in_state_uuid'] }) }
+                                    onChange={ (e) => { handleChange({'target': {'name': 'doing_business_in_state_uuid', 'value': e.value} }); } }    
+                            />
+                            <Validation field_name='doing_business_in_state_uuid' errorObject={formError} />
                         </div>
 
-                        <div className={`c-form-field col-12 col-sm-6 form-group`}>
-                            <label>VO Provider Password <i className='req'>*</i></label>
-                            <input className={`form-control`} 
-                                    type='text' 
-                                    name='vo_provider_password' 
-                                    placeholder='VO Provider Password' 
-                                    onChange={ handleChange } 
-                                    value={ form['vo_provider_password'] }
-                                    />
-                            <Validation field_name='vo_provider_password' errorObject={formError} />
+                        <div className={`c-form-field col-12 col-sm-4 form-group`}>
+                            <label>Virtual Office <i className='req'>*</i></label>
+                            <Select options={virtualOfficeList}
+                                    value={ virtualOfficeList.filter(option => { return option.value == form['virtual_office_uuid'] }) }
+                                    onChange={ (e) => { handleChange({'target': {'name': 'virtual_office_uuid', 'value': e.value} }); } }    
+                            />
+                            <Validation field_name='virtual_office_uuid' errorObject={formError} />
                         </div>
 
-                        <div className='col-12 form-group'>
-                            <div className='dd-card'>
-                                <div className='dd-card-head'>VO Address</div>
-                                <div className='dd-card-body'>
-                                    <div className='row'>
-                                        <div className='c-form-field col-12 col-sm-6 form-group'>
-                                            <label>Street address <i className='req'>*</i></label>
-                                            <input className={`form-control`} 
-                                                    type='text' 
-                                                    name='street_address' 
-                                                    placeholder='Street address' 
-                                                    onChange={ handleChange } 
-                                                    value={ form['street_address'] }
-                                                    />
-                                            <Validation field_name='street_address' errorObject={formError} />
-                                        </div>
+                        <div className={`c-form-field col-12 col-sm-4 form-group`}>
+                            <label>Revival Date <i className='req'>*</i></label>
+                            <input className={`form-control`} 
+                                    type='date' 
+                                    name='revival_date' 
+                                    placeholder='Revival date' 
+                                    onChange={ handleChange } 
+                                    value={ form['revival_date'] }
+                            />
+                            <Validation field_name='revival_date' errorObject={formError} />
+                        </div>
 
-                                        <div className='c-form-field col-12 col-sm-6 form-group'>
-                                            <label>Address Line 2</label>
-                                            <input className={`form-control`} 
-                                                    type='text' 
-                                                    name='address_line2' 
-                                                    placeholder='Address Line 2' 
-                                                    onChange={ handleChange } 
-                                                    value={ form['address_line2'] }
-                                                    />
-                                            <Validation field_name='address_line2' errorObject={formError} />
-                                        </div>
-
-                                        <div className='c-form-field col-12 col-sm-6 form-group'>
-                                            <label>City <i className='req'>*</i></label>
-                                            <input className={`form-control`} 
-                                                    type='text' 
-                                                    name='city' 
-                                                    placeholder='City' 
-                                                    onChange={ handleChange } 
-                                                    value={ form['city'] }
-                                                    />
-                                            <Validation field_name='city' errorObject={formError} />
-                                        </div>
-
-                                        <div className='c-form-field col-12 col-sm-6 form-group'>
-                                            <label>State <i className='req'>*</i></label>
-                                            <input className={`form-control`} 
-                                                    type='text' 
-                                                    name='state' 
-                                                    placeholder='State' 
-                                                    onChange={ handleChange } 
-                                                    value={ form['state'] }
-                                                    />
-                                            <Validation field_name='state' errorObject={formError} />
-                                        </div>
-
-                                        <div className='c-form-field col-12 col-sm-6 form-group'>
-                                            <label>Postal <i className='req'>*</i></label>
-                                            <input className={`form-control`} 
-                                                    type='text' 
-                                                    name='postal' 
-                                                    placeholder='Postal' 
-                                                    onChange={ handleChange } 
-                                                    value={ form['postal'] }
-                                                    />
-                                            <Validation field_name='postal' errorObject={formError} />
-                                        </div>
-
-                                        <div className='c-form-field col-12 col-sm-6 form-group'>
-                                            <label>Country <i className='req'>*</i></label>
-                                            <input className={`form-control`} 
-                                                    type='text' 
-                                                    name='country' 
-                                                    placeholder='Country' 
-                                                    onChange={ handleChange } 
-                                                    value={ form['country'] }
-                                                    />
-                                            <Validation field_name='country' errorObject={formError} />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                        <div className={`c-form-field col-12 col-sm-4 form-group`}>
+                            <label>Revival Fee <i className='req'>*</i></label>
+                            <input className={`form-control`} 
+                                    type='number'
+                                    step='.01' 
+                                    name='revival_fee' 
+                                    placeholder='Revival fee' 
+                                    onChange={ handleChange } 
+                                    value={ form['revival_fee'] }
+                            />
+                            <Validation field_name='revival_fee' errorObject={formError} />
                         </div>
 
                         <div className={`c-form-field col-12 d-flex form-group`}>
                             <div className='ml-auto'>
 
-                                { permissions.includes(VIRTUALOFFICE.STORE)  && //permitted to add
+                                { permissions.includes(FUTURECOMPANY.STORE)  && //permitted to add
                                     <>
                                         { form['status']=='' &&
                                             <button className='d-btn d-btn-primary mr-2' onClick={ (e) => { handleStore(e) } }>
@@ -406,7 +341,7 @@ const VirtualOfficeForm = () => {
                                     </>
                                 }
 
-                                { (!permissions.includes(VIRTUALOFFICE.STORE) && permissions.includes(VIRTUALOFFICE.SAVE)) && // not permitted to add
+                                { (!permissions.includes(FUTURECOMPANY.STORE) && permissions.includes(FUTURECOMPANY.SAVE)) && // not permitted to add
                                     <>
                                         { edit &&
                                             <>
@@ -436,4 +371,4 @@ const VirtualOfficeForm = () => {
     );
 }
 
-export default VirtualOfficeForm;
+export default FutureCompanyForm;

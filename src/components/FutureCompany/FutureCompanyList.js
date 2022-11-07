@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Mediator } from '../../context/Mediator';
-import { FaArrowLeft, FaBars, FaConnectdevelop, FaFileAlt, FaGlobe, FaMapMarkerAlt, FaPlus, FaUser } from 'react-icons/fa';
+import { FaArrowLeft, FaBars, FaConnectdevelop, FaFileAlt, FaGlobe, FaMapMarkerAlt, FaPlus, FaRegBuilding, FaUser } from 'react-icons/fa';
 import Pagination from '../Helper/Pagination';
 import Search from '../Helper/Search';
 
 import * as STATUS from '../../consts/Status';
 
-const VirtualOfficeList = () => {
+const FutureCompanyList = () => {
     const { 
             api, navigate, permissions,
             menuOpen, setMenuOpen, 
@@ -21,7 +21,7 @@ const VirtualOfficeList = () => {
     }, []);
 
     const firstInit = () => {
-        api.request('/api/virtual-office', 'GET')
+        api.request('/api/future-company', 'GET')
             .then(res => {
                 if (res.status===200 || res.status===201){ //success
                     setList(res.data.data);
@@ -41,7 +41,7 @@ const VirtualOfficeList = () => {
     const handlePaginatioClick = (number) => {
         setCurrentPage(number);
         setLoadingShow(true);
-        api.request('/api/virtual-office?page='+number, 'GET')
+        api.request('/api/future-company?page='+number, 'GET')
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
                     setList(res.data.data);
@@ -60,7 +60,7 @@ const VirtualOfficeList = () => {
         if (text.length>=3){
             setLoadingShow(true);
             setDefaultList(false);
-            api.request('/api/virtual-office-search/'+text, 'GET')
+            api.request('/api/future-company-search/'+text, 'GET')
                 .then(res => {
                     if (res.status===200 || res.status===201){ // success
                         setList(res.data.data);
@@ -116,11 +116,11 @@ const VirtualOfficeList = () => {
                                         >
                                             <div className={`c-item-icon mr-3 ml-3`}>
                                                 <span>
-                                                    <FaConnectdevelop />
+                                                    <FaRegBuilding />
                                                 </span>
                                             </div>
                                             <div className={`c-item-info`}>
-                                                <p>{value['vo_provider_username']}</p>
+                                                <p>{value['revival_date']}</p>
                                             </div>
                                         </div>
                                     </div>
@@ -140,4 +140,4 @@ const VirtualOfficeList = () => {
     );
 }
 
-export default VirtualOfficeList;
+export default FutureCompanyList;

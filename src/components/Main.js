@@ -15,6 +15,7 @@ import OnClose from './System/OnClose';
 import OnFocus from './System/OnFocus';
 import FutureWebsite from './FutureWebsite/FutureWebsite';
 import VirtualOffice from './VirtualOffice/VirtualOffice';
+import FutureCompany from './FutureCompany/FutureCompany';
 
 const Main = () => {
     return (
@@ -41,6 +42,9 @@ const Main = () => {
 
                     <Route path={`${process.env.REACT_APP_FRONTEND_PREFIX}/virtual-offices`} element={<VirtualOffice />} />
                     <Route path={`${process.env.REACT_APP_FRONTEND_PREFIX}/virtual-offices/:uuid`} element={<VirtualOffice />} />
+
+                    <Route path={`${process.env.REACT_APP_FRONTEND_PREFIX}/future-companies`} element={<FutureCompany />} />
+                    <Route path={`${process.env.REACT_APP_FRONTEND_PREFIX}/future-companies/:uuid`} element={<FutureCompany />} />
 
                     <Route path={`${process.env.REACT_APP_FRONTEND_PREFIX}/departments`} element={<Department />} />
                     <Route path={`${process.env.REACT_APP_FRONTEND_PREFIX}/departments/user/:uuid`} element={<Department />} />
