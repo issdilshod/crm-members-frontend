@@ -295,7 +295,7 @@ const VirtualOfficeForm = () => {
                                         </div>
 
                                         <div className='c-form-field col-12 col-sm-6 form-group'>
-                                            <label>Address Line 2</label>
+                                            <label>Address Line 2 <i className='req'>*</i></label>
                                             <input className={`form-control`} 
                                                     type='text' 
                                                     name='address_line2' 
