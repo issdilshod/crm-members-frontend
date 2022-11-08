@@ -39,33 +39,33 @@ const Pending = ({ pendingNextFetch, pendingSummary, pendingMeta, pending, setPe
                         <div className='row color-primary'>
                             <div className='col-12 mb-1'>
                                 <span className='ml-2'>
-                                    All Directors: <b>{pendingSummary['directors']['all']||0}</b>
+                                    Total Directors: <b>{pendingSummary['directors']['all']||0}</b>
                                 </span>
                             </div>
                             <div className='col-12 mb-1'>
                                 <span className='ml-2'>
-                                    Directors accepted: <b>{pendingSummary['directors']['active']||0}</b>
+                                    Approved Directors: <b>{pendingSummary['directors']['active']||0}</b>
                                 </span>
                             </div>
                             <div className='col-12 mb-1'>
                                 <span className='ml-2'>
-                                    Directors on pending: <b>{pendingSummary['directors']['pending']||0}</b>
+                                    Pending Status Directors: <b>{pendingSummary['directors']['pending']||0}</b>
                                 </span>
                             </div>
 
                             <div className='col-12 mb-1'>
                                 <span className='ml-2'>
-                                    All Companies: <b>{pendingSummary['companies']['all']||0}</b>
+                                    Total Companies: <b>{pendingSummary['companies']['all']||0}</b>
                                 </span>
                             </div>
                             <div className='col-12 mb-1'>
                                 <span className='ml-2'>
-                                    Companies accepted: <b>{pendingSummary['companies']['active']||0}</b>
+                                    Approved Companies: <b>{pendingSummary['companies']['active']||0}</b>
                                 </span>
                             </div>
                             <div className='col-12 mb-1'>
                                 <span className='ml-2'>
-                                    Companies on pending: <b>{pendingSummary['companies']['pending']||0}</b>
+                                    Pending Status Companies: <b>{pendingSummary['companies']['pending']||0}</b>
                                 </span>
                             </div>
                         </div>

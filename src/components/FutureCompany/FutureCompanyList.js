@@ -86,7 +86,7 @@ const FutureCompanyList = () => {
                             <FaArrowLeft />
                         </span>
                     </div>
-                    <div className={`c-list-head-title mr-auto`}>Virtual Offices cards</div>
+                    <div className={`c-list-head-title mr-auto`}>Future companies cards</div>
                     <div className={`d-flex`}>
                         <div className={`d-btn d-btn-primary text-center mr-2`} onClick={ handleAddClick }>
                             <i>
