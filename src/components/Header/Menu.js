@@ -29,7 +29,7 @@ const Menu = ({ menuOpen, setMenuOpen }) => {
                     <MenuItem page_link='directors' page_name='Directors' icon={<FaUser />} />
                     <MenuItem page_link='companies' page_name='Companies' icon={<FaBuilding />} />
                     <MenuItem page_link='future-websites' page_name='Future Websites' icon={<FaGlobe />} />
-                    <MenuItem page_link='virtual-offices' page_name='Virtual Office' icon={<FaConnectdevelop />} />
+                    <MenuItem page_link='virtual-offices' page_name='Virtual Offices' icon={<FaConnectdevelop />} />
                     <MenuItem page_link='future-companies' page_name='Future Companies' icon={<FaRegBuilding />} />
                     <MenuItem page_link='departments' page_name='Departments' icon={<FaUsers />} />
                     <MenuItem page_link='settings' page_name='Settings' icon={<FaCog />} />

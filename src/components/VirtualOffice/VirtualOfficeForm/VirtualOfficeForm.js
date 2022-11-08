@@ -230,7 +230,7 @@ const VirtualOfficeForm = () => {
                     <form className={`c-form-body-block row`}>
 
                         <div className={`c-form-field col-12 col-sm-6 form-group`}>
-                            <label>VO Provider Name <i className='req'>*</i></label>
+                            <label>VO Provider Name</label>
                             <input className={`form-control`} 
                                     type='text' 
                                     name='vo_provider_name' 
@@ -242,7 +242,7 @@ const VirtualOfficeForm = () => {
                         </div>
 
                         <div className={`c-form-field col-12 col-sm-6 form-group`}>
-                            <label>VO Provider Domain <i className='req'>*</i></label>
+                            <label>VO Provider Domain</label>
                             <input className={`form-control`} 
                                     type='text' 
                                     name='vo_provider_domain' 
@@ -254,7 +254,7 @@ const VirtualOfficeForm = () => {
                         </div>
 
                         <div className={`c-form-field col-12 col-sm-6 form-group`}>
-                            <label>VO Provider Username <i className='req'>*</i></label>
+                            <label>VO Provider Username</label>
                             <input className={`form-control`} 
                                     type='text' 
                                     name='vo_provider_username' 
@@ -266,7 +266,7 @@ const VirtualOfficeForm = () => {
                         </div>
 
                         <div className={`c-form-field col-12 col-sm-6 form-group`}>
-                            <label>VO Provider Password <i className='req'>*</i></label>
+                            <label>VO Provider Password</label>
                             <input className={`form-control`} 
                                     type='text' 
                                     name='vo_provider_password' 
@@ -283,7 +283,7 @@ const VirtualOfficeForm = () => {
                                 <div className='dd-card-body'>
                                     <div className='row'>
                                         <div className='c-form-field col-12 col-sm-6 form-group'>
-                                            <label>Street address <i className='req'>*</i></label>
+                                            <label>Street address</label>
                                             <input className={`form-control`} 
                                                     type='text' 
                                                     name='street_address' 
@@ -295,7 +295,7 @@ const VirtualOfficeForm = () => {
                                         </div>
 
                                         <div className='c-form-field col-12 col-sm-6 form-group'>
-                                            <label>Address Line 2 <i className='req'>*</i></label>
+                                            <label>Address Line 2</label>
                                             <input className={`form-control`} 
                                                     type='text' 
                                                     name='address_line2' 
@@ -307,7 +307,7 @@ const VirtualOfficeForm = () => {
                                         </div>
 
                                         <div className='c-form-field col-12 col-sm-6 form-group'>
-                                            <label>City <i className='req'>*</i></label>
+                                            <label>City</label>
                                             <input className={`form-control`} 
                                                     type='text' 
                                                     name='city' 
@@ -319,7 +319,7 @@ const VirtualOfficeForm = () => {
                                         </div>
 
                                         <div className='c-form-field col-12 col-sm-6 form-group'>
-                                            <label>State <i className='req'>*</i></label>
+                                            <label>State</label>
                                             <input className={`form-control`} 
                                                     type='text' 
                                                     name='state' 
@@ -331,7 +331,7 @@ const VirtualOfficeForm = () => {
                                         </div>
 
                                         <div className='c-form-field col-12 col-sm-6 form-group'>
-                                            <label>Postal <i className='req'>*</i></label>
+                                            <label>Postal</label>
                                             <input className={`form-control`} 
                                                     type='text' 
                                                     name='postal' 
@@ -343,7 +343,7 @@ const VirtualOfficeForm = () => {
                                         </div>
 
                                         <div className='c-form-field col-12 col-sm-6 form-group'>
-                                            <label>Country <i className='req'>*</i></label>
+                                            <label>Country</label>
                                             <input className={`form-control`} 
                                                     type='text' 
                                                     name='country' 
