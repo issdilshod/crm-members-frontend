@@ -107,7 +107,15 @@ const Pending = ({ pendingNextFetch, pendingSummary, pendingMeta, pending, setPe
                                 </div>
                                 <div className={`tcard-icons text-center`}>
                                     <span className={`t-card-icon`}>
-                                        { STATUS.ACTIVED==value['status']?<FaCheck />:<FaClock />}
+                                        { (STATUS.ACTIVED==value['status']) &&
+                                            <FaCheck />
+                                        }   
+                                        { (STATUS.PENDING==value['status']) &&
+                                            <FaClock />
+                                        }   
+                                        { (STATUS.REJECTED==value['status']) &&
+                                            <FaTimes />
+                                        } 
                                     </span>
                                 </div>
                             </div>
