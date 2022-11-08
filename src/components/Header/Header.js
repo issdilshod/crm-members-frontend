@@ -26,7 +26,7 @@ const Header = ({ firstPending, pending, setPending, setPendingMeta }) => {
     }
 
     const handleSearch = (e) => {
-        if (e.target.value.length>=3){
+        if (e.target.value.length>=2){
             api.request('/api/pending/search/'+e.target.value, 'GET')
             .then(res => {
                 if (res.status===200||res.status===201){ // success

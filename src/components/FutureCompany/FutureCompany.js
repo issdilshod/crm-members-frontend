@@ -23,6 +23,12 @@ const FutureCompany = () => {
         'virtual_office_uuid': '',
         'revival_date': '',
         'revival_fee': '',
+        'future_website_link': '',
+        'recommended_director_uuid': '',
+        'director': null,
+        'revived': '',
+        'db_report_number': '',
+
         'files': [],
         'uploaded_files': [],
         'status': ''
