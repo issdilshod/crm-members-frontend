@@ -12,6 +12,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
+import QuickApproveCheck from './QuickApproveCheck';
 
 const Pending = ({ pendingNextFetch, pendingSummary, pendingMeta, pending, setPending }) => {
 
@@ -90,33 +91,38 @@ const Pending = ({ pendingNextFetch, pendingSummary, pendingMeta, pending, setPe
                 {
                     pending.map((value, index) => {
                         return (
-                            <div 
-                                key={index} 
-                                className={
-                                    `t-card ` +
-                                    `${value['status']==STATUS.REJECTED?'t-card-danger':''} ` +
-                                    `${value['status']==STATUS.ACTIVED?'t-card-success':''} ` +
-                                    `d-flex mb-2`
-                                }
-                                onClick={ () => { handlePendingClick(value['last_activity']['link']) } }
-                            >
-                                <div className={`mr-auto`}>
-                                    <div className={`t-card-name`}>{value['name']}</div>
-                                    <div className={``}>{value['last_activity']['description']}</div>
-                                    <div className={`t-card-due-date`}>{ DateFormatter.beautifulDate(value['last_activity']['updated_at']) }</div>
-                                </div>
-                                <div className={`tcard-icons text-center`}>
-                                    <span className={`t-card-icon`}>
-                                        { (STATUS.ACTIVED==value['status']) &&
-                                            <FaCheck />
-                                        }   
-                                        { (STATUS.PENDING==value['status']) &&
-                                            <FaClock />
-                                        }   
-                                        { (STATUS.REJECTED==value['status']) &&
-                                            <FaTimes />
-                                        } 
-                                    </span>
+                            <div className='c-position-relative'>
+                                <QuickApproveCheck 
+                                    uuid={value['uuid']}
+                                />
+                                <div 
+                                    key={index} 
+                                    className={
+                                        `t-card ` +
+                                        `${value['status']==STATUS.REJECTED?'t-card-danger':''} ` +
+                                        `${value['status']==STATUS.ACTIVED?'t-card-success':''} ` +
+                                        `d-flex mb-2`
+                                    }
+                                    onClick={ () => { handlePendingClick(value['last_activity']['link']) } }
+                                >
+                                    <div className={`mr-auto`}>
+                                        <div className={`t-card-name`}>{value['name']}</div>
+                                        <div className={``}>{value['last_activity']['description']}</div>
+                                        <div className={`t-card-due-date`}>{ DateFormatter.beautifulDate(value['last_activity']['updated_at']) }</div>
+                                    </div>
+                                    <div className={`tcard-icons text-center`}>
+                                        <span className={`t-card-icon`}>
+                                            { (STATUS.ACTIVED==value['status']) &&
+                                                <FaCheck />
+                                            }   
+                                            { (STATUS.PENDING==value['status']) &&
+                                                <FaClock />
+                                            }   
+                                            { (STATUS.REJECTED==value['status']) &&
+                                                <FaTimes />
+                                            } 
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
                         )

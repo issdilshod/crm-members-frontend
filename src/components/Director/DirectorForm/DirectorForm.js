@@ -432,7 +432,7 @@ const DirectorForm = () => {
                                     <>
                                         { directorEdit &&
                                             <>
-                                                {   directorForm['user_uuid']==meUuid &&
+                                                {   (directorForm['user_uuid']==meUuid || (directorForm['user_uuid']!=meUuid && permissions.includes(DIRECTOR.PRESAVE))) &&
                                                     <button className='d-btn d-btn-primary mr-2' onClick={ (e) => { handlePendingUpdate(e) } }>
                                                         Pending update
                                                     </button>

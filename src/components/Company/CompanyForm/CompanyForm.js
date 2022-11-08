@@ -692,7 +692,7 @@ const CompanyForm = () => {
                                     <>
                                         { companyEdit &&
                                             <>
-                                                {   companyForm['user_uuid']==meUuid &&
+                                                {   (companyForm['user_uuid']==meUuid || (companyForm['user_uuid']!=meUuid && permissions.includes(COMPANY.PRESAVE))) &&
                                                     <button className='d-btn d-btn-primary mr-2' onClick={ (e) => { handlePendingUpdate(e) } }>
                                                         Pending update
                                                     </button>
