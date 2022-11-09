@@ -231,50 +231,50 @@ const VirtualOfficeForm = () => {
 
                         <div className={`c-form-field col-12 col-sm-6 form-group`}>
                             <label>VO Provider Name</label>
-                            <input className={`form-control`} 
-                                    type='text' 
-                                    name='vo_provider_name' 
-                                    placeholder='VO Provider Name' 
-                                    onChange={ handleChange } 
-                                    value={ form['vo_provider_name'] }
-                                    />
-                            <Validation field_name='vo_provider_name' errorObject={formError} />
+                            <input 
+                                className={`form-control`} 
+                                type='text' 
+                                name='vo_provider_name' 
+                                placeholder='VO Provider Name' 
+                                onChange={ handleChange } 
+                                value={ form['vo_provider_name'] }
+                            />
                         </div>
 
                         <div className={`c-form-field col-12 col-sm-6 form-group`}>
                             <label>VO Provider Domain</label>
-                            <input className={`form-control`} 
-                                    type='text' 
-                                    name='vo_provider_domain' 
-                                    placeholder='VO Provider Domain' 
-                                    onChange={ handleChange } 
-                                    value={ form['vo_provider_domain'] }
-                                    />
-                            <Validation field_name='vo_provider_domain' errorObject={formError} />
+                            <input 
+                                className={`form-control`} 
+                                type='text' 
+                                name='vo_provider_domain' 
+                                placeholder='VO Provider Domain' 
+                                onChange={ handleChange } 
+                                value={ form['vo_provider_domain'] }
+                            />
                         </div>
 
                         <div className={`c-form-field col-12 col-sm-6 form-group`}>
                             <label>VO Provider Username</label>
-                            <input className={`form-control`} 
-                                    type='text' 
-                                    name='vo_provider_username' 
-                                    placeholder='VO Provider Username' 
-                                    onChange={ handleChange } 
-                                    value={ form['vo_provider_username'] }
-                                    />
-                            <Validation field_name='vo_provider_username' errorObject={formError} />
+                            <input 
+                                className={`form-control`} 
+                                type='text' 
+                                name='vo_provider_username' 
+                                placeholder='VO Provider Username' 
+                                onChange={ handleChange } 
+                                value={ form['vo_provider_username'] }
+                            />
                         </div>
 
                         <div className={`c-form-field col-12 col-sm-6 form-group`}>
                             <label>VO Provider Password</label>
-                            <input className={`form-control`} 
-                                    type='text' 
-                                    name='vo_provider_password' 
-                                    placeholder='VO Provider Password' 
-                                    onChange={ handleChange } 
-                                    value={ form['vo_provider_password'] }
-                                    />
-                            <Validation field_name='vo_provider_password' errorObject={formError} />
+                            <input 
+                                className={`form-control`} 
+                                type='text' 
+                                name='vo_provider_password' 
+                                placeholder='VO Provider Password' 
+                                onChange={ handleChange } 
+                                value={ form['vo_provider_password'] }
+                            />
                         </div>
 
                         <div className='col-12 form-group'>
@@ -284,74 +284,74 @@ const VirtualOfficeForm = () => {
                                     <div className='row'>
                                         <div className='c-form-field col-12 col-sm-6 form-group'>
                                             <label>Street address</label>
-                                            <input className={`form-control`} 
-                                                    type='text' 
-                                                    name='street_address' 
-                                                    placeholder='Street address' 
-                                                    onChange={ handleChange } 
-                                                    value={ form['street_address'] }
-                                                    />
-                                            <Validation field_name='street_address' errorObject={formError} />
+                                            <input 
+                                                className={`form-control`} 
+                                                type='text' 
+                                                name='street_address' 
+                                                placeholder='Street address' 
+                                                onChange={ handleChange } 
+                                                value={ form['street_address'] }
+                                            />
                                         </div>
 
                                         <div className='c-form-field col-12 col-sm-6 form-group'>
                                             <label>Address Line 2</label>
-                                            <input className={`form-control`} 
-                                                    type='text' 
-                                                    name='address_line2' 
-                                                    placeholder='Address Line 2' 
-                                                    onChange={ handleChange } 
-                                                    value={ form['address_line2'] }
-                                                    />
-                                            <Validation field_name='address_line2' errorObject={formError} />
+                                            <input 
+                                                className={`form-control`} 
+                                                type='text' 
+                                                name='address_line2' 
+                                                placeholder='Address Line 2' 
+                                                onChange={ handleChange } 
+                                                value={ form['address_line2'] }
+                                            />
                                         </div>
 
                                         <div className='c-form-field col-12 col-sm-6 form-group'>
                                             <label>City</label>
-                                            <input className={`form-control`} 
-                                                    type='text' 
-                                                    name='city' 
-                                                    placeholder='City' 
-                                                    onChange={ handleChange } 
-                                                    value={ form['city'] }
-                                                    />
-                                            <Validation field_name='city' errorObject={formError} />
+                                            <input 
+                                                className={`form-control`} 
+                                                type='text' 
+                                                name='city' 
+                                                placeholder='City' 
+                                                onChange={ handleChange } 
+                                                value={ form['city'] }
+                                            />
                                         </div>
 
                                         <div className='c-form-field col-12 col-sm-6 form-group'>
                                             <label>State</label>
-                                            <input className={`form-control`} 
-                                                    type='text' 
-                                                    name='state' 
-                                                    placeholder='State' 
-                                                    onChange={ handleChange } 
-                                                    value={ form['state'] }
-                                                    />
-                                            <Validation field_name='state' errorObject={formError} />
+                                            <input 
+                                                className={`form-control`} 
+                                                type='text' 
+                                                name='state' 
+                                                placeholder='State' 
+                                                onChange={ handleChange } 
+                                                value={ form['state'] }
+                                            />
                                         </div>
 
                                         <div className='c-form-field col-12 col-sm-6 form-group'>
                                             <label>Postal</label>
-                                            <input className={`form-control`} 
-                                                    type='text' 
-                                                    name='postal' 
-                                                    placeholder='Postal' 
-                                                    onChange={ handleChange } 
-                                                    value={ form['postal'] }
-                                                    />
-                                            <Validation field_name='postal' errorObject={formError} />
+                                            <input 
+                                                className={`form-control`} 
+                                                type='text' 
+                                                name='postal' 
+                                                placeholder='Postal' 
+                                                onChange={ handleChange } 
+                                                value={ form['postal'] }
+                                            />
                                         </div>
 
                                         <div className='c-form-field col-12 col-sm-6 form-group'>
                                             <label>Country</label>
-                                            <input className={`form-control`} 
-                                                    type='text' 
-                                                    name='country' 
-                                                    placeholder='Country' 
-                                                    onChange={ handleChange } 
-                                                    value={ form['country'] }
-                                                    />
-                                            <Validation field_name='country' errorObject={formError} />
+                                            <input 
+                                                className={`form-control`} 
+                                                type='text' 
+                                                name='country' 
+                                                placeholder='Country' 
+                                                onChange={ handleChange } 
+                                                value={ form['country'] }
+                                            />
                                         </div>
                                     </div>
                                 </div>

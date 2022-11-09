@@ -9,6 +9,7 @@ import { Mediator } from '../../../context/Mediator';
 import { FaTimes } from 'react-icons/fa';
 import Notification from '../../Helper/Notification/Notification';
 import Select from 'react-select';
+import { useRef } from 'react';
 
 const FutureWebsiteForm = () => {
 
@@ -231,6 +232,8 @@ const FutureWebsiteForm = () => {
         handleClose();
     }
 
+    const errorRef = useRef({});
+
     return (  
         <div>
             <Notification Alert={alert} SetAlert={setAlert} />
@@ -246,25 +249,41 @@ const FutureWebsiteForm = () => {
                 <div className={`c-form-body container-fluid`}>
                     <form className={`c-form-body-block row`}>
 
-                        <div className={`c-form-field col-12 col-sm-6 form-group`}>
+                        <div 
+                            className={`c-form-field col-12 col-sm-6 form-group`}
+                            ref = { e => errorRef.current['sic_code_uuid'] = e }
+                        >
                             <label>SIC code <i className='req'>*</i></label>
-                            <Select options={sicCodeList}
-                                    value={ sicCodeList.filter(option => { return option.value == form['sic_code_uuid'] }) }
-                                    onChange={ (e) => { handleChange({'target': {'name': 'sic_code_uuid', 'value': e.value} }); } }    
+                            <Select 
+                                options={sicCodeList}
+                                value={ sicCodeList.filter(option => { return option.value == form['sic_code_uuid'] }) }
+                                onChange={ (e) => { handleChange({'target': {'name': 'sic_code_uuid', 'value': e.value} }); } }    
                             />
-                            <Validation field_name='sic_code_uuid' errorObject={formError} />
+                            <Validation 
+                                field_name='sic_code_uuid'
+                                errorObject={formError} 
+                                errorRef={errorRef}    
+                            />
                         </div>
 
-                        <div className={`c-form-field col-12 col-sm-6 form-group`}>
+                        <div 
+                            className={`c-form-field col-12 col-sm-6 form-group`}
+                            ref = { e => errorRef.current['link'] = e }
+                        >
                             <label>Link <i className='req'>*</i></label>
-                            <input className={`form-control`} 
-                                    type='text' 
-                                    name='link' 
-                                    placeholder='Link' 
-                                    onChange={ handleChange } 
-                                    value={ form['link'] }
-                                    />
-                            <Validation field_name='link' errorObject={formError} />
+                            <input 
+                                className={`form-control`} 
+                                type='text' 
+                                name='link' 
+                                placeholder='Link' 
+                                onChange={ handleChange } 
+                                value={ form['link'] }
+                            />
+                            <Validation 
+                                field_name='link' 
+                                errorObject={formError}
+                                errorRef={errorRef} 
+                            />
                         </div>
 
                         <div className={`c-form-field col-12 d-flex form-group`}>

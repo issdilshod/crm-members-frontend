@@ -3,7 +3,7 @@ import { FaAngleDown, FaAngleUp, FaPlus, FaTimes, FaTrash } from 'react-icons/fa
 import { Mediator } from '../../../context/Mediator';
 import Validation from '../../Helper/Validation';
 
-const BankAccountForm = ({blockOpen, setBlockOpen, handleChange}) => {
+const BankAccountForm = ({blockOpen, setBlockOpen, handleChange, errorRef}) => {
     const { 
         styles,
         companyFormOpen,
@@ -87,67 +87,90 @@ const BankAccountForm = ({blockOpen, setBlockOpen, handleChange}) => {
                                         onChange={ handleChange } 
                                         value={ companyForm[`bank_account[name]`] }
                                         />
-                                <Validation field_name={`bank_account.name`} errorObject={companyFormError} />
                             </div>
 
                             <div className={`col-12 col-sm-6 form-group`}>
                                 <label>Bank Website</label>
-                                <input className={`form-control`} 
-                                        type='text' 
-                                        name='bank_account[website]' 
-                                        placeholder='Bank Website'
-                                        onChange={ handleChange } 
-                                        value={ companyForm[`bank_account[website]`] }
-                                        />
-                                <Validation field_name={`bank_account.website`} errorObject={companyFormError} />
+                                <input 
+                                    className={`form-control`} 
+                                    type='text' 
+                                    name='bank_account[website]' 
+                                    placeholder='Bank Website'
+                                    onChange={ handleChange } 
+                                    value={ companyForm[`bank_account[website]`] }
+                                />
                             </div>
 
-                            <div className={`col-12 col-sm-6 form-group`}>
+                            <div 
+                                className={`col-12 col-sm-6 form-group`}
+                                ref = { e => errorRef.current['bank_account.username'] = e }
+                            >
                                 <label>User Name</label>
-                                <input className={`form-control`} 
-                                        type='text' 
-                                        name='bank_account[username]' 
-                                        placeholder='User Name'
-                                        onChange={ handleChange } 
-                                        value={ companyForm[`bank_account[username]`] }
-                                        />
-                                <Validation field_name={`bank_account.username`} errorObject={companyFormError} />
+                                <input 
+                                    className={`form-control`} 
+                                    type='text' 
+                                    name='bank_account[username]' 
+                                    placeholder='User Name'
+                                    onChange={ handleChange } 
+                                    value={ companyForm[`bank_account[username]`] }
+                                />
+                                <Validation 
+                                    field_name={`bank_account.username`} 
+                                    errorObject={companyFormError} 
+                                    errorRef={errorRef}
+                                />
                             </div>
 
                             <div className={`col-12 col-sm-6 form-group`}>
                                 <label>Password</label>
-                                <input className={`form-control`} 
-                                        type='text' 
-                                        name='bank_account[password]' 
-                                        placeholder='Password'
-                                        onChange={ handleChange } 
-                                        value={ companyForm[`bank_account[password]`] }
-                                        />
-                                <Validation field_name={`bank_account.password`} errorObject={companyFormError} />
+                                <input 
+                                    className={`form-control`} 
+                                    type='text' 
+                                    name='bank_account[password]' 
+                                    placeholder='Password'
+                                    onChange={ handleChange } 
+                                    value={ companyForm[`bank_account[password]`] }
+                                />
                             </div>
 
-                            <div className={`col-12 col-sm-6 form-group`}>
+                            <div 
+                                className={`col-12 col-sm-6 form-group`}
+                                ref = { e => errorRef.current['bank_account.account_number'] = e }
+                            >
                                 <label>Account number</label>
-                                <input className={`form-control`} 
-                                        type='text' 
-                                        name='bank_account[account_number]' 
-                                        placeholder='Account number'
-                                        onChange={ handleChange } 
-                                        value={ companyForm[`bank_account[account_number]`] }
-                                        />
-                                <Validation field_name={`bank_account.account_number`} errorObject={companyFormError} />
+                                <input 
+                                    className={`form-control`} 
+                                    type='text' 
+                                    name='bank_account[account_number]' 
+                                    placeholder='Account number'
+                                    onChange={ handleChange } 
+                                    value={ companyForm[`bank_account[account_number]`] }
+                                />
+                                <Validation 
+                                    field_name={`bank_account.account_number`} 
+                                    errorObject={companyFormError} 
+                                    errorRef={errorRef}
+                                />
                             </div>
 
-                            <div className={`col-12 col-sm-6 form-group`}>
+                            <div 
+                                className={`col-12 col-sm-6 form-group`}
+                                ref = { e => errorRef.current['bank_account.routing_number'] = e }
+                            >
                                 <label>Routing number</label>
-                                <input className={`form-control`} 
-                                        type='text' 
-                                        name='bank_account[routing_number]' 
-                                        placeholder='Routing number'
-                                        onChange={ handleChange } 
-                                        value={ companyForm[`bank_account[routing_number]`] }
-                                        />
-                                <Validation field_name={`bank_account.routing_number`} errorObject={companyFormError} />
+                                <input 
+                                    className={`form-control`} 
+                                    type='text' 
+                                    name='bank_account[routing_number]' 
+                                    placeholder='Routing number'
+                                    onChange={ handleChange } 
+                                    value={ companyForm[`bank_account[routing_number]`] }
+                                />
+                                <Validation 
+                                    field_name={`bank_account.routing_number`} 
+                                    errorObject={companyFormError} 
+                                    errorRef={errorRef}
+                                />
                             </div>
 
                             <div className='col-12'><hr /></div>

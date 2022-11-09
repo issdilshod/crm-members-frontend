@@ -264,75 +264,75 @@ const FutureCompanyForm = () => {
 
                         <div className={`c-form-field col-12 col-sm-4 form-group`}>
                             <label>SIC code</label>
-                            <Select options={sicCodeList}
-                                    value={ sicCodeList.filter(option => { return option.value == form['sic_code_uuid'] }) }
-                                    onChange={ (e) => { handleChange({'target': {'name': 'sic_code_uuid', 'value': e.value} }); } }    
+                            <Select 
+                                options={sicCodeList}
+                                value={ sicCodeList.filter(option => { return option.value == form['sic_code_uuid'] }) }
+                                onChange={ (e) => { handleChange({'target': {'name': 'sic_code_uuid', 'value': e.value} }); } }    
                             />
-                            <Validation field_name='sic_code_uuid' errorObject={formError} />
                         </div>
 
                         <div className={`c-form-field col-12 col-sm-4 form-group`}>
                             <label>Incorporation State</label>
-                            <Select options={stateList}
-                                    value={ stateList.filter(option => { return option.value == form['incorporation_state_uuid'] }) }
-                                    onChange={ (e) => { handleChange({'target': {'name': 'incorporation_state_uuid', 'value': e.value} }); } }    
+                            <Select 
+                                options={stateList}
+                                value={ stateList.filter(option => { return option.value == form['incorporation_state_uuid'] }) }
+                                onChange={ (e) => { handleChange({'target': {'name': 'incorporation_state_uuid', 'value': e.value} }); } }    
                             />
-                            <Validation field_name='incorporation_state_uuid' errorObject={formError} />
                         </div>
 
                         <div className={`c-form-field col-12 col-sm-4 form-group`}>
                             <label>Doing Business in State</label>
-                            <Select options={stateList}
-                                    value={ stateList.filter(option => { return option.value == form['doing_business_in_state_uuid'] }) }
-                                    onChange={ (e) => { handleChange({'target': {'name': 'doing_business_in_state_uuid', 'value': e.value} }); } }    
+                            <Select 
+                                options={stateList}
+                                value={ stateList.filter(option => { return option.value == form['doing_business_in_state_uuid'] }) }
+                                onChange={ (e) => { handleChange({'target': {'name': 'doing_business_in_state_uuid', 'value': e.value} }); } }    
                             />
-                            <Validation field_name='doing_business_in_state_uuid' errorObject={formError} />
                         </div>
 
                         <div className={`c-form-field col-12 col-sm-4 form-group`}>
                             <label>Virtual Office</label>
-                            <Select options={virtualOfficeList}
-                                    value={ virtualOfficeList.filter(option => { return option.value == form['virtual_office_uuid'] }) }
-                                    onChange={ (e) => { handleChange({'target': {'name': 'virtual_office_uuid', 'value': e.value} }); } }    
+                            <Select 
+                                options={virtualOfficeList}
+                                value={ virtualOfficeList.filter(option => { return option.value == form['virtual_office_uuid'] }) }
+                                onChange={ (e) => { handleChange({'target': {'name': 'virtual_office_uuid', 'value': e.value} }); } }    
                             />
-                            <Validation field_name='virtual_office_uuid' errorObject={formError} />
                         </div>
 
                         <div className={`c-form-field col-12 col-sm-4 form-group`}>
                             <label>Revival Date</label>
-                            <input className={`form-control`} 
-                                    type='date' 
-                                    name='revival_date' 
-                                    placeholder='Revival date' 
-                                    onChange={ handleChange } 
-                                    value={ form['revival_date'] }
+                            <input 
+                                className={`form-control`} 
+                                type='date' 
+                                name='revival_date' 
+                                placeholder='Revival date' 
+                                onChange={ handleChange } 
+                                value={ form['revival_date'] }
                             />
-                            <Validation field_name='revival_date' errorObject={formError} />
                         </div>
 
                         <div className={`c-form-field col-12 col-sm-4 form-group`}>
                             <label>Revival Fee</label>
-                            <input className={`form-control`} 
-                                    type='number'
-                                    step='.01' 
-                                    name='revival_fee' 
-                                    placeholder='Revival fee' 
-                                    onChange={ handleChange } 
-                                    value={ form['revival_fee'] }
+                            <input 
+                                className={`form-control`} 
+                                type='number'
+                                step='.01' 
+                                name='revival_fee' 
+                                placeholder='Revival fee' 
+                                onChange={ handleChange } 
+                                value={ form['revival_fee'] }
                             />
-                            <Validation field_name='revival_fee' errorObject={formError} />
                         </div>
 
                         <div className={`c-form-field col-12 col-sm-4 form-group`}>
                             <label>Future website link</label>
-                            <input className={`form-control`} 
-                                    type='text' 
-                                    name='future_website_link' 
-                                    placeholder='Future website link' 
-                                    onChange={ handleChange } 
-                                    value={ form['future_website_link'] }
+                            <input 
+                                className={`form-control`} 
+                                type='text' 
+                                name='future_website_link' 
+                                placeholder='Future website link' 
+                                onChange={ handleChange } 
+                                value={ form['future_website_link'] }
                             />
-                            <Validation field_name='future_website_link' errorObject={formError} />
                         </div>
 
                         <div className={`c-form-field col-12 col-sm-4 form-group`}>
@@ -343,7 +343,6 @@ const FutureCompanyForm = () => {
                                 value={ optDirectorList.filter(option => { return option.value == form['director_uuid'] }) }
                                 onChange={ (e) => { handleChange({'target': {'name': 'recommended_director_uuid', 'value': e.value} }); } }
                             />
-                            <Validation field_name='recommended_director_uuid' errorObject={formError} />
                         </div>
 
                         <div className={`c-form-field col-12 col-sm-4 form-group`}>
@@ -358,19 +357,18 @@ const FutureCompanyForm = () => {
                                 <option value='Yes'>Yes</option>
                                 <option value='No'>No</option>
                             </select>
-                            <Validation field_name='revived' errorObject={formError} />
                         </div>
 
                         <div className={`c-form-field col-12 col-sm-4 form-group`}>
                             <label>D&B Number</label>
-                            <input className={`form-control`} 
-                                    type='text' 
-                                    name='db_report_number' 
-                                    placeholder='D&B Number' 
-                                    onChange={ handleChange } 
-                                    value={ form['db_report_number'] }
-                                    />
-                            <Validation field_name='db_report_number' errorObject={formError} />
+                            <input 
+                                className={`form-control`} 
+                                type='text' 
+                                name='db_report_number' 
+                                placeholder='D&B Number' 
+                                onChange={ handleChange } 
+                                value={ form['db_report_number'] }
+                            />
                         </div>
 
                         

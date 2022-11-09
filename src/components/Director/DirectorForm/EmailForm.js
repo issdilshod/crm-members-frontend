@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { Mediator } from '../../../context/Mediator';
 import Validation from '../../Helper/Validation';
 
-const EmailForm = ({ handleChange }) => {
+const EmailForm = ({ handleChange, errorRef }) => {
     const { api, styles,
             directorFormError, directorEdit, directorForm
     } = useContext(Mediator);
@@ -24,39 +24,48 @@ const EmailForm = ({ handleChange }) => {
         <div className={`${styles['director-form-field']} col-12 form-group`}>
             <div className={`row`}>
                 <div className={`col-12 col-sm-3`}>
-                    <div className={`form-group`}>
+                    <div 
+                        className={`form-group`}
+                        ref = { e => errorRef.current['emails.email'] = e }
+                    >
                         <label>Email</label>
-                        <input className={`form-control`} 
-                                type='text' 
-                                name='emails[email]' 
-                                placeholder='Email' 
-                                onChange={ handleChange } 
-                                value={ directorForm['emails[email]'] }
-                                />
-                        <Validation field_name='emails.email' errorObject={directorFormError} />
+                        <input 
+                            className={`form-control`} 
+                            type='text' 
+                            name='emails[email]' 
+                            placeholder='Email' 
+                            onChange={ handleChange } 
+                            value={ directorForm['emails[email]'] }
+                        />
+                        <Validation 
+                            field_name='emails.email' 
+                            errorObject={directorFormError} 
+                            errorRef={errorRef}
+                        />
                     </div>
                 </div>
                 <div className={`col-12 col-sm-3`}>
                     <div className={`form-group`}>
                         <label>Password</label>
-                        <input className={`form-control`}
-                                type='text' 
-                                name='emails[password]' 
-                                placeholder='Password' 
-                                onChange={ handleChange }
-                                value={ directorForm['emails[password]'] }
-                                />
-                        <Validation field_name='emails.password' errorObject={directorFormError} />
+                        <input 
+                            className={`form-control`}
+                            type='text' 
+                            name='emails[password]' 
+                            placeholder='Password' 
+                            onChange={ handleChange }
+                            value={ directorForm['emails[password]'] }
+                        />
                     </div>
                 </div>
                 <div className={`col-12 col-sm-3`}>
                     <div className={`form-group`}>
                         <label>Email's hosting</label>
-                        <select className={`form-control`}
-                                name='emails[hosting_uuid]'
-                                onChange={ handleChange } 
-                                value={ directorForm['emails[hosting_uuid]'] }
-                                >
+                        <select 
+                            className={`form-control`}
+                            name='emails[hosting_uuid]'
+                            onChange={ handleChange } 
+                            value={ directorForm['emails[hosting_uuid]'] }
+                        >
                             <option value={`-`}>-</option>
                             {
                                 emailHosting.map((email, index) => 
@@ -64,20 +73,19 @@ const EmailForm = ({ handleChange }) => {
                                                 )
                             }
                         </select>
-                        <Validation field_name='emails.hosting_uuid' errorObject={directorFormError} />
                     </div>
                 </div>
                 <div className={`col-12 col-sm-3`}>
                     <div className={`form-group`}>
                         <label>Email's Phone Number</label>
-                        <input className={`form-control`} 
-                                type='text' 
-                                name='emails[phone]' 
-                                placeholder="Email's Phone Number" 
-                                onChange={ handleChange }
-                                value={ directorForm['emails[phone]'] }
-                                />
-                        <Validation field_name='emails.phone' errorObject={directorFormError} />
+                        <input 
+                            className={`form-control`} 
+                            type='text' 
+                            name='emails[phone]' 
+                            placeholder="Email's Phone Number" 
+                            onChange={ handleChange }
+                            value={ directorForm['emails[phone]'] }
+                        />
                     </div>
                 </div>
             </div>

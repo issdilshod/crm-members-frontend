@@ -25,69 +25,69 @@ const AddressForm = ({parent_head_name, parent_name, blockOpen, setBlockOpen, ha
                         <div className={`row`}>
                             <div className={`col-12 form-group`}>
                                 <label>Street Address</label>
-                                <input className={`form-control`} 
-                                        type='text' 
-                                        name={`address[${parent_name}][street_address]`} 
-                                        placeholder='Street Address'
-                                        onChange={ handleChange } 
-                                        value={ directorForm[`address[${parent_name}][street_address]`] }
-                                        />
-                                <Validation field_name={`address.${parent_name}.street_address`} errorObject={directorFormError} />
+                                <input 
+                                    className={`form-control`} 
+                                    type='text' 
+                                    name={`address[${parent_name}][street_address]`} 
+                                    placeholder='Street Address'
+                                    onChange={ handleChange } 
+                                    value={ directorForm[`address[${parent_name}][street_address]`] }
+                                />
                             </div>
                             <div className={`col-12 form-group`}>
                                 <label>Address Line 2</label>
-                                <input className={`form-control`} 
-                                        type='text' 
-                                        name={`address[${parent_name}][address_line_2]`} 
-                                        placeholder='Address Line 2'
-                                        onChange={ handleChange } 
-                                        value={ directorForm[`address[${parent_name}][address_line_2]`] }
-                                        />
-                                <Validation field_name={`address.${parent_name}.address_line_2`} errorObject={directorFormError} />
+                                <input 
+                                    className={`form-control`} 
+                                    type='text' 
+                                    name={`address[${parent_name}][address_line_2]`} 
+                                    placeholder='Address Line 2'
+                                    onChange={ handleChange } 
+                                    value={ directorForm[`address[${parent_name}][address_line_2]`] }
+                                />
                             </div>
                             <div className={`col-12 col-sm-6 form-group`}>
                                 <label>City</label>
-                                <input className={`form-control`} 
-                                        type='text' 
-                                        name={`address[${parent_name}][city]`} 
-                                        placeholder='City'
-                                        onChange={ handleChange } 
-                                        value={ directorForm[`address[${parent_name}][city]`] }
-                                        />
-                                <Validation field_name={`address.${parent_name}.city`} errorObject={directorFormError} />
+                                <input 
+                                    className={`form-control`} 
+                                    type='text' 
+                                    name={`address[${parent_name}][city]`} 
+                                    placeholder='City'
+                                    onChange={ handleChange } 
+                                    value={ directorForm[`address[${parent_name}][city]`] }
+                                />
                             </div>
                             <div className={`col-12 col-sm-6 form-group`}>
                                 <label>State</label>
-                                <input className={`form-control`} 
-                                        type='text' 
-                                        name={`address[${parent_name}][state]`} 
-                                        placeholder='State'
-                                        onChange={ handleChange } 
-                                        value={ directorForm[`address[${parent_name}][state]`] }
-                                        />
-                                <Validation field_name={`address.${parent_name}.state`} errorObject={directorFormError} />
+                                <input 
+                                    className={`form-control`} 
+                                    type='text' 
+                                    name={`address[${parent_name}][state]`} 
+                                    placeholder='State'
+                                    onChange={ handleChange } 
+                                    value={ directorForm[`address[${parent_name}][state]`] }
+                                />
                             </div>
                             <div className={`col-12 col-sm-6 form-group`}>
                                 <label>Postal</label>
-                                <input className={`form-control`} 
-                                        type='text' 
-                                        name={`address[${parent_name}][postal]`} 
-                                        placeholder='Postal'
-                                        onChange={ handleChange } 
-                                        value={ directorForm[`address[${parent_name}][postal]`] }
-                                        />
-                                <Validation field_name={`address.${parent_name}.postal`} errorObject={directorFormError} />
+                                <input 
+                                    className={`form-control`} 
+                                    type='text' 
+                                    name={`address[${parent_name}][postal]`} 
+                                    placeholder='Postal'
+                                    onChange={ handleChange } 
+                                    value={ directorForm[`address[${parent_name}][postal]`] }
+                                />
                             </div>
                             <div className={`col-12 col-sm-6 form-group`}>
                                 <label>Country</label>
-                                <input className={`form-control`} 
-                                        type='text' 
-                                        name={`address[${parent_name}][country]`} 
-                                        placeholder='Country'
-                                        onChange={ handleChange } 
-                                        value={ directorForm[`address[${parent_name}][country]`] }
-                                        />
-                                <Validation field_name={`address.${parent_name}.country`} errorObject={directorFormError} />
+                                <input 
+                                    className={`form-control`} 
+                                    type='text' 
+                                    name={`address[${parent_name}][country]`} 
+                                    placeholder='Country'
+                                    onChange={ handleChange } 
+                                    value={ directorForm[`address[${parent_name}][country]`] }
+                                />
                             </div>
                         </div>
                     </div>

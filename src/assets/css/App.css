@@ -655,6 +655,22 @@ label .req {
     border-radius: 20px;
 }
 
+.error{
+    font-size: .8em;
+    font-weight: 500;
+    color: #9f0514;
+    text-shadow: 0px 0px 0px;
+    animation: hightlight-animation .8s infinite linear;
+}
+
+@keyframes hightlight-animation {
+    0% { text-shadow: 0px 0px 2px; }
+    25% { text-shadow: 0px 0px 4px; }
+    50% { text-shadow: 0px 0px 6px; }
+    75% { text-shadow: 0px 0px 4px; }
+    100% { text-shadow: 0px 0px 2px; }
+}
+
 /* Medias */
 
 @media (max-width: 800px){
