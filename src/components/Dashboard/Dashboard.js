@@ -70,7 +70,7 @@ const Dashboard = () => {
         >
             <div className={styles['main-content']}>
                 <Header firstPending={firstPending} pending={pending} setPending={setPending} setPendingMeta={setPendingMeta} />
-                <div className={`${styles['dashboard-block']} container-fluid mb-4`}>
+                <div className={`${styles['dashboard-block']} container-fluid`}>
                     <div className='row'>
                         <div className='col-12 col-sm-5'>
                             <TaskListDashboard />
