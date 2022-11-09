@@ -209,6 +209,23 @@ const DirectorForm = () => {
             });
     }
 
+    const handleOverride = (e) => {
+        e.preventDefault();
+        setLoadingShow(true);
+        api.request('/api/director-override/'+directorForm['uuid'], 'POST', directorForm, true)
+            .then(res => {
+                if (res.status===200 || res.status===201){ // success
+                    setAlert({'msg': 'Succefully director overrided', 'show': true, 'type': 'success'});
+                    setDirectorList([ res.data.data, ...directorList ]);
+                    setDirectorFormOpen(false);
+                }else if (res.status===403){ // permission
+
+                }
+                setDirectorFormError([]);
+                setLoadingShow(false);
+            });
+    }
+
     const handleClose = () => {
         let confirm = true;
         if (JSON.stringify(directorFormOriginal) != JSON.stringify(directorForm)){
@@ -455,13 +472,23 @@ const DirectorForm = () => {
 
                                         { (permissions.includes(DIRECTOR.ACCEPT) && directorForm['status']!='' && directorForm['status']!=STATUS.ACTIVED) && // accept/reject
                                             <>
-                                                <button className='d-btn d-btn-success mr-2' onClick={ (e) => { handlePendingAccept(e) } }>
-                                                    Pending accept
-                                                </button>
+                                                { (Object.keys(directorFormError).length>0) && // override
+                                                    <button className='d-btn d-btn-primary mr-2' onClick={ (e) => { handleOverride(e) } }>
+                                                        Override
+                                                    </button>
+                                                }
 
+                                                { (Object.keys(directorFormError).length==0) && // accept
+                                                    <button className='d-btn d-btn-success mr-2' onClick={ (e) => { handlePendingAccept(e) } }>
+                                                        Pending accept
+                                                    </button>
+                                                }
+                                                
                                                 <button className='d-btn d-btn-danger mr-2' onClick={ (e) => { handlePendingReject(e) } }>
                                                     Pending reject
                                                 </button>
+
+                                                
                                             </>
                                         }
 

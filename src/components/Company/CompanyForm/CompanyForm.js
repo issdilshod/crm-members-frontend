@@ -312,6 +312,24 @@ const CompanyForm = () => {
             });
     }
 
+    const handleOverride = (e) => {
+        e.preventDefault();
+        ObjectsConvert();
+        setLoadingShow(true);
+        api.request('/api/company-override/'+companyForm['uuid'], 'POST', companyForm, true)
+            .then(res => {
+                if (res.status===200 || res.status===201){ // success
+                    setCompanyList([ res.data.data, ...companyList ]);
+                    setCompanyFormOpen(false);
+                    setAlert({'msg': 'Succefully company ovverided', 'show': true, 'type': 'success'});
+                }else if (res.status===403){ // permission
+
+                }
+                setCompanyFormError([]);
+                setLoadingShow(false);
+            });
+    }
+
     const handleClose = () => {
         let confirm = true;
         if (JSON.stringify(companyFormOriginal) != JSON.stringify(companyForm)){
@@ -726,9 +744,18 @@ const CompanyForm = () => {
                                             <>
                                                 { (companyForm['status']!='' && companyForm['status']!=STATUS.ACTIVED) && 
                                                     <>
-                                                        <button className='d-btn d-btn-success mr-2' onClick={ (e) => { handlePendingAccept(e) } }>
-                                                            Pending accept
-                                                        </button>
+
+                                                        { (Object.keys(companyFormError).length>0) && // override
+                                                            <button className='d-btn d-btn-primary mr-2' onClick={ (e) => { handleOverride(e) } }>
+                                                                Override
+                                                            </button>
+                                                        }
+
+                                                        { (Object.keys(companyFormError).length==0) && // accept
+                                                            <button className='d-btn d-btn-success mr-2' onClick={ (e) => { handlePendingAccept(e) } }>
+                                                                Pending accept
+                                                            </button>
+                                                        }
 
                                                         <button className='d-btn d-btn-danger mr-2' onClick={ (e) => { handlePendingReject(e) } }>
                                                             Pending reject
