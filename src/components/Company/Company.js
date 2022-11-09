@@ -136,8 +136,8 @@ const Company = () => {
                     tmp_company['uploaded_files'] = tmp_files;
 
                     tmp_company['_method'] = 'PUT';
-                    setCompanyForm(tmp_company);
-                    setCompanyFormOriginal({ ...tmp_company, 'security': [] } );
+                    setCompanyForm({ ...tmp_company, 'security': []});
+                    setCompanyFormOriginal({ ...tmp_company, 'security': [] });
                 }
             });  
     }
