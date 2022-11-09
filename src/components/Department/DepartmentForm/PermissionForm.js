@@ -37,19 +37,23 @@ const PermissionForm = () => {
                 </div>
                 <hr className={styles['divider']} />
                 <div className={`${styles['department-form-card-body']} container-fluid`}>
-                    {
-                        permissionList.map((value, index) => {
-                            return (
-                                <div 
-                                    key={index}
-                                    className='d-flex mb-2'
-                                >
-                                    <div className='w-50'>{value['permission_name']}</div>
-                                    <div><OnOff permissionUuid={value['uuid']} entityUuid={selectedPermissionEntity} onChange={handleChange} entityPermission={entityPermission} /></div>
-                                </div>
-                            )
-                        })
-                    }
+                    <div className='row'>
+                        {
+                            permissionList.map((value, index) => {
+                                return (
+                                    <div className='col-12 col-sm-6'>
+                                        <div 
+                                            key={index}
+                                            className='d-flex mb-2'
+                                        >
+                                            <div className='mr-auto'>{value['permission_name']}</div>
+                                            <div><OnOff permissionUuid={value['uuid']} entityUuid={selectedPermissionEntity} onChange={handleChange} entityPermission={entityPermission} /></div>
+                                        </div>
+                                    </div>
+                                )
+                            })
+                        }
+                    </div>
                 </div>
             </div>
         </>
