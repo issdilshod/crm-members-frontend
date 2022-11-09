@@ -30,7 +30,7 @@ const VirtualOfficeForm = () => {
         api.request('/api/get_me', 'GET')
             .then(res => {
                 if (res.status===200||res.status===201){
-                    setMeUuid(res.data.data.uuid);
+                    setMeUuid(res.data.uuid);
                 }
             })
     }, [])

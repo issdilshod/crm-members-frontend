@@ -26,7 +26,7 @@ const Protected = () => {
                                     forceTLS: true
                                 })
                             
-                                let channel_notification = pusher.subscribe('notification' + res.data.data.uuid);
+                                let channel_notification = pusher.subscribe('notification' + res.data.uuid);
                                 channel_notification.bind('notification-push', function(data) {
                                     console.log(data);
                                 })
