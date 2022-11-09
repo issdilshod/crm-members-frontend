@@ -13,6 +13,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 import QuickApproveCheck from './QuickApproveCheck';
+import PendingSummary from './PendingSummary';
 
 const Pending = ({ pendingNextFetch, pendingSummary, pendingMeta, pending, setPending }) => {
 
@@ -37,39 +38,9 @@ const Pending = ({ pendingNextFetch, pendingSummary, pendingMeta, pending, setPe
                         } 
                         position="left center"
                     >
-                        <div className='row color-primary'>
-                            <div className='col-12 mb-1'>
-                                <span className='ml-2'>
-                                    Total Directors: <b>{pendingSummary['directors']['all']||0}</b>
-                                </span>
-                            </div>
-                            <div className='col-12 mb-1'>
-                                <span className='ml-2'>
-                                    Approved Directors: <b>{pendingSummary['directors']['active']||0}</b>
-                                </span>
-                            </div>
-                            <div className='col-12 mb-1'>
-                                <span className='ml-2'>
-                                    Pending Status Directors: <b>{pendingSummary['directors']['pending']||0}</b>
-                                </span>
-                            </div>
-
-                            <div className='col-12 mb-1'>
-                                <span className='ml-2'>
-                                    Total Companies: <b>{pendingSummary['companies']['all']||0}</b>
-                                </span>
-                            </div>
-                            <div className='col-12 mb-1'>
-                                <span className='ml-2'>
-                                    Approved Companies: <b>{pendingSummary['companies']['active']||0}</b>
-                                </span>
-                            </div>
-                            <div className='col-12 mb-1'>
-                                <span className='ml-2'>
-                                    Pending Status Companies: <b>{pendingSummary['companies']['pending']||0}</b>
-                                </span>
-                            </div>
-                        </div>
+                        <PendingSummary 
+                            pendingSummary={pendingSummary}
+                        />
                     </Popup>
                     
                 </div>
@@ -92,9 +63,11 @@ const Pending = ({ pendingNextFetch, pendingSummary, pendingMeta, pending, setPe
                     pending.map((value, index) => {
                         return (
                             <div className='c-position-relative'>
-                                <QuickApproveCheck 
-                                    uuid={value['uuid']}
-                                />
+                                { (STATUS.ACTIVED!=value['status']) &&
+                                    <QuickApproveCheck 
+                                        uuid={value['uuid']}
+                                    />
+                                }
                                 <div 
                                     key={index} 
                                     className={
