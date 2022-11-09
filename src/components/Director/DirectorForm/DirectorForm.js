@@ -13,6 +13,7 @@ import { Mediator } from '../../../context/Mediator';
 import { FaTimes } from 'react-icons/fa';
 import Notification from '../../Helper/Notification/Notification';
 import { useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const DirectorForm = () => {
 
@@ -26,6 +27,8 @@ const DirectorForm = () => {
             cardStatusOpen, setCardStatusOpen,
             setLoadingShow
     } = useContext(Mediator);
+
+    const nav = useNavigate();
 
     useEffect(() => {
         setDirectorFormError({});
@@ -175,6 +178,7 @@ const DirectorForm = () => {
                 if (res.status===200 || res.status===201){ // success
                     setAlert({'msg': 'Succefully director rejected', 'show': true, 'type': 'success'});
                     setDirectorFormOpen(false);
+                    handleGoToDashboard();
                 }else if (res.status===403){ // permission
 
                 }else if (res.status===409){ // conflict
@@ -196,6 +200,7 @@ const DirectorForm = () => {
                     setAlert({'msg': 'Succefully director approve', 'show': true, 'type': 'success'});
                     setDirectorList([ res.data.data, ...directorList ]);
                     setDirectorFormOpen(false);
+                    handleGoToDashboard();
                 }else if (res.status===403){ // permission
 
                 }else if (res.status===409){ // conflict
@@ -218,12 +223,20 @@ const DirectorForm = () => {
                     setAlert({'msg': 'Succefully director overrided', 'show': true, 'type': 'success'});
                     setDirectorList([ res.data.data, ...directorList ]);
                     setDirectorFormOpen(false);
+                    handleGoToDashboard();
                 }else if (res.status===403){ // permission
 
                 }
                 setDirectorFormError([]);
                 setLoadingShow(false);
             });
+    }
+
+    const handleGoToDashboard = () => {
+        let confirm = true;
+        confirm = window.confirm('Do you want to redirect to dashboard?');
+        if (!confirm){ return false; }
+        nav(process.env.REACT_APP_FRONTEND_PREFIX + '/dashboard');
     }
 
     const handleClose = () => {

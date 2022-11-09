@@ -17,6 +17,7 @@ import Notification from '../../Helper/Notification/Notification';
 
 import '../../../assets/css/App.css';
 import FutureWebsite from './FutureWebsiteForm';
+import { useNavigate } from 'react-router-dom';
 
 const CompanyForm = () => {
 
@@ -30,6 +31,8 @@ const CompanyForm = () => {
             cardStatusOpen, setCardStatusOpen, cardSaveDiscard, setCardSaveDiscard,
             setLoadingShow
     } = useContext(Mediator);
+
+    const nav = useNavigate();
 
     const [sicCodeList, setSicCodeList] = useState([]);
     const [stateList, setStateList] = useState([]);
@@ -277,6 +280,7 @@ const CompanyForm = () => {
                 if (res.status===200 || res.status===201){ // success
                     setCompanyFormOpen(false);
                     setAlert({'msg': 'Succefully company rejected', 'show': true, 'type': 'success'});
+                    handleGoToDashboard();
                 }else if (res.status===403){ // permission
 
                 }else if (res.status===409){ // conflict
@@ -299,6 +303,7 @@ const CompanyForm = () => {
                     setCompanyList([ res.data.data, ...companyList ]);
                     setCompanyFormOpen(false);
                     setAlert({'msg': 'Succefully company approve', 'show': true, 'type': 'success'});
+                    handleGoToDashboard();
                 }else if (res.status===403){ // permission
 
                 }else if (res.status===409){ // conflict
@@ -322,12 +327,20 @@ const CompanyForm = () => {
                     setCompanyList([ res.data.data, ...companyList ]);
                     setCompanyFormOpen(false);
                     setAlert({'msg': 'Succefully company ovverided', 'show': true, 'type': 'success'});
+                    handleGoToDashboard();
                 }else if (res.status===403){ // permission
 
                 }
                 setCompanyFormError([]);
                 setLoadingShow(false);
             });
+    }
+
+    const handleGoToDashboard = () => {
+        let confirm = true;
+        confirm = window.confirm('Do you want to redirect to dashboard?');
+        if (!confirm){ return false; }
+        nav(process.env.REACT_APP_FRONTEND_PREFIX + '/dashboard');
     }
 
     const handleClose = () => {
