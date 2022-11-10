@@ -10,6 +10,7 @@ import styles from './Dashboard.module.scss';
 import { Mediator } from '../../context/Mediator';
 import Pending from './Pending/Pending';
 import Users from './User/Users';
+import Chat from '../Chat/Chat';
 
 const Dashboard = () => {
     const navigate = useNavigate();
@@ -87,6 +88,8 @@ const Dashboard = () => {
             <TaskForm />
 
             <Users />
+
+            <Chat />
         </Mediator.Provider>
     );
 }

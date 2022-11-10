@@ -114,6 +114,10 @@ a:hover{
     background-color: #20da9b;
 }
 
+.d-btn-secondary{
+    background-color: #b3b3b3;
+}
+
 /* D-Alert */
 .d-alert{
 
