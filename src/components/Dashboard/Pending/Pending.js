@@ -56,13 +56,39 @@ const Pending = ({ pendingNextFetch, pendingSummary, pendingMeta, pending, setPe
     }
 
     const quickAccept = () => {
-        console.log('accepted');
-        // TODO: first determine api then send request
+        api.request('/api/pending/accept', 'POST', {'pendings': checked})
+            .then(res => {
+                if (res.status===200||res.status===201){
+                    let tmpArray = [...pending];
+                    for (let key in tmpArray){
+                        for (let key1 in res.data){
+                            if (tmpArray[key]['uuid']==res.data[key1]){
+                                tmpArray[key]['status'] = STATUS.ACTIVED;
+                            }
+                        }
+                    }
+                    setPending(tmpArray);
+                    setChecked([]);
+                }
+            });
     }
 
     const quickReject = () => {
-        console.log('rejected');
-        // TODO: first determine api then send request
+        api.request('/api/pending/reject', 'POST', {'pendings': checked})
+            .then(res => {
+                if (res.status===200||res.status===201){
+                    let tmpArray = [...pending];
+                    for (let key in tmpArray){
+                        for (let key1 in res.data){
+                            if (tmpArray[key]['uuid']==res.data[key1]){
+                                tmpArray[key]['status'] = STATUS.REJECTED;
+                            }
+                        }
+                    }
+                    setPending(tmpArray);
+                    setChecked([]);
+                }
+            });
     }
 
     return (
@@ -124,8 +150,8 @@ const Pending = ({ pendingNextFetch, pendingSummary, pendingMeta, pending, setPe
                 {
                     pending.map((value, index) => {
                         return (
-                            <div className='c-position-relative'>
-                                { (ROLE.HEADQUARTERS==role && STATUS.ACTIVED!=value['status']) &&
+                            <div className='c-position-relative' key={index}>
+                                { (ROLE.HEADQUARTERS==role && STATUS.PENDING==value['status']) &&
                                     <QuickApproveCheck 
                                         uuid={value['uuid']}
                                         handleCheck={handleCheck}

@@ -40,7 +40,7 @@ const PermissionForm = () => {
                         {
                             permissionList.map((value, index) => {
                                 return (
-                                    <div className='col-12 col-sm-6'>
+                                    <div className='col-12 col-sm-6' key={index}>
                                         <div 
                                             key={index}
                                             className='d-flex mb-2'
