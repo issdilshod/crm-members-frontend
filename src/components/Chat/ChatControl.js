@@ -2,18 +2,15 @@ import { useState } from "react";
 import { FaComment, FaUser, FaUsers } from "react-icons/fa";
 
 
-const ChatControl = ({handleChatClick, handleDepartmentClick}) => {
-
-    const [chatsActive, setChatsActive] = useState(true);
-    const [departmentsActive, setDepartmentsActive] = useState(false);
+const ChatControl = ({handleChatClick, handleDepartmentClick, active}) => {
 
     return (
         <div className='chats-control'>
             <div className='row'>
                 <div className='col-6'>
                     <button 
-                        className={`d-btn d-btn-${chatsActive?'primary':'secondary'} w-100`} 
-                        onClick={ () => { setChatsActive(true); setDepartmentsActive(false); handleChatClick() } }
+                        className={`d-btn d-btn-${(active=='chats')?'primary':'secondary'} w-100`} 
+                        onClick={ () => { handleChatClick() } }
                     >
                         <i>
                             <FaComment />
@@ -23,8 +20,8 @@ const ChatControl = ({handleChatClick, handleDepartmentClick}) => {
                 </div>
                 <div className='col-6'>
                     <button 
-                        className={`d-btn d-btn-${departmentsActive?'primary':'secondary'} w-100`} 
-                        onClick={ () => { setChatsActive(false); setDepartmentsActive(true); handleDepartmentClick() } }
+                        className={`d-btn d-btn-${(active=='departments')?'primary':'secondary'} w-100`} 
+                        onClick={ () => { handleDepartmentClick() } }
                     >
                         <i>
                             <FaUsers />

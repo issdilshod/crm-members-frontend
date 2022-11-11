@@ -8,7 +8,7 @@ import './Chat.scss';
 import ChatControl from "./ChatControl";
 import ChatIn from "./ChatIn";
 import ChatList from "./ChatList";
-import DepartmentList from "./DepartmentList";
+import DepartmentList from "./Departments/DepartmentList";
 
 const Chat = () => {
 
@@ -19,9 +19,14 @@ const Chat = () => {
     const [chats, setChats] = useState([]);
     const [departments, setDepartments] = useState([]);
     const [content, setContent] = useState(0);
+    const [active, setActive] = useState('chats');
+
+    const [activeChat, setActiveChat] = useState();
+    const [chatMessages, setChatMessages] = useState([]);
 
     useEffect(() => {
         firstInit();
+        getMe();
     }, [])
 
     const firstInit = () => {
@@ -36,6 +41,38 @@ const Chat = () => {
             .then(res => {
                 if (res.status===200||res.status===201){
                     setDepartments(res.data.data);
+                }
+            });
+    }
+
+    const [meUuid, setMeUuid] = useState('');
+    const getMe = () => {
+        api.request('/api/get_me', 'GET')
+            .then(res => {
+                if (res.status===200||res.status===201){
+                    setMeUuid(res.data.uuid);
+                }
+            })
+    }
+
+    const handleClickChatCreate = (uuid, name) => {
+        setActive('chats');
+        setContent(contentState['chat']);
+        api.request('/api/chat', 'POST', {'entity_uuid': uuid, 'name': name})
+            .then( res => {
+                if (res.status===200||res.status===201){
+                    setActiveChat(res.data);
+                    getMessages(res.data.data.uuid);
+                }
+            });
+    }
+
+    const getMessages = (chat_uuid) => {
+        api.request('/api/chat-messages/' + chat_uuid, 'GET')
+            .then( res => {
+                if (res.status===200||res.status===201){
+                    setChatMessages(res.data.data);
+                    // pagination
                 }
             });
     }
@@ -63,9 +100,9 @@ const Chat = () => {
                 </div>
                 <div className='chats-list-body'>
                     <ChatControl 
-                        handleChatClick={ () => { setContent(contentState['chat_list']) } }
-                        handleDepartmentClick={ () => { setContent(contentState['department_list']) } }
-                        handleUserClick={ () => { setContent(contentState['user_list']) } }
+                        handleChatClick={ () => { setContent(contentState['chat_list']); setActive('chats'); setChatMessages([]) } }
+                        handleDepartmentClick={ () => { setContent(contentState['department_list']); setActive('departments'); setChatMessages([]) } }
+                        active={active}
                     />
 
                     <div className='chats-content mt-2'>
@@ -78,13 +115,17 @@ const Chat = () => {
 
                         {   (content==contentState['department_list']) &&
                             <DepartmentList 
-                                handleClick={true}
+                                handleClick={handleClickChatCreate}
                                 departments={departments}
                             />
                         }
 
                         {   (content==contentState['chat']) &&
                             <ChatIn
+                                setChatMessages={setChatMessages}
+                                chatMessages={chatMessages}
+                                activeChat={activeChat}
+                                meUuid={meUuid}
                             />
                         }
                     </div>

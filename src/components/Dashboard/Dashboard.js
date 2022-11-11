@@ -87,8 +87,6 @@ const Dashboard = () => {
             </div>
             <TaskForm />
 
-            <Users />
-
             <Chat />
         </Mediator.Provider>
     );

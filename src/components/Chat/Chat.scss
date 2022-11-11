@@ -1,7 +1,7 @@
 .chats{
     position: fixed;
     bottom: 10px;
-    right: 65px;
+    right: 10px;
     
     .chats-button{
         background-color: #fff;
@@ -63,6 +63,79 @@
 
 .chats-list-active{
     right: 0%;
+}
+
+.c-item{
+    padding: 10px 0px;
+    font-weight: 500;
+    border-bottom: 1px solid #b3b3b32e;
+    
+}
+
+.c-item-under-list{
+    padding-left: 20px;
+    overflow: hidden;
+    height: auto;
+    display: none;
+    transition: .2s;
+}
+
+.c-item-under-list-active{
+    display: block;
+}
+
+.c-item-under{
+    padding: 5px 0px;
+    font-weight: 300;
+    border-bottom: 1px solid #b3b3b31e;
+}
+
+.message-control{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 0px 10px;
+    height: 74vh;
+    overflow: auto;
+
+    .d-message{
+        color: #fff;
+        border-radius: 20px;
+        padding: 5px;
+
+        .author{
+            font-weight: 500;
+        }
+
+        .message{
+            font-size: .9em;
+        }
+
+        .time{
+            text-align: right;
+            font-size: .8em;
+            opacity: .6;
+        }
+    }
+
+    .d-message-my{
+        background-color: #607cab;
+        margin-left: auto;
+    }
+
+    .d-message-other{
+        background-color: #b3b3b3;
+        margin-right: auto;
+    }
+}
+
+.write-control textarea{
+    min-height: 50px;
+    max-height: 60px;
+    font-size: .9em;
+}
+
+.write-control .send-message{
+    height: 100%;
 }
 
 @media (max-width: 800px){

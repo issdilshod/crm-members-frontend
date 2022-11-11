@@ -1,15 +1,17 @@
-
+import UsersList from './UsersList';
 
 const DepartmentList = ({handleClick, departments}) => {
 
     return (
-        <div>
+        <div className='c-items'>
             {
                 departments.map((value, index) => {
                     return (
-                        <div key={index}>
-                            {value['department_name']}
-                        </div>
+                        <UsersList 
+                            key={index}
+                            handleClick={handleClick}
+                            department={value}
+                        />
                     )
                 })
             }
