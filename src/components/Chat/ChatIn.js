@@ -53,7 +53,12 @@ const ChatIn = ({chatMessages, setChatMessages, activeChat, meUuid}) => {
                                             <div className='author'>Dilshod</div>
                                         }
                                         <div className='message'>{value['message']}</div>
-                                        <div className='time'>{DateFormatter.beautifulTime(value['created_at'])}</div>
+                                        <div 
+                                            className='time'
+                                            title={DateFormatter.beautifulDate(value['created_at'])}
+                                        >
+                                            {DateFormatter.beautifulTime(value['created_at'])}
+                                        </div>
                                     </div>
                                 </div>
                             </>

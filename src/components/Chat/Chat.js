@@ -107,7 +107,7 @@ const Chat = () => {
                 className={`c-card-left-lg ${!formOpen?'w-0':''}`} 
                 onClick={ () => { setFormOpen(false) } }></div>
             <div className={`chats-list ${formOpen?'chats-list-active':''}`}>
-                <div className='chats-list-head mb-3 d-flex'>
+                <div className='chats-list-head mb-2 d-flex'>
                     <div className='mr-auto'>Chats</div>
                     <div className='d-cursor-pointer' onClick={ () => { setFormOpen(false) } }>
                         <i>
