@@ -33,6 +33,7 @@ const Dashboard = () => {
     const [pending, setPending] = useState([]);
     const [pendingMeta, setPendingMeta] = useState({'current_page': 0, 'max_page': 1});
     const [pendingSummary, setPendingSummary] = useState({'directors':{'all':0,'active':0,'pending':0}, 'companies':{'all':0,'active':0,'pending':0}});
+    const [pendingOnly, setPendingOnly] = useState(false);
 
     const [activityLoadingMiniShow, setActivityLoadingMiniShow] = useState(false);
 
@@ -45,8 +46,15 @@ const Dashboard = () => {
         pendingNextFetch();
     }
 
-    const pendingNextFetch = () => {
-        api.request('/api/pending?page='+parseInt(pendingMeta['current_page']+1), 'GET')
+    const pendingNextFetch = (attr = '') => {
+
+        if (!pendingOnly){
+            attr = '?page='+parseInt(pendingMeta['current_page']+1);
+        }else{
+            attr = '?page='+parseInt(pendingMeta['current_page']+1)+'&pending_only=true';
+        }
+
+        api.request('/api/pending'+attr, 'GET')
             .then(res => {
                 if (res.status===200||res.status===201){ // success
                     let tmpArr = [...res.data.companies, ...res.data.directors];
@@ -86,8 +94,11 @@ const Dashboard = () => {
                                 pendingNextFetch={pendingNextFetch} 
                                 pendingSummary={pendingSummary} 
                                 pendingMeta={pendingMeta} 
+                                setPendingMeta={setPendingMeta}
                                 pending={pending} 
                                 setPending={setPending} 
+                                pendingOnly={pendingOnly}
+                                setPendingOnly={setPendingOnly}
                             />
                         </div>
                         <div className='col-12 col-sm-4'>

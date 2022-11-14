@@ -17,7 +17,7 @@ import PendingSummary from './PendingSummary';
 
 import * as ROLE from '../../../consts/Role';
 
-const Pending = ({ pendingNextFetch, pendingSummary, pendingMeta, pending, setPending }) => {
+const Pending = ({ pendingNextFetch, pendingSummary, pendingMeta, setPendingMeta, pending, setPending, pendingOnly, setPendingOnly }) => {
 
     const api = new Api();
     const nav = useNavigate();
@@ -91,6 +91,36 @@ const Pending = ({ pendingNextFetch, pendingSummary, pendingMeta, pending, setPe
             });
     }
 
+    const filterPendingsOnly = () => {
+        setPendingOnly(!pendingOnly);
+
+        if (!pendingOnly){
+            api.request('/api/pending?page=1&pending_only=true', 'GET')
+                .then(res => {
+                    if (res.status===200||res.status===201){ // success
+                        let tmpArr = [...res.data.companies, ...res.data.directors];
+                        tmpArr.sort((a, b) => {
+                            return new Date(b.last_activity.updated_at) - new Date(a.last_activity.updated_at);
+                        });
+                        setPending(tmpArr);
+                        setPendingMeta(res.data.meta);
+                    }
+                })
+        }else {
+            api.request('/api/pending?page=1', 'GET')
+                .then(res => {
+                    if (res.status===200||res.status===201){ // success
+                        let tmpArr = [...res.data.companies, ...res.data.directors];
+                        tmpArr.sort((a, b) => {
+                            return new Date(b.last_activity.updated_at) - new Date(a.last_activity.updated_at);
+                        });
+                        setPending(tmpArr);
+                        setPendingMeta(res.data.meta);
+                    }
+                })
+        }
+    }
+
     return (
         <>
             <div className='d-flex mb-2'>
@@ -116,6 +146,15 @@ const Pending = ({ pendingNextFetch, pendingSummary, pendingMeta, pending, setPe
                             </button>
                         </>
                     }
+
+                    <button
+                        className={`d-btn d-btn-sm d-btn-${pendingOnly?'success':'secondary'} mr-2`}
+                        onClick={ () => { filterPendingsOnly() } }
+                    >
+                        <i>
+                            <FaClock />
+                        </i>
+                    </button>
 
                     <Popup trigger={
                             <button className='d-btn d-btn-sm d-btn-primary'>
@@ -146,7 +185,7 @@ const Pending = ({ pendingNextFetch, pendingSummary, pendingMeta, pending, setPe
                     <>
                         { (pending.length==0 && pendingMeta['max_page']==0) &&
                             <p style={{ textAlign: "center" }}>
-                                <b>No match!</b>
+                                <b>Not found!</b>
                             </p>
                         }
 
