@@ -140,55 +140,60 @@ const Pending = ({ pendingNextFetch, pendingSummary, pendingMeta, pending, setPe
                     next={pendingNextFetch}
                     hasMore={(pendingMeta['current_page']<pendingMeta['max_page'])}
                     loader={<LoadingMini />}
-                    endMessage={
-                        <p style={{ textAlign: "center" }}>
-                            <b>Yay! You have seen it all</b>
-                        </p>
-                    }
                     scrollableTarget='pending-block'
                 >
                 {
-                    pending.map((value, index) => {
-                        return (
-                            <div className='c-position-relative' key={index}>
-                                { (ROLE.HEADQUARTERS==role && STATUS.PENDING==value['status']) &&
-                                    <QuickApproveCheck 
-                                        uuid={value['uuid']}
-                                        handleCheck={handleCheck}
-                                    />
-                                }
-                                <div 
-                                    key={index} 
-                                    className={
-                                        `t-card ` +
-                                        `${value['status']==STATUS.REJECTED?'t-card-danger':''} ` +
-                                        `${value['status']==STATUS.ACTIVED?'t-card-success':''} ` +
-                                        `d-flex mb-2`
-                                    }
-                                    onClick={ () => { handlePendingClick(value['last_activity']['link']) } }
-                                >
-                                    <div className={`mr-auto`}>
-                                        <div className={`t-card-name`}>{value['name']}</div>
-                                        <div className={``}>{value['last_activity']['description']}</div>
-                                        <div className={`t-card-due-date`}>{ DateFormatter.beautifulDate(value['last_activity']['updated_at']) }</div>
+                    <>
+                        { (pending.length==0 && pendingMeta['max_page']==0) &&
+                            <p style={{ textAlign: "center" }}>
+                                <b>No match!</b>
+                            </p>
+                        }
+
+                        {
+                            pending.map((value, index) => {
+                                return (
+                                    <div className='c-position-relative' key={index}>
+                                        { (ROLE.HEADQUARTERS==role && STATUS.PENDING==value['status']) &&
+                                            <QuickApproveCheck 
+                                                uuid={value['uuid']}
+                                                handleCheck={handleCheck}
+                                            />
+                                        }
+                                        <div 
+                                            key={index} 
+                                            className={
+                                                `t-card ` +
+                                                `${value['status']==STATUS.REJECTED?'t-card-danger':''} ` +
+                                                `${value['status']==STATUS.ACTIVED?'t-card-success':''} ` +
+                                                `d-flex mb-2`
+                                            }
+                                            onClick={ () => { handlePendingClick(value['last_activity']['link']) } }
+                                        >
+                                            <div className={`mr-auto`}>
+                                                <div className={`t-card-name`}>{value['name']}</div>
+                                                <div className={``}>{value['last_activity']['description']}</div>
+                                                <div className={`t-card-due-date`}>{ DateFormatter.beautifulDate(value['last_activity']['updated_at']) }</div>
+                                            </div>
+                                            <div className={`tcard-icons text-center`}>
+                                                <span className={`t-card-icon`}>
+                                                    { (STATUS.ACTIVED==value['status']) &&
+                                                        <FaCheck />
+                                                    }   
+                                                    { (STATUS.PENDING==value['status']) &&
+                                                        <FaClock />
+                                                    }   
+                                                    { (STATUS.REJECTED==value['status']) &&
+                                                        <FaTimes />
+                                                    } 
+                                                </span>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div className={`tcard-icons text-center`}>
-                                        <span className={`t-card-icon`}>
-                                            { (STATUS.ACTIVED==value['status']) &&
-                                                <FaCheck />
-                                            }   
-                                            { (STATUS.PENDING==value['status']) &&
-                                                <FaClock />
-                                            }   
-                                            { (STATUS.REJECTED==value['status']) &&
-                                                <FaTimes />
-                                            } 
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        )
-                    })
+                                )
+                            })
+                        }
+                    </>
                 }
                 </InfiniteScroll>
             </div>

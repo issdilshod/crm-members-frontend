@@ -70,14 +70,25 @@ const Dashboard = () => {
                 }}
         >
             <div className={styles['main-content']}>
-                <Header firstPending={firstPending} pending={pending} setPending={setPending} setPendingMeta={setPendingMeta} />
+                <Header 
+                    firstPending={firstPending} 
+                    pending={pending} 
+                    setPending={setPending} 
+                    setPendingMeta={setPendingMeta}
+                />
                 <div className={`${styles['dashboard-block']} container-fluid`}>
                     <div className='row'>
                         <div className='col-12 col-sm-5'>
                             <TaskListDashboard />
                         </div>
                         <div className='col-12 col-sm-3'>
-                            <Pending pendingNextFetch={pendingNextFetch} pendingSummary={pendingSummary} pendingMeta={pendingMeta} pending={pending} setPending={setPending} />
+                            <Pending 
+                                pendingNextFetch={pendingNextFetch} 
+                                pendingSummary={pendingSummary} 
+                                pendingMeta={pendingMeta} 
+                                pending={pending} 
+                                setPending={setPending} 
+                            />
                         </div>
                         <div className='col-12 col-sm-4'>
                             <Activity loading={activityLoadingMiniShow} setLoading={setActivityLoadingMiniShow} />
