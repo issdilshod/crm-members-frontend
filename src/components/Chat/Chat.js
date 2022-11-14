@@ -71,10 +71,27 @@ const Chat = () => {
         api.request('/api/chat-messages/' + chat_uuid, 'GET')
             .then( res => {
                 if (res.status===200||res.status===201){
-                    setChatMessages(res.data.data);
+                    let tmpArr = [...res.data.data];
+                    tmpArr.sort((a, b) => {
+                        return new Date(a.created_at) - new Date(b.created_at);
+                    });
+                    setChatMessages(tmpArr);
                     // pagination
                 }
             });
+    }
+
+    const handleDialogClick = (uuid) => {
+        setActive('chats');
+        setContent(contentState['chat']);
+        api.request('/api/chat/' + uuid, 'GET')
+            .then( res => {
+                if (res.status===200||res.status===201){
+                    setActiveChat(res.data);
+                    getMessages(uuid);
+                }
+            });
+        getMessages(uuid);
     }
 
     return (
@@ -108,7 +125,7 @@ const Chat = () => {
                     <div className='chats-content mt-2'>
                         {   (content==contentState['chat_list']) &&
                             <ChatList 
-                                handleClick={true}
+                                handleClick={handleDialogClick}
                                 chats={chats}
                             />
                         }

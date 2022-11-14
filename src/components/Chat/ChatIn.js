@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { FaTelegram } from "react-icons/fa";
 import Api from "../../services/Api";
+import DateFormatter from "../../services/DateFormatter";
 
 const ChatIn = ({chatMessages, setChatMessages, activeChat, meUuid}) => {
 
@@ -32,15 +33,30 @@ const ChatIn = ({chatMessages, setChatMessages, activeChat, meUuid}) => {
                 {
                     chatMessages.map((value, index) => {
                         return (
-                            <div className='d-flex mt-2' key={index}>
-                                <div className={`d-message ${value['user_uuid']==meUuid?'d-message-my':'d-message-other'}`}>
-                                    {   (value['user_uuid']!=meUuid) &&
-                                        <div className='author'>Dilshod</div>
-                                    }
-                                    <div className='message'>{value['message']}</div>
-                                    <div className='time'>{value['created_at']}</div>
+                            <>
+                                { (index==0) &&
+                                    <div 
+                                        className='text-center d-cursor-pointer mt-2 mb-2'
+                                        title={DateFormatter.beautifulDate(value['created_at'])}
+                                    >
+                                        <span
+                                            className='d-message-month'
+                                        >
+                                            {DateFormatter.beautifulOnlyDate(value['created_at'])}
+                                        </span>
+                                    </div>
+                                }
+                                
+                                <div className='d-flex mt-2' key={index}>
+                                    <div className={`d-message ${value['user_uuid']==meUuid?'d-message-my':'d-message-other'}`}>
+                                        {   (value['user_uuid']!=meUuid) &&
+                                            <div className='author'>Dilshod</div>
+                                        }
+                                        <div className='message'>{value['message']}</div>
+                                        <div className='time'>{DateFormatter.beautifulTime(value['created_at'])}</div>
+                                    </div>
                                 </div>
-                            </div>
+                            </>
                         )
                     })
                 }
