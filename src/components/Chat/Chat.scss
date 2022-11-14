@@ -148,6 +148,12 @@
 
 .dialogs-list{
     padding: 5px 0px;
+    border-bottom: 1px solid #b3b3b31e;
+    transition: .4s;
+
+    &:hover{
+        background-color: rgb(223 223 223 / 12%);
+    }
 
     .dialog-name{
         font-weight: 500;
@@ -164,6 +170,7 @@
         overflow: hidden;
         text-overflow: ellipsis;
         max-width: 100%;
+        font-size: .8em;
     }
 }
 

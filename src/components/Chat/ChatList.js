@@ -1,3 +1,4 @@
+import DateFormatter from "../../services/DateFormatter";
 
 
 const ChatList = ({handleClick, chats}) => {
@@ -10,9 +11,9 @@ const ChatList = ({handleClick, chats}) => {
                         <div key={index} className='dialogs-list d-cursor-pointer' onClick={ () => { handleClick(value['uuid']) } }>
                             <div className='d-flex'>
                                 <div className='dialog-name mr-auto'>{ value['name'] }</div>
-                                <div className='dialog-last-message-date'>{ value['last_message']['created_at'] }</div>
+                                <div className='dialog-last-message-date'>{ DateFormatter.beautifulTime(value['last_message'][0]['created_at']) }</div>
                             </div>
-                            <div className='dialog-last-message'>{ value['last_message']['message'] }</div>
+                            <div className='dialog-last-message'>{ value['last_message'][0]['message'] }</div>
                         </div>
                     )
                 })
