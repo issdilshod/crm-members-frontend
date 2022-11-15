@@ -2,9 +2,11 @@ import React, { useState, useEffect, useRef, useContext } from 'react';
 import { FaAngleDown, FaAngleUp, FaTimes, FaTrash, FaUndo, FaUpload } from 'react-icons/fa';
 import { Mediator } from '../../../context/Mediator';
 
+import * as COMPANY from '../../../consts/Company';
+
 import styles from '../Company.module.scss';
 
-const FileModule = ({parent_name, handleChange, uploadedFiles}) => {
+const FileModule = ({parent_name, handleChange, uploadedFiles, permissions}) => {
     const [choosedFiles, setChoosedFiles] = useState([]);
     const [uploadedFilesShow, setUploadedFilesShow] = useState([]);
     const choosedFilesRef = useRef(null);
@@ -100,9 +102,16 @@ const FileModule = ({parent_name, handleChange, uploadedFiles}) => {
                             <div key={ index } className={`${styles['files-info']} mt-2`}>
                                 <div className={`${styles['file-info']} mt-1 d-flex`}>
                                     <div className={`${styles['file-name']} mr-auto`}>
-                                        <a href={`${process.env.REACT_APP_BACKEND_DOMAIN}/uploads/${value['file_path']}`} target='_blank'>
-                                            { value['file_name'] }
-                                        </a>
+                                        { (permissions.include(COMPANY.DOWNLOAD)) &&
+                                            <a href={`${process.env.REACT_APP_BACKEND_DOMAIN}/uploads/${value['file_path']}`} target='_blank'>
+                                                { value['file_name'] }
+                                            </a>
+                                        }
+
+                                        { (!permissions.include(COMPANY.DOWNLOAD)) &&
+                                            value['file_name']
+                                        }
+                                        
                                     </div>
                                     <div className={`${styles['remove-file']} text-center`} 
                                             onClick={ () => { handleLocalDelete(value['uuid']) } }

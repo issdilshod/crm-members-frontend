@@ -536,6 +536,7 @@ const CompanyForm = () => {
                             parent_head_name='Incorporation state upload'
                             parent_name='incorporation_state'
                             handleChange={handleChange}
+                            permissions={permissions}
                         />
 
                         <FileForm 
@@ -544,6 +545,7 @@ const CompanyForm = () => {
                             parent_head_name='Doing business in state upload'
                             parent_name='doing_business_in_state'
                             handleChange={handleChange}
+                            permissions={permissions}
                         />
 
                         <FileForm 
@@ -552,6 +554,7 @@ const CompanyForm = () => {
                             parent_head_name='Company EIN upload'
                             parent_name='company_ein'
                             handleChange={handleChange}
+                            permissions={permissions}
                         />
 
                         <FutureWebsite
@@ -744,6 +747,7 @@ const CompanyForm = () => {
                             parent_head_name='D&B report upload'
                             parent_name='db_report'
                             handleChange={handleChange}
+                            permissions={permissions}
                         />
 
                         <div className={`${styles['company-form-field']} col-12 d-flex form-group`}>

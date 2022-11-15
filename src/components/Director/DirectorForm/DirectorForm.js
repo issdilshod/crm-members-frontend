@@ -443,27 +443,33 @@ const DirectorForm = () => {
                             errorRef={errorRef}
                         />
 
-                        <FileForm hasDouble={true}
-                                    blockOpen={dlUploadOpen}
-                                    setBlockOpen={setDlUploadOpen}
-                                    parent_head_name='DL Upload'
-                                    parent_name='dl_upload'
-                                    handleChange={handleChange}
+                        <FileForm 
+                            hasDouble={true}
+                            blockOpen={dlUploadOpen}
+                            setBlockOpen={setDlUploadOpen}
+                            parent_head_name='DL Upload'
+                            parent_name='dl_upload'
+                            handleChange={handleChange}
+                            permissions={permissions}
                         />
 
-                        <FileForm hasDouble={true}
-                                    blockOpen={ssnUploadOpen}
-                                    setBlockOpen={setSsnUploadOpen}
-                                    parent_head_name='SSN Upload'
-                                    parent_name='ssn_upload'
-                                    handleChange={handleChange}
+                        <FileForm 
+                            hasDouble={true}
+                            blockOpen={ssnUploadOpen}
+                            setBlockOpen={setSsnUploadOpen}
+                            parent_head_name='SSN Upload'
+                            parent_name='ssn_upload'
+                            handleChange={handleChange}
+                            permissions={permissions}
                         />
 
-                        <FileForm blockOpen={cpnDocsUploadOpen}
-                                    setBlockOpen={setCpnDocsUploadOpen}
-                                    parent_head_name='CPN DOCS Upload'
-                                    parent_name='cpn_docs_upload'
-                                    handleChange={handleChange}
+                        <FileForm 
+                            blockOpen={cpnDocsUploadOpen}
+                            setBlockOpen={setCpnDocsUploadOpen}
+                            parent_head_name='CPN DOCS Upload'
+                            parent_name='cpn_docs_upload'
+                            handleChange={handleChange}
+                            permissions={permissions}
                         />
 
                         <div className={`${styles['director-form-field']} col-12 d-flex form-group`}>

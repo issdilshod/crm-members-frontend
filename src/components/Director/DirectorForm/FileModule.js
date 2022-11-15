@@ -2,9 +2,11 @@ import React, { useState, useEffect, useRef, useContext } from 'react';
 import { FaAngleDown, FaAngleUp, FaTimes, FaTrash, FaUndo, FaUpload } from 'react-icons/fa';
 import { Mediator } from '../../../context/Mediator';
 
+import * as DIRECTOR from '../../../consts/Director';
+
 import styles from '../Director.module.scss';
 
-const FileModule = ({hasDouble, head_name, head_block_name, parent_name, handleChange, uploadedFiles}) => {
+const FileModule = ({hasDouble, head_name, head_block_name, parent_name, handleChange, uploadedFiles, permissions}) => {
     const [choosedFiles, setChoosedFiles] = useState([]);
     const [uploadedFilesShow, setUploadedFilesShow] = useState([]);
     const choosedFilesRef = useRef(null);
@@ -104,9 +106,16 @@ const FileModule = ({hasDouble, head_name, head_block_name, parent_name, handleC
                             <div key={ index } className={`${styles['files-info']} mt-2`}>
                                 <div className={`${styles['file-info']} mt-1 d-flex`}>
                                     <div className={`${styles['file-name']} mr-auto`}>
-                                        <a href={`${process.env.REACT_APP_BACKEND_DOMAIN}/uploads/${value['file_path']}`} target='_blank'>
-                                            { value['file_name'] }
-                                        </a>
+                                        { (permissions.includes(DIRECTOR.DOWNLOAD)) &&
+                                            <a href={`${process.env.REACT_APP_BACKEND_DOMAIN}/uploads/${value['file_path']}`} target='_blank'>
+                                                { value['file_name'] }
+                                            </a>
+                                        }
+
+                                        { (!permissions.includes(DIRECTOR.DOWNLOAD)) &&
+                                            value['file_name']
+                                        }
+                                        
                                     </div>
                                     <div className={`${styles['remove-file']} text-center`} 
                                             onClick={ () => { handleLocalDelete(value['uuid']) } }
