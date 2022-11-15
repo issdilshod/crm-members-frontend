@@ -166,11 +166,24 @@
     }
 
     .dialog-last-message{
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        max-width: 100%;
-        font-size: .8em;
+        
+        .dialog-last-message-text{
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
+            font-size: .8em;
+        }
+
+        .new-message{
+            background-color: #20da9b;
+            color: #fff;
+            height: 20px;
+            width: 20px;
+            border-radius: 50%;
+            display: inline-block;
+            text-align: center;
+        }
     }
 }
 

@@ -5,9 +5,9 @@ import { FaComment, FaTimes, FaUsers } from "react-icons/fa";
 import Api from '../../services/Api';
 
 import './Chat.scss';
-import ChatControl from "./ChatControl";
-import ChatIn from "./ChatIn";
-import ChatList from "./ChatList";
+import ChatControl from "./Chats/ChatControl";
+import ChatIn from "./Chats/ChatIn";
+import ChatList from "./Chats/ChatList";
 import DepartmentList from "./Departments/DepartmentList";
 
 const Chat = () => {

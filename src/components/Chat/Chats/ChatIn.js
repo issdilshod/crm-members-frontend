@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { useEffect } from "react";
 import { FaTelegram } from "react-icons/fa";
-import Api from "../../services/Api";
-import DateFormatter from "../../services/DateFormatter";
+import Api from "../../../services/Api";
+import DateFormatter from "../../../services/DateFormatter";
+import DateFormats from "../Functions/DateFormats";
 
 const ChatIn = ({chatMessages, setChatMessages, activeChat, meUuid}) => {
 
@@ -34,15 +35,15 @@ const ChatIn = ({chatMessages, setChatMessages, activeChat, meUuid}) => {
                     chatMessages.map((value, index) => {
                         return (
                             <>
-                                { (index==0) &&
+                                { (index==0 || DateFormats.check_different_day(chatMessages[index]['created_at'], chatMessages[index-1]['created_at'])) &&
                                     <div 
                                         className='text-center d-cursor-pointer mt-2 mb-2'
-                                        title={DateFormatter.beautifulDate(value['created_at'])}
+                                        title={DateFormats.message_day_title(value['created_at'])}
                                     >
                                         <span
                                             className='d-message-month'
                                         >
-                                            {DateFormatter.beautifulOnlyDate(value['created_at'])}
+                                            {DateFormats.message_day(value['created_at'])}
                                         </span>
                                     </div>
                                 }
@@ -55,9 +56,9 @@ const ChatIn = ({chatMessages, setChatMessages, activeChat, meUuid}) => {
                                         <div className='message'>{value['message']}</div>
                                         <div 
                                             className='time'
-                                            title={DateFormatter.beautifulDate(value['created_at'])}
+                                            title={DateFormats.message_time_title(value['created_at'])}
                                         >
-                                            {DateFormatter.beautifulTime(value['created_at'])}
+                                            {DateFormats.message_time(value['created_at'])}
                                         </div>
                                     </div>
                                 </div>
