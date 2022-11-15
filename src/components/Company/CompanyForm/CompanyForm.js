@@ -421,6 +421,17 @@ const CompanyForm = () => {
                             />
                         </div>
 
+                        <div className={`${styles['company-form-field']} col-12 form-group`}>
+                            <label>Incorporation date</label>
+                            <input className={`form-control`} 
+                                    type='date' 
+                                    name='incorporation_date' 
+                                    placeholder='Incorporation Date' 
+                                    onChange={ handleChange } 
+                                    value={ companyForm['incorporation_date'] }
+                            />
+                        </div>
+
                         <div className={`${styles['company-form-field']} col-12 col-sm-4 form-group`}>
                             <label>Incorporation State</label>
                             <select className={`form-control`} 

@@ -19,6 +19,7 @@ const Company = () => {
         'legal_name': '',
         'sic_code_uuid': '',
         'director_uuid': '',
+        'incorporation_date': '',
         'incorporation_state_uuid': '',
         'incorporation_state_name': '',
         'doing_business_in_state_uuid': '',
