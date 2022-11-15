@@ -33,7 +33,7 @@ const Dashboard = () => {
     const [pending, setPending] = useState([]);
     const [pendingMeta, setPendingMeta] = useState({'current_page': 0, 'max_page': 1});
     const [pendingSummary, setPendingSummary] = useState({'directors':{'all':0,'active':0,'pending':0}, 'companies':{'all':0,'active':0,'pending':0}});
-    const [pendingOnly, setPendingOnly] = useState(false);
+    const [filterPending, setFilterPending] = useState('');
 
     const [activityLoadingMiniShow, setActivityLoadingMiniShow] = useState(false);
 
@@ -48,10 +48,10 @@ const Dashboard = () => {
 
     const pendingNextFetch = (attr = '') => {
 
-        if (!pendingOnly){
+        if (filterPending==''){
             attr = '?page='+parseInt(pendingMeta['current_page']+1);
         }else{
-            attr = '?page='+parseInt(pendingMeta['current_page']+1)+'&pending_only=true';
+            attr = '?page='+parseInt(pendingMeta['current_page']+1)+'&filter=' + filterPending;
         }
 
         api.request('/api/pending'+attr, 'GET')
@@ -96,9 +96,9 @@ const Dashboard = () => {
                                 pendingMeta={pendingMeta} 
                                 setPendingMeta={setPendingMeta}
                                 pending={pending} 
-                                setPending={setPending} 
-                                pendingOnly={pendingOnly}
-                                setPendingOnly={setPendingOnly}
+                                setPending={setPending}
+                                filterPending={filterPending}
+                                setFilterPending={setFilterPending}
                             />
                         </div>
                         <div className='col-12 col-sm-4'>

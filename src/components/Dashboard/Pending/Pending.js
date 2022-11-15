@@ -17,7 +17,7 @@ import PendingSummary from './PendingSummary';
 
 import * as ROLE from '../../../consts/Role';
 
-const Pending = ({ pendingNextFetch, pendingSummary, pendingMeta, setPendingMeta, pending, setPending, pendingOnly, setPendingOnly }) => {
+const Pending = ({ pendingNextFetch, pendingSummary, pendingMeta, setPendingMeta, pending, setPending, filterPending, setFilterPending }) => {
 
     const api = new Api();
     const nav = useNavigate();
@@ -91,11 +91,11 @@ const Pending = ({ pendingNextFetch, pendingSummary, pendingMeta, setPendingMeta
             });
     }
 
-    const filterPendingsOnly = () => {
-        setPendingOnly(!pendingOnly);
+    const handleFilterPending = (e) => {
+        setFilterPending(e.target.value);
 
-        if (!pendingOnly){
-            api.request('/api/pending?page=1&pending_only=true', 'GET')
+        if (e.target.value!='0'){
+            api.request('/api/pending?page=1&filter='+e.target.value, 'GET')
                 .then(res => {
                     if (res.status===200||res.status===201){ // success
                         let tmpArr = [...res.data.companies, ...res.data.directors];
@@ -125,7 +125,16 @@ const Pending = ({ pendingNextFetch, pendingSummary, pendingMeta, setPendingMeta
         <>
             <div className='d-flex mb-2'>
                 <div className='mr-auto d-title'>Approval</div>
+                <div className='mr-2'>
+                    <select className='form-control' onChange={ (e) => { handleFilterPending(e) } }>
+                        <option value='0'>Normal view</option>
+                        <option value='1'>Unapproved cards</option>
+                        <option value='2'>Approved cards</option>
+                        <option value='3'>Rejected cards</option>
+                    </select>
+                </div>
                 <div>
+
                     { (checked.length>0) && 
                         <>
                             <button 
@@ -146,15 +155,6 @@ const Pending = ({ pendingNextFetch, pendingSummary, pendingMeta, setPendingMeta
                             </button>
                         </>
                     }
-
-                    <button
-                        className={`d-btn d-btn-sm d-btn-${pendingOnly?'success':'secondary'} mr-2`}
-                        onClick={ () => { filterPendingsOnly() } }
-                    >
-                        <i>
-                            <FaClock />
-                        </i>
-                    </button>
 
                     <Popup trigger={
                             <button className='d-btn d-btn-sm d-btn-primary'>
