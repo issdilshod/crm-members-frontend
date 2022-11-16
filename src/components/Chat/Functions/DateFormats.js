@@ -4,13 +4,13 @@ class DateFormats {
     {
         let current = new Date();
         dateTime = new Date(dateTime);
-        let result = dateTime.getMonth() + '/' + dateTime.getDate() + '/' + dateTime.getFullYear();
+        let result = dateTime.getMonth()+1 + '/' + dateTime.getDate() + '/' + dateTime.getFullYear();
 
         if (current.getFullYear()==dateTime.getFullYear() &&
             current.getMonth()==dateTime.getMonth() &&
             current.getDate()==dateTime.getDate()
         ){
-            result = dateTime.getHours() + ':' + dateTime.getMinutes();
+            result = (dateTime.getHours()<10?'0'+dateTime.getHours():dateTime.getHours()) + ':' + (dateTime.getMinutes()<10?'0'+dateTime.getMinutes():dateTime.getMinutes());
         }
 
         return result;
