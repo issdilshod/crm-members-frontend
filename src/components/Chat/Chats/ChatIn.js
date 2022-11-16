@@ -5,7 +5,7 @@ import Api from "../../../services/Api";
 import DateFormatter from "../../../services/DateFormatter";
 import DateFormats from "../Functions/DateFormats";
 
-const ChatIn = ({chatMessages, setChatMessages, activeChat, meUuid}) => {
+const ChatIn = ({chats, setChats, chatMessages, setChatMessages, activeChat, meUuid}) => {
 
     const api = new Api();
 
@@ -20,7 +20,6 @@ const ChatIn = ({chatMessages, setChatMessages, activeChat, meUuid}) => {
                     if (res.status===200||res.status===201){
                         setMessage('');
                         // set message to form
-                        
                         setChatMessages([ ...chatMessages, res.data.data  ]);
                     }
                     
@@ -29,8 +28,53 @@ const ChatIn = ({chatMessages, setChatMessages, activeChat, meUuid}) => {
     }
 
     useEffect(() => {
-        toBottom.current?.scrollIntoView({behavior: 'smooth'})
-    }, [message]);
+        toBottom.current?.scrollIntoView({behavior: 'smooth'});
+
+        // update chat list
+        updateChatList();
+
+    }, [chatMessages]);
+
+    const updateChatList = () => {
+        if (chatMessages.length<=0){ return false; }console.log(chatMessages);
+        let tmpArray = [...chats];
+        let exists_chat = false, exists_chat_index;
+        for (let key in chats){
+            if (chats[key]['uuid']==chatMessages[chatMessages.length-1]['chat_uuid']){
+                exists_chat = true;
+                exists_chat_index = key; 
+                break;
+            }
+        }
+
+        if (!exists_chat){
+            tmpArray.unshift({
+                'uuid': chatMessages[chatMessages.length-1]['chat_uuid'],
+                'user_uuid': chatMessages[chatMessages.length-1]['user_uuid'],
+                'name': 'tmp',
+                'members': [],
+                'last_message': [{
+                    'first_name': chatMessages[chatMessages.length-1]['user']['first_name'],
+                    'last_name': chatMessages[chatMessages.length-1]['user']['last_name'],
+                    'message': chatMessages[chatMessages.length-1]['message'],
+                    'created_at': chatMessages[chatMessages.length-1]['created_at']
+                }]
+            });
+        }else{
+            tmpArray[exists_chat_index]['last_message'] = [{
+                'first_name': chatMessages[chatMessages.length-1]['user']['first_name'],
+                'last_name': chatMessages[chatMessages.length-1]['user']['last_name'],
+                'message': chatMessages[chatMessages.length-1]['message'],
+                'created_at': chatMessages[chatMessages.length-1]['created_at']
+            }];
+        }
+
+        tmpArray.sort(function(a,b){
+            return new Date(b.last_message['0'].created_at) - new Date(a.last_message['0'].created_at);
+        });
+
+        setChats(tmpArray);
+    }
 
     return (
         <div>
@@ -57,7 +101,7 @@ const ChatIn = ({chatMessages, setChatMessages, activeChat, meUuid}) => {
                                 <div className='d-flex mt-2' key={index}>
                                     <div className={`d-message ${value['user_uuid']==meUuid?'d-message-my':'d-message-other'}`}>
                                         {   (value['user_uuid']!=meUuid) &&
-                                            <div className='author'>Dilshod</div>
+                                            <div className='author'>{value['user']['first_name'] + ' ' + value['user']['last_name']}</div>
                                         }
                                         <div className='message'>{value['message']}</div>
                                         <div 

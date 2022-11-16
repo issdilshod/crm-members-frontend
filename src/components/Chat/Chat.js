@@ -139,6 +139,8 @@ const Chat = () => {
 
                         {   (content==contentState['chat']) &&
                             <ChatIn
+                                setChats={setChats}
+                                chats={chats}
                                 setChatMessages={setChatMessages}
                                 chatMessages={chatMessages}
                                 activeChat={activeChat}
