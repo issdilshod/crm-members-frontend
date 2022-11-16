@@ -36,7 +36,7 @@ const ChatIn = ({chats, setChats, chatMessages, setChatMessages, activeChat, meU
     }, [chatMessages]);
 
     const updateChatList = () => {
-        if (chatMessages.length<=0){ return false; }console.log(chatMessages);
+        if (chatMessages.length<=0){ return false; }
         let tmpArray = [...chats];
         let exists_chat = false, exists_chat_index;
         for (let key in chats){
@@ -84,7 +84,7 @@ const ChatIn = ({chats, setChats, chatMessages, setChatMessages, activeChat, meU
                 {
                     chatMessages.map((value, index) => {
                         return (
-                            <>
+                            <div key={index}>
                                 { (index==0 || DateFormats.check_different_day(chatMessages[index]['created_at'], chatMessages[index-1]['created_at'])) &&
                                     <div 
                                         className='text-center d-cursor-pointer mt-2 mb-2'
@@ -112,7 +112,7 @@ const ChatIn = ({chats, setChats, chatMessages, setChatMessages, activeChat, meU
                                         </div>
                                     </div>
                                 </div>
-                            </>
+                            </div>
                         )
                     })
                 }
