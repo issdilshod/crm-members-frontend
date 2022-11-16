@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useEffect } from "react";
 import { FaTelegram } from "react-icons/fa";
 import Api from "../../../services/Api";
@@ -10,6 +10,8 @@ const ChatIn = ({chatMessages, setChatMessages, activeChat, meUuid}) => {
     const api = new Api();
 
     const [message, setMessage] = useState('');
+
+    const toBottom = useRef(null);
 
     const handlePostMessage = () => {
         if (message.length>0){
@@ -25,6 +27,10 @@ const ChatIn = ({chatMessages, setChatMessages, activeChat, meUuid}) => {
                 })
         }
     }
+
+    useEffect(() => {
+        toBottom.current?.scrollIntoView({behavior: 'smooth'})
+    }, [message]);
 
     return (
         <div>
@@ -66,6 +72,7 @@ const ChatIn = ({chatMessages, setChatMessages, activeChat, meUuid}) => {
                         )
                     })
                 }
+                <div ref={toBottom} />
             </div>
 
             <div className='write-control d-flex'>
@@ -74,6 +81,7 @@ const ChatIn = ({chatMessages, setChatMessages, activeChat, meUuid}) => {
                         className='form-control'
                         placeholder='Type here...'
                         onChange={(e) => { setMessage(e.target.value) }}
+                        onKeyDown={ (e) => { if(e.keyCode == 13 && e.shiftKey == false){ e.preventDefault(); handlePostMessage() } } }
                         value={message}
                     ></textarea>
                 </div>
