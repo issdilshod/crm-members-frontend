@@ -15,7 +15,9 @@ const ChatList = ({handleClick, chats}) => {
                             <div className='dialog-last-message d-flex'>
                                 <div className='mr-auto dialog-last-message-text'>{ value['last_message'][0]['message'] }</div>
                                 <div className='ml-2'>
-                                    <span className='new-message'></span>
+                                    { (1==2) && // TODO: logic for new messages
+                                        <span className='new-message'></span>
+                                    }
                                 </div>
                             </div>
                         </div>
