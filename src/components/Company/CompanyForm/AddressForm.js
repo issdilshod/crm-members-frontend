@@ -12,6 +12,14 @@ const AddressForm = ({parent_head_name, handleChange, errorRef, extraAddressShow
 
     const removeExtraAddress = () => {
         setExtraAddressShow(false);
+
+        handleChange({'target': {'name': 'extra_address_remove', 'value': true} });
+    }
+
+    const addExtraAddress = () => {
+        setExtraAddressShow(true);
+
+        handleChange({'target': {'name': 'extra_address_remove', 'value': false} });
     }
 
     return (  
@@ -125,7 +133,7 @@ const AddressForm = ({parent_head_name, handleChange, errorRef, extraAddressShow
 
                         <span 
                             className='d-btn d-btn-sm d-btn-primary float-plus-button'
-                            onClick={() => { setExtraAddressShow(true) }}
+                            onClick={() => { addExtraAddress() }}
                         >
                             <i>
                                 <FaPlus />

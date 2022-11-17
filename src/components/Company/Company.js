@@ -123,14 +123,15 @@ const Company = () => {
                     // address
                     for (let key in tmp_company['address']){
                         for (let key2 in tmp_company['address'][key]){
-                            if ('address_parent'==null || 'address_parent'==''){
+                            if (tmp_company['address'][key]['address_parent']==null || tmp_company['address'][key]['address_parent']==''){
                                 tmp_company['address' + '[' + key2 + ']'] = tmp_company['address'][key][key2];
                             }else{
                                 tmp_company['extra_address' + '[' + key2 + ']'] = tmp_company['address'][key][key2];
-                                setExtraAddressShow(true);
                             }
                         }
                     }
+
+                    if (tmp_company['address'].length>1){setExtraAddressShow(true);}else{setExtraAddressShow(false);}
                     delete tmp_company['address'];
 
                     // bank account
