@@ -764,12 +764,12 @@ const CompanyForm = () => {
 
                                                         { (Object.keys(companyFormError).length==0) && // accept
                                                             <button className='d-btn d-btn-success mr-2' onClick={ (e) => { handlePendingAccept(e) } }>
-                                                                Pending accept
+                                                                Approve
                                                             </button>
                                                         }
 
                                                         <button className='d-btn d-btn-danger mr-2' onClick={ (e) => { handlePendingReject(e) } }>
-                                                            Pending reject
+                                                            Reject
                                                         </button>
                                                     </>
                                                 }
@@ -791,7 +791,7 @@ const CompanyForm = () => {
                                                 { (companyForm['user_uuid']==meUuid || 
                                                   (companyForm['user_uuid']!=meUuid && permissions.includes(COMPANY.PRESAVE))) &&
                                                     <button className='d-btn d-btn-primary mr-2' onClick={ (e) => { handlePendingUpdate(e) } }>
-                                                        Pending update
+                                                        Update
                                                     </button>
                                                 }
                                             </>
@@ -800,7 +800,7 @@ const CompanyForm = () => {
 
                                         { !companyEdit &&
                                             <button className='d-btn d-btn-primary mr-2' onClick={ (e) => { handlePending(e) } }>
-                                                Pending
+                                                Save
                                             </button>
                                         }
                                     </>

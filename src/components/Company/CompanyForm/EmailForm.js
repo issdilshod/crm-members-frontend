@@ -277,7 +277,7 @@ const EmailForm = ({ handleChange }) => {
                                     
 
                                     <div className='col-12 form-group text-right'>
-                                        <button className='d-btn d-btn-primary' onClick={ (e) => { handleEmailAdd(e) } }>
+                                        <button className='d-btn d-btn-sm d-btn-primary' onClick={ (e) => { handleEmailAdd(e) } }>
                                             <FaPlus />
                                         </button>
                                     </div>

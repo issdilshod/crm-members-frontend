@@ -245,10 +245,10 @@ const BankAccountForm = ({handleChange, errorRef}) => {
                         </div>
 
                         <div className={`col-12 form-group text-right`}>
-                            <span className={`${styles['submit-form']} ml-auto`} 
+                            <span className={`d-btn d-btn-sm d-btn-primary ml-auto`} 
                                     onClick={ () => { handleSecurityPlusClick() } }
                             >
-                                <span><FaPlus /></span> Plus
+                                <span><FaPlus /></span>
                             </span>
                         </div>
 

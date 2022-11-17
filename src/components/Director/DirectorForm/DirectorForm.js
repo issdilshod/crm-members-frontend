@@ -499,12 +499,12 @@ const DirectorForm = () => {
 
                                                 { (Object.keys(directorFormError).length==0) && // accept
                                                     <button className='d-btn d-btn-success mr-2' onClick={ (e) => { handlePendingAccept(e) } }>
-                                                        Pending accept
+                                                        Approve
                                                     </button>
                                                 }
                                                 
                                                 <button className='d-btn d-btn-danger mr-2' onClick={ (e) => { handlePendingReject(e) } }>
-                                                    Pending reject
+                                                    Reject
                                                 </button>
 
                                                 
@@ -528,7 +528,7 @@ const DirectorForm = () => {
                                             <>
                                                 {   (directorForm['user_uuid']==meUuid || (directorForm['user_uuid']!=meUuid && permissions.includes(DIRECTOR.PRESAVE))) &&
                                                     <button className='d-btn d-btn-primary mr-2' onClick={ (e) => { handlePendingUpdate(e) } }>
-                                                        Pending update
+                                                        Update
                                                     </button>
                                                 }
                                             </>
@@ -536,7 +536,7 @@ const DirectorForm = () => {
 
                                         { !directorEdit &&
                                             <button className='d-btn d-btn-primary mr-2' onClick={ (e) => { handlePending(e) } }>
-                                                Pending
+                                                Save
                                             </button>
                                         }
                                     </>
