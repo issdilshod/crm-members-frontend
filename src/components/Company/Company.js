@@ -43,6 +43,12 @@ const Company = () => {
         'address[state]': '',
         'address[postal]': '',
         'address[country]': '',
+        'extra_address[street_address]': '',
+        'extra_address[address_line_2]': '',
+        'extra_address[city]': '',
+        'extra_address[state]': '',
+        'extra_address[postal]': '',
+        'extra_address[country]': '',
         'bank_account[name]': '',
         'bank_account[website]': '',
         'bank_account[username]': '',
@@ -69,6 +75,7 @@ const Company = () => {
     const [companyBankAccountOpen, setCompanyBankAccountOpen] = useState(true);
     // address
     const [companyAddressOpen, setCompanyAddressOpen] = useState(true);
+    const [extraAddressShow, setExtraAddressShow] = useState(false);
     // uploads
     const [incorporationStateUploadOpen, setIncorporationStateUploadOpen] = useState(true);
     const [doingBusinessInStateUploadOpen, setDoingBusinessInStateUploadOpen] = useState(true);
@@ -116,7 +123,12 @@ const Company = () => {
                     // address
                     for (let key in tmp_company['address']){
                         for (let key2 in tmp_company['address'][key]){
-                            tmp_company['address' + '[' + key2 + ']'] = tmp_company['address'][key][key2];
+                            if ('address_parent'==null || 'address_parent'==''){
+                                tmp_company['address' + '[' + key2 + ']'] = tmp_company['address'][key][key2];
+                            }else{
+                                tmp_company['extra_address' + '[' + key2 + ']'] = tmp_company['address'][key][key2];
+                                setExtraAddressShow(true);
+                            }
                         }
                     }
                     delete tmp_company['address'];
@@ -153,7 +165,9 @@ const Company = () => {
                                 companyAddressOpen, setCompanyAddressOpen, incorporationStateUploadOpen,
                                     setIncorporationStateUploadOpen, doingBusinessInStateUploadOpen, setDoingBusinessInStateUploadOpen, companyEinUploadOpen, setCompanyEinUploadOpen, companyDbReportUploadOpen, setCompanyDbReportUploadOpen,
                                 cardStatusOpen, setCardStatusOpen, handleCardClick,
-                                setLoadingShow
+                                setLoadingShow,
+
+                                extraAddressShow, setExtraAddressShow
                             } } >
             
             <CompanyList />

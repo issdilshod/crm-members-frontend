@@ -28,7 +28,9 @@ const CompanyForm = () => {
             companyAddressOpen, setCompanyAddressOpen, incorporationStateUploadOpen,
                 setIncorporationStateUploadOpen, doingBusinessInStateUploadOpen, setDoingBusinessInStateUploadOpen, companyEinUploadOpen, setCompanyEinUploadOpen, dbReportUpload, setDbReportUpload, companyDbReportUploadOpen, setCompanyDbReportUploadOpen, companyBankAccountOpen, setCompanyBankAccountOpen,
             cardStatusOpen, setCardStatusOpen, cardSaveDiscard, setCardSaveDiscard,
-            setLoadingShow
+            setLoadingShow,
+
+            extraAddressShow, setExtraAddressShow
     } = useContext(Mediator);
 
     const nav = useNavigate();
@@ -550,9 +552,11 @@ const CompanyForm = () => {
                             setBlockOpen={setCompanyAddressOpen}
                             handleChange={handleChange} 
                             errorRef={errorRef}
+                            extraAddressShow={extraAddressShow} 
+                            setExtraAddressShow={setExtraAddressShow}
                         />
 
-                        <div className={`${styles['company-form-field']} col-12 col-sm-6 mt-2 form-group`}>
+                        <div className={`${styles['company-form-field']} col-12 ${!extraAddressShow?'col-sm-6':''} mt-2 form-group`}>
                             <div className='d-card'>
                                 <div className='d-card-head'>
                                     <div className='d-card-head-title'>Phones</div>
