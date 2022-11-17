@@ -52,7 +52,6 @@ const Company = () => {
         'bank_account[bank_account_security]': [],
         'security': [],
         'emailsdb': [],
-        'future_websites': [],
         'uploaded_files': {
             'incorporation_state': [],
             'doing_business_in_state': [],

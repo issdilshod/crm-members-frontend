@@ -16,7 +16,6 @@ import { FaTimes } from 'react-icons/fa';
 import Notification from '../../Helper/Notification/Notification';
 
 import '../../../assets/css/App.css';
-import FutureWebsite from './FutureWebsiteForm';
 import { useNavigate } from 'react-router-dom';
 
 const CompanyForm = () => {
@@ -116,18 +115,6 @@ const CompanyForm = () => {
                 
             }
             delete cForm['security'];
-        }
-
-        // future web
-        cForm = companyForm;
-        if ('future_w' in cForm){
-            for (let key in cForm['future_w']){
-                for (let key1 in cForm['future_w'][key]){
-                    cForm[key1] = cForm['future_w'][key][key1];
-                }
-                
-            }
-            delete cForm['future_w'];
         }
 
         // emails
@@ -555,10 +542,6 @@ const CompanyForm = () => {
                             parent_name='company_ein'
                             handleChange={handleChange}
                             permissions={permissions}
-                        />
-
-                        <FutureWebsite
-                            handleChange={handleChange}
                         />
 
                         <AddressForm 
