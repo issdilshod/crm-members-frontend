@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { FaPlus, FaTimes, FaTrash } from 'react-icons/fa';
+import { FaPencilAlt, FaPlus, FaTimes, FaTrash } from 'react-icons/fa';
 import { Mediator } from '../../../context/Mediator';
 import Validation from '../../Helper/Validation';
 
@@ -10,8 +10,8 @@ const EmailForm = ({ handleChange }) => {
      
     const [emailHosting, setEmailHosting] = useState([]);
 
-    const [emailEntity, setEmailEntity] = useState({'email': '', 'password': '', 'hosting_uuid': '', 'phone': ''});
-    const [email, setEmail] = useState({'email': '', 'password': '', 'hosting_uuid': '', 'phone': ''})
+    const [emailEntity, setEmailEntity] = useState({'uuid': '', 'email': '', 'password': '', 'hosting_uuid': '', 'phone': ''});
+    const [email, setEmail] = useState({'uuid': '', 'email': '', 'password': '', 'hosting_uuid': '', 'phone': ''})
     const [emails, setEmails] = useState([]);
 
     const [addedEmails, setAddedEmails] = useState([]);
@@ -34,11 +34,8 @@ const EmailForm = ({ handleChange }) => {
     useEffect(() => {
         api.request('/api/hosting', 'GET')
             .then(res => { 
-                switch (res.status){
-                    case 200:
-                    case 201:
-                        setEmailHosting(res.data.data) 
-                        break;
+                if (res.status===200||res.status===201){
+                    setEmailHosting(res.data.data)
                 }
             });
     }, [])
@@ -47,6 +44,7 @@ const EmailForm = ({ handleChange }) => {
         let tmpArray = [];
         for (let key in emails){
             tmpArray.push({
+                ['emails['+key+'][uuid]']: emails[key]['uuid'],
                 ['emails['+key+'][email]']: emails[key]['email'],
                 ['emails['+key+'][password]']: emails[key]['password'],
                 ['emails['+key+'][hosting_uuid]']: emails[key]['hosting_uuid'],
@@ -92,6 +90,32 @@ const EmailForm = ({ handleChange }) => {
             tmpArray['emails_to_delete[]'] = [uuid];
         }
         setCompanyForm(tmpArray);
+    }
+
+    const editEmail = (uuid) => {
+        let tmpArray = [...addedEmails];
+        let tmpEmail = {};
+
+        for (let key in tmpArray){
+            if (tmpArray[key]['uuid']==uuid){
+                tmpEmail = tmpArray[key];
+                tmpArray.splice(key, 1);
+                break;
+            }
+        }
+
+        setAddedEmails(tmpArray);
+        setEmail(tmpEmail);
+    }
+
+    const editEmailNew = (index) => {
+        let tmpEmail = {...emails[index]};
+        let tmpArray = [...emails];
+
+        tmpArray.splice(index, 1);
+
+        setAddedEmails(tmpArray);
+        setEmail(tmpEmail);
     }
 
     return (  
@@ -181,6 +205,14 @@ const EmailForm = ({ handleChange }) => {
                                                                         <FaTrash />
                                                                     </span>
                                                                 </span>
+                                                                <span 
+                                                                    className={`d-btn d-btn-sm d-btn-primary mr-2`}
+                                                                    onClick={ () => { editEmail(value['uuid']) } }
+                                                                >
+                                                                    <span>
+                                                                        <FaPencilAlt />
+                                                                    </span>
+                                                                </span>
                                                                 {value['email']}
                                                             </div>
                                                             <div className='col-12 col-sm-3'>{value['password']}</div>
@@ -200,14 +232,37 @@ const EmailForm = ({ handleChange }) => {
                                                     <div className={`${styles['security-one']}`}>
                                                         <div className='row'>
                                                             <div className='col-12 col-sm-3'>
+                                                                { (value['uuid']!='') &&
+                                                                    <span 
+                                                                        className={`d-btn d-btn-sm d-btn-danger mr-2`}
+                                                                        onClick={ () => { deleteEmail(value['uuid']) } }
+                                                                    >
+                                                                        <span>
+                                                                            <FaTrash />
+                                                                        </span>
+                                                                    </span>
+                                                                }
+
+                                                                { (value['uuid']=='') &&
+                                                                    <span 
+                                                                        className={`d-btn d-btn-sm d-btn-danger mr-2`}
+                                                                        onClick={ () => { removeEmail(index) } }
+                                                                    >
+                                                                        <span>
+                                                                            <FaTimes />
+                                                                        </span>
+                                                                    </span>
+                                                                }
+
                                                                 <span 
-                                                                    className={`d-btn d-btn-danger mr-2 ${styles['remove-security']}`}
-                                                                    onClick={ () => { removeEmail(index) } }
+                                                                    className={`d-btn d-btn-sm d-btn-primary mr-2`}
+                                                                    onClick={ () => { editEmailNew(index) } }
                                                                 >
                                                                     <span>
-                                                                        <FaTimes />
+                                                                        <FaPencilAlt />
                                                                     </span>
                                                                 </span>
+                                                                
                                                                 {value['email']}
                                                             </div>
                                                             <div className='col-12 col-sm-3'>{value['password']}</div>
