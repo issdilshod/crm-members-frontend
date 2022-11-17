@@ -102,13 +102,13 @@ const FileModule = ({parent_name, handleChange, uploadedFiles, permissions}) => 
                             <div key={ index } className={`${styles['files-info']} mt-2`}>
                                 <div className={`${styles['file-info']} mt-1 d-flex`}>
                                     <div className={`${styles['file-name']} mr-auto`}>
-                                        { (permissions.include(COMPANY.DOWNLOAD)) &&
+                                        { (permissions.some((e) => e==COMPANY.DOWNLOAD)) &&
                                             <a href={`${process.env.REACT_APP_BACKEND_DOMAIN}/uploads/${value['file_path']}`} target='_blank'>
                                                 { value['file_name'] }
                                             </a>
                                         }
 
-                                        { (!permissions.include(COMPANY.DOWNLOAD)) &&
+                                        { (!permissions.some((e) => e==COMPANY.DOWNLOAD)) &&
                                             value['file_name']
                                         }
                                         
