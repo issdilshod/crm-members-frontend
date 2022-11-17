@@ -12,7 +12,9 @@ const CompanyList = () => {
             companyFormOriginal, setCompanyFormOriginal,
             companyForm, setCompanyForm, companyFormOpen, setCompanyFormOpen, companyEdit, setCompanyEdit, companyList, setCompanyList,
             companyFormEntity, companyFormError, setCompanyFormError, handleCardClick,
-            setLoadingShow
+            setLoadingShow,
+
+            extraAddressShow, setExtraAddressShow
         } = useContext(Mediator);
 
     useEffect(() => {
@@ -35,6 +37,7 @@ const CompanyList = () => {
         setCompanyEdit(false);
         setCompanyForm(companyFormEntity);
         setCompanyFormOriginal(companyFormEntity);
+        setExtraAddressShow(false);
     }
 
     const handlePaginatioClick = (number) => {
