@@ -4,6 +4,11 @@ import { FaComment, FaTimes, FaUsers } from "react-icons/fa";
 
 import Api from '../../services/Api';
 
+import Pusher from 'pusher-js';
+
+import useSound from 'use-sound';
+import nSound from '../../assets/sound/message-notification.mp3';
+
 import './Chat.scss';
 import ChatControl from "./Chats/ChatControl";
 import ChatIn from "./Chats/ChatIn";
@@ -23,6 +28,8 @@ const Chat = () => {
 
     const [activeChat, setActiveChat] = useState();
     const [chatMessages, setChatMessages] = useState([]);
+
+    const [soundNotification] = useSound(nSound);
 
     useEffect(() => {
         firstInit();
@@ -51,6 +58,17 @@ const Chat = () => {
             .then(res => {
                 if (res.status===200||res.status===201){
                     setMeUuid(res.data.uuid);
+
+                    let pusher = new Pusher(process.env.REACT_APP_PUSHER_KEY, {
+                        cluster: 'eu',
+                        forceTLS: true
+                    })
+                
+                    let channel_chat = pusher.subscribe('chat' + res.data.uuid);
+                    channel_chat.bind('chat-push', function(data) {
+                        console.log(data);
+                        soundNotification();
+                    })
                 }
             })
     }
