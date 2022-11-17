@@ -49,6 +49,7 @@ const Company = () => {
         'extra_address[state]': '',
         'extra_address[postal]': '',
         'extra_address[country]': '',
+        'extra_address[description]': '',
         'bank_account[name]': '',
         'bank_account[website]': '',
         'bank_account[username]': '',

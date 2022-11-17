@@ -259,6 +259,24 @@ const AddressForm = ({parent_head_name, handleChange, errorRef, extraAddressShow
                                         value={ companyForm[`extra_address[country]`] }
                                     />
                                 </div>
+                                <div 
+                                    className={`col-12 form-group`}
+                                    ref = { e => errorRef.current['extra_address.description'] = e }
+                                >
+                                    <label>Description <i className='req'>*</i></label>
+                                    <textarea
+                                        className='form-control'
+                                        name={`extra_address[description]`} 
+                                        placeholder='Description'
+                                        onChange={ handleChange }
+                                        value={ companyForm[`extra_address[description]`] }
+                                    ></textarea>
+                                    <Validation 
+                                        field_name={`extra_address.description`} 
+                                        errorObject={companyFormError} 
+                                        errorRef={errorRef}
+                                    />
+                                </div>
                             </div>
                         </div>
                     </div>
