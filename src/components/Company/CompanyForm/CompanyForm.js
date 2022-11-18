@@ -132,6 +132,25 @@ const CompanyForm = () => {
         }
     }
 
+    const shitExtraAddress = () => {
+
+        let tmpArray = {...companyForm};
+
+        if (!extraAddressShow){
+            delete tmpArray['extra_address[uuid]'];
+            delete tmpArray['extra_address[address_parent]'];
+            delete tmpArray['extra_address[street_address]'];
+            delete tmpArray['extra_address[address_line_2]'];
+            delete tmpArray['extra_address[city]'];
+            delete tmpArray['extra_address[state]'];
+            delete tmpArray['extra_address[postal]'];
+            delete tmpArray['extra_address[country]'];
+            delete tmpArray['extra_address[description]'];
+        }
+
+        return tmpArray;
+    }
+
     const handleChange = (e, file = false) => {
         let { value, name } = e.target;
         // get files
@@ -145,7 +164,9 @@ const CompanyForm = () => {
         setCompanyFormError([]);
         ObjectsConvert();
         setLoadingShow(true);
-        api.request('/api/company', 'POST', companyForm, true)
+
+        let form = shitExtraAddress();
+        api.request('/api/company', 'POST', form, true)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
                     setCompanyList([ res.data.data, ...companyList ]);
@@ -169,7 +190,9 @@ const CompanyForm = () => {
         setCompanyFormError([]);
         ObjectsConvert();
         setLoadingShow(true);
-        api.request('/api/company/'+companyForm['uuid'], 'POST', companyForm, true)
+
+        let form = shitExtraAddress();
+        api.request('/api/company/'+companyForm['uuid'], 'POST', form, true)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
                     let tmp_companyList = companyList;
@@ -221,7 +244,9 @@ const CompanyForm = () => {
         e.preventDefault();
         ObjectsConvert();
         setLoadingShow(true);
-        api.request('/api/company-pending', 'POST', companyForm, true)
+
+        let form = shitExtraAddress();
+        api.request('/api/company-pending', 'POST', form, true)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
                     setCompanyFormOpen(false);
@@ -243,7 +268,9 @@ const CompanyForm = () => {
         e.preventDefault();
         ObjectsConvert();
         setLoadingShow(true);
-        api.request('/api/company-pending-update/'+companyForm['uuid'], 'POST', companyForm, true)
+
+        let form = shitExtraAddress();
+        api.request('/api/company-pending-update/'+companyForm['uuid'], 'POST', form, true)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
                     setCompanyFormOpen(false);
@@ -286,7 +313,9 @@ const CompanyForm = () => {
         setCompanyFormError([]);
         ObjectsConvert();
         setLoadingShow(true);
-        api.request('/api/company-accept/'+companyForm['uuid'], 'POST', companyForm, true)
+
+        let form = shitExtraAddress();
+        api.request('/api/company-accept/'+companyForm['uuid'], 'POST', form, true)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
                     setCompanyList([ res.data.data, ...companyList ]);
@@ -310,7 +339,9 @@ const CompanyForm = () => {
         e.preventDefault();
         ObjectsConvert();
         setLoadingShow(true);
-        api.request('/api/company-override/'+companyForm['uuid'], 'POST', companyForm, true)
+
+        let form = shitExtraAddress();
+        api.request('/api/company-override/'+companyForm['uuid'], 'POST', form, true)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
                     setCompanyList([ res.data.data, ...companyList ]);
