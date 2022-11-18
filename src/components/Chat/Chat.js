@@ -66,23 +66,63 @@ const Chat = () => {
                 
                     let channel_chat = pusher.subscribe('chat' + res.data.uuid);
                     channel_chat.bind('chat-push', function(data) {
-                        console.log(data);
+                        findChat(data['data']['ex_data']);
                         soundNotification();
                     })
                 }
             })
     }
 
-    const handleClickChatCreate = (uuid, name) => {
-        setActive('chats');
-        setContent(contentState['chat']);
-        api.request('/api/chat', 'POST', {'entity_uuid': uuid, 'name': name})
-            .then( res => {
-                if (res.status===200||res.status===201){
-                    setActiveChat(res.data);
-                    getMessages(res.data.data.uuid);
-                }
+    const findChat = (message) => {
+        let tmpArr = [...chats];
+
+        // search
+        let exists = false, exists_index;
+        for (let key in tmpArr){
+            if (tmpArr[key]['uuid']==message['chat_uuid']){
+                exists = true;
+                exists_index = key;
+                break;
+            }
+        }
+
+        // set chat list
+        if (!exists){
+            tmpArr.push({
+                'last_message': [{
+                    'first_name': message['user']['first_name'],
+                    'last_name': message['user']['last_name'],
+                    'message': message['message'],
+                    'created_at': message['created_at']
+                }],
+                'members': [ // chat members
+
+                ],
+                'name': message['chat']['name'],
+                'user_uuid': message['chat']['user_uuid'],
+                'uuid': message['chat_uuid']
             });
+        }else {
+            tmpArr[exists_index]['last_message'] = [{
+                'first_name': message['user']['first_name'],
+                'last_name': message['user']['last_name'],
+                'message': message['message'],
+                'created_at': message['created_at']
+            }];
+        }
+
+        // set to chat
+        if (content==contentState['chat']){
+            if (activeChat['data']['uuid']==message['chat_uuid']){
+                let tmpChatMessages = [...chatMessages];
+                
+                tmpChatMessages.push(message);
+
+                setChatMessages(tmpChatMessages);
+            }
+        }
+
+        setChats(tmpArr);
     }
 
     const getMessages = (chat_uuid) => {
@@ -110,6 +150,18 @@ const Chat = () => {
                 }
             });
         getMessages(uuid);
+    }
+
+    const handleClickChatCreate = (uuid, name) => {
+        setActive('chats');
+        setContent(contentState['chat']);
+        api.request('/api/chat', 'POST', {'entity_uuid': uuid, 'name': name})
+            .then( res => {
+                if (res.status===200||res.status===201){
+                    setActiveChat(res.data);
+                    getMessages(res.data.data.uuid);
+                }
+            });
     }
 
     return (
