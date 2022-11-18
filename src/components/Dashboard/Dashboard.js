@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useOutletContext } from 'react-router-dom';
 import Api from '../../services/Api';
 
 import Header from '../Header/Header';
@@ -15,6 +15,8 @@ import Chat from '../Chat/Chat';
 const Dashboard = () => {
     const navigate = useNavigate();
     const api = new Api();
+
+    const pusher = useOutletContext();
 
     const [taskFormEntity, setTaskFormEntity] = useState({
         'company_uuid': '',
@@ -109,7 +111,9 @@ const Dashboard = () => {
             </div>
             <TaskForm />
 
-            <Chat />
+            <Chat
+                pusher={pusher}
+            />
         </Mediator.Provider>
     );
 }

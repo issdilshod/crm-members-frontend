@@ -1,17 +1,20 @@
 import { useRef, useState } from "react";
 import { useEffect } from "react";
 import { FaTelegram } from "react-icons/fa";
+import InfiniteScroll from "react-infinite-scroll-component";
 import Api from "../../../services/Api";
-import DateFormatter from "../../../services/DateFormatter";
+
+import LoadingMini from "../../Helper/LoadingMini";
 import DateFormats from "../Functions/DateFormats";
 
-const ChatIn = ({chats, setChats, chatMessages, setChatMessages, activeChat, meUuid}) => {
+const ChatIn = ({chats, setChats, chatMessages, setChatMessages, chatMessagesMeta, setChatMessagesMeta, activeChat, meUuid}) => {
 
     const api = new Api();
 
     const [message, setMessage] = useState('');
 
     const toBottom = useRef(null);
+    const [isScroll, setIsScroll] = useState(false);
 
     const handlePostMessage = () => {
         if (message.length>0){
@@ -20,7 +23,7 @@ const ChatIn = ({chats, setChats, chatMessages, setChatMessages, activeChat, meU
                     if (res.status===200||res.status===201){
                         setMessage('');
                         // set message to form
-                        setChatMessages([ ...chatMessages, res.data.data  ]);
+                        setChatMessages([ res.data.data, ...chatMessages  ]);
                     }
                     
                 })
@@ -28,7 +31,10 @@ const ChatIn = ({chats, setChats, chatMessages, setChatMessages, activeChat, meU
     }
 
     useEffect(() => {
-        toBottom.current?.scrollIntoView({behavior: 'smooth'});
+        if (!isScroll){
+            toBottom.current?.scrollIntoView({behavior: 'smooth'});
+        }
+        setIsScroll(false);
 
         // update chat list
         updateChatList();
@@ -76,47 +82,74 @@ const ChatIn = ({chats, setChats, chatMessages, setChatMessages, activeChat, meU
         setChats(tmpArray);
     }
 
+    const loadEarlierMessages = () => {
+        setIsScroll(true);
+        api.request('/api/chat-messages/' + activeChat['data']['uuid'] + '?page=' + parseInt(parseInt(chatMessagesMeta['current_page'])+1), 'GET')
+            .then(res => {
+                if (res.status===200||res.status===201){
+                    setChatMessages([...chatMessages, ...res.data.data]);
+                    setChatMessagesMeta({'current_page': res.data.meta.current_page, 'max_page': res.data.meta.last_page});
+                }
+            });
+    }
+
     return (
         <div>
 
-            <div className='message-control'>
-
-                {
-                    chatMessages.map((value, index) => {
-                        return (
-                            <div key={index}>
-                                { (index==0 || DateFormats.check_different_day(chatMessages[index]['created_at'], chatMessages[index-1]['created_at'])) &&
-                                    <div 
-                                        className='text-center d-cursor-pointer mt-2 mb-2'
-                                        title={DateFormats.message_day_title(value['created_at'])}
-                                    >
-                                        <span
-                                            className='d-message-month'
-                                        >
-                                            {DateFormats.message_day(value['created_at'])}
-                                        </span>
-                                    </div>
-                                }
-                                
-                                <div className='d-flex mt-2' key={index}>
-                                    <div className={`d-message ${value['user_uuid']==meUuid?'d-message-my':'d-message-other'}`}>
-                                        {   (value['user_uuid']!=meUuid) &&
-                                            <div className='author'>{value['user']['first_name'] + ' ' + value['user']['last_name']}</div>
-                                        }
-                                        <div className='message'>{value['message']}</div>
+            <div 
+                className='message-control' 
+                id='message-control'
+                style={{
+                    display: 'flex',
+                    flexDirection: 'column-reverse',
+                }}
+            >
+                <div ref={toBottom} />
+                <InfiniteScroll
+                    dataLength={chatMessages.length}
+                    next={loadEarlierMessages}
+                    hasMore={chatMessagesMeta['current_page']<chatMessagesMeta['max_page']}
+                    loader={<LoadingMini />}
+                    scrollableTarget='message-control'
+                    style={{ display: 'flex', flexDirection: 'column-reverse' }}
+                    inverse={true}
+                >
+                    {
+                        chatMessages.map((value, index) => {
+                            return (
+                                <div key={index}>
+                                    { (index==0 || DateFormats.check_different_day(chatMessages[index]['created_at'], chatMessages[index-1]['created_at'])) &&
                                         <div 
-                                            className='time'
-                                            title={DateFormats.message_time_title(value['created_at'])}
+                                            className='text-center d-cursor-pointer mt-2 mb-2'
+                                            title={DateFormats.message_day_title(value['created_at'])}
                                         >
-                                            {DateFormats.message_time(value['created_at'])}
+                                            <span
+                                                className='d-message-month'
+                                            >
+                                                {DateFormats.message_day(value['created_at'])}
+                                            </span>
+                                        </div>
+                                    }
+                                    
+                                    <div className='d-flex mt-2' key={index}>
+                                        <div className={`d-message ${value['user_uuid']==meUuid?'d-message-my':'d-message-other'}`}>
+                                            {   (value['user_uuid']!=meUuid) &&
+                                                <div className='author'>{value['user']['first_name'] + ' ' + value['user']['last_name']}</div>
+                                            }
+                                            <div className='message'>{value['message']}</div>
+                                            <div 
+                                                className='time'
+                                                title={DateFormats.message_time_title(value['created_at'])}
+                                            >
+                                                {DateFormats.message_time(value['created_at'])}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        )
-                    })
-                }
-                <div ref={toBottom} />
+                            )
+                        })
+                    }
+                </InfiniteScroll>
             </div>
 
             <div className='write-control d-flex'>

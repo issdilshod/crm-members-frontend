@@ -4,8 +4,6 @@ import { FaComment, FaTimes, FaUsers } from "react-icons/fa";
 
 import Api from '../../services/Api';
 
-import Pusher from 'pusher-js';
-
 import useSound from 'use-sound';
 import nSound from '../../assets/sound/message-notification.mp3';
 
@@ -15,7 +13,7 @@ import ChatIn from "./Chats/ChatIn";
 import ChatList from "./Chats/ChatList";
 import DepartmentList from "./Departments/DepartmentList";
 
-const Chat = () => {
+const Chat = ({pusher}) => {
 
     const api = new Api();
     const contentState = {'chat_list': 0, 'department_list': 1, 'user_list': 2, 'chat': 3};
@@ -28,6 +26,7 @@ const Chat = () => {
 
     const [activeChat, setActiveChat] = useState();
     const [chatMessages, setChatMessages] = useState([]);
+    const [chatMessagesMeta, setChatMessagesMeta] = useState({'current_page': 0, 'max_page': 1});
 
     const [soundNotification] = useSound(nSound);
 
@@ -58,11 +57,6 @@ const Chat = () => {
             .then(res => {
                 if (res.status===200||res.status===201){
                     setMeUuid(res.data.uuid);
-
-                    let pusher = new Pusher(process.env.REACT_APP_PUSHER_KEY, {
-                        cluster: 'eu',
-                        forceTLS: true
-                    })
                 
                     let channel_chat = pusher.subscribe('chat' + res.data.uuid);
                     channel_chat.bind('chat-push', function(data) {
@@ -129,12 +123,12 @@ const Chat = () => {
         api.request('/api/chat-messages/' + chat_uuid, 'GET')
             .then( res => {
                 if (res.status===200||res.status===201){
-                    let tmpArr = [...res.data.data];
-                    tmpArr.sort((a, b) => {
+                    //let tmpArr = [...res.data.data];
+                    /*tmpArr.sort((a, b) => {
                         return new Date(a.created_at) - new Date(b.created_at);
-                    });
-                    setChatMessages(tmpArr);
-                    // pagination
+                    });*/
+                    setChatMessages(res.data.data);
+                    setChatMessagesMeta({'current_page': res.data.meta.current_page, 'max_page': res.data.meta.last_page});
                 }
             });
     }
@@ -213,6 +207,8 @@ const Chat = () => {
                                 chats={chats}
                                 setChatMessages={setChatMessages}
                                 chatMessages={chatMessages}
+                                chatMessagesMeta={chatMessagesMeta}
+                                setChatMessagesMeta={setChatMessagesMeta}
                                 activeChat={activeChat}
                                 meUuid={meUuid}
                             />

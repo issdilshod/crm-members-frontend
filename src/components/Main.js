@@ -17,7 +17,15 @@ import FutureWebsite from './FutureWebsite/FutureWebsite';
 import VirtualOffice from './VirtualOffice/VirtualOffice';
 import FutureCompany from './FutureCompany/FutureCompany';
 
+import Pusher from 'pusher-js';
+
 const Main = () => {
+
+    let pusher = new Pusher(process.env.REACT_APP_PUSHER_KEY, {
+        cluster: 'eu',
+        forceTLS: true
+    })
+
     return (
         <>
             <>
@@ -29,7 +37,7 @@ const Main = () => {
                     <Route path={`${process.env.REACT_APP_FRONTEND_PREFIX}/login`} element={<Login />} />
                     <Route exact path={`${process.env.REACT_APP_FRONTEND_PREFIX}/register/:entry_token`} element={<Register />} />
                 </Route>     
-                <Route element={<Protected />}>
+                <Route element={<Protected pusher={pusher} />}>
                     <Route path={`${process.env.REACT_APP_FRONTEND_PREFIX}`} element={<Dashboard />} />
                     <Route path={`${process.env.REACT_APP_FRONTEND_PREFIX}/dashboard`} element={<Dashboard />} />
                     <Route path={`${process.env.REACT_APP_FRONTEND_PREFIX}/directors`} element={<Director />} />

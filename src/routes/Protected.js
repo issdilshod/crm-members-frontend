@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Navigate, Outlet, useNavigate } from 'react-router-dom';
 import Api from '../services/Api';
 
-const Protected = () => {
+const Protected = ({pusher}) => {
 
     const _token = localStorage.getItem('auth');
 
@@ -15,14 +15,12 @@ const Protected = () => {
                 if (res.status==401){
                     localStorage.removeItem('auth');
                     navigate(process.env.REACT_APP_FRONTEND_PREFIX + '/login/');
-                }else if (res.status===200||res.status===201){ // websockets on pages
-                    
                 }
             });
     }, []);
 
     return (
-        _token ? <Outlet /> : <Navigate to={`${process.env.REACT_APP_FRONTEND_PREFIX}/login/`} />
+        _token ? <Outlet context={pusher} /> : <Navigate to={`${process.env.REACT_APP_FRONTEND_PREFIX}/login/`} />
     )
 }
 
