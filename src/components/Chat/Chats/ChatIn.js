@@ -87,7 +87,25 @@ const ChatIn = ({chats, setChats, chatMessages, setChatMessages, chatMessagesMet
         api.request('/api/chat-messages/' + activeChat['data']['uuid'] + '?page=' + parseInt(parseInt(chatMessagesMeta['current_page'])+1), 'GET')
             .then(res => {
                 if (res.status===200||res.status===201){
-                    setChatMessages([...chatMessages, ...res.data.data]);
+
+                    let tmpArray = [...chatMessages];
+                     
+                    for (let key in res.data.data){
+                        let exists = false;
+                        for (let key1 in tmpArray){
+                            if (res.data.data[key]['uuid']==tmpArray[key1]['uuid']){
+                                exists = true;
+                                break;
+                            }
+                        }
+
+                        if (!exists){
+                            tmpArray.push(res.data.data[key]);
+                        }
+                    }
+                        
+                    setChatMessages(tmpArray);
+
                     setChatMessagesMeta({'current_page': res.data.meta.current_page, 'max_page': res.data.meta.last_page});
                 }
             });
@@ -118,7 +136,7 @@ const ChatIn = ({chats, setChats, chatMessages, setChatMessages, chatMessagesMet
                         chatMessages.map((value, index) => {
                             return (
                                 <div key={index}>
-                                    { (index==0 || DateFormats.check_different_day(chatMessages[index]['created_at'], chatMessages[index-1]['created_at'])) &&
+                                    { ((index==chatMessages.length-1) || DateFormats.check_different_day(chatMessages[index]['created_at'], chatMessages[index+1]['created_at'])) &&
                                         <div 
                                             className='text-center d-cursor-pointer mt-2 mb-2'
                                             title={DateFormats.message_day_title(value['created_at'])}
@@ -130,7 +148,7 @@ const ChatIn = ({chats, setChats, chatMessages, setChatMessages, chatMessagesMet
                                             </span>
                                         </div>
                                     }
-                                    
+
                                     <div className='d-flex mt-2' key={index}>
                                         <div className={`d-message ${value['user_uuid']==meUuid?'d-message-my':'d-message-other'}`}>
                                             {   (value['user_uuid']!=meUuid) &&
