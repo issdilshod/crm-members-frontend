@@ -141,17 +141,13 @@ const Pending = ({ pendingNextFetch, pendingSummary, pendingMeta, setPendingMeta
                                 className='d-btn d-btn-sm d-btn-danger mr-2'
                                 onClick={ () => { quickReject() } }
                             >
-                                <i>
-                                    <FaTimes />
-                                </i>
+                                Reject
                             </button>
                             <button 
                                 className='d-btn d-btn-sm d-btn-success mr-2'
                                 onClick={ () => { quickAccept() } }
                             >
-                                <i>
-                                    <FaCheck />
-                                </i>
+                                Approve
                             </button>
                         </>
                     }
