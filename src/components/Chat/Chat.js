@@ -61,7 +61,7 @@ const Chat = ({pusher}) => {
                     let channel_chat = pusher.subscribe('chat' + res.data.uuid);
                     channel_chat.bind('chat-push', function(data) {
                         findChat(data['data']['ex_data']);
-                        soundNotification();
+                        soundNotification(); 
                     })
                 }
             })
@@ -110,7 +110,7 @@ const Chat = ({pusher}) => {
             if (activeChat['data']['uuid']==message['chat_uuid']){
                 let tmpChatMessages = [...chatMessages];
                 
-                tmpChatMessages.push(message);
+                tmpChatMessages.unshift(message);
 
                 setChatMessages(tmpChatMessages);
             }

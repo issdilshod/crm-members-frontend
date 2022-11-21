@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { FaCheck, FaClock, FaInfo, FaTimes, FaUser } from 'react-icons/fa';
 import DateFormatter from '../../../services/DateFormatter';
 import * as STATUS from '../../../consts/Status';
@@ -16,6 +16,7 @@ import QuickApproveCheck from './QuickApproveCheck';
 import PendingSummary from './PendingSummary';
 
 import * as ROLE from '../../../consts/Role';
+import ContextMenu from './ContextMenu';
 
 const Pending = ({ pendingNextFetch, pendingSummary, pendingMeta, setPendingMeta, pending, setPending, filterPending, setFilterPending }) => {
 
@@ -24,6 +25,11 @@ const Pending = ({ pendingNextFetch, pendingSummary, pendingMeta, setPendingMeta
 
     const [role, setRole] = useState('');
     const [checked, setChecked] = useState([]);
+
+    const [contextMenuShow, setContextMenuShow] = useState(false);
+    const [contextMenuPosition, setContextMenuPosition] = useState({x: 0, y: 0});
+    const [selectionMode, setSelectionMode] = useState(false);
+    const [onSelectedCard, setOnSelectedCard] = useState('');
 
     useEffect(() => {
         api.request('/api/get_me', 'GET')
@@ -35,9 +41,99 @@ const Pending = ({ pendingNextFetch, pendingSummary, pendingMeta, setPendingMeta
             });
     }, [])
 
-    const handlePendingClick = (link) => {
-        nav(process.env.REACT_APP_FRONTEND_PREFIX + link);
+    useEffect(() => {
+        if (checked.length>0){
+            setSelectionMode(true);
+        }else{
+            setSelectionMode(false);
+        }
+    }, [checked]);
+
+    const handlePendingClick = (e, uuid, link = '') => {
+        if (e.type == 'contextmenu') {
+            e.preventDefault();
+            setContextMenuShow(true);
+            setOnSelectedCard(uuid);
+        }else{
+            if (!selectionMode){
+                nav(process.env.REACT_APP_FRONTEND_PREFIX + link);
+            }else { // multipty select
+                let exists = false;
+                for (let key in checked){
+                    if (checked[key]==uuid){
+                        exists = true;
+                        break;
+                    }
+                }
+                if (!exists){
+                    handleSelectClick(uuid);
+                }else{
+                    handleUnselectClick(uuid);
+                }
+            }
+        }
     } 
+
+    const handlePendingMouseDown = (e) => {
+        setContextMenuPosition({x: e.nativeEvent.offsetX, y: e.clientY - 96});
+    }
+
+    const useOutsidePendingContextMenuClick = (ref) => {
+        useEffect(() => {
+            function handleClickOutside(event) {
+                if (ref.current && !ref.current.contains(event.target)) {
+                    setContextMenuShow(false);
+                }
+            }
+
+            document.addEventListener("mousedown", handleClickOutside);
+            return () => {
+                document.removeEventListener("mousedown", handleClickOutside);
+            };
+        }, [ref]);
+    }
+
+    const handleSelectClick = (uuid = '') => {
+        let tmpSelecting = onSelectedCard;
+        if (uuid!=''){
+            tmpSelecting = uuid;
+        }
+        if (tmpSelecting!=''){
+            let exists = false;
+            for (let key in checked){
+                if (checked[key]==tmpSelecting){
+                    exists = true;
+                    break;
+                }
+            }
+            if (!exists){
+                setChecked([ ...checked, tmpSelecting ]);
+            }
+        }
+        setContextMenuShow(false);
+    }
+
+    const handleUnselectClick = (uuid = '') => {
+        let tmpSelecting = onSelectedCard;
+        if (uuid!=''){
+            tmpSelecting = uuid;
+        }
+        if (tmpSelecting!=''){
+            let tmpArray = [...checked];
+            for (let key in tmpArray){
+                if (tmpArray[key]==tmpSelecting){
+                    tmpArray.splice(key, 1);
+                    break;
+                }
+            }
+            setChecked(tmpArray);
+        }
+        setContextMenuShow(false);
+    }
+
+    const handleCancelSelecting = () => {
+        setChecked([]);
+    }
 
     const handleCheck = (entity) => {
         if (entity['check']){
@@ -122,54 +218,64 @@ const Pending = ({ pendingNextFetch, pendingSummary, pendingMeta, setPendingMeta
     }
 
     return (
-        <>
+        <div className='c-position-relative'>
             <div className='d-flex mb-2'>
-                <div className='mr-auto d-title'>Approval</div>
+                <div className='mr-auto d-title'></div>
                 <div className='mr-2'>
-                    <select className='form-control' onChange={ (e) => { handleFilterPending(e) } }>
-                        <option value='0'>Normal view</option>
-                        <option value='1'>Unapproved cards</option>
-                        <option value='2'>Approved cards</option>
-                        <option value='3'>Rejected cards</option>
-                    </select>
+                    { (checked.length<=0) &&
+                        <select className='form-control' onChange={ (e) => { handleFilterPending(e) } }>
+                            <option value='0'>Normal view</option>
+                            <option value='1'>Unapproved cards</option>
+                            <option value='2'>Approved cards</option>
+                            <option value='3'>Rejected cards</option>
+                        </select>
+                    }
                 </div>
                 <div>
 
                     { (checked.length>0) && 
                         <>
                             <button 
-                                className='d-btn d-btn-sm d-btn-danger mr-2'
-                                onClick={ () => { quickReject() } }
-                            >
-                                Reject
-                            </button>
-                            <button 
                                 className='d-btn d-btn-sm d-btn-success mr-2'
                                 onClick={ () => { quickAccept() } }
                             >
-                                Approve
+                                Approve ({checked.length})
+                            </button>
+                            <button 
+                                className='d-btn d-btn-sm d-btn-danger mr-2'
+                                onClick={ () => { quickReject() } }
+                            >
+                                Reject ({checked.length})
+                            </button>
+                            <button
+                                className='d-btn d-btn-sm d-btn-secondary mr-2'
+                                onClick={ () => { handleCancelSelecting() } }
+                            >
+                                Cancel
                             </button>
                         </>
                     }
 
-                    <Popup trigger={
-                            <button className='d-btn d-btn-sm d-btn-primary'>
-                                <i>
-                                    <FaInfo />
-                                </i>
-                            </button>
-                        } 
-                        position="left center"
-                    >
-                        <PendingSummary 
-                            pendingSummary={pendingSummary}
-                        />
-                    </Popup>
+                    { (checked.length<=0) &&
+                        <Popup trigger={
+                                <button className='d-btn d-btn-sm d-btn-primary'>
+                                    <i>
+                                        <FaInfo />
+                                    </i>
+                                </button>
+                            } 
+                            position="left center"
+                        >
+                            <PendingSummary 
+                                pendingSummary={pendingSummary}
+                            />
+                        </Popup>
+                    }
                     
                 </div>
             </div>
 
-            <div className='pending-block' id='pending-block'>
+            <div className='pending-block' id='pending-block' onMouseUp={ (e) => { handlePendingMouseDown(e) } }>
                 <InfiniteScroll 
                     dataLength={pending.length}
                     next={pendingNextFetch}
@@ -189,9 +295,10 @@ const Pending = ({ pendingNextFetch, pendingSummary, pendingMeta, setPendingMeta
                             pending.map((value, index) => {
                                 return (
                                     <div className='c-position-relative' key={index}>
-                                        { (ROLE.HEADQUARTERS==role && STATUS.PENDING==value['status']) &&
+                                        { (ROLE.HEADQUARTERS==role) &&
                                             <QuickApproveCheck 
                                                 uuid={value['uuid']}
+                                                checkList={checked}
                                                 handleCheck={handleCheck}
                                             />
                                         }
@@ -203,7 +310,8 @@ const Pending = ({ pendingNextFetch, pendingSummary, pendingMeta, setPendingMeta
                                                 `${value['status']==STATUS.ACTIVED?'t-card-success':''} ` +
                                                 `d-flex mb-2`
                                             }
-                                            onClick={ () => { handlePendingClick(value['last_activity']['link']) } }
+                                            onClick={ (e) => { handlePendingClick(e, value['uuid'], value['last_activity']['link']) } }
+                                            onContextMenu={ (e) => { handlePendingClick(e, value['uuid']) } }
                                         >
                                             <div className={`mr-auto`}>
                                                 <div className={`t-card-name`}>{value['name']}</div>
@@ -230,9 +338,20 @@ const Pending = ({ pendingNextFetch, pendingSummary, pendingMeta, setPendingMeta
                         }
                     </>
                 }
-                </InfiniteScroll>
+                </InfiniteScroll>  
             </div>
-        </>
+
+            { (ROLE.HEADQUARTERS==role) &&
+                <ContextMenu 
+                    position={contextMenuPosition}
+                    show={contextMenuShow}
+                    selectClick={handleSelectClick}
+                    unselectClick={handleUnselectClick}
+                    outsideClick={useOutsidePendingContextMenuClick}
+                />
+            }
+
+        </div>
     )
 }
 
