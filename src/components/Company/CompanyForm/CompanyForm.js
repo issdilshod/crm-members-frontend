@@ -17,6 +17,7 @@ import Notification from '../../Helper/Notification/Notification';
 
 import '../../../assets/css/App.css';
 import { useNavigate } from 'react-router-dom';
+import FieldHistory from '../../Helper/FieldHistory';
 
 const CompanyForm = () => {
 
@@ -30,7 +31,9 @@ const CompanyForm = () => {
             cardStatusOpen, setCardStatusOpen, cardSaveDiscard, setCardSaveDiscard,
             setLoadingShow,
 
-            extraAddressShow, setExtraAddressShow
+            extraAddressShow, setExtraAddressShow,
+
+            lastAccepted, setLastAccepted, lastRejected, setLastRejected
     } = useContext(Mediator);
 
     const nav = useNavigate();
@@ -401,25 +404,43 @@ const CompanyForm = () => {
                             ref = { e => errorRef.current['legal_name'] = e }
                         >
                             <label>Company Legal Name <i className='req'>*</i></label>
-                            <input className={`form-control`} 
-                                    type='text' 
-                                    name='legal_name' 
-                                    placeholder='Company Legal Name' 
-                                    onChange={ handleChange } 
-                                    value={ companyForm['legal_name'] }
+                            <input 
+                                className={`form-control`} 
+                                type='text' 
+                                name='legal_name' 
+                                placeholder='Company Legal Name' 
+                                onChange={ handleChange } 
+                                value={ companyForm['legal_name'] }
                             />
                             <Validation 
                                 field_name='legal_name' 
                                 errorObject={companyFormError} 
                                 errorRef={errorRef}
                             />
+
+                            <FieldHistory
+                                field_name='legal_name'
+                                current_value={companyForm['legal_name']}
+                                rejected={lastRejected}
+                                accepted={lastAccepted}
+                                status={companyForm['status']}
+                            />
                         </div>
 
                         <div className={`${styles['company-form-field']} col-12 col-sm-4 form-group`}>
                             <label>SIC code</label>
-                            <Select options={sicCodeList}
-                                    value={ sicCodeList.filter(option => { return option.value == companyForm['sic_code_uuid'] }) }
-                                    onChange={ (e) => { handleChange({'target': {'name': 'sic_code_uuid', 'value': e.value} }); } }    
+                            <Select 
+                                options={sicCodeList}
+                                value={ sicCodeList.filter(option => { return option.value == companyForm['sic_code_uuid'] }) }
+                                onChange={ (e) => { handleChange({'target': {'name': 'sic_code_uuid', 'value': e.value} }); } }    
+                            />
+
+                            <FieldHistory
+                                field_name='sic_code_uuid'
+                                current_value={companyForm['sic_code_uuid']}
+                                rejected={lastRejected}
+                                accepted={lastAccepted}
+                                status={companyForm['status']}
                             />
                         </div>
 
@@ -439,26 +460,44 @@ const CompanyForm = () => {
                                 errorObject={companyFormError} 
                                 errorRef={errorRef}
                             />
+
+                            <FieldHistory
+                                field_name='director_uuid'
+                                current_value={companyForm['director_uuid']}
+                                rejected={lastRejected}
+                                accepted={lastAccepted}
+                                status={companyForm['status']}
+                            />
                         </div>
 
                         <div className={`${styles['company-form-field']} col-12 form-group`}>
                             <label>Incorporation date</label>
-                            <input className={`form-control`} 
-                                    type='date' 
-                                    name='incorporation_date' 
-                                    placeholder='Incorporation Date' 
-                                    onChange={ handleChange } 
-                                    value={ companyForm['incorporation_date'] }
+                            <input 
+                                className={`form-control`} 
+                                type='date' 
+                                name='incorporation_date' 
+                                placeholder='Incorporation Date' 
+                                onChange={ handleChange } 
+                                value={ companyForm['incorporation_date'] }
+                            />
+
+                            <FieldHistory
+                                field_name='incorporation_date'
+                                current_value={companyForm['incorporation_date']}
+                                rejected={lastRejected}
+                                accepted={lastAccepted}
+                                status={companyForm['status']}
                             />
                         </div>
 
                         <div className={`${styles['company-form-field']} col-12 col-sm-4 form-group`}>
                             <label>Incorporation State</label>
-                            <select className={`form-control`} 
-                                    name='incorporation_state_uuid' 
-                                    onChange={(e) => { handleChange(e); }} 
-                                    value={ companyForm['incorporation_state_uuid'] }
-                                    >
+                            <select 
+                                className={`form-control`} 
+                                name='incorporation_state_uuid' 
+                                onChange={(e) => { handleChange(e); }} 
+                                value={ companyForm['incorporation_state_uuid'] }
+                            >
                                 <option>-</option>
                                 {
                                     stateList.map((value, index) => {
@@ -468,15 +507,24 @@ const CompanyForm = () => {
                                     })
                                 }
                             </select>
+
+                            <FieldHistory
+                                field_name='incorporation_state_uuid'
+                                current_value={companyForm['incorporation_state_uuid']}
+                                rejected={lastRejected}
+                                accepted={lastAccepted}
+                                status={companyForm['status']}
+                            />
                         </div>
 
                         <div className={`${styles['company-form-field']} col-12 col-sm-4 form-group`}>
                             <label>Doing business in state</label>
-                            <select className={`form-control`} 
-                                    name='doing_business_in_state_uuid' 
-                                    onChange={(e) => { handleChange(e); }} 
-                                    value={ companyForm['doing_business_in_state_uuid'] }
-                                    >
+                            <select 
+                                className={`form-control`} 
+                                name='doing_business_in_state_uuid' 
+                                onChange={(e) => { handleChange(e); }} 
+                                value={ companyForm['doing_business_in_state_uuid'] }
+                            >
                                 <option>-</option>
                                 {
                                     stateList.map((value, index) => {
@@ -486,6 +534,14 @@ const CompanyForm = () => {
                                     })
                                 }
                             </select>
+
+                            <FieldHistory
+                                field_name='doing_business_in_state_uuid'
+                                current_value={companyForm['doing_business_in_state_uuid']}
+                                rejected={lastRejected}
+                                accepted={lastAccepted}
+                                status={companyForm['status']}
+                            />
                         </div>
 
                         <div 
@@ -493,41 +549,68 @@ const CompanyForm = () => {
                             ref = { e => errorRef.current['ein'] = e }
                         >
                             <label>Company EIN <i className='req'>*</i></label>
-                            <InputMask mask="99-9999999" 
-                                        maskChar={null} 
-                                        className={`form-control`} 
-                                        type='text' 
-                                        name='ein' 
-                                        placeholder='Company EIN' 
-                                        onChange={ handleChange } 
-                                        value={ companyForm['ein'] }
+                            <InputMask 
+                                mask="99-9999999" 
+                                maskChar={null} 
+                                className={`form-control`} 
+                                type='text' 
+                                name='ein' 
+                                placeholder='Company EIN' 
+                                onChange={ handleChange } 
+                                value={ companyForm['ein'] }
                             />
                             <Validation 
                                 field_name='ein' 
                                 errorObject={companyFormError} 
                                 errorRef={errorRef}
                             />
+
+                            <FieldHistory
+                                field_name='ein'
+                                current_value={companyForm['ein']}
+                                rejected={lastRejected}
+                                accepted={lastAccepted}
+                                status={companyForm['status']}
+                            />
                         </div>
 
                         <div className={`${styles['company-form-field']} col-12 col-sm-4 form-group`}>
                             <label>Incorporation State business name</label>
-                            <input className={`form-control`} 
-                                    type='text' 
-                                    name='incorporation_state_name' 
-                                    placeholder='Incorporation State business name' 
-                                    onChange={ handleChange } 
-                                    value={ companyForm['incorporation_state_name'] }
+                            <input 
+                                className={`form-control`} 
+                                type='text' 
+                                name='incorporation_state_name' 
+                                placeholder='Incorporation State business name' 
+                                onChange={ handleChange } 
+                                value={ companyForm['incorporation_state_name'] }
+                            />
+
+                            <FieldHistory
+                                field_name='incorporation_state_name'
+                                current_value={companyForm['incorporation_state_name']}
+                                rejected={lastRejected}
+                                accepted={lastAccepted}
+                                status={companyForm['status']}
                             />
                         </div>
 
                         <div className={`${styles['company-form-field']} col-12 col-sm-4 form-group`}>
                             <label>Doing business in state name</label>
-                            <input className={`form-control`} 
-                                    type='text' 
-                                    name='doing_business_in_state_name' 
-                                    placeholder='Doing business in state name' 
-                                    onChange={ handleChange } 
-                                    value={ companyForm['doing_business_in_state_name'] }
+                            <input 
+                                className={`form-control`} 
+                                type='text' 
+                                name='doing_business_in_state_name' 
+                                placeholder='Doing business in state name' 
+                                onChange={ handleChange } 
+                                value={ companyForm['doing_business_in_state_name'] }
+                            />
+
+                            <FieldHistory
+                                field_name='doing_business_in_state_name'
+                                current_value={companyForm['doing_business_in_state_name']}
+                                rejected={lastRejected}
+                                accepted={lastAccepted}
+                                status={companyForm['status']}
                             />
                         </div>
 
@@ -547,6 +630,14 @@ const CompanyForm = () => {
                                 field_name='website' 
                                 errorObject={companyFormError} 
                                 errorRef={errorRef}
+                            />
+
+                            <FieldHistory
+                                field_name='website'
+                                current_value={companyForm['website']}
+                                rejected={lastRejected}
+                                accepted={lastAccepted}
+                                status={companyForm['status']}
                             />
                         </div>
 
@@ -599,17 +690,26 @@ const CompanyForm = () => {
                                             ref = { e => errorRef.current['business_number'] = e }
                                         >
                                             <label>Business Number</label>
-                                            <input className={`form-control`} 
-                                                    type='text' 
-                                                    name='business_number' 
-                                                    placeholder='Business Number' 
-                                                    onChange={ handleChange } 
-                                                    value={companyForm['business_number']}
+                                            <input 
+                                                className={`form-control`} 
+                                                type='text' 
+                                                name='business_number' 
+                                                placeholder='Business Number' 
+                                                onChange={ handleChange } 
+                                                value={companyForm['business_number']}
                                             />
                                             <Validation 
                                                 field_name='business_number' 
                                                 errorObject={companyFormError} 
                                                 errorRef={errorRef}
+                                            />
+
+                                            <FieldHistory
+                                                field_name='business_number'
+                                                current_value={companyForm['business_number']}
+                                                rejected={lastRejected}
+                                                accepted={lastAccepted}
+                                                status={companyForm['status']}
                                             />
                                         </div>
                                         <div className={`col-12 col-sm-6 form-group`}>
@@ -623,35 +723,70 @@ const CompanyForm = () => {
                                                 <option>VoiP</option>
                                                 <option>Landline</option>
                                             </select>
+
+                                            <FieldHistory
+                                                field_name='business_number_type'
+                                                current_value={companyForm['business_number_type']}
+                                                rejected={lastRejected}
+                                                accepted={lastAccepted}
+                                                status={companyForm['status']}
+                                            />
                                         </div>
                                         <div className={`col-12 form-group`}>
                                             <label>VOIP Provider</label>
-                                            <input className={`form-control`} 
-                                                    type='text' 
-                                                    name='voip_provider' 
-                                                    placeholder='VOIP Provider' 
-                                                    onChange={ handleChange } 
-                                                    value={companyForm['voip_provider']}
+                                            <input 
+                                                className={`form-control`} 
+                                                type='text' 
+                                                name='voip_provider' 
+                                                placeholder='VOIP Provider' 
+                                                onChange={ handleChange } 
+                                                value={companyForm['voip_provider']}
+                                            />
+
+                                            <FieldHistory
+                                                field_name='voip_provider'
+                                                current_value={companyForm['voip_provider']}
+                                                rejected={lastRejected}
+                                                accepted={lastAccepted}
+                                                status={companyForm['status']}
                                             />
                                         </div>
                                         <div className={`col-12 col-sm-6 form-group`}>
                                             <label>VOIP Login</label>
-                                            <input className={`form-control`} 
-                                                    type='text' 
-                                                    name='voip_login' 
-                                                    placeholder='VOIP Login' 
-                                                    onChange={ handleChange } 
-                                                    value={companyForm['voip_login']}
+                                            <input 
+                                                className={`form-control`} 
+                                                type='text' 
+                                                name='voip_login' 
+                                                placeholder='VOIP Login' 
+                                                onChange={ handleChange } 
+                                                value={companyForm['voip_login']}
+                                            />
+
+                                            <FieldHistory
+                                                field_name='voip_login'
+                                                current_value={companyForm['voip_login']}
+                                                rejected={lastRejected}
+                                                accepted={lastAccepted}
+                                                status={companyForm['status']}
                                             />
                                         </div>
                                         <div className={`col-12 col-sm-6 form-group`}>
                                             <label>VOIP Password</label>
-                                            <input className={`form-control`} 
-                                                    type='text' 
-                                                    name='voip_password' 
-                                                    placeholder='VOIP Password' 
-                                                    onChange={ handleChange } 
-                                                    value={companyForm['voip_password']}
+                                            <input 
+                                                className={`form-control`} 
+                                                type='text' 
+                                                name='voip_password' 
+                                                placeholder='VOIP Password' 
+                                                onChange={ handleChange } 
+                                                value={companyForm['voip_password']}
+                                            />
+
+                                            <FieldHistory
+                                                field_name='voip_password'
+                                                current_value={companyForm['voip_password']}
+                                                rejected={lastRejected}
+                                                accepted={lastAccepted}
+                                                status={companyForm['status']}
                                             />
                                         </div>
                                         <div 
@@ -659,69 +794,114 @@ const CompanyForm = () => {
                                             ref = { e => errorRef.current['business_mobile_number'] = e }
                                         >
                                             <label>Business Mobile Number</label>
-                                            <input className={`form-control`} 
-                                                    type='text' 
-                                                    name='business_mobile_number' 
-                                                    placeholder='Business Mobile Number' 
-                                                    onChange={ handleChange } 
-                                                    value={companyForm['business_mobile_number']}
+                                            <input 
+                                                className={`form-control`} 
+                                                type='text' 
+                                                name='business_mobile_number' 
+                                                placeholder='Business Mobile Number' 
+                                                onChange={ handleChange } 
+                                                value={companyForm['business_mobile_number']}
                                             />
                                             <Validation 
                                                 field_name='business_mobile_number' 
                                                 errorObject={companyFormError} 
                                                 errorRef={errorRef}
                                             />
+
+                                            <FieldHistory
+                                                field_name='business_mobile_number'
+                                                current_value={companyForm['business_mobile_number']}
+                                                rejected={lastRejected}
+                                                accepted={lastAccepted}
+                                                status={companyForm['status']}
+                                            />
                                         </div>
                                         <div className={`col-12 col-sm-6 form-group`}>
                                             <label>Business Mobile Number Type</label>
-                                            <input className={`form-control`} 
-                                                    type='text' 
-                                                    name='business_mobile_number_type' 
-                                                    placeholder='Business Mobile Number Type' 
-                                                    onChange={ handleChange } 
-                                                    value={companyForm['business_mobile_number_type']}
+                                            <input 
+                                                className={`form-control`} 
+                                                type='text' 
+                                                name='business_mobile_number_type' 
+                                                placeholder='Business Mobile Number Type' 
+                                                onChange={ handleChange } 
+                                                value={companyForm['business_mobile_number_type']}
+                                            />
+
+                                            <FieldHistory
+                                                field_name='business_mobile_number_type'
+                                                current_value={companyForm['business_mobile_number_type']}
+                                                rejected={lastRejected}
+                                                accepted={lastAccepted}
+                                                status={companyForm['status']}
                                             />
                                         </div>
                                         <div className={`col-12 form-group`}>
                                             <label>Business Mobile Number Provider</label>
-                                            <select className={`form-control`} 
-                                                    name='business_mobile_number_provider' 
-                                                    onChange={(e) => { handleChange(e); }} 
-                                                    value={companyForm['business_mobile_number_provider']}
-                                                    >
+                                            <select 
+                                                className={`form-control`} 
+                                                name='business_mobile_number_provider' 
+                                                onChange={(e) => { handleChange(e); }} 
+                                                value={companyForm['business_mobile_number_provider']}
+                                            >
                                                 <option>-</option>
                                                 <option>Verizon</option>
                                                 <option>T-Mobile</option>
                                                 <option>Simple Mobile</option>
                                                 <option>None</option>
                                             </select>
+
+                                            <FieldHistory
+                                                field_name='business_mobile_number_provider'
+                                                current_value={companyForm['business_mobile_number_provider']}
+                                                rejected={lastRejected}
+                                                accepted={lastAccepted}
+                                                status={companyForm['status']}
+                                            />
                                         </div>
                                         <div 
                                             className={`col-12 col-sm-6 form-group`}
                                             ref = { e => errorRef.current['business_mobile_number_login'] = e }
                                         >
                                             <label>Business Mobile Number Login</label>
-                                            <input className={`form-control`} 
-                                                    type='text' 
-                                                    name='business_mobile_number_login' 
-                                                    placeholder='Business Mobile Number Login' 
-                                                    onChange={ handleChange } 
-                                                    value={companyForm['business_mobile_number_login']}
+                                            <input 
+                                                className={`form-control`} 
+                                                type='text' 
+                                                name='business_mobile_number_login' 
+                                                placeholder='Business Mobile Number Login' 
+                                                onChange={ handleChange } 
+                                                value={companyForm['business_mobile_number_login']}
                                             />
                                             <Validation 
                                                 field_name='business_mobile_number_login' 
                                                 errorObject={companyFormError} 
                                                 errorRef={errorRef}
                                             />
+
+                                            <FieldHistory
+                                                field_name='business_mobile_number_login'
+                                                current_value={companyForm['business_mobile_number_login']}
+                                                rejected={lastRejected}
+                                                accepted={lastAccepted}
+                                                status={companyForm['status']}
+                                            />
                                         </div>
                                         <div className={`col-12 col-sm-6 form-group`}>
                                             <label>Business Mobile Number Password</label>
-                                            <input className={`form-control`} 
-                                                    type='text' 
-                                                    name='business_mobile_number_password' 
-                                                    placeholder='Business Mobile Number Password' 
-                                                    onChange={ handleChange } 
-                                                    value={companyForm['business_mobile_number_password']}
+                                            <input 
+                                                className={`form-control`} 
+                                                type='text' 
+                                                name='business_mobile_number_password' 
+                                                placeholder='Business Mobile Number Password' 
+                                                onChange={ handleChange } 
+                                                value={companyForm['business_mobile_number_password']}
+                                            />
+
+                                            <FieldHistory
+                                                field_name='business_mobile_number_password'
+                                                current_value={companyForm['business_mobile_number_password']}
+                                                rejected={lastRejected}
+                                                accepted={lastAccepted}
+                                                status={companyForm['status']}
                                             />
                                         </div>
                                     </div>
@@ -756,6 +936,14 @@ const CompanyForm = () => {
                                 field_name='db_report_number' 
                                 errorObject={companyFormError} 
                                 errorRef={errorRef}
+                            />
+
+                            <FieldHistory
+                                field_name='db_report_number'
+                                current_value={companyForm['db_report_number']}
+                                rejected={lastRejected}
+                                accepted={lastAccepted}
+                                status={companyForm['status']}
                             />
                         </div>
 

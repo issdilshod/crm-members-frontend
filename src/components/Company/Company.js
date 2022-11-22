@@ -72,6 +72,8 @@ const Company = () => {
     const [companyForm, setCompanyForm] = useState(companyFormEntity);
     const [companyFormOriginal, setCompanyFormOriginal] = useState(companyFormEntity);
     const [companyFormError, setCompanyFormError] = useState({});
+    const [lastAccepted, setLastAccepted] = useState(null);
+    const [lastRejected, setLastRejected] = useState(null);
     // bank account
     const [companyBankAccountOpen, setCompanyBankAccountOpen] = useState(true);
     // address
@@ -119,6 +121,10 @@ const Company = () => {
                     setCompanyEdit(true);
                     setCompanyFormOpen(true);
                     setCompanyFormError({});
+                    // last accepted & rejected
+                    setLastAccepted(res.data.data.last_accepted);
+                    setLastRejected(res.data.data.last_rejected);
+
                     let tmp_company = res.data.data;
 
                     // address
@@ -169,7 +175,9 @@ const Company = () => {
                                 cardStatusOpen, setCardStatusOpen, handleCardClick,
                                 setLoadingShow,
 
-                                extraAddressShow, setExtraAddressShow
+                                extraAddressShow, setExtraAddressShow,
+                                
+                                lastAccepted, setLastAccepted, lastRejected, setLastRejected
                             } } >
             
             <CompanyList />
