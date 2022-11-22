@@ -24,6 +24,8 @@ const ChatIn = ({chats, setChats, chatMessages, setChatMessages, chatMessagesMet
                         setMessage('');
                         // set message to form
                         setChatMessages([ res.data.data, ...chatMessages  ]);
+                        // update chat list
+                        updateChatList(res.data.data);
                     }
                     
                 })
@@ -35,18 +37,19 @@ const ChatIn = ({chats, setChats, chatMessages, setChatMessages, chatMessagesMet
             toBottom.current?.scrollIntoView({behavior: 'smooth'});
         }
         setIsScroll(false);
-
-        // update chat list
-        updateChatList();
-
     }, [chatMessages]);
 
-    const updateChatList = () => {
+    const updateChatList = (last_message = '') => {
         if (chatMessages.length<=0){ return false; }
+
+        if (last_message==''){
+            last_message = chatMessages[0];
+        }
+
         let tmpArray = [...chats];
         let exists_chat = false, exists_chat_index;
         for (let key in chats){
-            if (chats[key]['uuid']==chatMessages[chatMessages.length-1]['chat_uuid']){
+            if (chats[key]['uuid']==last_message['chat_uuid']){
                 exists_chat = true;
                 exists_chat_index = key; 
                 break;
@@ -55,23 +58,23 @@ const ChatIn = ({chats, setChats, chatMessages, setChatMessages, chatMessagesMet
 
         if (!exists_chat){
             tmpArray.unshift({
-                'uuid': chatMessages[chatMessages.length-1]['chat_uuid'],
-                'user_uuid': chatMessages[chatMessages.length-1]['user_uuid'],
-                'name': 'tmp',
+                'uuid': last_message['chat_uuid'],
+                'user_uuid': last_message['user_uuid'],
+                'name': last_message['chat']['name'],
                 'members': [],
                 'last_message': [{
-                    'first_name': chatMessages[chatMessages.length-1]['user']['first_name'],
-                    'last_name': chatMessages[chatMessages.length-1]['user']['last_name'],
-                    'message': chatMessages[chatMessages.length-1]['message'],
-                    'created_at': chatMessages[chatMessages.length-1]['created_at']
+                    'first_name': last_message['user']['first_name'],
+                    'last_name': last_message['user']['last_name'],
+                    'message': last_message['message'],
+                    'created_at': last_message['created_at']
                 }]
             });
         }else{
             tmpArray[exists_chat_index]['last_message'] = [{
-                'first_name': chatMessages[chatMessages.length-1]['user']['first_name'],
-                'last_name': chatMessages[chatMessages.length-1]['user']['last_name'],
-                'message': chatMessages[chatMessages.length-1]['message'],
-                'created_at': chatMessages[chatMessages.length-1]['created_at']
+                'first_name': last_message['user']['first_name'],
+                'last_name': last_message['user']['last_name'],
+                'message': last_message['message'],
+                'created_at': last_message['created_at']
             }];
         }
 

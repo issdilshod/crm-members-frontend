@@ -57,14 +57,17 @@ const Chat = ({pusher}) => {
             .then(res => {
                 if (res.status===200||res.status===201){
                     setMeUuid(res.data.uuid);
-                
-                    let channel_chat = pusher.subscribe('chat' + res.data.uuid);
-                    channel_chat.bind('chat-push', function(data) {
-                        findChat(data['data']['ex_data']);
-                        soundNotification(); 
-                    })
+                    subsribeChannel(res.data.uuid);
                 }
             })
+    }
+
+    const subsribeChannel = (uuid) => {
+        let channel_chat = pusher.subscribe('chat' + uuid);
+        channel_chat.bind('chat-push', function(data) {
+            soundNotification();
+            findChat(data['data']['ex_data']);
+        })
     }
 
     const findChat = (message) => {
@@ -106,16 +109,14 @@ const Chat = ({pusher}) => {
         }
 
         // set to chat
+        let tmpChatMessages = [...chatMessages];
         if (content==contentState['chat']){
             if (activeChat['data']['uuid']==message['chat_uuid']){
-                let tmpChatMessages = [...chatMessages];
-                
-                tmpChatMessages.unshift(message);
-
-                setChatMessages(tmpChatMessages);
+                tmpChatMessages.unshift(message); 
             }
         }
 
+        setChatMessages(tmpChatMessages);
         setChats(tmpArr);
     }
 
