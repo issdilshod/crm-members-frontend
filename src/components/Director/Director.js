@@ -59,6 +59,8 @@ const Director = () => {
     const [directorForm, setDirectorForm] = useState(directorFormEntity);
     const [directorFormOriginal, setDirectorFormOriginal] = useState(directorFormEntity);
     const [directorFormError, setDirectorFormError] = useState({});
+    const [lastAccepted, setLastAccepted] = useState(null);
+    const [lastRejected, setLastRejected] = useState(null);
     // address
     const [dlAddressOpen, setDlAddressOpen] = useState(true);
     const [creditHomeAddressOpen, setCreditHomeAddressOpen] = useState(true);
@@ -103,6 +105,10 @@ const Director = () => {
                     setDirectorEdit(true);
                     setDirectorFormOpen(true);
                     setDirectorFormError({});
+                    // last accepted & rejected
+                    setLastAccepted(res.data.data.last_accepted);
+                    setLastRejected(res.data.data.last_rejected);
+                    
                     let tmp_director = res.data.data;
 
                     // address
@@ -155,7 +161,8 @@ const Director = () => {
                                 dlAddressOpen, setDlAddressOpen, creditHomeAddressOpen,
                                     setCreditHomeAddressOpen, dlUploadOpen, setDlUploadOpen, ssnUploadOpen, setSsnUploadOpen, cpnDocsUploadOpen, setCpnDocsUploadOpen,
                                 cardStatusOpen, setCardStatusOpen,
-                                setLoadingShow
+                                setLoadingShow,
+                                lastAccepted, setLastAccepted, lastRejected, setLastRejected
                             } } >
             
             <DirectorList />

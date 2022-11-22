@@ -13,7 +13,8 @@ const DirectorList = () => {
             directorFormOriginal, setDirectorFormOriginal,
             directorForm, setDirectorForm, directorFormOpen, setDirectorFormOpen, directorEdit, setDirectorEdit, directorList, setDirectorList,
             directorFormEntity, directorFormError, setDirectorFormError, handleCardClick,
-            setLoadingShow
+            setLoadingShow,
+            lastAccepted, setLastAccepted, lastRejected, setLastRejected
         } = useContext(Mediator);
 
     useEffect(() => {
@@ -24,7 +25,7 @@ const DirectorList = () => {
         api.request('/api/director', 'GET')
             .then(res => {
                 if (res.status===200 || res.status===201){ //success
-                    setDirectorList(res.data.data);
+                    setDirectorList(res.data.data);      
                     setTotalPage(res.data.meta['last_page']);
                 }
                 setLoadingShow(false);
@@ -36,6 +37,8 @@ const DirectorList = () => {
         setDirectorEdit(false);
         setDirectorForm(directorFormEntity);
         setDirectorFormOriginal(directorFormEntity);
+        setLastAccepted(null);
+        setLastRejected(null);
     }
 
     const handlePaginatioClick = (number) => {
