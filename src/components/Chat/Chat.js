@@ -65,7 +65,7 @@ const Chat = ({pusher}) => {
     }
 
     const subsribeChannel = (uuid) => {
-        let channel_chat = pusher.subscribe('chat' + uuid);
+        let channel_chat = pusher.subscribe('chat_' + uuid);
         channel_chat.bind('chat-push', function(data) {
             setPusherUpdates(data);
         })

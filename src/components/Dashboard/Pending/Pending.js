@@ -226,7 +226,7 @@ const Pending = ({ pendingNextFetch, pendingSummary, pendingMeta, setPendingMeta
     }
 
     const subsribeChannel = (uuid) => {
-        let channel_chat = pusher.subscribe('pending' + uuid);
+        let channel_chat = pusher.subscribe('pending_' + uuid);
         channel_chat.bind('pending-push', function(data) {
             setPusherUpdates(data);
         })

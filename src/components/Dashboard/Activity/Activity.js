@@ -44,7 +44,7 @@ const Activity = ({pusher}) => {
     }
 
     const subsribeChannel = (uuid) => {
-        let channel_chat = pusher.subscribe('activity' + uuid);
+        let channel_chat = pusher.subscribe('activity_' + uuid);
         channel_chat.bind('activity-push', function(data) {
             setPusherUpdates(data);
         })
