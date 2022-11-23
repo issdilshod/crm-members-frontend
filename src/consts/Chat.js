@@ -1,0 +1,1 @@
+export const STANDART_NAME = '~each~';

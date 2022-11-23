@@ -205,6 +205,7 @@ const Chat = ({pusher}) => {
                             <ChatList 
                                 handleClick={handleDialogClick}
                                 chats={chats}
+                                meUuid={meUuid}
                             />
                         }
 
