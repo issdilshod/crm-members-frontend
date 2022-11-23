@@ -11,8 +11,6 @@ import Protected from '../routes/Protected';
 import NonProtected from '../routes/NonProtected';
 import Register from './Login/Register';
 
-import OnClose from './System/OnClose';
-import OnFocus from './System/OnFocus';
 import FutureWebsite from './FutureWebsite/FutureWebsite';
 import VirtualOffice from './VirtualOffice/VirtualOffice';
 import FutureCompany from './FutureCompany/FutureCompany';
@@ -28,10 +26,6 @@ const Main = () => {
 
     return (
         <>
-            <>
-                <OnClose />
-                <OnFocus />
-            </>
             <Routes>
                 <Route element={<NonProtected />}>
                     <Route path={`${process.env.REACT_APP_FRONTEND_PREFIX}/login`} element={<Login />} />
