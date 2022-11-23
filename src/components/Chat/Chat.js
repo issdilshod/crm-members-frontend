@@ -125,6 +125,11 @@ const Chat = ({pusher}) => {
         }
 
         setChatMessages(tmpChatMessages);
+
+        tmpArr.sort(function(a, b){
+            return new Date(b.last_message['0'].created_at) - new Date(a.last_message['0'].created_at);
+        });
+
         setChats(tmpArr);
     }
 
