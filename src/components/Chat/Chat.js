@@ -29,6 +29,7 @@ const Chat = ({pusher}) => {
     const [chatMessagesMeta, setChatMessagesMeta] = useState({'current_page': 0, 'max_page': 1});
 
     const [pusherUpdates, setPusherUpdates] = useState(null);
+    const [pusherUsersUpdates, setPusherUsersUpdates] = useState(null);
 
     const [soundNotification] = useSound(nSound);
 
@@ -69,6 +70,11 @@ const Chat = ({pusher}) => {
         channel_chat.bind('chat-push', function(data) {
             setPusherUpdates(data);
         })
+
+        let channel_users = pusher.subscribe('users_' + uuid);
+        channel_users.bind('users-push', function(data) {
+            setPusherUsersUpdates(data);
+        })
     }
 
     useEffect(() => {
@@ -77,6 +83,12 @@ const Chat = ({pusher}) => {
             findChat(pusherUpdates['data']['data']);
         }
     }, [pusherUpdates])
+
+    useEffect(() => {
+        if (pusherUsersUpdates){
+            updateUsersList(pusherUsersUpdates['data']['data']);
+        }
+    }, [pusherUsersUpdates])
 
     const findChat = (message) => {
         let tmpArr = [...chats];
@@ -131,6 +143,28 @@ const Chat = ({pusher}) => {
         });
 
         setChats(tmpArr);
+    }
+
+    const updateUsersList = (user) => {
+        let tmpArr = [...departments];
+
+        // departments
+        let found = false;
+        for (let key in tmpArr){
+
+            // users
+            for (let key1 in tmpArr[key]['users']){
+                if (tmpArr[key]['users'][key1]['uuid']==user['uuid']){
+                    // change last seen
+                    tmpArr[key]['users'][key1]['uuid']['last_seen'] = user['last_seen'];
+                    found = true;
+                    break;
+                }
+            }
+            if (found){ break; }
+        }
+
+        setDepartments(tmpArr);
     }
 
     const getMessages = (chat_uuid) => {
