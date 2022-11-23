@@ -8,15 +8,18 @@ import { FaClock } from 'react-icons/fa';
 import LoadingMini from '../../Helper/LoadingMini';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
-const Activity = ({}) => {
+const Activity = ({pusher}) => {
 
     const { api } = useContext(Mediator);
 
     const [activityList, setActivityList] = useState([]);
     const [activityMeta, setActivityMeta] = useState({'current_page': 0, 'max_page': 1});
 
+    const [pusherUpdates, setPusherUpdates] = useState(null);
+
     useEffect(() => {
         activityNextFetch();
+        getMe();
     }, [])
 
     const activityNextFetch = () => {
@@ -27,6 +30,51 @@ const Activity = ({}) => {
                     setActivityMeta({'current_page': res.data.meta.current_page, 'max_page': res.data.meta.last_page})
                 }
             });
+    }
+
+    const [meUuid, setMeUuid] = useState('');
+    const getMe = () => {
+        api.request('/api/get_me', 'GET')
+            .then(res => {
+                if (res.status===200||res.status===201){
+                    setMeUuid(res.data.uuid);
+                    subsribeChannel(res.data.uuid);
+                }
+            })
+    }
+
+    const subsribeChannel = (uuid) => {
+        let channel_chat = pusher.subscribe('activity' + uuid);
+        channel_chat.bind('activity-push', function(data) {
+            setPusherUpdates(data);
+        })
+    }
+
+    useEffect(() => {
+        if (pusherUpdates){
+            addActivtiy(pusherUpdates['data']['data']);
+        }
+    }, [pusherUpdates])
+
+    const addActivtiy = (activityNew) => {
+        let tmpArray = [...activityList];
+
+        let exists = false, exists_index;
+        for (let key in tmpArray){
+            if (tmpArray[key]['uuid']==activityNew['uuid']){
+                exists = true;
+                exists_index = key;
+                break;
+            }
+        }
+
+        if (!exists){
+            tmpArray.unshift(activityNew);
+        }else{
+            tmpArray[exists_index] = activityNew;
+        }
+
+        setActivityList(tmpArray);
     }
 
     return (
