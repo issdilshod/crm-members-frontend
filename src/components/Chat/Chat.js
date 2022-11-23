@@ -28,6 +28,8 @@ const Chat = ({pusher}) => {
     const [chatMessages, setChatMessages] = useState([]);
     const [chatMessagesMeta, setChatMessagesMeta] = useState({'current_page': 0, 'max_page': 1});
 
+    const [pusherUpdates, setPusherUpdates] = useState(null);
+
     const [soundNotification] = useSound(nSound);
 
     useEffect(() => {
@@ -65,10 +67,16 @@ const Chat = ({pusher}) => {
     const subsribeChannel = (uuid) => {
         let channel_chat = pusher.subscribe('chat' + uuid);
         channel_chat.bind('chat-push', function(data) {
-            soundNotification();
-            findChat(data['data']['ex_data']);
+            setPusherUpdates(data);
         })
     }
+
+    useEffect(() => {
+        if (pusherUpdates){
+            soundNotification();
+            findChat(pusherUpdates['data']['data']);
+        }
+    }, [pusherUpdates])
 
     const findChat = (message) => {
         let tmpArr = [...chats];

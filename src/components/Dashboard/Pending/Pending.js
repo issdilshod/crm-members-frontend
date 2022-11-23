@@ -18,7 +18,7 @@ import PendingSummary from './PendingSummary';
 import * as ROLE from '../../../consts/Role';
 import ContextMenu from './ContextMenu';
 
-const Pending = ({ pendingNextFetch, pendingSummary, pendingMeta, setPendingMeta, pending, setPending, filterPending, setFilterPending }) => {
+const Pending = ({ pendingNextFetch, pendingSummary, pendingMeta, setPendingMeta, pending, setPending, filterPending, setFilterPending, pusher }) => {
 
     const api = new Api();
     const nav = useNavigate();
@@ -31,14 +31,10 @@ const Pending = ({ pendingNextFetch, pendingSummary, pendingMeta, setPendingMeta
     const [selectionMode, setSelectionMode] = useState(false);
     const [onSelectedCard, setOnSelectedCard] = useState('');
 
+    const [pusherUpdates, setPusherUpdates] = useState(null);
+
     useEffect(() => {
-        api.request('/api/get_me', 'GET')
-            .then(res => {
-                if (res.status===200||res.status===201)
-                {
-                    setRole(res.data.role_alias);
-                }
-            });
+        getMe();
     }, [])
 
     useEffect(() => {
@@ -215,6 +211,56 @@ const Pending = ({ pendingNextFetch, pendingSummary, pendingMeta, setPendingMeta
                     }
                 })
         }
+    }
+
+    const [meUuid, setMeUuid] = useState('');
+    const getMe = () => {
+        api.request('/api/get_me', 'GET')
+            .then(res => {
+                if (res.status===200||res.status===201){
+                    setRole(res.data.role_alias);
+                    setMeUuid(res.data.uuid);
+                    subsribeChannel(res.data.uuid);
+                }
+            })
+    }
+
+    const subsribeChannel = (uuid) => {
+        let channel_chat = pusher.subscribe('pending' + uuid);
+        channel_chat.bind('pending-push', function(data) {
+            setPusherUpdates(data);
+        })
+    }
+
+    useEffect(() => {
+        if (pusherUpdates){
+            addPending(pusherUpdates['data']['data']);
+        }
+    }, [pusherUpdates])
+
+    const addPending = (pendingCard) => {
+        let tmpArray = [...pending];
+
+        let exists = false, exists_index;
+        for (let key in tmpArray){
+            if (tmpArray[key]['uuid']==pendingCard['uuid']){
+                exists = true;
+                exists_index = key;
+                break;
+            }
+        }
+
+        if (!exists){
+            tmpArray.unshift(pendingCard);
+        }else{
+            tmpArray[exists_index] = pendingCard;
+        }
+
+        tmpArray.sort((a, b) => {
+            return new Date(b.last_activity.updated_at) - new Date(a.last_activity.updated_at);
+        });
+
+        setPending(tmpArray);
     }
 
     return (

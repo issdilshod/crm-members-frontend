@@ -9,7 +9,6 @@ import TaskForm from './Task/TaskForm/TaskForm';
 import styles from './Dashboard.module.scss';
 import { Mediator } from '../../context/Mediator';
 import Pending from './Pending/Pending';
-import Users from './User/Users';
 import Chat from '../Chat/Chat';
 
 const Dashboard = () => {
@@ -37,8 +36,6 @@ const Dashboard = () => {
     const [pendingSummary, setPendingSummary] = useState({'directors':{'all':0,'active':0,'pending':0}, 'companies':{'all':0,'active':0,'pending':0}});
     const [filterPending, setFilterPending] = useState('');
 
-    const [activityLoadingMiniShow, setActivityLoadingMiniShow] = useState(false);
-
     useEffect(() => {
         firstInit();
     }, [])
@@ -60,9 +57,11 @@ const Dashboard = () => {
             .then(res => {
                 if (res.status===200||res.status===201){ // success
                     let tmpArr = [...res.data.companies, ...res.data.directors];
+                    // TODO: check if exists on pending then replace from pending
                     tmpArr.sort((a, b) => {
                         return new Date(b.last_activity.updated_at) - new Date(a.last_activity.updated_at);
                     });
+                    
                     setPending([ ...pending, ...tmpArr ]);
                     if (pendingMeta['current_page']==0){
                         setFirstPending(tmpArr);
@@ -101,10 +100,13 @@ const Dashboard = () => {
                                 setPending={setPending}
                                 filterPending={filterPending}
                                 setFilterPending={setFilterPending}
+                                pusher={pusher}
                             />
                         </div>
                         <div className='col-12 col-sm-4'>
-                            <Activity loading={activityLoadingMiniShow} setLoading={setActivityLoadingMiniShow} />
+                            <Activity 
+                                pusher={pusher}
+                            />
                         </div>
                     </div>
                 </div>
