@@ -36,6 +36,8 @@ const Dashboard = () => {
     const [pendingSummary, setPendingSummary] = useState({'directors':{'all':0,'active':0,'pending':0}, 'companies':{'all':0,'active':0,'pending':0}});
     const [filterPending, setFilterPending] = useState('');
 
+    const [summaryFilter, setSummaryFilter] = useState('');
+
     useEffect(() => {
         firstInit();
     }, [])
@@ -47,10 +49,16 @@ const Dashboard = () => {
 
     const pendingNextFetch = (attr = '') => {
 
+        // select filter
         if (filterPending==''){
             attr = '?page='+parseInt(pendingMeta['current_page']+1);
         }else{
             attr = '?page='+parseInt(pendingMeta['current_page']+1)+'&filter=' + filterPending;
+        }
+
+        // summary filter
+        if (summaryFilter!=''){
+            attr += '&summary_filter=' + summaryFilter;
         }
 
         api.request('/api/pending'+attr, 'GET')
@@ -100,6 +108,8 @@ const Dashboard = () => {
                                 setPending={setPending}
                                 filterPending={filterPending}
                                 setFilterPending={setFilterPending}
+                                summaryFilter={summaryFilter}
+                                setSummaryFilter={setSummaryFilter}
                                 pusher={pusher}
                             />
                         </div>

@@ -18,7 +18,7 @@ import PendingSummary from './PendingSummary';
 import * as ROLE from '../../../consts/Role';
 import ContextMenu from './ContextMenu';
 
-const Pending = ({ pendingNextFetch, pendingSummary, pendingMeta, setPendingMeta, pending, setPending, filterPending, setFilterPending, pusher }) => {
+const Pending = ({ pendingNextFetch, pendingSummary, pendingMeta, setPendingMeta, pending, setPending, filterPending, setFilterPending, pusher, summaryFilter, setSummaryFilter }) => {
 
     const api = new Api();
     const nav = useNavigate();
@@ -185,6 +185,7 @@ const Pending = ({ pendingNextFetch, pendingSummary, pendingMeta, setPendingMeta
 
     const handleFilterPending = (e) => {
         setFilterPending(e.target.value);
+        setSummaryFilter('');
 
         if (e.target.value!='0'){
             api.request('/api/pending?page=1&filter='+e.target.value, 'GET')
@@ -263,6 +264,22 @@ const Pending = ({ pendingNextFetch, pendingSummary, pendingMeta, setPendingMeta
         setPending(tmpArray);
     }
 
+    const filterSummaryOnClick = (filter) => {
+        setFilterPending(0);
+        setSummaryFilter(filter);
+        api.request('/api/pending?page=1&summary_filter='+filter, 'GET')
+            .then(res => {
+                if (res.status===200||res.status===201){ // success
+                    let tmpArr = [...res.data.companies, ...res.data.directors];
+                    tmpArr.sort((a, b) => {
+                        return new Date(b.last_activity.updated_at) - new Date(a.last_activity.updated_at);
+                    });
+                    setPending(tmpArr);
+                    setPendingMeta(res.data.meta);
+                }
+            })
+    }
+
     return (
         <div className='c-position-relative'>
             <div className='d-flex mb-2'>
@@ -314,6 +331,7 @@ const Pending = ({ pendingNextFetch, pendingSummary, pendingMeta, setPendingMeta
                         >
                             <PendingSummary 
                                 pendingSummary={pendingSummary}
+                                onClick={filterSummaryOnClick}
                             />
                         </Popup>
                     }
