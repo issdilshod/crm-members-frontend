@@ -414,14 +414,7 @@ const DirectorForm = () => {
                                 placeholder='Company Association' 
                                 onChange={ handleChange } 
                                 value={directorForm['company_association']}
-                            />
-
-                            <FieldHistory
-                                field_name='company_association'
-                                current_value={directorForm['company_association']}
-                                rejected={lastRejected}
-                                accepted={lastAccepted}
-                                status={directorForm['status']}
+                                disabled='disabled'
                             />
                         </div>
 
