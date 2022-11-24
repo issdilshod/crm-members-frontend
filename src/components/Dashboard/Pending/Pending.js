@@ -33,6 +33,8 @@ const Pending = ({ pendingNextFetch, pendingSummary, pendingMeta, setPendingMeta
 
     const [pusherUpdates, setPusherUpdates] = useState(null);
 
+    const [popUpOpen, setPopUpOpen] = useState(false);
+
     useEffect(() => {
         getMe();
     }, [])
@@ -265,6 +267,7 @@ const Pending = ({ pendingNextFetch, pendingSummary, pendingMeta, setPendingMeta
     }
 
     const filterSummaryOnClick = (filter) => {
+        setPopUpOpen(false);
         setFilterPending(0);
         setSummaryFilter(filter);
         api.request('/api/pending?page=1&summary_filter='+filter, 'GET')
@@ -328,6 +331,9 @@ const Pending = ({ pendingNextFetch, pendingSummary, pendingMeta, setPendingMeta
                                 </button>
                             } 
                             position="left top"
+                            open={popUpOpen}
+                            onOpen={() => { setPopUpOpen(true) }}
+                            onClose={() => { setPopUpOpen(false)}}
                         >
                             <PendingSummary 
                                 pendingSummary={pendingSummary}
