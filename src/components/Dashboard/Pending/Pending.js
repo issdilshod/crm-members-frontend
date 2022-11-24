@@ -310,7 +310,7 @@ const Pending = ({ pendingNextFetch, pendingSummary, pendingMeta, setPendingMeta
                                     </i>
                                 </button>
                             } 
-                            position="left center"
+                            position="left top"
                         >
                             <PendingSummary 
                                 pendingSummary={pendingSummary}
