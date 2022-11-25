@@ -12,7 +12,7 @@ const FileModule = ({form, setForm, title, parentUnique, unique, downloadEnable,
 
     useEffect(() => {
         setUploadedFiles(uploaded);
-        console.log(uploaded, fileParent);
+        setChoosedFiles([]);
     }, [uploaded])
 
     const handleChange = (e) => {
@@ -36,7 +36,7 @@ const FileModule = ({form, setForm, title, parentUnique, unique, downloadEnable,
         }
         inputRef.current.files = dt.files;
         let object = {target: inputRef.current};
-        object.target['files'] = object.current.files;
+        object.target['files'] = inputRef.current.files;
         onChange(object, true);
     }
 
@@ -48,13 +48,14 @@ const FileModule = ({form, setForm, title, parentUnique, unique, downloadEnable,
         }
         setUploadedFiles(tmpArr);
 
-        tmpArr = {...form};
-        if ('files_to_delete[]' in tmpArr){
-            tmpArr['files_to_delete[]'].push(uuid);
+        let tmpArray = {...form};
+        tmpArray['uploaded_files'] = tmpArr;
+        if ('files_to_delete[]' in tmpArray){
+            tmpArray['files_to_delete[]'].push(uuid);
         }else{
-            tmpArr['files_to_delete[]'] = [uuid];
+            tmpArray['files_to_delete[]'] = [uuid];
         }
-        setForm(tmpArr);
+        setForm(tmpArray);
     }
 
     return (

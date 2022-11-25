@@ -59,12 +59,7 @@ const Company = () => {
         'bank_account[bank_account_security]': [],
         'security': [],
         'emailsdb': [],
-        'uploaded_files': {
-            'incorporation_state': [],
-            'doing_business_in_state': [],
-            'company_ein': [],
-            'db_report': []
-        },
+        'uploaded_files': [],
         'status': ''
     });
     const [companyEdit, setCompanyEdit] = useState(false);
@@ -146,14 +141,6 @@ const Company = () => {
                         tmp_company['bank_account['+key + ']'] = tmp_company['bank_account'][0][key];
                     }
                     delete tmp_company['bank_account'];
-
-                    // files
-                    let tmp_files = { 'incorporation_state': [], 'doing_business_in_state': [], 'company_ein': [], 'db_report': []};
-                    for (let key in tmp_company['uploaded_files']){
-                        let file_parent = tmp_company['uploaded_files'][key]['file_parent'];
-                        tmp_files[file_parent].push(tmp_company['uploaded_files'][key]);
-                    }
-                    tmp_company['uploaded_files'] = tmp_files;
 
                     tmp_company['_method'] = 'PUT';
                     setCompanyForm({ ...tmp_company, 'security': []});

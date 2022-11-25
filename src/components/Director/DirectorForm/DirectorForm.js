@@ -6,7 +6,6 @@ import * as DIRECTOR from '../../../consts/Director';
 
 import AddressForm from './AddressForm';
 import EmailForm from './EmailForm';
-import FileForm from './FileForm';
 import Validation from '../../Helper/Validation';
 import { Mediator } from '../../../context/Mediator';
 
@@ -15,6 +14,7 @@ import Notification from '../../Helper/Notification/Notification';
 import { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import FieldHistory from '../../Helper/FieldHistory';
+import File from '../../Helper/File/File';
 
 const DirectorForm = () => {
 
@@ -504,34 +504,46 @@ const DirectorForm = () => {
                             errorRef={errorRef}
                         />
 
-                        <FileForm 
-                            hasDouble={true}
-                            blockOpen={dlUploadOpen}
-                            setBlockOpen={setDlUploadOpen}
-                            parent_head_name='DL Upload'
-                            parent_name='dl_upload'
-                            handleChange={handleChange}
-                            permissions={permissions}
-                        />
+                        <div className='col-12 col-sm-4 form-group'>
+                            <File
+                                form={directorForm}
+                                setForm={setDirectorForm}
+                                parentUnique='dl_upload'
+                                blocks={[
+                                    {'unique': 'front', 'title': 'Front'},
+                                    {'unique': 'back', 'title': 'Back'}
+                                ]}
+                                title='DL Upload'
+                                onChange={handleChange}
+                                downloadEnable={(permissions.some((e) => e==DIRECTOR.DOWNLOAD))}
+                            />
+                        </div>
 
-                        <FileForm 
-                            hasDouble={true}
-                            blockOpen={ssnUploadOpen}
-                            setBlockOpen={setSsnUploadOpen}
-                            parent_head_name='SSN Upload'
-                            parent_name='ssn_upload'
-                            handleChange={handleChange}
-                            permissions={permissions}
-                        />
+                        <div className='col-12 col-sm-4 form-group'>
+                            <File
+                                form={directorForm}
+                                setForm={setDirectorForm}
+                                parentUnique='ssn_upload'
+                                blocks={[
+                                    {'unique': 'front', 'title': 'Front'},
+                                    {'unique': 'back', 'title': 'Back'}
+                                ]}
+                                title='SSN Upload'
+                                onChange={handleChange}
+                                downloadEnable={(permissions.some((e) => e==DIRECTOR.DOWNLOAD))}
+                            />
+                        </div>
 
-                        <FileForm 
-                            blockOpen={cpnDocsUploadOpen}
-                            setBlockOpen={setCpnDocsUploadOpen}
-                            parent_head_name='CPN DOCS Upload'
-                            parent_name='cpn_docs_upload'
-                            handleChange={handleChange}
-                            permissions={permissions}
-                        />
+                        <div className='col-12 col-sm-4 form-group'>
+                            <File
+                                form={directorForm}
+                                setForm={setDirectorForm}
+                                parentUnique='cpn_docs_upload'
+                                title='CPN DOCS Upload'
+                                onChange={handleChange}
+                                downloadEnable={(permissions.some((e) => e==DIRECTOR.DOWNLOAD))}
+                            />
+                        </div>
 
                         <div className={`${styles['director-form-field']} col-12 d-flex form-group`}>
                             <div className='ml-auto'>

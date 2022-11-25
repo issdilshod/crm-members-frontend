@@ -8,7 +8,6 @@ import * as COMPANY from '../../../consts/Company';
 import BankAccountForm from './BankAccountForm';
 import AddressForm from './AddressForm';
 import EmailForm from './EmailForm';
-import FileForm from './FileForm';
 import Validation from '../../Helper/Validation';
 import { Mediator } from '../../../context/Mediator';
 
@@ -18,6 +17,7 @@ import Notification from '../../Helper/Notification/Notification';
 import '../../../assets/css/App.css';
 import { useNavigate } from 'react-router-dom';
 import FieldHistory from '../../Helper/FieldHistory';
+import File from '../../Helper/File/File';
 
 const CompanyForm = () => {
 
@@ -641,32 +641,6 @@ const CompanyForm = () => {
                             />
                         </div>
 
-                        <FileForm 
-                            blockOpen={incorporationStateUploadOpen}
-                            setBlockOpen={setIncorporationStateUploadOpen}
-                            parent_head_name='Incorporation state upload'
-                            parent_name='incorporation_state'
-                            handleChange={handleChange}
-                            permissions={permissions}
-                        />
-
-                        <FileForm 
-                            blockOpen={doingBusinessInStateUploadOpen}
-                            setBlockOpen={setDoingBusinessInStateUploadOpen}
-                            parent_head_name='Doing business in state upload'
-                            parent_name='doing_business_in_state'
-                            handleChange={handleChange}
-                            permissions={permissions}
-                        />
-
-                        <FileForm 
-                            blockOpen={companyEinUploadOpen}
-                            setBlockOpen={setCompanyEinUploadOpen}
-                            parent_head_name='Company EIN upload'
-                            parent_name='company_ein'
-                            handleChange={handleChange}
-                            permissions={permissions}
-                        />
 
                         <AddressForm 
                             parent_head_name='Address' 
@@ -913,6 +887,83 @@ const CompanyForm = () => {
                             handleChange={handleChange}
                         />
 
+                        <div className='col-12 col-sm-4 form-group'>
+                            <File
+                                form={companyForm}
+                                setForm={setCompanyForm}
+                                parentUnique='incorporation_state'
+                                title='Incorporation state upload'
+                                onChange={handleChange}
+                                downloadEnable={(permissions.some((e) => e==COMPANY.DOWNLOAD))}
+                            />
+                        </div>
+
+                        <div className='col-12 col-sm-4 form-group'>
+                            <File
+                                form={companyForm}
+                                setForm={setCompanyForm}
+                                parentUnique='doing_business_in_state'
+                                title='Doing business in state upload'
+                                onChange={handleChange}
+                                downloadEnable={(permissions.some((e) => e==COMPANY.DOWNLOAD))}
+                            />
+                        </div>
+
+                        <div className='col-12 col-sm-4 form-group'>
+                            <File
+                                form={companyForm}
+                                setForm={setCompanyForm}
+                                parentUnique='company_ein'
+                                title='Company EIN upload'
+                                onChange={handleChange}
+                                downloadEnable={(permissions.some((e) => e==COMPANY.DOWNLOAD))}
+                            />
+                        </div>
+
+                        <div className='col-12 col-sm-4 form-group'>
+                            <File
+                                form={companyForm}
+                                setForm={setCompanyForm}
+                                title='Financial 1'
+                                blocks={[
+                                    {'unique': 'p_l', 'title': 'P&L'},
+                                    {'unique': 'b_s', 'title': 'B.S'},
+                                    {'unique': 'ytd', 'title': 'YTD'}
+                                ]}
+                                parentUnique='financial_1'
+                                onChange={handleChange}
+                                downloadEnable={(permissions.some((e) => e==COMPANY.DOWNLOAD))}
+                            />
+                        </div>
+
+                        <div className='col-12 col-sm-4 form-group'>
+                            <File
+                                form={companyForm}
+                                setForm={setCompanyForm}
+                                title='Financial 2'
+                                blocks={[
+                                    {'unique': 'tax_returns', 'title': 'Tax Returns'}
+                                ]}
+                                parentUnique='financial_2'
+                                onChange={handleChange}
+                                downloadEnable={(permissions.some((e) => e==COMPANY.DOWNLOAD))}
+                            />
+                        </div>
+
+                        <div className='col-12 col-sm-4 form-group'>
+                            <File
+                                form={companyForm}
+                                setForm={setCompanyForm}
+                                title='Financial 3'
+                                blocks={[
+                                    {'unique': 'bank_statements', 'title': 'Bank Statements'}
+                                ]}
+                                parentUnique='financial_3'
+                                onChange={handleChange}
+                                downloadEnable={(permissions.some((e) => e==COMPANY.DOWNLOAD))}
+                            />
+                        </div>
+
                         <BankAccountForm 
                             blockOpen={companyBankAccountOpen} 
                             setBlockOpen={ setCompanyBankAccountOpen }
@@ -947,14 +998,16 @@ const CompanyForm = () => {
                             />
                         </div>
 
-                        <FileForm 
-                            blockOpen={companyDbReportUploadOpen}
-                            setBlockOpen={setCompanyDbReportUploadOpen}
-                            parent_head_name='D&B report upload'
-                            parent_name='db_report'
-                            handleChange={handleChange}
-                            permissions={permissions}
-                        />
+                        <div className='col-12 col-sm-4 form-group'>
+                            <File
+                                form={companyForm}
+                                setForm={setCompanyForm}
+                                parentUnique='db_report'
+                                title='D&B report upload'
+                                onChange={handleChange}
+                                downloadEnable={(permissions.some((e) => e==COMPANY.DOWNLOAD))}
+                            />
+                        </div>
 
                         <div className={`${styles['company-form-field']} col-12 d-flex form-group`}>
                             

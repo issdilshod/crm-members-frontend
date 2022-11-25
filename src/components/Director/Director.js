@@ -41,17 +41,7 @@ const Director = () => {
         'emails[email]': '',
         'emails[password]': '',
         'emails[phone]': '',
-        'uploaded_files': {
-            'dl_upload': {
-                'front': [],
-                'back': [],
-            },
-            'ssn_upload': {
-                'front': [],
-                'back': [],
-            },
-            'cpn_docs_upload': [],
-        },
+        'uploaded_files': [],
         'status': ''
     });
     const [directorEdit, setDirectorEdit] = useState(false);
@@ -125,18 +115,6 @@ const Director = () => {
                         tmp_director['emails[' + key + ']'] = tmp_director['emails'][0][key];
                     }
                     delete tmp_director['emails'];
-
-                    // files
-                    let tmp_files = { 'dl_upload': {'front': [], 'back': []}, 'ssn_upload': {'front': [], 'back': []}, 'cpn_docs_upload': []};
-                    for (let key in tmp_director['uploaded_files']){
-                        let file_parent = tmp_director['uploaded_files'][key]['file_parent'].split('/');
-                        if (file_parent.length==1){ // hasn't child
-                            tmp_files[file_parent[0]].push(tmp_director['uploaded_files'][key]);
-                        }else{ // has child
-                            tmp_files[file_parent[0]][file_parent[1]].push(tmp_director['uploaded_files'][key]);
-                        }
-                    }
-                    tmp_director['uploaded_files'] = tmp_files;
 
                     // company if isset then to company assoc
                     if (tmp_director['company']!=null){
