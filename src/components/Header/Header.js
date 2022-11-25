@@ -6,6 +6,8 @@ import { FaSignOutAlt, FaRegStickyNote, FaBars } from 'react-icons/fa';
 import Menu from './Menu';
 import Note from '../Note/Note';
 
+import Santa from '../../assets/img/santa2022.png';
+
 const Header = ({ firstPending, pending, setPending, setPendingMeta, setPendingSummary }) => {
     const {
         api, navigate
@@ -48,7 +50,14 @@ const Header = ({ firstPending, pending, setPending, setPendingMeta, setPendingS
         <div>
             <div className={`${styles['header']} container-fluid`}>
                 <div className={`${styles['header-sticky']} d-flex`}>
-                    <div className={`${styles['header-breadcrumbs']} mr-auto`}>Dashboard</div>
+                    <div className={`${styles['header-breadcrumbs']} mr-auto`}>
+                        Dashboard
+                        <img 
+                            className='header-santa2022'
+                            alt='santa 2022'
+                            src={Santa}
+                        />
+                    </div>
                     <div className={`${styles['header-search']}`}>
                         <input className={`${styles['search-input']} form-control`} type='text' placeholder='Type here...' onChange={ (e) => { handleSearch(e) } } />
                     </div>

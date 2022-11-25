@@ -8,14 +8,6 @@ body {
   padding: 0;
 }
 
-#root{
-  background-color: #f4f8fb;
-  min-height: 100vh;
-  position: relative;
-  overflow: hidden;
-  min-width: 400px !important;
-}
-
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;

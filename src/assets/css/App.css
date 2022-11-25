@@ -13,6 +13,14 @@
     border: 1px solid #3447675e;
 }
 
+#root{
+    background-color: #f4f8fb;
+    min-height: 100vh;
+    position: relative;
+    overflow: hidden;
+    min-width: 400px !important;
+}
+
 a:hover{
     text-decoration: none;
 }
@@ -37,6 +45,37 @@ a:hover{
 
 .w-0{
     width: 0 !important;
+}
+
+/*
+    header
+*/
+.header-santa2022{
+    width: 30px;
+    position: absolute;
+    top: -5px;
+    left: -15px;
+    transform: rotate(-15deg);
+    transition: .4s;
+    animation: rotation 1s infinite linear;
+}
+
+@keyframes rotation {
+    0%{
+        transform: rotate(-15deg);
+    }
+    25%{
+        transform: rotate(-13deg);
+    }
+    50%{
+        transform: rotate(-11deg);
+    }
+    75%{
+        transform: rotate(-10deg);
+    }
+    100%{
+        transform: rotate(-13deg);
+    }
 }
 
 /* 
