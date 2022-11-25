@@ -66,10 +66,10 @@
 }
 
 .c-item{
-    padding: 10px 0px;
+    padding: 10px;
     font-weight: 500;
-    border-bottom: 1px solid #b3b3b32e;
-    
+    box-shadow: 0 0.3125rem 0.625rem 0 rgb(0 0 0 / 12%) !important;
+    border-radius: 20px;
 }
 
 .c-item-under-list{
@@ -87,7 +87,6 @@
 .c-item-under{
     padding: 5px 0px;
     font-weight: 300;
-    border-bottom: 1px solid #b3b3b31e;
 }
 
 .message-control{
