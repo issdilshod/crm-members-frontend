@@ -1009,6 +1009,17 @@ const CompanyForm = () => {
                             />
                         </div>
 
+                        <div className='col-12 col-sm-4 form-group'>
+                            <File
+                                form={companyForm}
+                                setForm={setCompanyForm}
+                                title='General Uploads'
+                                parentUnique='general_uploads'
+                                onChange={handleChange}
+                                downloadEnable={(permissions.some((e) => e==COMPANY.DOWNLOAD))}
+                            />
+                        </div>
+
                         <div className={`${styles['company-form-field']} col-12 d-flex form-group`}>
                             
                             <div className='ml-auto'>
