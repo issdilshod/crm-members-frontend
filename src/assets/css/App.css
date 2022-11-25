@@ -22,11 +22,26 @@ a:hover{
     font-weight: 500;
 }
 
-/* D-Card */
-.d-card{
-
+.c-position-relative{
+    position: relative;
 }
 
+.d-disable{
+    pointer-events: none;
+    opacity: 0.5;
+}
+
+.d-cursor-pointer{
+    cursor: pointer;
+}
+
+.w-0{
+    width: 0 !important;
+}
+
+/* 
+    d-card 
+*/
 .d-card-head{
     padding: 10px;
     background-color: #e4eef5;
@@ -49,7 +64,9 @@ a:hover{
     margin-left: auto;
 }
 
-/* D-Alert */
+/* 
+    alert 
+*/
 .alert-black-wall{
     position: absolute;
     top: -100%;
@@ -74,15 +91,13 @@ a:hover{
     top: 0;
 }
 
-.alert-head{}
-
 .alert-head-title{
     font-weight: 500;
 }
 
-.alert-body{}
-
-/* D-Buttons */
+/* 
+    d-buttons 
+*/
 .d-btn{
     padding: 10px;
     border-radius: 10px;
@@ -127,24 +142,24 @@ a:hover{
     background-color: #b3b3b3;
 }
 
-/* D-Alert */
-.d-alert{
-
-}
-
+/* 
+    d-alert 
+*/
 .d-alert-danger{
-    color: #721c1c;
+    color: #f26051;
     background-color: #f8d7da;
     border-color: #f5c6cb;
 }
 
 .d-alert-success{
-    color: #155724;
+    color: #20da9b;
     background-color: #d4edda;
     border-color: #c3e6cb;
 }
 
-/* Loading */
+/* 
+    loading 
+*/
 .loading-black-wall{
     position: absolute;
     top: 0;
@@ -164,6 +179,9 @@ a:hover{
     height: 100%;
 }
 
+/*
+    no-internet
+*/
 .no-internet{
     position: fixed;
     top: 0;
@@ -189,11 +207,9 @@ a:hover{
     }
 }
 
-/* D-Pagination */
-.d-pagination{
-
-}
-
+/* 
+    d-pagination 
+*/
 .d-pagination-item-arrows{
     padding: 10px;
     background-color: #e4eef5;
@@ -248,11 +264,9 @@ a:hover{
     color: #fff;
 }
 
-.d-disable{
-    pointer-events: none;
-    opacity: 0.5;
-}
-
+/*
+    d-search
+*/
 .d-search{
     padding: 20px 20px 5px 20px;
 }
@@ -285,13 +299,16 @@ a:hover{
     top: -2px;
 }
 
-/* Required sign */
+/* 
+    required sign 
+*/
 label .req {
     color: #f26051;
 }
 
-/* T-CARDS */
-
+/* 
+    t-cards 
+*/
 .t-card{
     padding: 20px;
     background-color: #fff;
@@ -347,7 +364,9 @@ label .req {
     top: 9px;
 }
 
-/* OnOff */
+/* 
+    on-off
+*/
 .on-off{
     position: relative;
     background-color: #b3b3b3;
@@ -359,9 +378,7 @@ label .req {
 
 .on-off div{
     font-weight: 700;
-    color: #fff;
-    
-    
+    color: #fff; 
 }
 
 .on-off div div{
@@ -384,14 +401,15 @@ label .req {
 
 .on-off-active{
     background-color: #19bf5e;
-
 }
 
 .on-off-active:before{
     left: 50%;
 }
 
-/* Notification  */
+/* 
+    d-notification  
+*/
 .d-notification{
     position: absolute;
     top: 20px;
@@ -455,11 +473,9 @@ label .req {
     height: 100%;
 }
 
-.d-cursor-pointer{
-    cursor: pointer;
-}
-
-/* c-card-background */
+/* 
+    c-card (right module)
+*/
 .c-card-left, .c-card-left-lg, .c-card-left-sm{
     width: 25%;
     height: 100%;
@@ -476,21 +492,17 @@ label .req {
     transition: .4s;
 }
 
-.w-0{
-    width: 0;
-}
-
-/* pages content */
+/* 
+    pages content 
+*/
 .c-main-content{
     margin-top: 20px;
     color:#344767;
-
 }
 
-.c-list{
-
-}
-
+/*
+    c-list
+*/
 .c-list-head{
     background-color: #fff;
     padding: 20px 35px;
@@ -581,10 +593,6 @@ label .req {
     padding-bottom: 0px;
 }
 
-.c-form-body-block{
-
-}
-
 .c-form-field label{
     font-size: .9em;
     font-weight: 500;
@@ -609,7 +617,9 @@ label .req {
     right: 0%;
 }
 
-/* DD-Card */
+/* 
+    dd-card 
+*/
 .dd-card{
     color:#344767;
 }
@@ -642,10 +652,10 @@ label .req {
     width: 320px !important;
 }
 
-.c-position-relative{
-    position: relative;
-}
 
+/*
+    c-check
+*/
 .c-check{
     position: absolute;
     top: 3px;
@@ -671,7 +681,7 @@ label .req {
 .error{
     font-size: .8em;
     font-weight: 500;
-    color: #9f0514;
+    color: #f26051;
     text-shadow: 0px 0px 0px;
     animation: hightlight-animation .8s infinite linear;
 }
@@ -685,9 +695,8 @@ label .req {
 }
 
 /*
-    Context Menus
+    context-menu
 */
-
 .context-menu{
     position: absolute;
     top: 0;
@@ -719,9 +728,8 @@ label .req {
 }
 
 /*
-    Field history
+    field-history
 */
-
 .field-history{
     border-radius: 0px 0px 10px 10px;
     padding: 5px;
@@ -733,9 +741,8 @@ label .req {
 }
 
 /*
-    Badges
+    badges
 */
-
 .d-badge{
     padding: 2px;
     border-radius: 4px;
@@ -754,34 +761,12 @@ label .req {
     background-color: #f26051;
 }
 
-/*
-    File
-*/
-.file-block{
-    color: #344767;
-}
-
-.file-block-header{
-    padding: 10px;
-    background-color: #e4eef5;
-    border-radius: 20px 20px 0px 0px;
-    cursor: pointer;
-    transition: 0.5s;
-    font-size: 1.2em;
-    font-weight: 700;
-}
-
-.file-block-body{
-    background-color: #f4f8fb;
-    border-radius: 0px 0px 20px 20px;
-}
-
 .file-block-module-files{
-    font-size: 0.8em;
+    font-size: .85em;
     font-weight: 500;
 }
 
-/* Medias */
+/* medias */
 @media (max-width: 800px){
     .c-card-left, .c-card-left-lg{
         width: 0;
