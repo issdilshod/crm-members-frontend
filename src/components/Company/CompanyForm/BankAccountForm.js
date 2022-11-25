@@ -67,20 +67,30 @@ const BankAccountForm = ({handleChange, errorRef}) => {
     }
 
     return (  
-        <div className={`col-12 mt-2 form-group`}>
-            <div className={`dd-card`}>
-                <div className={`dd-card-head d-flex`} onClick={ () => { setIsOpen(!isOpen) } }>
-                    <div className={`mr-auto`}>Business bank account</div>
-                    <div></div>
+        <div className='col-12 mt-2 form-group'>
+            <div className='dd-card'>
+                <div className='dd-card-head d-flex' onClick={ () => { setIsOpen(!isOpen) } }>
+                    <div className='mr-auto'>Business bank account</div>
+                    <div>
+                        <i>
+                            { isOpen &&
+                                <FaAngleUp />
+                            }
+
+                            { !isOpen &&
+                                <FaAngleDown />
+                            }
+                        </i>
+                    </div>
                 </div>
-                <div className={`dd-card-body container-fluid`}>
+                <div className='dd-card-body container-fluid'>
                     <Collapse
                         in={isOpen}
                     >
-                        <div className={`row`}>
-                            <div className={`col-12 col-sm-6 form-group`}>
+                        <div className='row'>
+                            <div className='col-12 col-sm-6 form-group'>
                                 <label>Bank Name</label>
-                                <input className={`form-control`} 
+                                <input className='form-control' 
                                         type='text' 
                                         name='bank_account[name]' 
                                         placeholder='Bank Name'
@@ -89,10 +99,10 @@ const BankAccountForm = ({handleChange, errorRef}) => {
                                         />
                             </div>
 
-                            <div className={`col-12 col-sm-6 form-group`}>
+                            <div className='col-12 col-sm-6 form-group'>
                                 <label>Bank Website</label>
                                 <input 
-                                    className={`form-control`} 
+                                    className='form-control' 
                                     type='text' 
                                     name='bank_account[website]' 
                                     placeholder='Bank Website'
@@ -102,7 +112,7 @@ const BankAccountForm = ({handleChange, errorRef}) => {
                             </div>
 
                             <div 
-                                className={`col-12 col-sm-6 form-group`}
+                                className='col-12 col-sm-6 form-group'
                                 ref = { e => errorRef.current['bank_account.username'] = e }
                             >
                                 <label>User Name</label>
@@ -121,7 +131,7 @@ const BankAccountForm = ({handleChange, errorRef}) => {
                                 />
                             </div>
 
-                            <div className={`col-12 col-sm-6 form-group`}>
+                            <div className='col-12 col-sm-6 form-group'>
                                 <label>Password</label>
                                 <input 
                                     className={`form-control`} 
@@ -134,7 +144,7 @@ const BankAccountForm = ({handleChange, errorRef}) => {
                             </div>
 
                             <div 
-                                className={`col-12 col-sm-6 form-group`}
+                                className='col-12 col-sm-6 form-group'
                                 ref = { e => errorRef.current['bank_account.account_number'] = e }
                             >
                                 <label>Account number</label>
@@ -154,12 +164,12 @@ const BankAccountForm = ({handleChange, errorRef}) => {
                             </div>
 
                             <div 
-                                className={`col-12 col-sm-6 form-group`}
+                                className='col-12 col-sm-6 form-group'
                                 ref = { e => errorRef.current['bank_account.routing_number'] = e }
                             >
                                 <label>Routing number</label>
                                 <input 
-                                    className={`form-control`} 
+                                    className='form-control' 
                                     type='text' 
                                     name='bank_account[routing_number]' 
                                     placeholder='Routing number'
@@ -175,9 +185,9 @@ const BankAccountForm = ({handleChange, errorRef}) => {
 
                             <div className='col-12'><hr /></div>
 
-                            <div className={`col-12 col-sm-6 form-group`}>
+                            <div className='col-12 col-sm-6 form-group'>
                                 <label>Security Question</label>
-                                <input className={`form-control`} 
+                                <input className='form-control' 
                                             type='text' 
                                             name='question' 
                                             onChange={ (e) => { handleLocalChange(e) } }
@@ -186,9 +196,9 @@ const BankAccountForm = ({handleChange, errorRef}) => {
                                 />
                             </div>
 
-                            <div className={`col-12 col-sm-6 form-group`}>
+                            <div className='col-12 col-sm-6 form-group'>
                                 <label>Security Answer</label>
-                                <input className={`form-control`} 
+                                <input className='form-control' 
                                             type='text' 
                                             name='answer' 
                                             onChange={ (e) => { handleLocalChange(e) } }
@@ -197,7 +207,7 @@ const BankAccountForm = ({handleChange, errorRef}) => {
                                 />
                             </div>
 
-                            <div className={`col-12 form-group`}>
+                            <div className='col-12 form-group'>
                                 {
                                     securityDb.map((value, index) => {
                                         return (
@@ -223,7 +233,7 @@ const BankAccountForm = ({handleChange, errorRef}) => {
                                 }
                             </div>
 
-                            <div className={`col-12 form-group`}>
+                            <div className='col-12 form-group'>
                                 {
                                     security.map((value, index) => {
                                         return (
@@ -249,11 +259,13 @@ const BankAccountForm = ({handleChange, errorRef}) => {
                                 }
                             </div>
 
-                            <div className={`col-12 form-group text-right`}>
-                                <span className={`d-btn d-btn-sm d-btn-primary ml-auto`} 
+                            <div className='col-12 form-group text-right'>
+                                <span className='d-btn d-btn-sm d-btn-primary ml-auto' 
                                         onClick={ () => { handleSecurityPlusClick() } }
                                 >
-                                    <span><FaPlus /></span>
+                                    <i>
+                                        <FaPlus />
+                                    </i>
                                 </span>
                             </div>
 

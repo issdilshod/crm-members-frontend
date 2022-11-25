@@ -1,6 +1,7 @@
 import FileModule from "./FileModule";
 import Collapse from 'react-bootstrap/Collapse';
 import { useState } from "react";
+import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 
 const File = ({ form, setForm, blocks = [], parentUnique, title, onChange, downloadEnable }) => {
 
@@ -8,7 +9,24 @@ const File = ({ form, setForm, blocks = [], parentUnique, title, onChange, downl
 
     return (
         <div className='dd-card'>
-            <div className='dd-card-head' onClick={() => { setIsOpen(!isOpen) }}>{title}</div>
+            <div 
+                className='dd-card-head d-flex' 
+                onClick={() => { setIsOpen(!isOpen) }}
+            >
+                <div className='mr-auto'>{title}</div>
+                <div>
+                    <i>
+                        { isOpen &&
+                            <FaAngleUp />
+                        }
+
+                        { !isOpen &&
+                            <FaAngleDown />
+                        }
+                    </i>
+                    
+                </div>
+            </div>
             <div className='dd-card-body container-fluid'>
                 <Collapse 
                     in={isOpen}

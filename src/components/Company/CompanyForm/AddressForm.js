@@ -24,20 +24,20 @@ const AddressForm = ({parent_head_name, handleChange, errorRef, extraAddressShow
 
     return (  
         <>
-            <div className={`col-12 col-sm-6 mt-2 form-group`}>
-                <div className={`dd-card`}>
-                    <div className={`dd-card-head d-flex`}>
-                        <div className={`mr-auto`}>{parent_head_name}</div>
+            <div className='col-12 col-sm-6 mt-2 form-group'>
+                <div className='dd-card'>
+                    <div className='dd-card-head d-flex'>
+                        <div className='mr-auto'>{parent_head_name}</div>
                     </div>
-                    <div className={`dd-card-body container-fluid`} style={{'position': 'relative'}}>
-                        <div className={`row`}>
+                    <div className='dd-card-body container-fluid' style={{'position': 'relative'}}>
+                        <div className='row'>
                             <div 
-                                className={`col-12 form-group`}
+                                className='col-12 form-group'
                                 ref = { e => errorRef.current['address.street_address'] = e }
                             >
                                 <label>Street Address</label>
                                 <input 
-                                    className={`form-control`} 
+                                    className='form-control' 
                                     type='text' 
                                     name={`address[street_address]`} 
                                     placeholder='Street Address'
@@ -51,12 +51,12 @@ const AddressForm = ({parent_head_name, handleChange, errorRef, extraAddressShow
                                 />
                             </div>
                             <div 
-                                className={`col-12 form-group`}
+                                className='col-12 form-group'
                                 ref = { e => errorRef.current['address.address_line_2'] = e }
                             >
                                 <label>Address Line 2</label>
                                 <input 
-                                    className={`form-control`} 
+                                    className='form-control' 
                                     type='text' 
                                     name={`address[address_line_2]`} 
                                     placeholder='Address Line 2'
@@ -70,12 +70,12 @@ const AddressForm = ({parent_head_name, handleChange, errorRef, extraAddressShow
                                 />
                             </div>
                             <div 
-                                className={`col-12 col-sm-6 form-group`}
+                                className='col-12 col-sm-6 form-group'
                                 ref = { e => errorRef.current['address.city'] = e }
                             >
                                 <label>City</label>
                                 <input 
-                                    className={`form-control`} 
+                                    className='form-control'
                                     type='text' 
                                     name={`address[city]`} 
                                     placeholder='City'
@@ -88,10 +88,10 @@ const AddressForm = ({parent_head_name, handleChange, errorRef, extraAddressShow
                                     errorRef={errorRef}
                                 />
                             </div>
-                            <div className={`col-12 col-sm-6 form-group`}>
+                            <div className='col-12 col-sm-6 form-group'>
                                 <label>State</label>
                                 <input 
-                                    className={`form-control`} 
+                                    className='form-control' 
                                     type='text' 
                                     name={`address[state]`} 
                                     placeholder='State'
@@ -100,12 +100,12 @@ const AddressForm = ({parent_head_name, handleChange, errorRef, extraAddressShow
                                 />
                             </div>
                             <div 
-                                className={`col-12 col-sm-6 form-group`}
+                                className='col-12 col-sm-6 form-group'
                                 ref = { e => errorRef.current['address.postal'] = e }
                             >
                                 <label>Postal</label>
                                 <input 
-                                    className={`form-control`} 
+                                    className='form-control' 
                                     type='text' 
                                     name={`address[postal]`} 
                                     placeholder='Postal'
@@ -118,10 +118,10 @@ const AddressForm = ({parent_head_name, handleChange, errorRef, extraAddressShow
                                     errorRef={errorRef}
                                 />
                             </div>
-                            <div className={`col-12 col-sm-6 form-group`}>
+                            <div className='col-12 col-sm-6 form-group'>
                                 <label>Country</label>
                                 <input 
-                                    className={`form-control`} 
+                                    className='form-control' 
                                     type='text' 
                                     name={`address[country]`} 
                                     placeholder='Country'
@@ -144,10 +144,10 @@ const AddressForm = ({parent_head_name, handleChange, errorRef, extraAddressShow
             </div>
 
             { extraAddressShow &&
-                <div className={`col-12 col-sm-6 mt-2 form-group`}>
-                    <div className={`dd-card`}>
-                        <div className={`dd-card-head d-flex`}>
-                            <div className={`mr-auto`}>Extra Address</div>
+                <div className='col-12 col-sm-6 mt-2 form-group'>
+                    <div className='dd-card'>
+                        <div className='dd-card-head d-flex'>
+                            <div className='mr-auto'>Extra Address</div>
                             <div>
                                 <span 
                                     className='d-btn d-btn-sm d-btn-danger'
@@ -159,15 +159,15 @@ const AddressForm = ({parent_head_name, handleChange, errorRef, extraAddressShow
                                 </span>
                             </div>
                         </div>
-                        <div className={`dd-card-body container-fluid`}>
-                            <div className={`row`}>
+                        <div className='dd-card-body container-fluid'>
+                            <div className='row'>
                                 <div 
-                                    className={`col-12 form-group`}
+                                    className='col-12 form-group'
                                     ref = { e => errorRef.current['extra_address.street_address'] = e }
                                 >
                                     <label>Street Address</label>
                                     <input 
-                                        className={`form-control`} 
+                                        className='form-control' 
                                         type='text' 
                                         name={`extra_address[street_address]`} 
                                         placeholder='Street Address'
@@ -181,12 +181,12 @@ const AddressForm = ({parent_head_name, handleChange, errorRef, extraAddressShow
                                     />
                                 </div>
                                 <div 
-                                    className={`col-12 form-group`}
+                                    className='col-12 form-group'
                                     ref = { e => errorRef.current['extra_address.address_line_2'] = e }
                                 >
                                     <label>Address Line 2</label>
                                     <input 
-                                        className={`form-control`} 
+                                        className='form-control' 
                                         type='text' 
                                         name={`extra_address[address_line_2]`} 
                                         placeholder='Address Line 2'
@@ -200,12 +200,12 @@ const AddressForm = ({parent_head_name, handleChange, errorRef, extraAddressShow
                                     />
                                 </div>
                                 <div 
-                                    className={`col-12 col-sm-6 form-group`}
+                                    className='col-12 col-sm-6 form-group'
                                     ref = { e => errorRef.current['extra_address.city'] = e }
                                 >
                                     <label>City</label>
                                     <input 
-                                        className={`form-control`} 
+                                        className='form-control' 
                                         type='text' 
                                         name={`extra_address[city]`} 
                                         placeholder='City'
@@ -218,7 +218,7 @@ const AddressForm = ({parent_head_name, handleChange, errorRef, extraAddressShow
                                         errorRef={errorRef}
                                     />
                                 </div>
-                                <div className={`col-12 col-sm-6 form-group`}>
+                                <div className='col-12 col-sm-6 form-group'>
                                     <label>State</label>
                                     <input 
                                         className={`form-control`} 
@@ -230,12 +230,12 @@ const AddressForm = ({parent_head_name, handleChange, errorRef, extraAddressShow
                                     />
                                 </div>
                                 <div 
-                                    className={`col-12 col-sm-6 form-group`}
+                                    className='col-12 col-sm-6 form-group'
                                     ref = { e => errorRef.current['extra_address.postal'] = e }
                                 >
                                     <label>Postal</label>
                                     <input 
-                                        className={`form-control`} 
+                                        className='form-control' 
                                         type='text' 
                                         name={`extra_address[postal]`} 
                                         placeholder='Postal'
@@ -248,10 +248,10 @@ const AddressForm = ({parent_head_name, handleChange, errorRef, extraAddressShow
                                         errorRef={errorRef}
                                     />
                                 </div>
-                                <div className={`col-12 col-sm-6 form-group`}>
+                                <div className='col-12 col-sm-6 form-group'>
                                     <label>Country</label>
                                     <input 
-                                        className={`form-control`} 
+                                        className='form-control' 
                                         type='text' 
                                         name={`extra_address[country]`} 
                                         placeholder='Country'
@@ -260,7 +260,7 @@ const AddressForm = ({parent_head_name, handleChange, errorRef, extraAddressShow
                                     />
                                 </div>
                                 <div 
-                                    className={`col-12 form-group`}
+                                    className='col-12 form-group'
                                     ref = { e => errorRef.current['extra_address.description'] = e }
                                 >
                                     <label>Description <i className='req'>*</i></label>

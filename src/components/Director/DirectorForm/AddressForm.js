@@ -1,3 +1,4 @@
+import Collapse from 'react-bootstrap/Collapse';
 import React, { useState, useEffect, useContext } from 'react';
 import { FaAngleDown, FaAngleUp } from 'react-icons/fa';
 import { Mediator } from '../../../context/Mediator';
@@ -9,24 +10,34 @@ const AddressForm = ({parent_head_name, parent_name, blockOpen, setBlockOpen, ha
         directorFormError, directorEdit, directorForm
     } = useContext(Mediator);
 
+    const [isOpen, setIsOpen] = useState(false);
+
     return (  
-        <div className={`${styles['director-form-field']} col-12 col-sm-6 mt-2 form-group`}>
-            <div className={`${styles['address-card']}`}>
-                <div className={`${styles['address-card-head']} d-flex`} /*onClick={() => {setBlockOpen(!blockOpen)}}*/ >
-                    <div className={`${styles['card-head-title']} mr-auto`}>{parent_head_name}</div>
+        <div className='col-12 col-sm-6 mt-2 form-group'>
+            <div className='dd-card'>
+                <div className='dd-card-head d-flex' onClick={() => { setIsOpen(!isOpen) }} >
+                    <div className='mr-auto'>{parent_head_name}</div>
                     <div>
-                        <span>
-                            { blockOpen?<FaAngleUp />:<FaAngleDown /> }
-                        </span>
+                        <i>
+                            { isOpen &&
+                                <FaAngleUp />
+                            }
+
+                            { !isOpen &&
+                                <FaAngleDown />
+                            }
+                        </i>
                     </div>
                 </div>
-                { blockOpen &&
-                    <div className={`${styles['address-card-body']} container-fluid`}>
-                        <div className={`row`}>
-                            <div className={`col-12 form-group`}>
+                <div className='dd-card-body container-fluid'>
+                    <Collapse
+                        in={isOpen}
+                    >
+                        <div className='row'>
+                            <div className='col-12 form-group'>
                                 <label>Street Address</label>
                                 <input 
-                                    className={`form-control`} 
+                                    className='form-control' 
                                     type='text' 
                                     name={`address[${parent_name}][street_address]`} 
                                     placeholder='Street Address'
@@ -34,7 +45,7 @@ const AddressForm = ({parent_head_name, parent_name, blockOpen, setBlockOpen, ha
                                     value={ directorForm[`address[${parent_name}][street_address]`] }
                                 />
                             </div>
-                            <div className={`col-12 form-group`}>
+                            <div className='col-12 form-group'>
                                 <label>Address Line 2</label>
                                 <input 
                                     className={`form-control`} 
@@ -45,10 +56,10 @@ const AddressForm = ({parent_head_name, parent_name, blockOpen, setBlockOpen, ha
                                     value={ directorForm[`address[${parent_name}][address_line_2]`] }
                                 />
                             </div>
-                            <div className={`col-12 col-sm-6 form-group`}>
+                            <div className='col-12 col-sm-6 form-group'>
                                 <label>City</label>
                                 <input 
-                                    className={`form-control`} 
+                                    className='form-control' 
                                     type='text' 
                                     name={`address[${parent_name}][city]`} 
                                     placeholder='City'
@@ -56,10 +67,10 @@ const AddressForm = ({parent_head_name, parent_name, blockOpen, setBlockOpen, ha
                                     value={ directorForm[`address[${parent_name}][city]`] }
                                 />
                             </div>
-                            <div className={`col-12 col-sm-6 form-group`}>
+                            <div className='col-12 col-sm-6 form-group'>
                                 <label>State</label>
                                 <input 
-                                    className={`form-control`} 
+                                    className='form-control' 
                                     type='text' 
                                     name={`address[${parent_name}][state]`} 
                                     placeholder='State'
@@ -67,10 +78,10 @@ const AddressForm = ({parent_head_name, parent_name, blockOpen, setBlockOpen, ha
                                     value={ directorForm[`address[${parent_name}][state]`] }
                                 />
                             </div>
-                            <div className={`col-12 col-sm-6 form-group`}>
+                            <div className='col-12 col-sm-6 form-group'>
                                 <label>Postal</label>
                                 <input 
-                                    className={`form-control`} 
+                                    className='form-control' 
                                     type='text' 
                                     name={`address[${parent_name}][postal]`} 
                                     placeholder='Postal'
@@ -78,10 +89,10 @@ const AddressForm = ({parent_head_name, parent_name, blockOpen, setBlockOpen, ha
                                     value={ directorForm[`address[${parent_name}][postal]`] }
                                 />
                             </div>
-                            <div className={`col-12 col-sm-6 form-group`}>
+                            <div className='col-12 col-sm-6 form-group'>
                                 <label>Country</label>
                                 <input 
-                                    className={`form-control`} 
+                                    className='form-control' 
                                     type='text' 
                                     name={`address[${parent_name}][country]`} 
                                     placeholder='Country'
@@ -90,8 +101,8 @@ const AddressForm = ({parent_head_name, parent_name, blockOpen, setBlockOpen, ha
                                 />
                             </div>
                         </div>
-                    </div>
-                }
+                    </Collapse>
+                </div>
             </div>
         </div>
     );
