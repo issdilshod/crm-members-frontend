@@ -60,8 +60,14 @@ const DepartmentForm = () => {
         setUserEdit(false);
     }
 
-    const handleDeleteUser = (e, uuid) => {
+    const handleDeleteUser = (e, uuid, fl_name) => {
+
         e.preventDefault();
+
+        let confirm = true;
+        confirm = window.confirm('are you sure you want to remove '+ fl_name +' from the platform? This action can not be undone.');
+        if (!confirm){ return false; }
+
         api.request('/api/user/'+uuid, 'DELETE')
             .then(res => {
                 if (res.status===200||res.status===201){ // success
@@ -155,7 +161,7 @@ const DepartmentForm = () => {
 
                                                             <button 
                                                                 className='d-btn d-btn-danger' 
-                                                                onClick={ (e) => { handleDeleteUser(e, value['uuid']) } }
+                                                                onClick={ (e) => { handleDeleteUser(e, value['uuid'], value['first_name'] + ' ' + value['last_name']) } }
                                                             >
                                                                 <FaTrash />
                                                             </button> 
