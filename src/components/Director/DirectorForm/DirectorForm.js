@@ -110,8 +110,13 @@ const DirectorForm = () => {
             });
     } 
 
-    const handleDelete = (e, uuid) => {
+    const handleDelete = (e, uuid, card_name) => {
         e.preventDefault();
+
+        let confirm = true;
+        confirm = window.confirm('Are you sure you want to remove card '+ card_name +' from the platform? This action can not be undone.');
+        if (!confirm){ return false; }
+
         setLoadingShow(true);
         api.request('/api/director/' + uuid, 'DELETE')
             .then(res => {
@@ -598,7 +603,7 @@ const DirectorForm = () => {
                                         { (permissions.includes(DIRECTOR.DELETE) && directorForm['status']!='') &&
                                             <button 
                                             className={`d-btn d-btn-danger mr-2`} 
-                                            onClick={ (e) => { handleDelete(e, directorForm['uuid']) } }
+                                            onClick={ (e) => { handleDelete(e, directorForm['uuid'], directorForm['first_name'] + ' ' + (directorForm['middle_name']!=null?directorForm['middle_name']:'') + ' ' + directorForm['last_name']) } }
                                         >
                                             Delete
                                         </button>
