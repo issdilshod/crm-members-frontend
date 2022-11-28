@@ -18,6 +18,7 @@ import '../../../assets/css/App.css';
 import { useNavigate } from 'react-router-dom';
 import FieldHistory from '../../Helper/FieldHistory';
 import File from '../../Helper/File/File';
+import Address from '../../Helper/Address/Address';
 
 const CompanyForm = () => {
 
@@ -164,6 +165,7 @@ const CompanyForm = () => {
 
     const handleStore = (e) => {
         e.preventDefault();
+
         setCompanyFormError([]);
         ObjectsConvert();
         setLoadingShow(true);
@@ -645,7 +647,6 @@ const CompanyForm = () => {
                                 status={companyForm['status']}
                             />
                         </div>
-
 
                         <AddressForm 
                             parent_head_name='Address' 

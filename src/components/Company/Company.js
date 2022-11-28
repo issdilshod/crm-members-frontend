@@ -59,6 +59,8 @@ const Company = () => {
         'bank_account[bank_account_security]': [],
         'security': [],
         'emailsdb': [],
+        'files': [],
+        'files_to_delete': [],
         'uploaded_files': [],
         'status': ''
     });

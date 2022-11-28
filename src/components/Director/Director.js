@@ -24,24 +24,19 @@ const Director = () => {
         'ssn_cpn': '', 
         'company_association': '', 
         'phone_type': '', 
-        'phone_number': '', 
-        'address[dl_address][street_address]': '',
-        'address[dl_address][address_line_2]': '',
-        'address[dl_address][city]': '',
-        'address[dl_address][state]': '',
-        'address[dl_address][postal]': '',
-        'address[dl_address][country]': '',
-        'address[credit_home_address][street_address]': '',
-        'address[credit_home_address][address_line_2]': '',
-        'address[credit_home_address][city]': '',
-        'address[credit_home_address][state]': '',
-        'address[credit_home_address][postal]': '',
-        'address[credit_home_address][country]': '',
-        'emails[hosting_uuid]': '',
-        'emails[email]': '',
-        'emails[password]': '',
-        'emails[phone]': '',
+        'phone_number': '',
+
+        // emails
+        'emails': [],
+
+        // addresses
+        'addresses': [],
+
+        // files
+        'files': [],
+        'files_to_delete': [],
         'uploaded_files': [],
+
         'status': ''
     });
     const [directorEdit, setDirectorEdit] = useState(false);
@@ -95,33 +90,18 @@ const Director = () => {
                     setDirectorEdit(true);
                     setDirectorFormOpen(true);
                     setDirectorFormError({});
+                    
                     // last accepted & rejected
                     setLastAccepted(res.data.data.last_accepted);
                     setLastRejected(res.data.data.last_rejected);
                     
                     let tmp_director = res.data.data;
 
-                    // address
-                    for (let key in tmp_director['address']){
-                        let address_parent = tmp_director['address'][key]['address_parent'];
-                        for (let key2 in tmp_director['address'][key]){
-                            tmp_director['address' + '[' + address_parent + '][' + key2 + ']'] = tmp_director['address'][key][key2];
-                        }
-                    }
-                    delete tmp_director['address'];
-
-                    //emails (first)
-                    for (let key in tmp_director['emails'][0]){
-                        tmp_director['emails[' + key + ']'] = tmp_director['emails'][0][key];
-                    }
-                    delete tmp_director['emails'];
-
                     // company if isset then to company assoc
                     if (tmp_director['company']!=null){
                         tmp_director['company_association'] = tmp_director['company']['legal_name'];
                     }
 
-                    tmp_director['_method'] = 'PUT';
                     setDirectorForm(tmp_director);
                     setDirectorFormOriginal(tmp_director);
                 }

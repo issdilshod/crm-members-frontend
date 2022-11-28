@@ -123,7 +123,7 @@ const DirectorList = () => {
                                             </div>
                                             <div className={`${styles['director-card-info']}`}>
                                                 <p>{value.first_name} {value.middle_name} {value.last_name}</p>
-                                                <p><FaMapMarkerAlt /> {value.address[0].street_address}, {value.address[0].city}, {value.address[0].state}</p>
+                                                <p><FaMapMarkerAlt /> {value.addresses[0].street_address}, {value.addresses[0].city}, {value.addresses[0].state}</p>
                                                 <p><FaFileAlt /> {value.uploaded_files.length}</p>
                                             </div>
                                         </div>

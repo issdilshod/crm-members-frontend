@@ -4,7 +4,6 @@ import InputMask from 'react-input-mask';
 import * as STATUS from '../../../consts/Status';
 import * as DIRECTOR from '../../../consts/Director';
 
-import AddressForm from './AddressForm';
 import EmailForm from './EmailForm';
 import Validation from '../../Helper/Validation';
 import { Mediator } from '../../../context/Mediator';
@@ -15,6 +14,8 @@ import { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import FieldHistory from '../../Helper/FieldHistory';
 import File from '../../Helper/File/File';
+import Address from '../../Helper/Address/Address';
+import Email from '../../Helper/Email/Email';
 
 const DirectorForm = () => {
 
@@ -49,10 +50,8 @@ const DirectorForm = () => {
 
     const [alert, setAlert] = useState({'msg': '', 'show': false, 'type': ''});
 
-    const handleChange = (e, file = false) => {
+    const handleChange = (e) => {
         let { value, name } = e.target;
-        // get files
-        if (file){ value = e.target.files; }
 
         setDirectorForm({ ...directorForm, [name]: value });
     }
@@ -61,7 +60,7 @@ const DirectorForm = () => {
         e.preventDefault();
         setDirectorFormError([]);
         setLoadingShow(true);
-        api.request('/api/director', 'POST', directorForm, true)
+        api.request('/api/director', 'POST', directorForm)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
                     setDirectorList([ res.data.data, ...directorList ]);
@@ -84,10 +83,10 @@ const DirectorForm = () => {
         e.preventDefault();
         setDirectorFormError([]);
         setLoadingShow(true);
-        api.request('/api/director/'+directorForm['uuid'], 'POST', directorForm, true)
+        api.request('/api/director/'+directorForm['uuid'], 'PUT', directorForm)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
-                    let tmp_directorList = directorList;
+                    let tmp_directorList = [...directorList];
                     let updated_data = res.data.data;
                     for (let key in tmp_directorList){
                         if (tmp_directorList[key]['uuid']==updated_data['uuid']){
@@ -140,7 +139,7 @@ const DirectorForm = () => {
     const handlePending = (e) => {
         e.preventDefault();
         setLoadingShow(true);
-        api.request('/api/director-pending', 'POST', directorForm, true)
+        api.request('/api/director-pending', 'POST', directorForm)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
                     setDirectorFormOpen(false);
@@ -160,7 +159,7 @@ const DirectorForm = () => {
     const handlePendingUpdate = (e) => {
         e.preventDefault();
         setLoadingShow(true);
-        api.request('/api/director-pending-update/'+directorForm['uuid'], 'POST', directorForm, true)
+        api.request('/api/director-pending-update/'+directorForm['uuid'], 'PUT', directorForm)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
                     setAlert({'msg': 'Succefully sent updates to approve', 'show': true, 'type': 'success'});
@@ -202,7 +201,7 @@ const DirectorForm = () => {
         e.preventDefault();
         setDirectorFormError([]);
         setLoadingShow(true);
-        api.request('/api/director-accept/'+directorForm['uuid'], 'POST', directorForm, true)
+        api.request('/api/director-accept/'+directorForm['uuid'], 'PUT', directorForm)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
                     setAlert({'msg': 'Succefully director approve', 'show': true, 'type': 'success'});
@@ -225,7 +224,7 @@ const DirectorForm = () => {
     const handleOverride = (e) => {
         e.preventDefault();
         setLoadingShow(true);
-        api.request('/api/director-override/'+directorForm['uuid'], 'POST', directorForm, true)
+        api.request('/api/director-override/'+directorForm['uuid'], 'PUT', directorForm)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
                     setAlert({'msg': 'Succefully director overrided', 'show': true, 'type': 'success'});
@@ -488,26 +487,34 @@ const DirectorForm = () => {
                             </div>
                         </div>
 
-                        <AddressForm 
-                            parent_head_name='DL Address' 
-                            parent_name='dl_address' 
-                            blockOpen={dlAddressOpen} 
-                            setBlockOpen={setDlAddressOpen}
-                            handleChange={handleChange}
-                        />
+                        <div className='col-12 col-sm-6 form-group'>
+                            <Address
+                                title='DL Address'
+                                unique='dl_address'
+                                onChange={handleChange}
+                                form={directorForm}
+                                setForm={setDirectorForm}
+                            />
+                        </div>
 
-                        <AddressForm 
-                            parent_head_name='Credit Home Address' 
-                            parent_name='credit_home_address' 
-                            blockOpen={creditHomeAddressOpen} 
-                            setBlockOpen={setCreditHomeAddressOpen}
-                            handleChange={handleChange}
-                        />
+                        <div className='col-12 col-sm-6 form-group'>
+                            <Address
+                                title='Credit Home Address'
+                                unique='credit_home_address'
+                                onChange={handleChange}
+                                form={directorForm}
+                                setForm={setDirectorForm}
+                            />
+                        </div>
 
-                        <EmailForm 
-                            handleChange={handleChange} 
-                            errorRef={errorRef}
-                        />
+                        <div className='col-12 form-group'>
+                            <Email
+                                title='Email'
+                                muliply={false}
+                                form={directorForm}
+                                setForm={setDirectorForm}
+                            />
+                        </div>
 
                         <div className='col-12 col-sm-4 form-group'>
                             <File
