@@ -1,21 +1,21 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useRef } from 'react';
+import { FaTimes } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 import InputMask from 'react-input-mask';
 
-import * as STATUS from '../../../consts/Status';
-import * as DIRECTOR from '../../../consts/Director';
+import * as STATUS from '../../consts/Status';
+import * as DIRECTOR from '../../consts/Director';
 
-import EmailForm from './EmailForm';
-import Validation from '../../Helper/Validation';
-import { Mediator } from '../../../context/Mediator';
+import { Mediator } from '../../context/Mediator';
 
-import { FaTimes } from 'react-icons/fa';
-import Notification from '../../Helper/Notification/Notification';
-import { useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
-import FieldHistory from '../../Helper/FieldHistory';
-import File from '../../Helper/File/File';
-import Address from '../../Helper/Address/Address';
-import Email from '../../Helper/Email/Email';
+import Validation from '../Helper/Validation';
+
+import Notification from '../Helper/Notification/Notification';
+import FieldHistory from '../Helper/FieldHistory';
+
+import File from '../Helper/File/File';
+import Address from '../Helper/Address/Address';
+import Email from '../Helper/Email/Email';
 
 const DirectorForm = () => {
 

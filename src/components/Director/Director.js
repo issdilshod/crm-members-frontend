@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Mediator } from '../../context/Mediator';
 import DirectorList from './DirectorList';
-import DirectorForm from './DirectorForm/DirectorForm';
+import DirectorForm from './DirectorForm';
 import Menu from '../Header/Menu';
 import styles from './Director.module.scss';
 import Api from '../../services/Api';
