@@ -27,10 +27,35 @@ const ChatList = ({handleClick, chats, meUuid}) => {
                                         <>{value['name']}</>
                                     }
                                 </div>
-                                <div className='dialog-last-message-date'>{ DateFormats.last_message_date(value['last_message'][0]['created_at']) }</div>
+                                <div className='dialog-last-message-date'>
+                                    { (value['last_message'].length==0) &&
+                                        <>
+                                            { DateFormats.last_message_date(value['created_at']) }
+                                        </>
+                                    }
+
+                                    { (value['last_message'].length>0) &&
+                                        <>
+                                            { DateFormats.last_message_date(value['last_message'][0]['created_at']) }
+                                        </>
+                                    }
+                                </div>
                             </div>
                             <div className='dialog-last-message d-flex'>
-                                <div className='mr-auto dialog-last-message-text'>{ value['last_message'][0]['message'] }</div>
+                                <div className='mr-auto dialog-last-message-text'>
+                                    { (value['last_message'].length==0) &&
+                                        <>
+                                            No message yet.
+                                        </>
+                                    }
+
+                                    { (value['last_message'].length>0) &&
+                                        <>
+                                            { value['last_message'][0]['message'] }
+                                        </>
+                                    }
+                                    
+                                </div>
                                 <div className='ml-2'>
                                     { (1==2) && // TODO: logic for new messages
                                         <span className='new-message'></span>
