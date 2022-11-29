@@ -59,9 +59,23 @@ const Company = () => {
         'bank_account[bank_account_security]': [],
         'security': [],
         'emailsdb': [],
+
+        // bank account & security
+        'bank_account': [],
+        'bank_account_security': [],
+        'bank_account_security_to_delete': [],
+
+        // addresses
+        'addresses': [],
+
+        // emails
+        'emails': [],
+
+        // files
         'files': [],
         'files_to_delete': [],
         'uploaded_files': [],
+
         'status': ''
     });
     const [companyEdit, setCompanyEdit] = useState(false);
@@ -69,18 +83,9 @@ const Company = () => {
     const [companyForm, setCompanyForm] = useState(companyFormEntity);
     const [companyFormOriginal, setCompanyFormOriginal] = useState(companyFormEntity);
     const [companyFormError, setCompanyFormError] = useState({});
+
     const [lastAccepted, setLastAccepted] = useState(null);
     const [lastRejected, setLastRejected] = useState(null);
-    // bank account
-    const [companyBankAccountOpen, setCompanyBankAccountOpen] = useState(true);
-    // address
-    const [companyAddressOpen, setCompanyAddressOpen] = useState(true);
-    const [extraAddressShow, setExtraAddressShow] = useState(false);
-    // uploads
-    const [incorporationStateUploadOpen, setIncorporationStateUploadOpen] = useState(true);
-    const [doingBusinessInStateUploadOpen, setDoingBusinessInStateUploadOpen] = useState(true);
-    const [companyEinUploadOpen, setCompanyEinUploadOpen] = useState(true);
-    const [companyDbReportUploadOpen, setCompanyDbReportUploadOpen] = useState(true);
 
     // permissions
     const [permissions, setPermissions] = useState([]);
@@ -118,33 +123,13 @@ const Company = () => {
                     setCompanyEdit(true);
                     setCompanyFormOpen(true);
                     setCompanyFormError({});
+                    
                     // last accepted & rejected
                     setLastAccepted(res.data.data.last_accepted);
                     setLastRejected(res.data.data.last_rejected);
 
                     let tmp_company = res.data.data;
 
-                    // address
-                    for (let key in tmp_company['address']){
-                        for (let key2 in tmp_company['address'][key]){
-                            if (tmp_company['address'][key]['address_parent']==null || tmp_company['address'][key]['address_parent']==''){
-                                tmp_company['address' + '[' + key2 + ']'] = tmp_company['address'][key][key2];
-                            }else{
-                                tmp_company['extra_address' + '[' + key2 + ']'] = tmp_company['address'][key][key2];
-                            }
-                        }
-                    }
-
-                    if (tmp_company['address'].length>1){setExtraAddressShow(true);}else{setExtraAddressShow(false);}
-                    delete tmp_company['address'];
-
-                    // bank account
-                    for (let key in tmp_company['bank_account'][0]){
-                        tmp_company['bank_account['+key + ']'] = tmp_company['bank_account'][0][key];
-                    }
-                    delete tmp_company['bank_account'];
-
-                    tmp_company['_method'] = 'PUT';
                     setCompanyForm({ ...tmp_company, 'security': []});
                     setCompanyFormOriginal({ ...tmp_company, 'security': [] });
                 }
@@ -158,13 +143,8 @@ const Company = () => {
                                 companyFormOriginal, setCompanyFormOriginal,
                                 companyFormOpen, setCompanyFormOpen, companyEdit, setCompanyEdit, companyList, setCompanyList,
                                     companyForm, setCompanyForm, companyFormError, setCompanyFormError, companyFormEntity, setCompanyFormEntity,
-                                companyBankAccountOpen, setCompanyBankAccountOpen,
-                                companyAddressOpen, setCompanyAddressOpen, incorporationStateUploadOpen,
-                                    setIncorporationStateUploadOpen, doingBusinessInStateUploadOpen, setDoingBusinessInStateUploadOpen, companyEinUploadOpen, setCompanyEinUploadOpen, companyDbReportUploadOpen, setCompanyDbReportUploadOpen,
                                 cardStatusOpen, setCardStatusOpen, handleCardClick,
                                 setLoadingShow,
-
-                                extraAddressShow, setExtraAddressShow,
                                 
                                 lastAccepted, setLastAccepted, lastRejected, setLastRejected
                             } } >

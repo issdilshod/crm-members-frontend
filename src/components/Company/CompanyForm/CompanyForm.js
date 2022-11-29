@@ -1,24 +1,23 @@
 import React, { useState, useEffect, useContext, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { FaTimes } from 'react-icons/fa';
 import InputMask from 'react-input-mask';
 import Select from 'react-select';
+
+import { Mediator } from '../../../context/Mediator';
 
 import * as STATUS from '../../../consts/Status';
 import * as COMPANY from '../../../consts/Company';
 
-import BankAccountForm from './BankAccountForm';
-import AddressForm from './AddressForm';
-import EmailForm from './EmailForm';
 import Validation from '../../Helper/Validation';
-import { Mediator } from '../../../context/Mediator';
-
-import { FaTimes } from 'react-icons/fa';
 import Notification from '../../Helper/Notification/Notification';
-
-import '../../../assets/css/App.css';
-import { useNavigate } from 'react-router-dom';
 import FieldHistory from '../../Helper/FieldHistory';
+
 import File from '../../Helper/File/File';
 import Address from '../../Helper/Address/Address';
+import Email from '../../Helper/Email/Email';
+
+import '../../../assets/css/App.css';
 
 const CompanyForm = () => {
 
@@ -27,12 +26,8 @@ const CompanyForm = () => {
             companyFormOriginal, setCompanyFormOriginal,
             companyFormOpen, setCompanyFormOpen, companyEdit, setCompanyEdit, companyList, setCompanyList, companyForm, setCompanyForm,
                 companyFormError, setCompanyFormError,
-            companyAddressOpen, setCompanyAddressOpen, incorporationStateUploadOpen,
-                setIncorporationStateUploadOpen, doingBusinessInStateUploadOpen, setDoingBusinessInStateUploadOpen, companyEinUploadOpen, setCompanyEinUploadOpen, dbReportUpload, setDbReportUpload, companyDbReportUploadOpen, setCompanyDbReportUploadOpen, companyBankAccountOpen, setCompanyBankAccountOpen,
             cardStatusOpen, setCardStatusOpen, cardSaveDiscard, setCardSaveDiscard,
             setLoadingShow,
-
-            extraAddressShow, setExtraAddressShow,
 
             lastAccepted, setLastAccepted, lastRejected, setLastRejected
     } = useContext(Mediator);
@@ -43,21 +38,49 @@ const CompanyForm = () => {
     const [stateList, setStateList] = useState([]);
     const [optDirectorList, setOptDirectorList] = useState([]);
 
+    const [alert, setAlert] = useState({'msg': '', 'show': false, 'type': ''});
+
+    const [meUuid, setMeUuid] = useState('');
+
+    const [extraAddressShow, setExtraAddressShow] = useState(false);
+
     useEffect(() => {
+        setCompanyFormError({});
+
+        // director get
+        if (companyFormOpen && companyEdit){
+            if (companyForm['director']!=null){
+                loadDirectorList(companyForm['director']['first_name'] + ' ' + companyForm['director']['last_name']);
+            }
+        }
+
+        // extra address
+        if (companyForm['addresses'].length>1){
+            setExtraAddressShow(true);
+        }else{
+            setExtraAddressShow(false);
+        }
+    }, [companyFormOpen])
+
+    useEffect(() => {
+        firstInit();
+    }, []);
+
+    const firstInit = () => {
+        getMe();
         loadDirectorList();
         loadSicCodes();
         loadStates();
-    }, []);
+    }
 
-    const [meUuid, setMeUuid] = useState('');
-    useEffect(() => {
+    const getMe = () => {
         api.request('/api/get_me', 'GET')
             .then(res => {
                 if (res.status===200||res.status===201){
                     setMeUuid(res.data.uuid);
                 }
             })
-    }, [])
+    }
 
     const loadDirectorList = (value = '') => {
         let search = '';
@@ -99,67 +122,8 @@ const CompanyForm = () => {
             });
     }
 
-    useEffect(() => {
-        setCompanyFormError({});
-        if (companyFormOpen && companyEdit){
-            if (companyForm['director']!=null){
-                loadDirectorList(companyForm['director']['first_name'] + ' ' + companyForm['director']['last_name']);
-            }
-        }
-    }, [companyFormOpen])
-
-    const [alert, setAlert] = useState({'msg': '', 'show': false, 'type': ''});
-
-    const ObjectsConvert = () => {
-        // set bank account
-        let cForm = companyForm;
-        if ('security' in cForm){
-            for (let key in cForm['security']){
-                for (let key1 in cForm['security'][key]){
-                    cForm[key1] = cForm['security'][key][key1];
-                }
-                
-            }
-            delete cForm['security'];
-        }
-
-        // emails
-        cForm = companyForm;
-        if ('emails_tmp' in cForm){
-            for (let key in cForm['emails_tmp']){
-                for (let key1 in cForm['emails_tmp'][key]){
-                    cForm[key1] = cForm['emails_tmp'][key][key1];
-                }
-                
-            }
-            delete cForm['emails_tmp'];
-        }
-    }
-
-    const shitExtraAddress = () => {
-
-        let tmpArray = {...companyForm};
-
-        if (!extraAddressShow){
-            delete tmpArray['extra_address[uuid]'];
-            delete tmpArray['extra_address[address_parent]'];
-            delete tmpArray['extra_address[street_address]'];
-            delete tmpArray['extra_address[address_line_2]'];
-            delete tmpArray['extra_address[city]'];
-            delete tmpArray['extra_address[state]'];
-            delete tmpArray['extra_address[postal]'];
-            delete tmpArray['extra_address[country]'];
-            delete tmpArray['extra_address[description]'];
-        }
-
-        return tmpArray;
-    }
-
-    const handleChange = (e, file = false) => {
+    const handleChange = (e) => {
         let { value, name } = e.target;
-        // get files
-        if (file){ value = e.target.files; }
-
         setCompanyForm({ ...companyForm, [name]: value });
     }
 
@@ -167,11 +131,9 @@ const CompanyForm = () => {
         e.preventDefault();
 
         setCompanyFormError([]);
-        ObjectsConvert();
         setLoadingShow(true);
 
-        let form = shitExtraAddress();
-        api.request('/api/company', 'POST', form, true)
+        api.request('/api/company', 'POST', companyForm)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
                     setCompanyList([ res.data.data, ...companyList ]);
@@ -192,12 +154,11 @@ const CompanyForm = () => {
 
     const handleUpdate = (e) => {
         e.preventDefault();
+
         setCompanyFormError([]);
-        ObjectsConvert();
         setLoadingShow(true);
 
-        let form = shitExtraAddress();
-        api.request('/api/company/'+companyForm['uuid'], 'POST', form, true)
+        api.request('/api/company/'+companyForm['uuid'], 'PUT', companyForm)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
                     let tmp_companyList = companyList;
@@ -252,11 +213,10 @@ const CompanyForm = () => {
 
     const handlePending = (e) => {
         e.preventDefault();
-        ObjectsConvert();
+
         setLoadingShow(true);
 
-        let form = shitExtraAddress();
-        api.request('/api/company-pending', 'POST', form, true)
+        api.request('/api/company-pending', 'POST', companyForm)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
                     setCompanyFormOpen(false);
@@ -276,11 +236,10 @@ const CompanyForm = () => {
 
     const handlePendingUpdate = (e) => {
         e.preventDefault();
-        ObjectsConvert();
+
         setLoadingShow(true);
 
-        let form = shitExtraAddress();
-        api.request('/api/company-pending-update/'+companyForm['uuid'], 'POST', form, true)
+        api.request('/api/company-pending-update/'+companyForm['uuid'], 'PUT', companyForm)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
                     setCompanyFormOpen(false);
@@ -300,7 +259,9 @@ const CompanyForm = () => {
 
     const handlePendingReject = (e) => {
         e.preventDefault();
+
         setLoadingShow(true);
+
         api.request('/api/company-reject/'+companyForm['uuid'], 'PUT')
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
@@ -320,12 +281,11 @@ const CompanyForm = () => {
 
     const handlePendingAccept = (e) => {
         e.preventDefault();
+
         setCompanyFormError([]);
-        ObjectsConvert();
         setLoadingShow(true);
 
-        let form = shitExtraAddress();
-        api.request('/api/company-accept/'+companyForm['uuid'], 'POST', form, true)
+        api.request('/api/company-accept/'+companyForm['uuid'], 'PUT', companyForm)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
                     setCompanyList([ res.data.data, ...companyList ]);
@@ -347,11 +307,10 @@ const CompanyForm = () => {
 
     const handleOverride = (e) => {
         e.preventDefault();
-        ObjectsConvert();
+
         setLoadingShow(true);
 
-        let form = shitExtraAddress();
-        api.request('/api/company-override/'+companyForm['uuid'], 'POST', form, true)
+        api.request('/api/company-override/'+companyForm['uuid'], 'PUT', companyForm)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
                     setCompanyList([ res.data.data, ...companyList ]);
@@ -648,17 +607,30 @@ const CompanyForm = () => {
                             />
                         </div>
 
-                        <AddressForm 
-                            parent_head_name='Address' 
-                            blockOpen={companyAddressOpen} 
-                            setBlockOpen={setCompanyAddressOpen}
-                            handleChange={handleChange} 
-                            errorRef={errorRef}
-                            extraAddressShow={extraAddressShow} 
-                            setExtraAddressShow={setExtraAddressShow}
-                        />
+                        <div className='col-12 col-sm-6 form-group'>
+                            <Address
+                                title='Address'
+                                unique='address'
+                                hasPlus={true}
+                                onPlusClick={() => { setExtraAddressShow(true) }}
+                                form={companyForm}
+                                setForm={setCompanyForm}
+                            />
+                        </div>
 
-                        <div className={`${styles['company-form-field']} col-12 ${!extraAddressShow?'col-sm-6':''} mt-2 form-group`}>
+                        { extraAddressShow &&
+                            <div className='col-12 col-sm-6 form-group'>
+                                <Address
+                                    title='Extra Address'
+                                    unique='extra_address'
+                                    isExtra={true}
+                                    form={companyForm}
+                                    setForm={setCompanyForm}
+                                />
+                            </div>
+                        }
+
+                        <div className='col-12 col-sm-6 form-group'>
                             <div className='d-card'>
                                 <div className='d-card-head'>
                                     <div className='d-card-head-title'>Phones</div>
@@ -889,9 +861,14 @@ const CompanyForm = () => {
                             </div>
                         </div>
 
-                        <EmailForm 
-                            handleChange={handleChange}
-                        />
+                        <div className='col-12 form-group'>
+                            <Email
+                                title='Emails'
+                                muliply={true}
+                                form={companyForm}
+                                setForm={setCompanyForm}
+                            />
+                        </div>
 
                         <div className='col-12 col-sm-4 form-group'>
                             <File
@@ -970,12 +947,9 @@ const CompanyForm = () => {
                             />
                         </div>
 
-                        <BankAccountForm 
-                            blockOpen={companyBankAccountOpen} 
-                            setBlockOpen={ setCompanyBankAccountOpen }
-                            handleChange={handleChange}
-                            errorRef={errorRef}
-                        />
+                        <div className='col-12 form-group'>
+                            
+                        </div>
 
                         <div 
                             className={`${styles['company-form-field']} col-12 col-sm-8 form-group`}

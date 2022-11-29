@@ -14,8 +14,6 @@ const CompanyList = () => {
             companyFormEntity, companyFormError, setCompanyFormError, handleCardClick,
             setLoadingShow,
 
-            extraAddressShow, setExtraAddressShow,
-
             lastAccepted, setLastAccepted, lastRejected, setLastRejected
         } = useContext(Mediator);
 
@@ -35,13 +33,16 @@ const CompanyList = () => {
     }
 
     async function handleAddClick(e){
+
         setCompanyFormOpen(true);
         setCompanyEdit(false);
+
         setCompanyForm(companyFormEntity);
         setCompanyFormOriginal(companyFormEntity);
-        setExtraAddressShow(false);
+
         setLastAccepted(null);
         setLastRejected(null);
+
     }
 
     const handlePaginatioClick = (number) => {
@@ -127,7 +128,7 @@ const CompanyList = () => {
                                             </div>
                                             <div className={`${styles['company-card-info']}`}>
                                                 <p>{value.legal_name}</p>
-                                                <p><FaMapMarkerAlt /> {value.address[0].street_address}, {value.address[0].city}, {value.address[0].state}</p>
+                                                <p><FaMapMarkerAlt /> {value.addresses[0].street_address}, {value.addresses[0].city}, {value.addresses[0].state}</p>
                                                 <p><FaFileAlt /> {value.uploaded_files.length}</p>
                                             </div>
                                         </div>

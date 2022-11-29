@@ -40,6 +40,12 @@ const Email = ({title, muliply = true, form, setForm}) => {
 
     const handleAdd = () => {
         let tmpArray = {...form};
+
+        // check if multiply emails
+        if (!muliply && tmpArray['emails'].length==1){
+            return false;
+        }
+
         tmpArray['emails'].push(inForm);
         setInForm(inFormEntity);
     }
@@ -189,7 +195,7 @@ const Email = ({title, muliply = true, form, setForm}) => {
                                                                 <FaPencilAlt />
                                                             </i>
                                                         </span>
-                                                        { (index>0) &&
+                                                        { (muliply) &&
                                                             <span 
                                                                 className='d-btn d-btn-sm d-btn-danger'
                                                                 onClick={ () => { handleDelete(index) } }

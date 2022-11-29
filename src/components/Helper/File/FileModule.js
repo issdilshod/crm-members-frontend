@@ -53,6 +53,25 @@ const FileModule = ({form, setForm, title, parentUnique, unique, downloadEnable,
     }
 
     const handleDelete = (uuid) => {
+        let tmpArr = [...form['uploaded_files']];
+        const index = tmpArr.findIndex(e => e.uuid == uuid);
+        if (index > -1){
+            tmpArr.splice(index, 1);
+        }
+
+        let tmpArray = {...form};
+        tmpArray['uploaded_files'] = tmpArr;
+
+        if (tmpArray['files_to_delete']){
+            tmpArray['files_to_delete'].push(uuid);
+        }else{
+            tmpArray['files_to_delete'] = [uuid];
+        }
+        
+        setForm(tmpArray);
+    }
+
+    const handleRemove = (uuid) => {
         let tmpArr = [...form['files']];
         const index = tmpArr.findIndex(e => e.uuid == uuid);
         if (index > -1){
@@ -61,7 +80,13 @@ const FileModule = ({form, setForm, title, parentUnique, unique, downloadEnable,
 
         let tmpArray = {...form};
         tmpArray['files'] = tmpArr;
-        tmpArray['files_to_delete'].push(uuid);
+
+        if (tmpArray['files_to_delete']){
+            tmpArray['files_to_delete'].push(uuid);
+        }else{
+            tmpArray['files_to_delete'] = [uuid];
+        }
+        
         setForm(tmpArray);
     }
 
@@ -102,7 +127,7 @@ const FileModule = ({form, setForm, title, parentUnique, unique, downloadEnable,
                                             <div className='mr-auto'>{ value['file_name'] }</div>
                                             <div 
                                                 className='d-btn d-btn-s d-btn-danger text-center'
-                                                onClick={ () => { handleDelete(value['uuid']) } } 
+                                                onClick={ () => { handleRemove(value['uuid']) } } 
                                             >
                                                 <i>
                                                     <FaTimes />
