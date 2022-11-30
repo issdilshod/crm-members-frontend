@@ -106,12 +106,12 @@ const Chat = ({pusher}) => {
         // set chat list
         if (!exists){
             tmpArr.push({
-                'last_message': [{
+                'last_message': {
                     'first_name': message['user']['first_name'],
                     'last_name': message['user']['last_name'],
                     'message': message['message'],
                     'created_at': message['created_at']
-                }],
+                },
                 'members': [ // chat members
 
                 ],
@@ -120,12 +120,12 @@ const Chat = ({pusher}) => {
                 'uuid': message['chat_uuid']
             });
         }else {
-            tmpArr[exists_index]['last_message'] = [{
+            tmpArr[exists_index]['last_message'] = {
                 'first_name': message['user']['first_name'],
                 'last_name': message['user']['last_name'],
                 'message': message['message'],
                 'created_at': message['created_at']
-            }];
+            };
         }
 
         // set to chat
@@ -138,11 +138,28 @@ const Chat = ({pusher}) => {
 
         setChatMessages(tmpChatMessages);
 
-        tmpArr.sort(function(a, b){
-            return new Date(b.last_message['0'].created_at) - new Date(a.last_message['0'].created_at);
-        });
+        tmpArr = sortChat(tmpArr);
 
         setChats(tmpArr);
+    }
+
+    const sortChat = (tmpChatList) => {
+        tmpChatList.sort(function(a,b){
+            if (a.last_message==null && b.last_message==null){
+                return new Date(b.created_at) - new Date(a.created_at);
+            }
+            else if (a.last_message!=null && b.last_message==null) {
+                return new Date(b.created_at) - new Date(a.last_message.created_at);
+            }
+            else if (a.last_message==null && b.last_message!=null){
+                return new Date(b.last_message.created_at) - new Date(a.created_at);
+            }
+            else{
+                return new Date(b.last_message.created_at) - new Date(a.last_message.created_at);
+            }
+        });
+
+        return tmpChatList;
     }
 
     const updateUsersList = (user) => {
@@ -151,12 +168,11 @@ const Chat = ({pusher}) => {
         // departments
         let found = false;
         for (let key in tmpArr){
-
             // users
             for (let key1 in tmpArr[key]['users']){
                 if (tmpArr[key]['users'][key1]['uuid']==user['uuid']){
                     // change last seen
-                    tmpArr[key]['users'][key1]['uuid']['last_seen'] = user['last_seen'];
+                    tmpArr[key]['users'][key1]['last_seen'] = user['last_seen'];
                     found = true;
                     break;
                 }
@@ -260,6 +276,7 @@ const Chat = ({pusher}) => {
                                 setChatMessagesMeta={setChatMessagesMeta}
                                 activeChat={activeChat}
                                 meUuid={meUuid}
+                                sortChat={sortChat}
                             />
                         }
                     </div>

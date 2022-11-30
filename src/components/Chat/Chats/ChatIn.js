@@ -7,7 +7,7 @@ import Api from "../../../services/Api";
 import LoadingMini from "../../Helper/LoadingMini";
 import DateFormats from "../Functions/DateFormats";
 
-const ChatIn = ({chats, setChats, chatMessages, setChatMessages, chatMessagesMeta, setChatMessagesMeta, activeChat, meUuid}) => {
+const ChatIn = ({chats, setChats, chatMessages, setChatMessages, chatMessagesMeta, setChatMessagesMeta, activeChat, meUuid, sortChat}) => {
 
     const api = new Api();
 
@@ -40,7 +40,7 @@ const ChatIn = ({chats, setChats, chatMessages, setChatMessages, chatMessagesMet
     }, [chatMessages]);
 
     const updateChatList = (last_message = '') => {
-        if (chatMessages.length<=0){ return false; }
+        if (last_message=='' && chatMessages.length<=0){ return false; }
 
         if (last_message==''){
             last_message = chatMessages[0];
@@ -62,25 +62,23 @@ const ChatIn = ({chats, setChats, chatMessages, setChatMessages, chatMessagesMet
                 'user_uuid': last_message['user_uuid'],
                 'name': last_message['chat']['name'],
                 'members': [],
-                'last_message': [{
+                'last_message': {
                     'first_name': last_message['user']['first_name'],
                     'last_name': last_message['user']['last_name'],
                     'message': last_message['message'],
                     'created_at': last_message['created_at']
-                }]
+                }
             });
         }else{
-            tmpArray[exists_chat_index]['last_message'] = [{
+            tmpArray[exists_chat_index]['last_message'] = {
                 'first_name': last_message['user']['first_name'],
                 'last_name': last_message['user']['last_name'],
                 'message': last_message['message'],
                 'created_at': last_message['created_at']
-            }];
+            };
         }
-
-        tmpArray.sort(function(a,b){
-            return new Date(b.last_message['0'].created_at) - new Date(a.last_message['0'].created_at);
-        });
+ 
+        //tmpArray = sortChat(tmpArray);
 
         setChats(tmpArray);
     }

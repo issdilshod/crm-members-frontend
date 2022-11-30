@@ -28,30 +28,30 @@ const ChatList = ({handleClick, chats, meUuid}) => {
                                     }
                                 </div>
                                 <div className='dialog-last-message-date'>
-                                    { (value['last_message'].length==0) &&
+                                    { (value['last_message']==null) &&
                                         <>
                                             { DateFormats.last_message_date(value['created_at']) }
                                         </>
                                     }
 
-                                    { (value['last_message'].length>0) &&
+                                    { (value['last_message']!=null) &&
                                         <>
-                                            { DateFormats.last_message_date(value['last_message'][0]['created_at']) }
+                                            { DateFormats.last_message_date(value['last_message']['created_at']) }
                                         </>
                                     }
                                 </div>
                             </div>
                             <div className='dialog-last-message d-flex'>
                                 <div className='mr-auto dialog-last-message-text'>
-                                    { (value['last_message'].length==0) &&
+                                    { (value['last_message']==null) &&
                                         <>
                                             No message yet.
                                         </>
                                     }
 
-                                    { (value['last_message'].length>0) &&
+                                    { (value['last_message']!=null) &&
                                         <>
-                                            { value['last_message'][0]['message'] }
+                                            { value['last_message']['message'] }
                                         </>
                                     }
                                     
