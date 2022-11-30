@@ -4,11 +4,11 @@ import { Collapse } from "react-bootstrap";
 import { FaAngleDown, FaAngleUp, FaPencilAlt, FaPlus, FaTrash } from "react-icons/fa";
 import Api from "../../../services/Api";
 
-const Email = ({title, muliply = true, form, setForm}) => {
+const Email = ({title, muliply = true, defaultOpen = true, form, setForm}) => {
 
     const api = new Api();
 
-    const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(defaultOpen);
 
     const [inFormEntity, setInFormEntity] = useState({'email': '', 'password': '', 'hosting_uuid': '', 'phone': ''});
     const [inForm, setInForm] = useState(inFormEntity);

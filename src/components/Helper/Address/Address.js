@@ -4,9 +4,9 @@ import Collapse from "react-bootstrap/Collapse";
 import { FaAngleDown, FaAngleUp, FaPlus } from "react-icons/fa";
 
 
-const Address = ({title, unique, hasPlus = false, isExtra = false, onPlusClick = () => {}, onChange, form, setForm}) => {
+const Address = ({title, unique, hasPlus = false, isExtra = false, defaulfOpen = true, onPlusClick = () => {}, onChange, form, setForm}) => {
 
-    const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(defaulfOpen);
 
     const [inFormEntity, setInFromEntity] = useState({'street_address': '', 'address_line_2': '', 'city': '', 'state': '', 'postal': '', 'country': '', 'description': ''});
     const [inForm, setInForm] = useState(inFormEntity);

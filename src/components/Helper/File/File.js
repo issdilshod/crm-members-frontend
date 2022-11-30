@@ -3,9 +3,9 @@ import Collapse from 'react-bootstrap/Collapse';
 import { useState } from "react";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 
-const File = ({ form, setForm, blocks = [], parentUnique, title, onChange, downloadEnable }) => {
+const File = ({ form, setForm, blocks = [], defaultOpen = true, parentUnique, title, onChange, downloadEnable }) => {
 
-    const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(defaultOpen);
 
     return (
         <div className='dd-card'>

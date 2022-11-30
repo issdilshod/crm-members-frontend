@@ -121,7 +121,7 @@ const FileModule = ({form, setForm, title, parentUnique, unique, downloadEnable,
                     {
                         choosedFiles.map((value, index) => {
                             return (
-                                <>
+                                <div key={index}>
                                     { (value['file_parent']==fileParent) && 
                                         <div key={index} className='file-block-module-files mt-1 d-flex'>
                                             <div className='mr-auto'>{ value['file_name'] }</div>
@@ -135,7 +135,7 @@ const FileModule = ({form, setForm, title, parentUnique, unique, downloadEnable,
                                             </div>
                                         </div>
                                     }
-                                </>
+                                </div>
                             )
                         })
                     }

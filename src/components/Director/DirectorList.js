@@ -5,10 +5,11 @@ import Pagination from '../Helper/Pagination';
 import Search from '../Helper/Search';
 
 import * as STATUS from '../../consts/Status';
+import { useNavigate } from 'react-router-dom';
 
 const DirectorList = () => {
     const { 
-            api, navigate, styles, 
+            api, styles, 
             menuOpen, setMenuOpen,
             directorFormOriginal, setDirectorFormOriginal,
             directorForm, setDirectorForm, directorFormOpen, setDirectorFormOpen, directorEdit, setDirectorEdit, directorList, setDirectorList,
@@ -16,6 +17,8 @@ const DirectorList = () => {
             setLoadingShow,
             lastAccepted, setLastAccepted, lastRejected, setLastRejected
         } = useContext(Mediator);
+
+    const nav = useNavigate();
 
     useEffect(() => {
         firstInit();
@@ -58,15 +61,17 @@ const DirectorList = () => {
     const [rangeShow, setRangeShow] = useState(9);
 
     const [defaultList, setDefaultList] = useState(true);
+
     const handleTextChange = (text) => {
         if (text.length>=3){
             setLoadingShow(true);
             setDefaultList(false);
-            api.request('/api/director-search/'+text, 'GET')
+            api.request('/api/pending/search/' + text, 'GET')
                 .then(res => {
                     if (res.status===200 || res.status===201){ // success
-                        setDirectorList(res.data.data);
-                        setTotalPage(res.data.meta['last_page']);
+                        let tmpArr = [...res.data.companies, ...res.data.directors];
+                        setDirectorList(tmpArr);
+                        //setTotalPage(res.data.meta['last_page']);
                     }
                     setLoadingShow(false);
                 });
@@ -79,11 +84,15 @@ const DirectorList = () => {
         }
     } 
 
+    const handleGoToCard = (link) => {
+        nav(process.env.REACT_APP_FRONTEND_PREFIX + link);
+    }
+
     return (  
         <div className={`${styles['main-content']} container-fluid`}>
             <div className={styles['director-cards']}>
                 <div className={`${styles['director-card-head']} d-flex`}>
-                    <div className={`${styles['go_back']} mr-4`} onClick={() => {navigate(`${process.env.REACT_APP_FRONTEND_PREFIX}/dashboard`)}}>
+                    <div className={`${styles['go_back']} mr-4`} onClick={() => {nav(`${process.env.REACT_APP_FRONTEND_PREFIX}/dashboard`)}}>
                         <span>
                             <FaArrowLeft />
                         </span>
@@ -110,11 +119,11 @@ const DirectorList = () => {
                                 return (
                                     <div key={index} className={`col-12 col-sm-6 col-md-4 col-xl-3 mb-3`}>
                                         <div 
-                                        className={`t-card t-card-sm 
-                                                    ${STATUS.ACTIVED==value['status']?'t-card-primary':''}
-                                                    ${STATUS.REJECTED==value['status']?'t-card-danger':''}
-                                                     d-flex`} 
-                                        onClick={ () => { handleCardClick(value['uuid']) } }
+                                            className={`t-card t-card-sm 
+                                                        ${STATUS.ACTIVED==value['status']?'t-card-primary':''}
+                                                        ${STATUS.REJECTED==value['status']?'t-card-danger':''}
+                                                        d-flex`} 
+                                            onClick={ () => { handleGoToCard(value['last_activity']['link']) } }
                                         >
                                             <div className={`${styles['director-card-icon']} mr-3 ml-3`}>
                                                 <span>
@@ -122,8 +131,8 @@ const DirectorList = () => {
                                                 </span>
                                             </div>
                                             <div className={`${styles['director-card-info']}`}>
-                                                <p>{value.first_name} {value.middle_name} {value.last_name}</p>
-                                                <p><FaMapMarkerAlt /> {value.addresses[0].street_address}, {value.addresses[0].city}, {value.addresses[0].state}</p>
+                                                <p>{ value.name }</p>
+                                                <p><FaMapMarkerAlt /> {value.address.street_address}, {value.address.city}, {value.address.state}</p>
                                                 <p><FaFileAlt /> {value.uploaded_files.length}</p>
                                             </div>
                                         </div>

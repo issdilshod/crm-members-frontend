@@ -96,9 +96,16 @@ const Company = () => {
     const [loadingShow, setLoadingShow] = useState(true);
 
     const { uuid } = useParams();
+
     useEffect(() => {
         firstInit();
     }, []);
+
+    useEffect(() => {
+        if (uuid!='' && uuid!=null){
+            handleCardClick(uuid);
+        }
+    }, [uuid]);
 
     const firstInit = () => {
         document.title = 'Companies';
@@ -114,9 +121,13 @@ const Company = () => {
     }
 
     const handleCardClick = (uuid) => {
+
+        setLoadingShow(true);
+
         setCompanyFormOpen(false);
         setCompanyForm(companyFormEntity);
         setCompanyFormOriginal(companyFormEntity);
+
         api.request('/api/company/'+uuid, 'GET')
             .then(res => {
                 if (res.status===200||res.status===201){
@@ -130,9 +141,11 @@ const Company = () => {
 
                     let tmp_company = res.data.data;
 
-                    setCompanyForm({ ...tmp_company, 'security': []});
-                    setCompanyFormOriginal({ ...tmp_company, 'security': [] });
+                    setCompanyForm({...tmp_company});
+                    setCompanyFormOriginal({...tmp_company});
                 }
+
+                setLoadingShow(false);
             });  
     }
 

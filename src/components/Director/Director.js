@@ -67,6 +67,12 @@ const Director = () => {
         firstInit();
     }, []);
 
+    useEffect(() => {
+        if (uuid!='' && uuid!=null){
+            handleCardClick(uuid);
+        }
+    }, [uuid]);
+
     const firstInit = () => {
         document.title = 'Directors';
         
@@ -81,9 +87,13 @@ const Director = () => {
     }
 
     const handleCardClick = (uuid) => {
+
+        setLoadingShow(true);
+
         setDirectorFormOpen(false);
         setDirectorForm(directorFormEntity);
         setDirectorFormOriginal(directorFormEntity);
+
         api.request('/api/director/'+uuid, 'GET')
             .then(res => {
                 if (res.status===200||res.status===201){
@@ -106,6 +116,7 @@ const Director = () => {
                     setDirectorFormOriginal(tmp_director);
                 }
                 
+                setLoadingShow(false);
             });  
     }
 

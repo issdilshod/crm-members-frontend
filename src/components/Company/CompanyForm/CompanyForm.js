@@ -47,6 +47,11 @@ const CompanyForm = () => {
     useEffect(() => {
         setCompanyFormError({});
 
+        // out card
+        if (!companyFormOpen){
+            nav(`${process.env.REACT_APP_FRONTEND_PREFIX}/companies`);
+        }
+
         // director get
         if (companyFormOpen && companyEdit){
             if (companyForm['director']!=null){

@@ -34,7 +34,14 @@ const DirectorForm = () => {
     const nav = useNavigate();
 
     useEffect(() => {
+
+        // out card
+        if (!directorFormOpen){
+            nav(`${process.env.REACT_APP_FRONTEND_PREFIX}/directors`);
+        }
+
         setDirectorFormError({});
+
     }, [directorFormOpen])
 
     const [meUuid, setMeUuid] = useState('');

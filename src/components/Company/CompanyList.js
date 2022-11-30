@@ -4,6 +4,7 @@ import { FaArrowLeft, FaBars, FaBuilding, FaFileAlt, FaMapMarkerAlt, FaPlus } fr
 import Search from '../Helper/Search';
 import Pagination from '../Helper/Pagination';
 import * as STATUS from '../../consts/Status';
+import { useNavigate } from 'react-router-dom';
 
 const CompanyList = () => {
     const { 
@@ -16,6 +17,8 @@ const CompanyList = () => {
 
             lastAccepted, setLastAccepted, lastRejected, setLastRejected
         } = useContext(Mediator);
+
+    const nav = useNavigate();
 
     useEffect(() => {
         firstInit();
@@ -62,15 +65,18 @@ const CompanyList = () => {
     const [rangeShow, setRangeShow] = useState(9);
 
     const [defaultList, setDefaultList] = useState(true);
+
     const handleTextChange = (text) => {
         if (text.length>=3){
             setLoadingShow(true);
             setDefaultList(false);
-            api.request('/api/company-search/'+text, 'GET')
+            api.request('/api/pending/search/' + text, 'GET')
                 .then(res => {
                     if (res.status===200||res.status===201){
-                        setCompanyList(res.data.data);
-                        setTotalPage(res.data.meta['last_page']);
+                        let tmpArr = [...res.data.companies, ...res.data.directors];
+                        setCompanyList(tmpArr);
+                        console.log(res);
+                        //setTotalPage(res.data.meta['last_page']);
                     }
                     setLoadingShow(false);
                 });
@@ -83,11 +89,15 @@ const CompanyList = () => {
         }
     }
 
+    const handleGoToCard = (link) => {
+        nav(process.env.REACT_APP_FRONTEND_PREFIX + link);
+    }
+
     return (  
         <div className={`${styles['main-content']} container-fluid`}>
             <div className={styles['company-cards']}>
                 <div className={`${styles['company-card-head']} d-flex`}>
-                    <div className={`${styles['go_back']} mr-4`} onClick={() => {navigate(`${process.env.REACT_APP_FRONTEND_PREFIX}/dashboard`)}}>
+                    <div className={`${styles['go_back']} mr-4`} onClick={() => {nav(`${process.env.REACT_APP_FRONTEND_PREFIX}/dashboard`)}}>
                         <span>
                             <FaArrowLeft />
                         </span>
@@ -119,7 +129,7 @@ const CompanyList = () => {
                                                     ${STATUS.ACTIVED==value['status']?'t-card-primary':''}
                                                     ${STATUS.REJECTED==value['status']?'t-card-danger':''}
                                                      d-flex`} 
-                                        onClick={ () => { handleCardClick(value['uuid']) } }
+                                        onClick={ () => { handleGoToCard(value['last_activity']['link']) } }
                                         >
                                             <div className={`${styles['company-card-icon']} mr-3 ml-3`}>
                                                 <span>
@@ -127,8 +137,8 @@ const CompanyList = () => {
                                                 </span>
                                             </div>
                                             <div className={`${styles['company-card-info']}`}>
-                                                <p>{value.legal_name}</p>
-                                                <p><FaMapMarkerAlt /> {value.addresses[0].street_address}, {value.addresses[0].city}, {value.addresses[0].state}</p>
+                                                <p>{value.name}</p>
+                                                <p><FaMapMarkerAlt /> {value.address.street_address}, {value.address.city}, {value.address.state}</p>
                                                 <p><FaFileAlt /> {value.uploaded_files.length}</p>
                                             </div>
                                         </div>
