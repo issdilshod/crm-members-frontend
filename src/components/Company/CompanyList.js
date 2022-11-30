@@ -75,8 +75,7 @@ const CompanyList = () => {
                     if (res.status===200||res.status===201){
                         let tmpArr = [...res.data.companies, ...res.data.directors];
                         setCompanyList(tmpArr);
-                        console.log(res);
-                        //setTotalPage(res.data.meta['last_page']);
+                        setTotalPage(1);
                     }
                     setLoadingShow(false);
                 });

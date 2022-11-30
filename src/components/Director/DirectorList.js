@@ -71,7 +71,7 @@ const DirectorList = () => {
                     if (res.status===200 || res.status===201){ // success
                         let tmpArr = [...res.data.companies, ...res.data.directors];
                         setDirectorList(tmpArr);
-                        //setTotalPage(res.data.meta['last_page']);
+                        setTotalPage(1);
                     }
                     setLoadingShow(false);
                 });

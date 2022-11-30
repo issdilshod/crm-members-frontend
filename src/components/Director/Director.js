@@ -46,13 +46,6 @@ const Director = () => {
     const [directorFormError, setDirectorFormError] = useState({});
     const [lastAccepted, setLastAccepted] = useState(null);
     const [lastRejected, setLastRejected] = useState(null);
-    // address
-    const [dlAddressOpen, setDlAddressOpen] = useState(true);
-    const [creditHomeAddressOpen, setCreditHomeAddressOpen] = useState(true);
-    // uploads
-    const [dlUploadOpen, setDlUploadOpen] = useState(true);
-    const [ssnUploadOpen, setSsnUploadOpen] = useState(true);
-    const [cpnDocsUploadOpen, setCpnDocsUploadOpen] = useState(true);
 
     // card save/discard
     const [cardStatusOpen, setCardStatusOpen] = useState(false);
@@ -127,8 +120,6 @@ const Director = () => {
                                 directorFormOriginal, setDirectorFormOriginal,
                                 directorFormOpen, setDirectorFormOpen, directorEdit, setDirectorEdit, directorList, setDirectorList,
                                     directorForm, setDirectorForm, directorFormError, setDirectorFormError, directorFormEntity, setDirectorFormEntity, handleCardClick,
-                                dlAddressOpen, setDlAddressOpen, creditHomeAddressOpen,
-                                    setCreditHomeAddressOpen, dlUploadOpen, setDlUploadOpen, ssnUploadOpen, setSsnUploadOpen, cpnDocsUploadOpen, setCpnDocsUploadOpen,
                                 cardStatusOpen, setCardStatusOpen,
                                 setLoadingShow,
                                 lastAccepted, setLastAccepted, lastRejected, setLastRejected

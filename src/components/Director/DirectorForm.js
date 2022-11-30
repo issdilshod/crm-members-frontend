@@ -24,8 +24,6 @@ const DirectorForm = () => {
             directorFormOriginal, setDirectorFormOriginal,
             directorFormOpen, setDirectorFormOpen, directorEdit, setDirectorEdit, directorList, setDirectorList, directorForm, setDirectorForm,
                 directorFormError, setDirectorFormError,
-            dlAddressOpen, setDlAddressOpen, creditHomeAddressOpen,
-                setCreditHomeAddressOpen, dlUploadOpen, setDlUploadOpen, ssnUploadOpen, setSsnUploadOpen, cpnDocsUploadOpen, setCpnDocsUploadOpen,
             cardStatusOpen, setCardStatusOpen,
             setLoadingShow,
             lastAccepted, setLastAccepted, lastRejected, setLastRejected
