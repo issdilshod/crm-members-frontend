@@ -1011,6 +1011,13 @@ const CompanyForm = () => {
                                 
                                 { permissions.includes(COMPANY.STORE)  && // add/update
                                     <>
+
+                                        { (Object.keys(companyFormError).length>0) && // override
+                                            <button className='d-btn d-btn-primary mr-2' onClick={ (e) => { handleOverride(e) } }>
+                                                Override
+                                            </button>
+                                        }
+                                        
                                         { companyForm['status']=='' &&
                                             <button className='d-btn d-btn-primary mr-2' onClick={ (e) => { handleStore(e) } }>
                                                 Save
