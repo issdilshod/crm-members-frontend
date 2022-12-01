@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Mediator } from '../../context/Mediator';
-import { FaArrowLeft, FaBars, FaFileAlt, FaMapMarkerAlt, FaPlus, FaUser } from 'react-icons/fa';
+import { FaArrowLeft, FaBars, FaClone, FaFileAlt, FaMapMarkerAlt, FaPlus, FaUser } from 'react-icons/fa';
 import Pagination from '../Helper/Pagination';
 import Search from '../Helper/Search';
 
@@ -89,35 +89,40 @@ const DirectorList = () => {
     }
 
     return (  
-        <div className={`${styles['main-content']} container-fluid`}>
-            <div className={styles['director-cards']}>
-                <div className={`${styles['director-card-head']} d-flex`}>
-                    <div className={`${styles['go_back']} mr-4`} onClick={() => {nav(`${process.env.REACT_APP_FRONTEND_PREFIX}/dashboard`)}}>
+        <div className='c-main-content container-fluid'>
+            <div className='c-list'>
+                <div className='c-list-head d-flex'>
+                    <div className='c-list-head-back mr-4' onClick={() => {nav(`${process.env.REACT_APP_FRONTEND_PREFIX}/dashboard`)}}>
                         <span>
                             <FaArrowLeft />
                         </span>
                     </div>
-                    <div className={`${styles['director-card-title']} mr-auto`}>Directors cards</div>
-                    <div className={`${styles['director-card-menu']} d-flex`}>
-                        <div className={`${styles['director-add']} text-center mr-2`} onClick={ handleAddClick }>
-                            <span className={styles['director-add-icon']}>
-                                <FaPlus />
-                            </span>
+                    <div className='c-list-head-title mr-auto'>Directors cards</div>
+                    <div className='d-flex'>
+                        <div className='d-btn d-btn-primary mr-2'>
+                            <i>
+                                <FaClone />
+                            </i>
                         </div>
-                        <div className={`${styles['menu']} text-center`} onClick={() => {setMenuOpen(!menuOpen)}}>
-                            <span className={styles['menu-icon']}>
+                        <div className='d-btn d-btn-primary mr-2' onClick={ handleAddClick }>
+                            <i>
+                                <FaPlus />
+                            </i>
+                        </div>
+                        <div className='d-btn d-btn-primary' onClick={() => {setMenuOpen(!menuOpen)}}>
+                            <i>
                                 <FaBars />
-                            </span>
+                            </i>
                         </div>
                     </div>
                 </div>
-                <div className={`${styles['director-card-body']} container-fluid`}>
+                <div className='c-body container-fluid'>
                     <Search handleTextChange={ handleTextChange } />
-                    <div className={`${styles['director-list']} row`}>
+                    <div className='c-list-item row'>
                         {
                             directorList.map((value, index) => {
                                 return (
-                                    <div key={index} className={`col-12 col-sm-6 col-md-4 col-xl-3 mb-3`}>
+                                    <div key={index} className='col-12 col-sm-6 col-md-4 col-xl-3 mb-3'>
                                         <div 
                                             className={`t-card t-card-sm 
                                                         ${STATUS.ACTIVED==value['status']?'t-card-primary':''}
@@ -125,12 +130,12 @@ const DirectorList = () => {
                                                         d-flex`} 
                                             onClick={ () => { handleGoToCard(value['last_activity']['link']) } }
                                         >
-                                            <div className={`${styles['director-card-icon']} mr-3 ml-3`}>
+                                            <div className='c-item-icon mr-3 ml-3'>
                                                 <span>
                                                     <FaUser />
                                                 </span>
                                             </div>
-                                            <div className={`${styles['director-card-info']}`}>
+                                            <div className='c-item-info'>
                                                 <p>{ value.name }</p>
                                                 <p><FaMapMarkerAlt /> {value.address.street_address}, {value.address.city}, {value.address.state}</p>
                                                 <p><FaFileAlt /> {value.uploaded_files.length}</p>
