@@ -10,6 +10,7 @@ import styles from './Dashboard.module.scss';
 import { Mediator } from '../../context/Mediator';
 import Pending from './Pending/Pending';
 import Chat from '../Chat/Chat';
+import Loading from '../Helper/Loading';
 
 const Dashboard = () => {
     const navigate = useNavigate();
@@ -37,6 +38,8 @@ const Dashboard = () => {
     const [filterPending, setFilterPending] = useState('');
 
     const [summaryFilter, setSummaryFilter] = useState('');
+
+    const [loadingShow, setLoadingShow] = useState(false);
 
     useEffect(() => {
         firstInit();
@@ -111,6 +114,7 @@ const Dashboard = () => {
                                 summaryFilter={summaryFilter}
                                 setSummaryFilter={setSummaryFilter}
                                 pusher={pusher}
+                                setLoadingShow={setLoadingShow}
                             />
                         </div>
                         <div className='col-12 col-sm-4'>
@@ -126,6 +130,11 @@ const Dashboard = () => {
             <Chat
                 pusher={pusher}
             />
+
+            { loadingShow &&
+                <Loading />
+            }
+
         </Mediator.Provider>
     );
 }

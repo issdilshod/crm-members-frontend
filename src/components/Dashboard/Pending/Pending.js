@@ -18,7 +18,7 @@ import PendingSummary from './PendingSummary';
 import * as ROLE from '../../../consts/Role';
 import ContextMenu from './ContextMenu';
 
-const Pending = ({ pendingNextFetch, pendingSummary, pendingMeta, setPendingMeta, pending, setPending, filterPending, setFilterPending, pusher, summaryFilter, setSummaryFilter }) => {
+const Pending = ({ pendingNextFetch, pendingSummary, pendingMeta, setPendingMeta, pending, setPending, filterPending, setFilterPending, pusher, summaryFilter, setSummaryFilter, setLoadingShow }) => {
 
     const api = new Api();
     const nav = useNavigate();
@@ -150,20 +150,27 @@ const Pending = ({ pendingNextFetch, pendingSummary, pendingMeta, setPendingMeta
     }
 
     const quickAccept = () => {
+        setLoadingShow(true);
+
         api.request('/api/pending/accept', 'POST', {'pendings': checked})
             .then(res => {
                 if (res.status===200||res.status===201){
+
                     let tmpArray = [...pending];
                     for (let key in tmpArray){
                         for (let key1 in res.data){
-                            if (tmpArray[key]['uuid']==res.data[key1]){
-                                tmpArray[key]['status'] = STATUS.ACTIVED;
+                            if (tmpArray[key]['uuid']==res.data[key1]['uuid']){
+                                tmpArray[key] = res.data[key1];
+                                break;
                             }
                         }
                     }
                     setPending(tmpArray);
+
                     setChecked([]);
                 }
+
+                setLoadingShow(false);
             });
     }
 
