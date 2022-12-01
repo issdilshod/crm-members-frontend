@@ -60,10 +60,12 @@ const CompanyForm = () => {
         }
 
         // extra address
-        if (companyForm['addresses'].length>1){
-            setExtraAddressShow(true);
-        }else{
-            setExtraAddressShow(false);
+        for (let key in companyForm['addresses']){
+            if (companyForm['addresses'][key]['address_parent']==COMPANY.EXTRA_ADDRESS){
+                setExtraAddressShow(true);
+            }else{
+                setExtraAddressShow(false);
+            }
         }
     }, [companyFormOpen])
 
@@ -389,8 +391,6 @@ const CompanyForm = () => {
             tmpArray['addresses'].splice(exists_index, 1);
         }
 
-        console.log(tmpArray);
-
         setCompanyForm(tmpArray);
         setExtraAddressShow(false);
     }
@@ -660,6 +660,17 @@ const CompanyForm = () => {
                             />
                         </div>
 
+                        <div className='col-12 form-group'>
+                            <Address
+                                title='Registered Agent'
+                                unique='registered_agent'
+                                form={companyForm}
+                                setForm={setCompanyForm}
+                                defaulfOpen={false}
+                                isRegisterAgent={true}
+                            />
+                        </div>
+
                         <div className='col-12 col-sm-6 form-group'>
                             <Address
                                 title='Address'
@@ -684,7 +695,7 @@ const CompanyForm = () => {
                             </div>
                         }
 
-                        <div className='col-12 col-sm-6 form-group'>
+                        <div className={`col-12 ${!extraAddressShow?'col-sm-6':''} form-group`}>
                             <div className='d-card'>
                                 <div className='d-card-head'>
                                     <div className='d-card-head-title'>Phones</div>

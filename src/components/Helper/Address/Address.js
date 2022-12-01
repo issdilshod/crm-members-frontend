@@ -2,13 +2,13 @@ import { useEffect } from "react";
 import { useState } from "react";
 import Collapse from "react-bootstrap/Collapse";
 import { FaAngleDown, FaAngleUp, FaPlus, FaTimes } from "react-icons/fa";
+import * as COMPANY from '../../../consts/Company';
 
-
-const Address = ({title, unique, hasPlus = false, isExtra = false, defaulfOpen = true, onPlusClick, onExtraCloseClick, onChange, form, setForm}) => {
+const Address = ({title, unique, hasPlus = false, isExtra = false, isRegisterAgent = false, defaulfOpen = true, onPlusClick, onExtraCloseClick, onChange, form, setForm}) => {
 
     const [isOpen, setIsOpen] = useState(defaulfOpen);
 
-    const [inFormEntity, setInFromEntity] = useState({'street_address': '', 'address_line_2': '', 'city': '', 'state': '', 'postal': '', 'country': '', 'description': ''});
+    const [inFormEntity, setInFromEntity] = useState({'registered_agent':'', 'street_address': '', 'address_line_2': '', 'city': '', 'state': '', 'postal': '', 'country': '', 'description': ''});
     const [inForm, setInForm] = useState(inFormEntity);
 
     useEffect(() => {
@@ -18,12 +18,18 @@ const Address = ({title, unique, hasPlus = false, isExtra = false, defaulfOpen =
         for (let key in form['addresses']){
             if (form['addresses'][key]['address_parent']==unique){
                 setInForm(form['addresses'][key]);
+                setIsOpen(true);
                 setted = true;
             }
         }
 
         if (!setted){
             setInForm(inFormEntity);
+
+            // only registered agent
+            if (unique==COMPANY.REGISTERED_AGENT){
+                setIsOpen(false);
+            }
         }
     }, [form]);
 
@@ -101,6 +107,22 @@ const Address = ({title, unique, hasPlus = false, isExtra = false, defaulfOpen =
                     in={isOpen}
                 >
                     <div className='row'>
+
+                        { isRegisterAgent &&
+                            <div className='col-12'>
+                                <div className='form-group'>
+                                    <label>Registered Agent Name</label>
+                                    <input
+                                        className='form-control'
+                                        placeholder='Registered Agent Name'
+                                        type='text'
+                                        name='register_agent'
+                                        onChange={ (e) => { handleChange(e) } }
+                                        value={inForm['register_agent']}
+                                    />
+                                </div>
+                            </div>
+                        }
 
                         <div className='col-12'>
                             <div className='form-group'>

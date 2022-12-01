@@ -8,3 +8,7 @@ export const DELETE = 'company_delete';
 export const ACCEPT = 'company_accept';
 export const REJECT = 'company_reject';
 export const DOWNLOAD = 'company_download';
+
+export const ADDRESS = 'address';
+export const EXTRA_ADDRESS = 'extra_address';
+export const REGISTERED_AGENT = 'registered_agent';
