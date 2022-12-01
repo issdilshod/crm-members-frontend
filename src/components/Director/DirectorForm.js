@@ -232,8 +232,25 @@ const DirectorForm = () => {
         api.request('/api/director-override/'+directorForm['uuid'], 'PUT', directorForm)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
+
+                    // check if exists
+                    let tmpArray = [...directorList];
+                    let exists = false;
+                    for (let key in tmpArray){
+                        if (tmpArray[key]['uuid']==res.data.data['uuid']){
+                            tmpArray[key] = res.data.data;
+                            exists = true;
+                            break;
+                        }
+                    }
+
+                    if (!exists){
+                        setDirectorList([ res.data.data, ...directorList ]);
+                    }else{
+                        setDirectorList(tmpArray);
+                    }
+                
                     setAlert({'msg': 'Succefully director overrided', 'show': true, 'type': 'success'});
-                    setDirectorList([ res.data.data, ...directorList ]);
                     setDirectorFormOpen(false);
                     handleGoToDashboard();
                 }else if (res.status===403){ // permission

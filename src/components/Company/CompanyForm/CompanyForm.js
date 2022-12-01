@@ -318,7 +318,24 @@ const CompanyForm = () => {
         api.request('/api/company-override/'+companyForm['uuid'], 'PUT', companyForm)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
-                    setCompanyList([ res.data.data, ...companyList ]);
+
+                    // check if exists
+                    let tmpArray = [...companyList];
+                    let exists = false;
+                    for (let key in tmpArray){
+                        if (tmpArray[key]['uuid']==res.data.data['uuid']){
+                            tmpArray[key] = res.data.data;
+                            exists = true;
+                            break;
+                        }
+                    }
+
+                    if (!exists){
+                        setCompanyList([ res.data.data, ...companyList ]);
+                    }else{
+                        setCompanyList(tmpArray);
+                    }
+
                     setCompanyFormOpen(false);
                     setAlert({'msg': 'Succefully company ovverided', 'show': true, 'type': 'success'});
                     handleGoToDashboard();
