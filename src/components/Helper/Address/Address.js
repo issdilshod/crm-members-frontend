@@ -1,10 +1,10 @@
 import { useEffect } from "react";
 import { useState } from "react";
 import Collapse from "react-bootstrap/Collapse";
-import { FaAngleDown, FaAngleUp, FaPlus } from "react-icons/fa";
+import { FaAngleDown, FaAngleUp, FaPlus, FaTimes } from "react-icons/fa";
 
 
-const Address = ({title, unique, hasPlus = false, isExtra = false, defaulfOpen = true, onPlusClick = () => {}, onChange, form, setForm}) => {
+const Address = ({title, unique, hasPlus = false, isExtra = false, defaulfOpen = true, onPlusClick, onExtraCloseClick, onChange, form, setForm}) => {
 
     const [isOpen, setIsOpen] = useState(defaulfOpen);
 
@@ -66,6 +66,18 @@ const Address = ({title, unique, hasPlus = false, isExtra = false, defaulfOpen =
                         <FaPlus />
                     </i>
                 </div>
+            }
+
+            { isExtra &&
+                <span 
+                    className='d-btn d-btn-sm d-btn-danger'
+                    style={{'position': 'absolute', 'top': '15px', 'right': '-26px', 'border-radius': '0px 20px 20px 0px'}}
+                    onClick={ ()=> { onExtraCloseClick(unique) } }
+                >
+                    <i>
+                        <FaTimes />
+                    </i>
+                </span>
             }
             <div 
                 className='dd-card-head d-flex'

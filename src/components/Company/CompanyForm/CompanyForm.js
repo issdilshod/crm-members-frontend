@@ -351,6 +351,37 @@ const CompanyForm = () => {
         handleClose();
     }
 
+    const onExtraCloseClick = (unique) => {
+        let tmpArray = {...companyForm};
+
+        // find end delete
+        let exists = false, exists_index;
+        for (let key in tmpArray['addresses'])
+        {
+            if (tmpArray['addresses'][key]['address_parent']==unique){
+                exists = true;
+                exists_index = key;
+                break;
+            }
+        }
+
+        if (exists){
+            if ('uuid' in tmpArray['addresses'][exists_index]){
+                tmpArray['address_to_delete'] = tmpArray['addresses'][exists_index]['uuid'];
+            }
+            tmpArray['addresses'].splice(exists_index, 1);
+        }
+
+        console.log(tmpArray);
+
+        setCompanyForm(tmpArray);
+        setExtraAddressShow(false);
+    }
+
+    const onPlusClick = () => {
+        setExtraAddressShow(true);
+    }
+
     const errorRef = useRef({});
 
     return (  
@@ -617,7 +648,7 @@ const CompanyForm = () => {
                                 title='Address'
                                 unique='address'
                                 hasPlus={true}
-                                onPlusClick={() => { setExtraAddressShow(true) }}
+                                onPlusClick={onPlusClick}
                                 form={companyForm}
                                 setForm={setCompanyForm}
                             />
@@ -631,6 +662,7 @@ const CompanyForm = () => {
                                     isExtra={true}
                                     form={companyForm}
                                     setForm={setCompanyForm}
+                                    onExtraCloseClick={onExtraCloseClick}
                                 />
                             </div>
                         }
