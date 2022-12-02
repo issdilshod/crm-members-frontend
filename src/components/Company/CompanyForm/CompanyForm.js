@@ -405,20 +405,20 @@ const CompanyForm = () => {
             <Notification Alert={alert} SetAlert={setAlert} />
             <div className={`c-card-left ${!companyFormOpen?'w-0':''}`} onClick={ () => { handleClickOutCard() } }></div>
             <div
-                className={`${styles['company-form-card']} ${companyFormOpen ? styles['company-form-card-active']:''}`}
+                className={`c-form ${companyFormOpen?'c-form-active':''}`}
             >
-                <div className={`${styles['company-form-card-head']} d-flex`}>
-                    <div className={`${styles['company-form-card-title']} mr-auto`}>{(!companyEdit?'Add company':'Edit company')}</div>
-                    <div className={styles['company-form-card-close']} onClick={ (e) => { handleClose(e); } }>
+                <div className='c-form-head d-flex'>
+                    <div className='c-form-head-title mr-auto'>{(!companyEdit?'Add company':'Edit company')}</div>
+                    <div className='c-form-close' onClick={ (e) => { handleClose(e); } }>
                         <FaTimes />
                     </div>
                 </div>
-                <hr className={styles['divider']} />
-                <div className={`${styles['company-form-card-body']} container-fluid`}>
-                    <form className={`${styles['company-form-block']} row`} encType='multipart/form-data'>
+                <hr className='divider' />
+                <div className='c-form-body container-fluid'>
+                    <form className='c-form-body-block row'>
 
                         <div 
-                            className={`${styles['company-form-field']} col-12 col-sm-4 form-group`}
+                            className={`c-form-field col-12 col-sm-4 form-group`}
                             ref = { e => errorRef.current['legal_name'] = e }
                         >
                             <label>Company Legal Name <i className='req'>*</i></label>
@@ -437,7 +437,7 @@ const CompanyForm = () => {
                             />
                         </div>
 
-                        <div className={`${styles['company-form-field']} col-12 col-sm-4 form-group`}>
+                        <div className={`c-form-field col-12 col-sm-4 form-group`}>
                             <label>SIC code</label>
                             <Select 
                                 options={sicCodeList}
@@ -447,7 +447,7 @@ const CompanyForm = () => {
                         </div>
 
                         <div 
-                            className={`${styles['company-form-field']} col-12 col-sm-4 form-group`}
+                            className={`c-form-field col-12 col-sm-4 form-group`}
                             ref = { e => errorRef.current['director_uuid'] = e }
                         >
                             <label>Director <i className='req'>*</i></label>
@@ -465,7 +465,7 @@ const CompanyForm = () => {
                             />
                         </div>
 
-                        <div className={`${styles['company-form-field']} col-12 form-group`}>
+                        <div className={`c-form-field col-12 form-group`}>
                             <label>Incorporation date</label>
                             <input 
                                 className={`form-control`} 
@@ -477,7 +477,7 @@ const CompanyForm = () => {
                             />
                         </div>
 
-                        <div className={`${styles['company-form-field']} col-12 col-sm-4 form-group`}>
+                        <div className={`c-form-field col-12 col-sm-4 form-group`}>
                             <label>Incorporation State</label>
                             <select 
                                 className={`form-control`} 
@@ -496,7 +496,7 @@ const CompanyForm = () => {
                             </select>
                         </div>
 
-                        <div className={`${styles['company-form-field']} col-12 col-sm-4 form-group`}>
+                        <div className={`c-form-field col-12 col-sm-4 form-group`}>
                             <label>Doing business in state</label>
                             <select 
                                 className={`form-control`} 
@@ -516,7 +516,7 @@ const CompanyForm = () => {
                         </div>
 
                         <div 
-                            className={`${styles['company-form-field']} col-12 col-sm-4 form-group`}
+                            className={`c-form-field col-12 col-sm-4 form-group`}
                             ref = { e => errorRef.current['ein'] = e }
                         >
                             <label>Company EIN <i className='req'>*</i></label>
@@ -537,7 +537,7 @@ const CompanyForm = () => {
                             />
                         </div>
 
-                        <div className={`${styles['company-form-field']} col-12 col-sm-4 form-group`}>
+                        <div className={`c-form-field col-12 col-sm-4 form-group`}>
                             <label>Incorporation State business name</label>
                             <input 
                                 className={`form-control`} 
@@ -549,7 +549,7 @@ const CompanyForm = () => {
                             />
                         </div>
 
-                        <div className={`${styles['company-form-field']} col-12 col-sm-4 form-group`}>
+                        <div className={`c-form-field col-12 col-sm-4 form-group`}>
                             <label>Doing business in state name</label>
                             <input 
                                 className={`form-control`} 
@@ -562,7 +562,7 @@ const CompanyForm = () => {
                         </div>
 
                         <div 
-                            className={`${styles['company-form-field']} col-12 col-sm-4 form-group`}
+                            className={`c-form-field col-12 col-sm-4 form-group`}
                             ref = { e => errorRef.current['website'] = e }
                         >
                             <label>Company website</label>
@@ -897,7 +897,7 @@ const CompanyForm = () => {
                             />
                         </div>
 
-                        <div className={`${styles['company-form-field']} col-12 d-flex form-group`}>
+                        <div className={`c-form-field col-12 d-flex form-group`}>
                             
                             <div className='ml-auto'>
                                 
@@ -978,13 +978,9 @@ const CompanyForm = () => {
                                 }
 
                             </div>
-
                         </div>
-
                     </form>
-                </div>
-
-                
+                </div>                
             </div>
         </div>
     );

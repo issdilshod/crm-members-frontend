@@ -102,31 +102,31 @@ const CompanyList = () => {
     }
 
     return (  
-        <div className={`${styles['main-content']} container-fluid`}>
-            <div className={styles['company-cards']}>
-                <div className={`${styles['company-card-head']} d-flex`}>
-                    <div className={`${styles['go_back']} mr-4`} onClick={() => {nav(`${process.env.REACT_APP_FRONTEND_PREFIX}/dashboard`)}}>
+        <div className='c-main-content container-fluid'>
+            <div className='c-list'>
+                <div className='c-list-head d-flex'>
+                    <div className='c-list-head-back mr-4' onClick={() => {nav(`${process.env.REACT_APP_FRONTEND_PREFIX}/dashboard`)}}>
                         <span>
                             <FaArrowLeft />
                         </span>
                     </div>
-                    <div className={`${styles['company-card-title']} mr-auto`}>Companies cards</div>
-                    <div className={`${styles['company-card-menu']} d-flex`}>
-                        <div className={`${styles['company-add']} text-center mr-2`} onClick={ handleAddClick }>
-                            <span className={styles['company-add-icon']}>
+                    <div className='c-list-head-title mr-auto'>Companies cards</div>
+                    <div className='d-flex'>
+                        <div className='d-btn d-btn-primary mr-2' onClick={ handleAddClick }>
+                            <i>
                                 <FaPlus />
-                            </span>
+                            </i>
                         </div>
-                        <div className={`${styles['menu']} text-center`} onClick={() => {setMenuOpen(!menuOpen)}}>
-                            <span className={styles['menu-icon']}>
+                        <div className='d-btn d-btn-primary mr-2' onClick={() => {setMenuOpen(!menuOpen)}}>
+                            <i>
                                 <FaBars />
-                            </span>
+                            </i>
                         </div>
                     </div>
                 </div>
-                <div className={`${styles['company-card-body']} container-fluid`}>
+                <div className='c-body container-fluid'>
                     <Search handleTextChange={setSearch} />
-                    <div className={`${styles['company-list']} row`}>
+                    <div className='c-list-item row'>
 
                         {
                             companyList.map((value, index) => {
@@ -139,12 +139,12 @@ const CompanyList = () => {
                                                      d-flex`} 
                                         onClick={ () => { handleGoToCard(value['last_activity']['link']) } }
                                         >
-                                            <div className={`${styles['company-card-icon']} mr-3 ml-3`}>
+                                            <div className='c-item-icon mr-3 ml-3'>
                                                 <span>
                                                     <FaBuilding />
                                                 </span>
                                             </div>
-                                            <div className={`${styles['company-card-info']}`}>
+                                            <div className='c-item-info'>
                                                 <p>{value.name}</p>
                                                 <p><FaMapMarkerAlt /> {value.address.street_address}, {value.address.city}, {value.address.state}</p>
                                                 <p><FaFileAlt /> {value.uploaded_files.length}</p>
