@@ -17,6 +17,8 @@ import FutureCompany from './FutureCompany/FutureCompany';
 
 import Pusher from 'pusher-js';
 
+import '../assets/css/App.css';
+
 const Main = () => {
 
     let pusher = new Pusher(process.env.REACT_APP_PUSHER_KEY, {

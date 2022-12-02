@@ -8,6 +8,7 @@ import { Mediator } from '../../../context/Mediator';
 
 import * as STATUS from '../../../consts/Status';
 import * as COMPANY from '../../../consts/Company';
+import * as ROLE from '../../../consts/Role';
 
 import Validation from '../../Helper/Validation';
 import Notification from '../../Helper/Notification/Notification';
@@ -16,17 +17,10 @@ import File from '../../Helper/File/File';
 import Address from '../../Helper/Address/Address';
 import Email from '../../Helper/Email/Email';
 
-import '../../../assets/css/App.css';
-
 const CompanyForm = () => {
 
     const { 
-            api, styles, permissions,
-            companyFormOriginal, setCompanyFormOriginal,
-            companyFormOpen, setCompanyFormOpen, companyEdit, setCompanyEdit, companyList, setCompanyList, companyForm, setCompanyForm,
-                companyFormError, setCompanyFormError,
-            cardStatusOpen, setCardStatusOpen, cardSaveDiscard, setCardSaveDiscard,
-            setLoadingShow
+            api, styles, permissions, companyFormOriginal, companyFormOpen, setCompanyFormOpen, companyEdit, companyList, setCompanyList, companyForm, setCompanyForm, companyFormError, setCompanyFormError, setLoadingShow
     } = useContext(Mediator);
 
     const nav = useNavigate();
@@ -37,6 +31,9 @@ const CompanyForm = () => {
 
     const [alert, setAlert] = useState({'msg': '', 'show': false, 'type': ''});
     const [meUuid, setMeUuid] = useState('');
+    const [role, setRole] = useState('');
+
+    const [directorSelectDisabled, setDirectorSelectDisabled] = useState(false);
 
     const [extraAddressShow, setExtraAddressShow] = useState(false);
 
@@ -54,7 +51,16 @@ const CompanyForm = () => {
         if (companyFormOpen && companyEdit){
             if (companyForm['director']!=null){
                 loadDirectorList(companyForm['director']['first_name'] + ' ' + companyForm['director']['last_name']);
+                setDirectorSelectDisabled(true);
+            }else{
+                if (ROLE.HEADQUARTERS==role){
+                    setDirectorSelectDisabled(false);
+                }else{
+                    setDirectorSelectDisabled(true);
+                }
             }
+        }else{
+            setDirectorSelectDisabled(false);
         }
 
         // extra address
@@ -68,21 +74,18 @@ const CompanyForm = () => {
     }, [companyFormOpen])
 
     useEffect(() => {
-        firstInit();
-    }, []);
-
-    const firstInit = () => {
         getMe();
         loadDirectorList();
         loadSicCodes();
         loadStates();
-    }
+    }, []);
 
     const getMe = () => {
         api.request('/api/get_me', 'GET')
             .then(res => {
                 if (res.status===200||res.status===201){
                     setMeUuid(res.data.uuid);
+                    setRole(res.data.role_alias);
                 }
             })
     }
@@ -453,6 +456,7 @@ const CompanyForm = () => {
                                 onKeyDown={ (e) => { loadDirectorList(e.target.value) } }
                                 value={ optDirectorList.filter(option => { return option.value == companyForm['director_uuid'] }) }
                                 onChange={ (e) => { handleChange({'target': {'name': 'director_uuid', 'value': e.value} }); } }
+                                isDisabled={directorSelectDisabled}
                             />
                             <Validation 
                                 field_name='director_uuid' 
