@@ -11,7 +11,6 @@ import * as COMPANY from '../../../consts/Company';
 
 import Validation from '../../Helper/Validation';
 import Notification from '../../Helper/Notification/Notification';
-import FieldHistory from '../../Helper/FieldHistory';
 
 import File from '../../Helper/File/File';
 import Address from '../../Helper/Address/Address';
@@ -27,9 +26,7 @@ const CompanyForm = () => {
             companyFormOpen, setCompanyFormOpen, companyEdit, setCompanyEdit, companyList, setCompanyList, companyForm, setCompanyForm,
                 companyFormError, setCompanyFormError,
             cardStatusOpen, setCardStatusOpen, cardSaveDiscard, setCardSaveDiscard,
-            setLoadingShow,
-
-            lastAccepted, setLastAccepted, lastRejected, setLastRejected
+            setLoadingShow
     } = useContext(Mediator);
 
     const nav = useNavigate();
@@ -39,10 +36,11 @@ const CompanyForm = () => {
     const [optDirectorList, setOptDirectorList] = useState([]);
 
     const [alert, setAlert] = useState({'msg': '', 'show': false, 'type': ''});
-
     const [meUuid, setMeUuid] = useState('');
 
     const [extraAddressShow, setExtraAddressShow] = useState(false);
+
+    const errorRef = useRef({});
 
     useEffect(() => {
         setCompanyFormError({});
@@ -399,8 +397,6 @@ const CompanyForm = () => {
         setExtraAddressShow(true);
     }
 
-    const errorRef = useRef({});
-
     return (  
         <div>
             <Notification Alert={alert} SetAlert={setAlert} />
@@ -436,14 +432,6 @@ const CompanyForm = () => {
                                 errorObject={companyFormError} 
                                 errorRef={errorRef}
                             />
-
-                            <FieldHistory
-                                field_name='legal_name'
-                                current_value={companyForm['legal_name']}
-                                rejected={lastRejected}
-                                accepted={lastAccepted}
-                                status={companyForm['status']}
-                            />
                         </div>
 
                         <div className={`${styles['company-form-field']} col-12 col-sm-4 form-group`}>
@@ -452,14 +440,6 @@ const CompanyForm = () => {
                                 options={sicCodeList}
                                 value={ sicCodeList.filter(option => { return option.value == companyForm['sic_code_uuid'] }) }
                                 onChange={ (e) => { handleChange({'target': {'name': 'sic_code_uuid', 'value': e.value} }); } }    
-                            />
-
-                            <FieldHistory
-                                field_name='sic_code_uuid'
-                                current_value={companyForm['sic_code_uuid']}
-                                rejected={lastRejected}
-                                accepted={lastAccepted}
-                                status={companyForm['status']}
                             />
                         </div>
 
@@ -479,14 +459,6 @@ const CompanyForm = () => {
                                 errorObject={companyFormError} 
                                 errorRef={errorRef}
                             />
-
-                            <FieldHistory
-                                field_name='director_uuid'
-                                current_value={companyForm['director_uuid']}
-                                rejected={lastRejected}
-                                accepted={lastAccepted}
-                                status={companyForm['status']}
-                            />
                         </div>
 
                         <div className={`${styles['company-form-field']} col-12 form-group`}>
@@ -498,14 +470,6 @@ const CompanyForm = () => {
                                 placeholder='Incorporation Date' 
                                 onChange={ handleChange } 
                                 value={ companyForm['incorporation_date'] }
-                            />
-
-                            <FieldHistory
-                                field_name='incorporation_date'
-                                current_value={companyForm['incorporation_date']}
-                                rejected={lastRejected}
-                                accepted={lastAccepted}
-                                status={companyForm['status']}
                             />
                         </div>
 
@@ -526,14 +490,6 @@ const CompanyForm = () => {
                                     })
                                 }
                             </select>
-
-                            <FieldHistory
-                                field_name='incorporation_state_uuid'
-                                current_value={companyForm['incorporation_state_uuid']}
-                                rejected={lastRejected}
-                                accepted={lastAccepted}
-                                status={companyForm['status']}
-                            />
                         </div>
 
                         <div className={`${styles['company-form-field']} col-12 col-sm-4 form-group`}>
@@ -553,14 +509,6 @@ const CompanyForm = () => {
                                     })
                                 }
                             </select>
-
-                            <FieldHistory
-                                field_name='doing_business_in_state_uuid'
-                                current_value={companyForm['doing_business_in_state_uuid']}
-                                rejected={lastRejected}
-                                accepted={lastAccepted}
-                                status={companyForm['status']}
-                            />
                         </div>
 
                         <div 
@@ -583,14 +531,6 @@ const CompanyForm = () => {
                                 errorObject={companyFormError} 
                                 errorRef={errorRef}
                             />
-
-                            <FieldHistory
-                                field_name='ein'
-                                current_value={companyForm['ein']}
-                                rejected={lastRejected}
-                                accepted={lastAccepted}
-                                status={companyForm['status']}
-                            />
                         </div>
 
                         <div className={`${styles['company-form-field']} col-12 col-sm-4 form-group`}>
@@ -603,14 +543,6 @@ const CompanyForm = () => {
                                 onChange={ handleChange } 
                                 value={ companyForm['incorporation_state_name'] }
                             />
-
-                            <FieldHistory
-                                field_name='incorporation_state_name'
-                                current_value={companyForm['incorporation_state_name']}
-                                rejected={lastRejected}
-                                accepted={lastAccepted}
-                                status={companyForm['status']}
-                            />
                         </div>
 
                         <div className={`${styles['company-form-field']} col-12 col-sm-4 form-group`}>
@@ -622,14 +554,6 @@ const CompanyForm = () => {
                                 placeholder='Doing business in state name' 
                                 onChange={ handleChange } 
                                 value={ companyForm['doing_business_in_state_name'] }
-                            />
-
-                            <FieldHistory
-                                field_name='doing_business_in_state_name'
-                                current_value={companyForm['doing_business_in_state_name']}
-                                rejected={lastRejected}
-                                accepted={lastAccepted}
-                                status={companyForm['status']}
                             />
                         </div>
 
@@ -649,14 +573,6 @@ const CompanyForm = () => {
                                 field_name='website' 
                                 errorObject={companyFormError} 
                                 errorRef={errorRef}
-                            />
-
-                            <FieldHistory
-                                field_name='website'
-                                current_value={companyForm['website']}
-                                rejected={lastRejected}
-                                accepted={lastAccepted}
-                                status={companyForm['status']}
                             />
                         </div>
 
@@ -720,14 +636,6 @@ const CompanyForm = () => {
                                                 errorObject={companyFormError} 
                                                 errorRef={errorRef}
                                             />
-
-                                            <FieldHistory
-                                                field_name='business_number'
-                                                current_value={companyForm['business_number']}
-                                                rejected={lastRejected}
-                                                accepted={lastAccepted}
-                                                status={companyForm['status']}
-                                            />
                                         </div>
                                         <div className={`col-12 col-sm-6 form-group`}>
                                             <label>Business Number Type</label>
@@ -740,14 +648,6 @@ const CompanyForm = () => {
                                                 <option>VoiP</option>
                                                 <option>Landline</option>
                                             </select>
-
-                                            <FieldHistory
-                                                field_name='business_number_type'
-                                                current_value={companyForm['business_number_type']}
-                                                rejected={lastRejected}
-                                                accepted={lastAccepted}
-                                                status={companyForm['status']}
-                                            />
                                         </div>
                                         <div className={`col-12 form-group`}>
                                             <label>VOIP Provider</label>
@@ -758,14 +658,6 @@ const CompanyForm = () => {
                                                 placeholder='VOIP Provider' 
                                                 onChange={ handleChange } 
                                                 value={companyForm['voip_provider']}
-                                            />
-
-                                            <FieldHistory
-                                                field_name='voip_provider'
-                                                current_value={companyForm['voip_provider']}
-                                                rejected={lastRejected}
-                                                accepted={lastAccepted}
-                                                status={companyForm['status']}
                                             />
                                         </div>
                                         <div className={`col-12 col-sm-6 form-group`}>
@@ -778,14 +670,6 @@ const CompanyForm = () => {
                                                 onChange={ handleChange } 
                                                 value={companyForm['voip_login']}
                                             />
-
-                                            <FieldHistory
-                                                field_name='voip_login'
-                                                current_value={companyForm['voip_login']}
-                                                rejected={lastRejected}
-                                                accepted={lastAccepted}
-                                                status={companyForm['status']}
-                                            />
                                         </div>
                                         <div className={`col-12 col-sm-6 form-group`}>
                                             <label>VOIP Password</label>
@@ -796,14 +680,6 @@ const CompanyForm = () => {
                                                 placeholder='VOIP Password' 
                                                 onChange={ handleChange } 
                                                 value={companyForm['voip_password']}
-                                            />
-
-                                            <FieldHistory
-                                                field_name='voip_password'
-                                                current_value={companyForm['voip_password']}
-                                                rejected={lastRejected}
-                                                accepted={lastAccepted}
-                                                status={companyForm['status']}
                                             />
                                         </div>
                                         <div 
@@ -824,14 +700,6 @@ const CompanyForm = () => {
                                                 errorObject={companyFormError} 
                                                 errorRef={errorRef}
                                             />
-
-                                            <FieldHistory
-                                                field_name='business_mobile_number'
-                                                current_value={companyForm['business_mobile_number']}
-                                                rejected={lastRejected}
-                                                accepted={lastAccepted}
-                                                status={companyForm['status']}
-                                            />
                                         </div>
                                         <div className={`col-12 col-sm-6 form-group`}>
                                             <label>Business Mobile Number Type</label>
@@ -842,14 +710,6 @@ const CompanyForm = () => {
                                                 placeholder='Business Mobile Number Type' 
                                                 onChange={ handleChange } 
                                                 value={companyForm['business_mobile_number_type']}
-                                            />
-
-                                            <FieldHistory
-                                                field_name='business_mobile_number_type'
-                                                current_value={companyForm['business_mobile_number_type']}
-                                                rejected={lastRejected}
-                                                accepted={lastAccepted}
-                                                status={companyForm['status']}
                                             />
                                         </div>
                                         <div className={`col-12 form-group`}>
@@ -866,14 +726,6 @@ const CompanyForm = () => {
                                                 <option>Simple Mobile</option>
                                                 <option>None</option>
                                             </select>
-
-                                            <FieldHistory
-                                                field_name='business_mobile_number_provider'
-                                                current_value={companyForm['business_mobile_number_provider']}
-                                                rejected={lastRejected}
-                                                accepted={lastAccepted}
-                                                status={companyForm['status']}
-                                            />
                                         </div>
                                         <div 
                                             className={`col-12 col-sm-6 form-group`}
@@ -893,14 +745,6 @@ const CompanyForm = () => {
                                                 errorObject={companyFormError} 
                                                 errorRef={errorRef}
                                             />
-
-                                            <FieldHistory
-                                                field_name='business_mobile_number_login'
-                                                current_value={companyForm['business_mobile_number_login']}
-                                                rejected={lastRejected}
-                                                accepted={lastAccepted}
-                                                status={companyForm['status']}
-                                            />
                                         </div>
                                         <div className={`col-12 col-sm-6 form-group`}>
                                             <label>Business Mobile Number Password</label>
@@ -911,14 +755,6 @@ const CompanyForm = () => {
                                                 placeholder='Business Mobile Number Password' 
                                                 onChange={ handleChange } 
                                                 value={companyForm['business_mobile_number_password']}
-                                            />
-
-                                            <FieldHistory
-                                                field_name='business_mobile_number_password'
-                                                current_value={companyForm['business_mobile_number_password']}
-                                                rejected={lastRejected}
-                                                accepted={lastAccepted}
-                                                status={companyForm['status']}
                                             />
                                         </div>
                                     </div>
@@ -1032,14 +868,6 @@ const CompanyForm = () => {
                                 field_name='db_report_number' 
                                 errorObject={companyFormError} 
                                 errorRef={errorRef}
-                            />
-
-                            <FieldHistory
-                                field_name='db_report_number'
-                                current_value={companyForm['db_report_number']}
-                                rejected={lastRejected}
-                                accepted={lastAccepted}
-                                status={companyForm['status']}
                             />
                         </div>
 

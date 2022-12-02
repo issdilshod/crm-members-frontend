@@ -11,7 +11,6 @@ import { Mediator } from '../../context/Mediator';
 import Validation from '../Helper/Validation';
 
 import Notification from '../Helper/Notification/Notification';
-import FieldHistory from '../Helper/FieldHistory';
 
 import File from '../Helper/File/File';
 import Address from '../Helper/Address/Address';
@@ -25,11 +24,14 @@ const DirectorForm = () => {
             directorFormOpen, setDirectorFormOpen, directorEdit, setDirectorEdit, directorList, setDirectorList, directorForm, setDirectorForm,
                 directorFormError, setDirectorFormError,
             cardStatusOpen, setCardStatusOpen,
-            setLoadingShow,
-            lastAccepted, setLastAccepted, lastRejected, setLastRejected
+            setLoadingShow
     } = useContext(Mediator);
 
     const nav = useNavigate();
+
+    const [meUuid, setMeUuid] = useState('');
+    const [alert, setAlert] = useState({'msg': '', 'show': false, 'type': ''});
+    const errorRef = useRef({});
 
     useEffect(() => {
 
@@ -42,8 +44,6 @@ const DirectorForm = () => {
 
     }, [directorFormOpen])
 
-    const [meUuid, setMeUuid] = useState('');
-
     useEffect(() => {
         api.request('/api/get_me', 'GET')
             .then(res => {
@@ -52,8 +52,6 @@ const DirectorForm = () => {
                 }
             })
     }, [])
-
-    const [alert, setAlert] = useState({'msg': '', 'show': false, 'type': ''});
 
     const handleChange = (e) => {
         let { value, name } = e.target;
@@ -282,8 +280,6 @@ const DirectorForm = () => {
         handleClose();
     }
 
-    const errorRef = useRef({});
-
     return (  
         <div>
             <Notification Alert={alert} SetAlert={setAlert} />
@@ -316,15 +312,6 @@ const DirectorForm = () => {
                                 errorObject={directorFormError} 
                                 errorRef={errorRef}
                             />
-
-                            <FieldHistory
-                                field_name='first_name'
-                                current_value={directorForm['first_name']}
-                                rejected={lastRejected}
-                                accepted={lastAccepted}
-                                status={directorForm['status']}
-                            />
-
                         </div>
 
                         <div className={`${styles['director-form-field']} col-12 col-sm-4 form-group`}>
@@ -336,14 +323,6 @@ const DirectorForm = () => {
                                 placeholder='Middle Name' 
                                 onChange={ handleChange } 
                                 value={directorForm['middle_name']}
-                            />
-
-                            <FieldHistory
-                                field_name='middle_name'
-                                current_value={directorForm['middle_name']}
-                                rejected={lastRejected}
-                                accepted={lastAccepted}
-                                status={directorForm['status']}
                             />
                         </div>
 
@@ -365,14 +344,6 @@ const DirectorForm = () => {
                                 errorObject={directorFormError} 
                                 errorRef={errorRef}
                             />
-
-                            <FieldHistory
-                                field_name='last_name'
-                                current_value={directorForm['last_name']}
-                                rejected={lastRejected}
-                                accepted={lastAccepted}
-                                status={directorForm['status']}
-                            />
                         </div>
 
                         <div 
@@ -391,14 +362,6 @@ const DirectorForm = () => {
                                 field_name='date_of_birth' 
                                 errorObject={directorFormError} 
                                 errorRef={errorRef}
-                            />
-
-                            <FieldHistory
-                                field_name='date_of_birth'
-                                current_value={directorForm['date_of_birth']}
-                                rejected={lastRejected}
-                                accepted={lastAccepted}
-                                status={directorForm['status']}
                             />
                         </div>
 
@@ -420,14 +383,6 @@ const DirectorForm = () => {
                                 field_name='ssn_cpn' 
                                 errorObject={directorFormError} 
                                 errorRef={errorRef}
-                            />
-
-                            <FieldHistory
-                                field_name='ssn_cpn'
-                                current_value={directorForm['ssn_cpn']}
-                                rejected={lastRejected}
-                                accepted={lastAccepted}
-                                status={directorForm['status']}
                             />
                         </div>
 
@@ -464,14 +419,6 @@ const DirectorForm = () => {
                                         errorObject={directorFormError} 
                                         errorRef={errorRef}
                                     />
-
-                                    <FieldHistory
-                                        field_name='phone_number'
-                                        current_value={directorForm['phone_number']}
-                                        rejected={lastRejected}
-                                        accepted={lastAccepted}
-                                        status={directorForm['status']}
-                                    />
                                 </div>
                             </div>
 
@@ -496,14 +443,6 @@ const DirectorForm = () => {
                                         field_name='phone_type' 
                                         errorObject={directorFormError} 
                                         errorRef={errorRef}
-                                    />
-
-                                    <FieldHistory
-                                        field_name='phone_type'
-                                        current_value={directorForm['phone_type']}
-                                        rejected={lastRejected}
-                                        accepted={lastAccepted}
-                                        status={directorForm['status']}
                                     />
                                 </div>
                             </div>
