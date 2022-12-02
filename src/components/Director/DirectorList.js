@@ -66,7 +66,7 @@ const DirectorList = () => {
         if (text.length>=3){
             setLoadingShow(true);
             setDefaultList(false);
-            api.request('/api/pending/search/' + text, 'GET')
+            api.request('/api/pending/search?q=' + text, 'GET')
                 .then(res => {
                     if (res.status===200 || res.status===201){ // success
                         let tmpArr = [...res.data.companies, ...res.data.directors];

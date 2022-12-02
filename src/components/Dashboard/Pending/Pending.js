@@ -56,7 +56,7 @@ const Pending = ({ pendingNextFetch, pendingSummary, pendingMeta, setPendingMeta
     // search change
     useEffect(() => {
         if (search.length>=2){
-            api.request('/api/pending/search/'+search, 'GET')
+            api.request('/api/pending/search?q='+search, 'GET')
                 .then(res => {
                     if (res.status===200||res.status===201){ // success
                         let tmpArr = [...res.data.companies, ...res.data.directors];
