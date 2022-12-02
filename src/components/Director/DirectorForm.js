@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useContext, useRef } from 'react';
-import { FaTimes } from 'react-icons/fa';
+import { FaTimes, FaUnlink } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import InputMask from 'react-input-mask';
 
 import * as STATUS from '../../consts/Status';
 import * as DIRECTOR from '../../consts/Director';
+import * as ROLE from '../../consts/Role';
 
 import { Mediator } from '../../context/Mediator';
 
@@ -19,17 +20,14 @@ import Email from '../Helper/Email/Email';
 const DirectorForm = () => {
 
     const { 
-            api, styles, permissions,
-            directorFormOriginal, setDirectorFormOriginal,
-            directorFormOpen, setDirectorFormOpen, directorEdit, setDirectorEdit, directorList, setDirectorList, directorForm, setDirectorForm,
-                directorFormError, setDirectorFormError,
-            cardStatusOpen, setCardStatusOpen,
-            setLoadingShow
+        api, styles, permissions, directorFormOriginal, directorFormOpen, setDirectorFormOpen, directorEdit, directorList, setDirectorList, directorForm, setDirectorForm, directorFormError, setDirectorFormError, setLoadingShow
     } = useContext(Mediator);
 
     const nav = useNavigate();
 
     const [meUuid, setMeUuid] = useState('');
+    const [role, setRole] = useState('');
+
     const [alert, setAlert] = useState({'msg': '', 'show': false, 'type': ''});
     const errorRef = useRef({});
 
@@ -45,13 +43,18 @@ const DirectorForm = () => {
     }, [directorFormOpen])
 
     useEffect(() => {
+        getMe();
+    }, [])
+
+    const getMe = () => {
         api.request('/api/get_me', 'GET')
             .then(res => {
                 if (res.status===200||res.status===201){
+                    setRole(res.data.role_alias);
                     setMeUuid(res.data.uuid);
                 }
             })
-    }, [])
+    }
 
     const handleChange = (e) => {
         let { value, name } = e.target;
@@ -280,23 +283,33 @@ const DirectorForm = () => {
         handleClose();
     }
 
+    const handleUnlink = () => {
+        api.request('/api/director-unlink/' + directorForm['uuid'], 'GET')
+            .then(res => {
+                if (res.status==200||res.status==201){
+                    setAlert({'msg': 'Successfully company unlinked', 'show': true, 'type': 'success'});
+                    setDirectorForm({...directorForm, 'company_association': '' });
+                }
+            })
+    }
+
     return (  
         <div>
             <Notification Alert={alert} SetAlert={setAlert} />
             <div className={`c-card-left ${!directorFormOpen?'w-0':''}`} onClick={ () => { handleClickOutCard() } }></div>
-            <div className={`${styles['director-form-card']} ${directorFormOpen ? styles['director-form-card-active']:''}`}>
-                <div className={`${styles['director-form-card-head']} d-flex`}>
-                    <div className={`${styles['director-form-card-title']} mr-auto`}>{(!directorEdit?'Add director':'Edit director')}</div>
-                    <div className={styles['director-form-card-close']} onClick={(e) => { handleClose(e) } }>
+            <div className={`c-form ${directorFormOpen?'c-form-active':''}`}>
+                <div className={`c-form-head d-flex`}>
+                    <div className={`c-form-head-title mr-auto`}>{(!directorEdit?'Add director':'Edit director')}</div>
+                    <div className={`c-form-close`} onClick={(e) => { handleClose(e) } }>
                         <FaTimes />
                     </div>
                 </div>
-                <hr className={styles['divider']} />
-                <div className={`${styles['director-form-card-body']} container-fluid`}>
-                    <form className={`${styles['director-form-block']} row`} encType='multipart/form-data'>
+                <hr className={`divider`} />
+                <div className={`c-form-body container-fluid`}>
+                    <form className={`c-form-body-block row`}>
 
                         <div 
-                            className={`${styles['director-form-field']} col-12 col-sm-4 form-group`}
+                            className={`c-form-field col-12 col-sm-4 form-group`}
                             ref = { e => errorRef.current['first_name'] = e }
                         >
                             <label>First Name <i className='req'>*</i></label>
@@ -314,7 +327,7 @@ const DirectorForm = () => {
                             />
                         </div>
 
-                        <div className={`${styles['director-form-field']} col-12 col-sm-4 form-group`}>
+                        <div className={`c-form-field col-12 col-sm-4 form-group`}>
                             <label>Middle Name</label>
                             <input 
                                 className={`form-control`} 
@@ -327,7 +340,7 @@ const DirectorForm = () => {
                         </div>
 
                         <div 
-                            className={`${styles['director-form-field']} col-12 col-sm-4 form-group`}
+                            className={`c-form-field col-12 col-sm-4 form-group`}
                             ref = { e => errorRef.current['last_name'] = e }
                         >
                             <label>Last Name <i className='req'>*</i></label>
@@ -347,7 +360,7 @@ const DirectorForm = () => {
                         </div>
 
                         <div 
-                            className={`${styles['director-form-field']} col-12 col-sm-6 form-group`}
+                            className={`c-form-field col-12 col-sm-6 form-group`}
                             ref = { e => errorRef.current['date_of_birth'] = e }
                         >
                             <label>Date of Birth <i className='req'>*</i></label>
@@ -366,7 +379,7 @@ const DirectorForm = () => {
                         </div>
 
                         <div 
-                            className={`${styles['director-form-field']} col-12 col-sm-6 form-group`}
+                            className={`c-form-field col-12 col-sm-6 form-group`}
                             ref = { e => errorRef.current['ssn_cpn'] = e }
                         >
                             <label>SSN/CPN <i className='req'>*</i></label>
@@ -386,20 +399,38 @@ const DirectorForm = () => {
                             />
                         </div>
 
-                        <div className={`${styles['director-form-field']} col-12 col-sm-6 form-group`}>
+                        <div className='c-form-field col-12 col-sm-6 form-group c-position-relative'>
                             <label>Company Association</label>
-                            <input 
-                                className={`form-control`} 
-                                type='text' 
-                                name='company_association' 
-                                placeholder='Company Association' 
-                                onChange={ handleChange } 
-                                value={directorForm['company_association']}
-                                disabled='disabled'
-                            />
+                            <div className='d-flex'>
+                                <div className='w-100 mr-auto'>
+                                    <input 
+                                        className={`form-control`} 
+                                        type='text' 
+                                        name='company_association' 
+                                        placeholder='Company Association' 
+                                        onChange={ handleChange } 
+                                        value={directorForm['company_association']}
+                                        disabled='disabled'
+                                    />
+                                </div>
+                                <div>
+                                    { (role==ROLE.HEADQUARTERS && directorEdit) &&
+                                        <span 
+                                            className='d-btn d-btn-sm d-btn-danger ml-2'
+                                            style={{'position': 'relative', 'top': '6px'}}
+                                            title='Unlink company from director'
+                                            onClick={ () => { handleUnlink() } }
+                                        >
+                                            <i>
+                                                <FaUnlink />
+                                            </i>
+                                        </span>
+                                    }
+                                </div>
+                            </div>
                         </div>
 
-                        <div className={`${styles['director-form-field']} col-12 col-sm-6 form-group`}>
+                        <div className={`c-form-field col-12 col-sm-6 form-group`}>
                             <div className={`row`}>
                                 <div 
                                     className={`col-12 form-group`}
@@ -529,7 +560,7 @@ const DirectorForm = () => {
                             />
                         </div>
 
-                        <div className={`${styles['director-form-field']} col-12 d-flex form-group`}>
+                        <div className={`c-form-field col-12 d-flex form-group`}>
                             <div className='ml-auto'>
 
                                 { permissions.includes(DIRECTOR.STORE)  && // add/update
@@ -576,11 +607,11 @@ const DirectorForm = () => {
 
                                         { (permissions.includes(DIRECTOR.DELETE) && directorForm['status']!='') &&
                                             <button 
-                                            className={`d-btn d-btn-danger mr-2`} 
-                                            onClick={ (e) => { handleDelete(e, directorForm['uuid'], directorForm['first_name'] + ' ' + (directorForm['middle_name']!=null?directorForm['middle_name']:'') + ' ' + directorForm['last_name']) } }
-                                        >
-                                            Delete
-                                        </button>
+                                                className={`d-btn d-btn-danger mr-2`} 
+                                                onClick={ (e) => { handleDelete(e, directorForm['uuid'], directorForm['first_name'] + ' ' + (directorForm['middle_name']!=null?directorForm['middle_name']:'') + ' ' + directorForm['last_name']) } }
+                                            >
+                                                Delete
+                                            </button>
                                         }
                                     </>
                                 }
@@ -607,7 +638,6 @@ const DirectorForm = () => {
 
                             </div>
                         </div>
-
                     </form>
                 </div>
             </div>
