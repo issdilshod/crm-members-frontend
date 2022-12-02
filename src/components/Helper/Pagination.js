@@ -68,7 +68,7 @@ const Pagination = ({handlePaginatioClick, currentPage, totalPage, rangeShow}) =
     return ( 
         <>
             { ableShow &&
-                <div className='row mt-2'>
+                <div className='row mt-2 ml-0 mr-0'>
                     <div className='col-12'>
                         <div className='d-pagination d-flex'>
                             <div className='mr-auto'></div>
