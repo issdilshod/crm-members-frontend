@@ -20,9 +20,46 @@ const DirectorList = () => {
 
     const nav = useNavigate();
 
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPage, setTotalPage] = useState(1);
+    const [rangeShow, setRangeShow] = useState(9);
+
+    const [defaultList, setDefaultList] = useState(true);
+
+    const [search, setSearch] = useState('');
+
     useEffect(() => {
         firstInit();
     }, []);
+
+    useEffect(() => {
+
+        const getAfter = () => {
+            setDefaultList(false);
+            api.request('/api/pending/search?q=' + encodeURIComponent(search), 'GET')
+                .then(res => {
+                    if (res.status===200 || res.status===201){ // success
+                        let tmpArr = [...res.data.companies, ...res.data.directors];
+                        setDirectorList(tmpArr);
+                        setTotalPage(1);
+                    }
+                });
+        }
+
+        const setStandart = () => {
+            if (!defaultList){
+                firstInit();
+                setDefaultList(true);
+            }
+        }
+
+        let timer = setTimeout(() => {
+            search.length>=2?getAfter():setStandart();
+        }, 200);
+
+        return () => clearTimeout(timer);
+
+    }, [search]);
 
     const firstInit = () => {
         api.request('/api/director', 'GET')
@@ -55,34 +92,6 @@ const DirectorList = () => {
                 setLoadingShow(false);
             });
     }
-
-    const [currentPage, setCurrentPage] = useState(1);
-    const [totalPage, setTotalPage] = useState(1);
-    const [rangeShow, setRangeShow] = useState(9);
-
-    const [defaultList, setDefaultList] = useState(true);
-
-    const handleTextChange = (text) => {
-        if (text.length>=3){
-            setLoadingShow(true);
-            setDefaultList(false);
-            api.request('/api/pending/search?q=' + text, 'GET')
-                .then(res => {
-                    if (res.status===200 || res.status===201){ // success
-                        let tmpArr = [...res.data.companies, ...res.data.directors];
-                        setDirectorList(tmpArr);
-                        setTotalPage(1);
-                    }
-                    setLoadingShow(false);
-                });
-        }else{
-            if (!defaultList){
-                setLoadingShow(true);
-                firstInit();
-                setDefaultList(true);
-            }
-        }
-    } 
 
     const handleGoToCard = (link) => {
         nav(process.env.REACT_APP_FRONTEND_PREFIX + link);
@@ -117,7 +126,7 @@ const DirectorList = () => {
                     </div>
                 </div>
                 <div className='c-body container-fluid'>
-                    <Search handleTextChange={ handleTextChange } />
+                    <Search handleTextChange={setSearch} />
                     <div className='c-list-item row'>
                         {
                             directorList.map((value, index) => {

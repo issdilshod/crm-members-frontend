@@ -55,8 +55,8 @@ const Pending = ({ pendingNextFetch, pendingSummary, pendingMeta, setPendingMeta
 
     // search change
     useEffect(() => {
-        if (search.length>=2){
-            api.request('/api/pending/search?q='+search, 'GET')
+        const getAfter = () => {
+            api.request('/api/pending/search?q='+encodeURIComponent(search), 'GET')
                 .then(res => {
                     if (res.status===200||res.status===201){ // success
                         let tmpArr = [...res.data.companies, ...res.data.directors];
@@ -65,16 +65,23 @@ const Pending = ({ pendingNextFetch, pendingSummary, pendingMeta, setPendingMeta
                         });
                         setPending(tmpArr);
                         setPendingMeta({'current_page': 0, 'max_page': 0});
+                        setTitle('Search result for: ' + search);
                     }
                 })
+        }
 
-            setTitle('Search result for: ' + search);
-        }else{
+        const setStandart = () => {
             setPending(firstPending);
             setPendingMeta({'current_page': 1, 'max_page': 2});
-
             setTitle('Normal View');
         }
+
+        let timer = setTimeout(() => {
+            search.length>=2?getAfter():setStandart();
+        }, 200);
+
+        return () => clearTimeout(timer);
+
     }, [search]);
 
     // pusher updates
