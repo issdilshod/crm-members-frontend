@@ -41,6 +41,8 @@ const Dashboard = () => {
 
     const [loadingShow, setLoadingShow] = useState(false);
 
+    const [search, setSearch] = useState('');
+
     useEffect(() => {
         firstInit();
     }, [])
@@ -91,10 +93,7 @@ const Dashboard = () => {
         >
             <div className={styles['main-content']}>
                 <Header 
-                    firstPending={firstPending} 
-                    pending={pending} 
-                    setPending={setPending} 
-                    setPendingMeta={setPendingMeta}
+                    setSearch={setSearch}
                 />
                 <div className={`${styles['dashboard-block']} container-fluid`}>
                     <div className='row'>
@@ -115,6 +114,8 @@ const Dashboard = () => {
                                 setSummaryFilter={setSummaryFilter}
                                 pusher={pusher}
                                 setLoadingShow={setLoadingShow}
+                                search={search}
+                                firstPending={firstPending}
                             />
                         </div>
                         <div className='col-12 col-sm-4'>

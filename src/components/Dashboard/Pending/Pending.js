@@ -18,7 +18,7 @@ import PendingSummary from './PendingSummary';
 import * as ROLE from '../../../consts/Role';
 import ContextMenu from './ContextMenu';
 
-const Pending = ({ pendingNextFetch, pendingSummary, pendingMeta, setPendingMeta, pending, setPending, filterPending, setFilterPending, pusher, summaryFilter, setSummaryFilter, setLoadingShow }) => {
+const Pending = ({ pendingNextFetch, pendingSummary, pendingMeta, setPendingMeta, pending, setPending, filterPending, setFilterPending, pusher, summaryFilter, setSummaryFilter, setLoadingShow, search, firstPending }) => {
 
     const api = new Api();
     const nav = useNavigate();
@@ -35,10 +35,16 @@ const Pending = ({ pendingNextFetch, pendingSummary, pendingMeta, setPendingMeta
 
     const [popUpOpen, setPopUpOpen] = useState(false);
 
+    const [title, setTitle] = useState('Normal View');
+
+    const [meUuid, setMeUuid] = useState('');
+
+    // first init
     useEffect(() => {
         getMe();
     }, [])
 
+    // select mode
     useEffect(() => {
         if (checked.length>0){
             setSelectionMode(true);
@@ -46,6 +52,37 @@ const Pending = ({ pendingNextFetch, pendingSummary, pendingMeta, setPendingMeta
             setSelectionMode(false);
         }
     }, [checked]);
+
+    // search change
+    useEffect(() => {
+        if (search.length>=2){
+            api.request('/api/pending/search/'+search, 'GET')
+                .then(res => {
+                    if (res.status===200||res.status===201){ // success
+                        let tmpArr = [...res.data.companies, ...res.data.directors];
+                        tmpArr.sort((a, b) => {
+                            return new Date(b.updated_at) - new Date(a.updated_at);
+                        });
+                        setPending(tmpArr);
+                        setPendingMeta({'current_page': 0, 'max_page': 0});
+                    }
+                })
+
+            setTitle('Search result for: ' + search);
+        }else{
+            setPending(firstPending);
+            setPendingMeta({'current_page': 1, 'max_page': 2});
+
+            setTitle('Normal View');
+        }
+    }, [search]);
+
+    // pusher updates
+    useEffect(() => {
+        if (pusherUpdates){
+            addPending(pusherUpdates['data']['data']);
+        }
+    }, [pusherUpdates])
 
     const handlePendingClick = (e, uuid, link = '') => {
         if (e.type == 'contextmenu') {
@@ -221,9 +258,18 @@ const Pending = ({ pendingNextFetch, pendingSummary, pendingMeta, setPendingMeta
                     }
                 })
         }
+
+        if (e.target.value=='0'){
+            setTitle('Normal View');
+        }else if (e.target.value=='1'){
+            setTitle('Unapproved cards');
+        }else if (e.target.value=='2'){
+            setTitle('Approved cards');
+        }else if (e.target.value=='3'){
+            setTitle('Rejected cards');
+        }
     }
 
-    const [meUuid, setMeUuid] = useState('');
     const getMe = () => {
         api.request('/api/get_me', 'GET')
             .then(res => {
@@ -241,12 +287,6 @@ const Pending = ({ pendingNextFetch, pendingSummary, pendingMeta, setPendingMeta
             setPusherUpdates(data);
         })
     }
-
-    useEffect(() => {
-        if (pusherUpdates){
-            addPending(pusherUpdates['data']['data']);
-        }
-    }, [pusherUpdates])
 
     const addPending = (pendingCard) => {
         let tmpArray = [...pending];
@@ -273,10 +313,12 @@ const Pending = ({ pendingNextFetch, pendingSummary, pendingMeta, setPendingMeta
         setPending(tmpArray);
     }
 
-    const filterSummaryOnClick = (filter) => {
+    const filterSummaryOnClick = (filter, name = '') => {
         setPopUpOpen(false);
         setFilterPending(0);
         setSummaryFilter(filter);
+        setTitle(name);
+
         api.request('/api/pending?page=1&summary_filter='+filter, 'GET')
             .then(res => {
                 if (res.status===200||res.status===201){ // success
@@ -353,6 +395,7 @@ const Pending = ({ pendingNextFetch, pendingSummary, pendingMeta, setPendingMeta
             </div>
 
             <div className='pending-block' id='pending-block' onMouseUp={ (e) => { handlePendingMouseDown(e) } }>
+                <div>{title}</div>
                 <InfiniteScroll 
                     dataLength={pending.length}
                     next={pendingNextFetch}

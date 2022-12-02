@@ -8,7 +8,7 @@ import Note from '../Note/Note';
 
 import Santa from '../../assets/img/santa2022.png';
 
-const Header = ({ firstPending, pending, setPending, setPendingMeta, setPendingSummary }) => {
+const Header = ({ setSearch = () => {} }) => {
     const {
         api, navigate
     } = useContext(Mediator)
@@ -28,22 +28,7 @@ const Header = ({ firstPending, pending, setPending, setPendingMeta, setPendingS
     }
 
     const handleSearch = (e) => {
-        if (e.target.value.length>=2){
-            api.request('/api/pending/search/'+e.target.value, 'GET')
-            .then(res => {
-                if (res.status===200||res.status===201){ // success
-                    let tmpArr = [...res.data.companies, ...res.data.directors];
-                    tmpArr.sort((a, b) => {
-                        return new Date(b.updated_at) - new Date(a.updated_at);
-                    });
-                    setPending(tmpArr);
-                    setPendingMeta({'current_page': 0, 'max_page': 0});
-                }
-            })
-        }else{
-            setPending(firstPending);
-            setPendingMeta({'current_page': 1, 'max_page': 2});
-        }
+        setSearch(e.target.value);
     }
 
     return (
