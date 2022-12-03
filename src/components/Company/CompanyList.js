@@ -133,13 +133,13 @@ const CompanyList = () => {
                                 return (
                                     <div key={index} className={`col-12 col-sm-6 col-md-4 col-xl-3 mb-3`}>
                                         <div 
-                                        className={`t-card t-card-sm 
+                                        className={`t-card
                                                     ${STATUS.ACTIVED==value['status']?'t-card-primary':''}
                                                     ${STATUS.REJECTED==value['status']?'t-card-danger':''}
                                                      d-flex`} 
                                         onClick={ () => { handleGoToCard(value['last_activity']['link']) } }
                                         >
-                                            <div className='c-item-icon mr-3 ml-3'>
+                                            <div className='c-item-icon mr-2'>
                                                 <span>
                                                     <FaBuilding />
                                                 </span>

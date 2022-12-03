@@ -359,7 +359,7 @@ label .req {
 }
 
 .t-card-sm{
-    padding: 20px 5px;
+    padding: 10px;
 }
 
 .t-card-primary{
@@ -592,8 +592,17 @@ label .req {
     font-weight: 700;
 }
 
+.c-item-info {
+    min-width: 0px;
+    width: 100%;
+}
+
 .c-list-item .c-item-info p{
     margin-bottom: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
 }
 
 .c-form{
