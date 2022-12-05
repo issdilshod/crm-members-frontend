@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { Collapse } from "react-bootstrap";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa";
+import Validation from "../Validation/Validation";
 
 
-const Phones = ({title, defaultOpen = true, form, setForm}) => {
+const Phones = ({title, defaultOpen = true, errorArray = {}, form, setForm}) => {
 
     const [isOpen, setIsOpen] = useState(defaultOpen);
 
@@ -44,6 +45,10 @@ const Phones = ({title, defaultOpen = true, form, setForm}) => {
                                 placeholder='Business Number' 
                                 onChange={onChange} 
                                 value={form['business_number']}
+                            />
+                            <Validation
+                                fieldName='business_number'
+                                errorArray={errorArray}
                             />
                         </div>
 
@@ -106,6 +111,10 @@ const Phones = ({title, defaultOpen = true, form, setForm}) => {
                                 onChange={onChange} 
                                 value={form['business_mobile_number']}
                             />
+                            <Validation
+                                fieldName='business_mobile_number'
+                                errorArray={errorArray}
+                            />
                         </div>
 
                         <div className='col-12 col-sm-6 form-group'>
@@ -145,6 +154,10 @@ const Phones = ({title, defaultOpen = true, form, setForm}) => {
                                 placeholder='Business Mobile Number Login' 
                                 onChange={onChange} 
                                 value={form['business_mobile_number_login']}
+                            />
+                            <Validation
+                                fieldName='business_mobile_number_login'
+                                errorArray={errorArray}
                             />
                         </div>
 

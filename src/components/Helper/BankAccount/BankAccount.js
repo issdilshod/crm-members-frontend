@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { Collapse } from "react-bootstrap";
 import { FaAngleDown, FaAngleUp, FaPlus, FaTrash } from "react-icons/fa";
+import Validation from "../Validation/Validation";
 
 
-const BankAccount = ({title, defaultOpen = true, form, setForm}) => {
+const BankAccount = ({title, defaultOpen = true, errorArray = {}, form, setForm}) => {
 
     const [isOpen, setIsOpen] = useState(defaultOpen);
 
@@ -92,6 +93,10 @@ const BankAccount = ({title, defaultOpen = true, form, setForm}) => {
                                     value={inForm['name']}
                                     onChange={onChange}
                                 />
+                                <Validation
+                                    fieldName='bank_account.name'
+                                    errorArray={errorArray}
+                                />
                             </div>
                         </div>
 
@@ -119,6 +124,10 @@ const BankAccount = ({title, defaultOpen = true, form, setForm}) => {
                                     name='username'
                                     value={inForm['username']}
                                     onChange={onChange}
+                                />
+                                <Validation
+                                    fieldName='bank_account.username'
+                                    errorArray={errorArray}
                                 />
                             </div>
                         </div>
@@ -148,6 +157,10 @@ const BankAccount = ({title, defaultOpen = true, form, setForm}) => {
                                     value={inForm['account_number']}
                                     onChange={onChange}
                                 />
+                                <Validation
+                                    fieldName='bank_account.account_number'
+                                    errorArray={errorArray}
+                                />
                             </div>
                         </div>
 
@@ -161,6 +174,10 @@ const BankAccount = ({title, defaultOpen = true, form, setForm}) => {
                                     name='routing_number'
                                     value={inForm['routing_number']}
                                     onChange={onChange}
+                                />
+                                <Validation
+                                    fieldName='bank_account.routing_number'
+                                    errorArray={errorArray}
                                 />
                             </div>
                         </div>

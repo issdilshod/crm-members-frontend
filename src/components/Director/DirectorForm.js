@@ -9,8 +9,7 @@ import * as ROLE from '../../consts/Role';
 
 import { Mediator } from '../../context/Mediator';
 
-import Validation from '../Helper/Validation';
-
+import Validation from '../Helper/Validation/Validation';
 import Notification from '../Helper/Notification/Notification';
 
 import File from '../Helper/File/File';
@@ -20,7 +19,7 @@ import Email from '../Helper/Email/Email';
 const DirectorForm = () => {
 
     const { 
-        api, styles, permissions, directorFormOriginal, directorFormOpen, setDirectorFormOpen, directorEdit, directorList, setDirectorList, directorForm, setDirectorForm, directorFormError, setDirectorFormError, setLoadingShow
+        api, permissions, directorFormOriginal, directorFormOpen, setDirectorFormOpen, directorEdit, directorList, setDirectorList, directorForm, setDirectorForm, directorFormError, setDirectorFormError, setLoadingShow
     } = useContext(Mediator);
 
     const nav = useNavigate();
@@ -29,7 +28,6 @@ const DirectorForm = () => {
     const [role, setRole] = useState('');
 
     const [alert, setAlert] = useState({'msg': '', 'show': false, 'type': ''});
-    const errorRef = useRef({});
 
     useEffect(() => {
 
@@ -308,29 +306,26 @@ const DirectorForm = () => {
                 <div className={`c-form-body container-fluid`}>
                     <form className={`c-form-body-block row`}>
 
-                        <div 
-                            className={`c-form-field col-12 col-sm-4 form-group`}
-                            ref = { e => errorRef.current['first_name'] = e }
-                        >
+                        <div className='c-form-field col-12 col-sm-4 form-group'>
                             <label>First Name <i className='req'>*</i></label>
-                            <input className={`form-control`} 
-                                    type='text' 
-                                    name='first_name' 
-                                    placeholder='First Name' 
-                                    onChange={ handleChange } 
-                                    value={ directorForm['first_name'] }
+                            <input 
+                                className='form-control'
+                                type='text' 
+                                name='first_name' 
+                                placeholder='First Name' 
+                                onChange={ handleChange } 
+                                value={ directorForm['first_name'] }
                             />
-                            <Validation 
-                                field_name='first_name' 
-                                errorObject={directorFormError} 
-                                errorRef={errorRef}
+                            <Validation
+                                fieldName='first_name'
+                                errorArray={directorFormError}
                             />
                         </div>
 
-                        <div className={`c-form-field col-12 col-sm-4 form-group`}>
+                        <div className='c-form-field col-12 col-sm-4 form-group'>
                             <label>Middle Name</label>
                             <input 
-                                className={`form-control`} 
+                                className='form-control' 
                                 type='text' 
                                 name='middle_name' 
                                 placeholder='Middle Name' 
@@ -339,63 +334,51 @@ const DirectorForm = () => {
                             />
                         </div>
 
-                        <div 
-                            className={`c-form-field col-12 col-sm-4 form-group`}
-                            ref = { e => errorRef.current['last_name'] = e }
-                        >
+                        <div className='c-form-field col-12 col-sm-4 form-group'>
                             <label>Last Name <i className='req'>*</i></label>
                             <input 
-                                className={`form-control`} 
+                                className='form-control' 
                                 type='text' 
                                 name='last_name' 
                                 placeholder='Last Name' 
                                 onChange={ handleChange } 
                                 value={directorForm['last_name']}
                             />
-                            <Validation 
-                                field_name='last_name' 
-                                errorObject={directorFormError} 
-                                errorRef={errorRef}
+                            <Validation
+                                fieldName='last_name'
+                                errorArray={directorFormError}
                             />
                         </div>
 
-                        <div 
-                            className={`c-form-field col-12 col-sm-6 form-group`}
-                            ref = { e => errorRef.current['date_of_birth'] = e }
-                        >
+                        <div className='c-form-field col-12 col-sm-6 form-group'>
                             <label>Date of Birth <i className='req'>*</i></label>
                             <input 
-                                className={`form-control`} 
+                                className='form-control'
                                 type='date' 
                                 name='date_of_birth' 
                                 onChange={ handleChange } 
                                 value={directorForm['date_of_birth']}
                             />
-                            <Validation 
-                                field_name='date_of_birth' 
-                                errorObject={directorFormError} 
-                                errorRef={errorRef}
+                            <Validation
+                                fieldName='date_of_birth'
+                                errorArray={directorFormError}
                             />
                         </div>
 
-                        <div 
-                            className={`c-form-field col-12 col-sm-6 form-group`}
-                            ref = { e => errorRef.current['ssn_cpn'] = e }
-                        >
+                        <div className='c-form-field col-12 col-sm-6 form-group'>
                             <label>SSN/CPN <i className='req'>*</i></label>
                             <InputMask 
                                 mask="999-99-9999" 
                                 maskChar={null} 
-                                className={`form-control`}
+                                className='form-control'
                                 name='ssn_cpn' 
                                 placeholder='SSN/CPN' 
                                 onChange={ handleChange } 
                                 value={directorForm['ssn_cpn']}
                             />
-                            <Validation 
-                                field_name='ssn_cpn' 
-                                errorObject={directorFormError} 
-                                errorRef={errorRef}
+                            <Validation
+                                fieldName='ssn_cpn'
+                                errorArray={directorFormError}
                             />
                         </div>
 
@@ -404,11 +387,10 @@ const DirectorForm = () => {
                             <div className='d-flex'>
                                 <div className='w-100 mr-auto'>
                                     <input 
-                                        className={`form-control`} 
+                                        className='form-control' 
                                         type='text' 
                                         name='company_association' 
-                                        placeholder='Company Association' 
-                                        onChange={ handleChange } 
+                                        placeholder='Company Association'
                                         value={directorForm['company_association']}
                                         disabled='disabled'
                                     />
@@ -430,12 +412,9 @@ const DirectorForm = () => {
                             </div>
                         </div>
 
-                        <div className={`c-form-field col-12 col-sm-6 form-group`}>
+                        <div className='c-form-field col-12 col-sm-6 form-group'>
                             <div className={`row`}>
-                                <div 
-                                    className={`col-12 form-group`}
-                                    ref = { e => errorRef.current['phone_number'] = e }
-                                >
+                                <div className='col-12 form-group'>
                                     <label>Director's Phone Number <i className='req'>*</i></label>
                                     <input 
                                         className='form-control'
@@ -445,22 +424,16 @@ const DirectorForm = () => {
                                         onChange={ handleChange } 
                                         value={directorForm['phone_number']}
                                     />
-                                    <Validation 
-                                        field_name='phone_number' 
-                                        errorObject={directorFormError} 
-                                        errorRef={errorRef}
+                                    <Validation
+                                        fieldName='phone_number'
+                                        errorArray={directorFormError}
                                     />
                                 </div>
-                            </div>
 
-                            <div className='row'>
-                                <div 
-                                    className='col-12 form-group'
-                                    ref = { e => errorRef.current['phone_type'] = e }
-                                >
+                                <div className='col-12 form-group'>
                                     <label>Phone Type <i className='req'>*</i></label>
                                     <select 
-                                        className={`form-control`} 
+                                        className='form-control'
                                         name='phone_type' 
                                         onChange={ handleChange } 
                                         value={directorForm['phone_type']}
@@ -470,10 +443,9 @@ const DirectorForm = () => {
                                         <option>VoiP</option>
                                         <option>Mobile</option>
                                     </select>
-                                    <Validation 
-                                        field_name='phone_type' 
-                                        errorObject={directorFormError} 
-                                        errorRef={errorRef}
+                                    <Validation
+                                        fieldName='phone_type'
+                                        errorArray={directorFormError}
                                     />
                                 </div>
                             </div>
@@ -503,6 +475,7 @@ const DirectorForm = () => {
                             <Email
                                 title='Email'
                                 muliply={false}
+                                errorArray={directorFormError}
                                 form={directorForm}
                                 setForm={setDirectorForm}
                             />
@@ -565,7 +538,7 @@ const DirectorForm = () => {
 
                                 { permissions.includes(DIRECTOR.STORE)  && // add/update
                                     <>
-                                        { (Object.keys(directorFormError).length>0) && // override
+                                        { (Object.keys(directorFormError).length>0 && directorEdit) && // override
                                             <button className='d-btn d-btn-primary mr-2' onClick={ (e) => { handleOverride(e) } }>
                                                 Override
                                             </button>

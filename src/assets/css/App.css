@@ -739,15 +739,15 @@ label .req {
     font-weight: 500;
     color: #f26051;
     text-shadow: 0px 0px 0px;
-    animation: hightlight-animation .8s infinite linear;
+    animation: hightlight-animation 1s infinite linear;
 }
 
 @keyframes hightlight-animation {
-    0% { text-shadow: 0px 0px 2px; }
-    25% { text-shadow: 0px 0px 4px; }
-    50% { text-shadow: 0px 0px 6px; }
-    75% { text-shadow: 0px 0px 4px; }
-    100% { text-shadow: 0px 0px 2px; }
+    0% { text-shadow: 0px 0px 1px; }
+    25% { text-shadow: 0px 0px 2px; }
+    50% { text-shadow: 0px 0px 3px; }
+    75% { text-shadow: 0px 0px 2px; }
+    100% { text-shadow: 0px 0px 1px; }
 }
 
 /*

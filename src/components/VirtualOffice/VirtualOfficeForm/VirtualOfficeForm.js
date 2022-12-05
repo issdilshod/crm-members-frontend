@@ -3,7 +3,6 @@ import React, { useState, useEffect, useContext } from 'react';
 import * as STATUS from '../../../consts/Status';
 import * as VIRTUALOFFICE from '../../../consts/VirtualOffice';
 
-import Validation from '../../Helper/Validation';
 import { Mediator } from '../../../context/Mediator';
 
 import { FaTimes } from 'react-icons/fa';

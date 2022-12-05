@@ -1,21 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { Mediator } from '../../context/Mediator';
 import DirectorList from './DirectorList';
 import DirectorForm from './DirectorForm';
 import Menu from '../Header/Menu';
-import styles from './Director.module.scss';
 import Api from '../../services/Api';
 import Loading from '../Helper/Loading';
 
 const Director = () => {
 
     const api = new Api();
-    const navigate = useNavigate();
+
     const [menuOpen, setMenuOpen] = useState(false);
-    // list
     const [directorList, setDirectorList] = useState([]);
-    // form
     const [directorFormEntity, setDirectorFormEntity] = useState({
         'first_name': '', 
         'middle_name': '', 
@@ -39,25 +36,19 @@ const Director = () => {
 
         'status': ''
     });
+
     const [directorEdit, setDirectorEdit] = useState(false);
     const [directorFormOpen, setDirectorFormOpen] = useState(false);
     const [directorForm, setDirectorForm] = useState(directorFormEntity);
     const [directorFormOriginal, setDirectorFormOriginal] = useState(directorFormEntity);
     const [directorFormError, setDirectorFormError] = useState({});
-    const [lastAccepted, setLastAccepted] = useState(null);
-    const [lastRejected, setLastRejected] = useState(null);
 
-    // card save/discard
-    const [cardStatusOpen, setCardStatusOpen] = useState(false);
-
-    // permissions
     const [permissions, setPermissions] = useState([]);
-
     const [loadingShow, setLoadingShow] = useState(true);
-
     const { uuid } = useParams();
+
     useEffect(() => {
-        firstInit();
+        init();
     }, []);
 
     useEffect(() => {
@@ -66,8 +57,8 @@ const Director = () => {
         }
     }, [uuid]);
 
-    const firstInit = () => {
-        document.title = 'Directors';
+    const init = () => {
+        document.title = 'Directors Page';
         
         if (uuid){
             handleCardClick(uuid);
@@ -94,10 +85,6 @@ const Director = () => {
                     setDirectorFormOpen(true);
                     setDirectorFormError({});
                     
-                    // last accepted & rejected
-                    setLastAccepted(res.data.data.last_accepted);
-                    setLastRejected(res.data.data.last_rejected);
-                    
                     let tmp_director = res.data.data;
 
                     // company if isset then to company assoc
@@ -115,14 +102,10 @@ const Director = () => {
 
     return (  
         <Mediator.Provider value={ { 
-                                api, navigate, styles, permissions,
+                                api, permissions,
                                 menuOpen, setMenuOpen, 
-                                directorFormOriginal, setDirectorFormOriginal,
-                                directorFormOpen, setDirectorFormOpen, directorEdit, setDirectorEdit, directorList, setDirectorList,
-                                    directorForm, setDirectorForm, directorFormError, setDirectorFormError, directorFormEntity, setDirectorFormEntity, handleCardClick,
-                                cardStatusOpen, setCardStatusOpen,
-                                setLoadingShow,
-                                lastAccepted, setLastAccepted, lastRejected, setLastRejected
+                                directorFormOriginal, setDirectorFormOriginal, directorFormOpen, setDirectorFormOpen, directorEdit, setDirectorEdit, directorList, setDirectorList, directorForm, setDirectorForm, directorFormError, setDirectorFormError, directorFormEntity, setDirectorFormEntity,
+                                setLoadingShow
                             } } >
             
             <DirectorList />

@@ -3,8 +3,9 @@ import { useState } from "react";
 import Collapse from "react-bootstrap/Collapse";
 import { FaAngleDown, FaAngleUp, FaPlus, FaTimes } from "react-icons/fa";
 import * as COMPANY from '../../../consts/Company';
+import Validation from "../Validation/Validation";
 
-const Address = ({title, unique, hasPlus = false, isExtra = false, isRegisterAgent = false, defaulfOpen = true, onPlusClick, onExtraCloseClick, onChange, form, setForm}) => {
+const Address = ({title, unique, hasPlus = false, isExtra = false, isRegisterAgent = false, defaulfOpen = true, onPlusClick, onExtraCloseClick, errorArray, form, setForm}) => {
 
     const [isOpen, setIsOpen] = useState(defaulfOpen);
 
@@ -135,6 +136,10 @@ const Address = ({title, unique, hasPlus = false, isExtra = false, isRegisterAge
                                     onChange={ (e) => { handleChange(e) } }
                                     value={inForm['street_address']}
                                 />
+                                <Validation
+                                    fieldName={`addresses.${unique}.street_address`}
+                                    errorArray={errorArray}
+                                />
                             </div>
                         </div>
 
@@ -149,6 +154,10 @@ const Address = ({title, unique, hasPlus = false, isExtra = false, isRegisterAge
                                     onChange={ (e) => { handleChange(e) } }
                                     value={inForm['address_line_2']}
                                 />
+                                <Validation
+                                    fieldName={`addresses.${unique}.address_line_2`}
+                                    errorArray={errorArray}
+                                />
                             </div>
                         </div>
 
@@ -162,6 +171,10 @@ const Address = ({title, unique, hasPlus = false, isExtra = false, isRegisterAge
                                     name='city'
                                     onChange={ (e) => { handleChange(e) } }
                                     value={inForm['city']}
+                                />
+                                <Validation
+                                    fieldName={`addresses.${unique}.city`}
+                                    errorArray={errorArray}
                                 />
                             </div>
                         </div>
@@ -191,6 +204,10 @@ const Address = ({title, unique, hasPlus = false, isExtra = false, isRegisterAge
                                     onChange={ (e) => { handleChange(e) } }
                                     value={inForm['postal']}
                                 />
+                                <Validation
+                                    fieldName={`addresses.${unique}.postal`}
+                                    errorArray={errorArray}
+                                />
                             </div>
                         </div>
 
@@ -219,6 +236,10 @@ const Address = ({title, unique, hasPlus = false, isExtra = false, isRegisterAge
                                         onChange={ (e) => { handleChange(e) } }
                                         value={inForm['description']}
                                     ></textarea>
+                                    <Validation
+                                        fieldName={`addresses.${unique}.description`}
+                                        errorArray={errorArray}
+                                    />
                                 </div>
                             </div>
                         }

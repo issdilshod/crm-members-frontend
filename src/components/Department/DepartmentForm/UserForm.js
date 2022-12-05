@@ -4,7 +4,7 @@ import { FaTimes } from 'react-icons/fa';
 
 import * as STATUS from '../../../consts/Status';
 
-import Validation from '../../Helper/Validation';
+import Validation from '../../Helper/Validation/Validation';
 
 const UserForm = () => {
 
@@ -161,7 +161,10 @@ const UserForm = () => {
                                     placeholder='First Name'
                                     value={ userForm['first_name'] }
                             />
-                            <Validation field_name='first_name' errorObject={userFormError} />
+                            <Validation
+                                fieldName='first_name'
+                                errorArray={userFormError}
+                            />
                         </div>
                         <div className='form-group col-12 col-sm-4'>
                             <label>Last Name</label>
@@ -171,7 +174,10 @@ const UserForm = () => {
                                     placeholder='Last Name'
                                     value={ userForm['last_name'] }
                             />
-                            <Validation field_name='last_name' errorObject={userFormError} />
+                            <Validation
+                                fieldName='last_name'
+                                errorArray={userFormError}
+                            />
                         </div>
 
                         <div className='form-group col-12 col-sm-4'>
@@ -190,7 +196,10 @@ const UserForm = () => {
                                     })
                                 }
                             </select>
-                            <Validation field_name='role_uuid' errorObject={userFormError} />
+                            <Validation
+                                fieldName='role_uuid'
+                                errorArray={userFormError}
+                            />
                         </div>
 
                         <div className='form-group col-12 col-sm-6'>
@@ -201,7 +210,10 @@ const UserForm = () => {
                                     placeholder='Username'
                                     value={ userForm['username'] }
                             />
-                            <Validation field_name='username' errorObject={userFormError} />
+                            <Validation
+                                fieldName='username'
+                                errorArray={userFormError}
+                            />
                         </div>
 
                         <div className='form-group col-12 col-sm-6'>
@@ -212,7 +224,10 @@ const UserForm = () => {
                                     placeholder='Password'
                                     value={ userForm['password'] }
                             />
-                            <Validation field_name='password' errorObject={userFormError} />
+                            <Validation
+                                fieldName='password'
+                                errorArray={userFormError}
+                            />
                         </div>
 
                         <div className={`${styles['department-form-field']} form-group col-12 col-sm-6`}>
@@ -225,7 +240,10 @@ const UserForm = () => {
                                         placeholder='Telegram'
                                         value={ userForm['telegram'] }
                                 />
-                                <Validation field_name='telegram' errorObject={userFormError} />
+                                <Validation
+                                    fieldName='telegram'
+                                    errorArray={userFormError}
+                                />
                             </div>
                         </div>
 
@@ -246,7 +264,10 @@ const UserForm = () => {
                                         })
                                     }
                                 </select>
-                                <Validation field_name='department_uuid' errorObject={userFormError} />
+                                <Validation
+                                    fieldName='department_uuid'
+                                    errorArray={userFormError}
+                                />
                             </div>
                         }
 

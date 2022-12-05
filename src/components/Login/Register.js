@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import Api from '../../services/Api';
 import Loading from '../Helper/Loading';
-import Validation from '../Helper/Validation';
+import Validation from '../Helper/Validation/Validation';
 
 import styles from './Login.module.scss';
 
@@ -103,59 +103,84 @@ const Register = () => {
                                     <div className='col-12 col-sm-6'>
                                         <div className='form-group'>
                                             <label>First name <i className='req'>*</i></label>
-                                            <input onChange={ handleChange } 
-                                                    className='form-control' 
-                                                    name='first_name'
-                                                    type='text' 
-                                                    placeholder='First name' />
-                                            <Validation field_name='first_name' errorObject={registerFormError} />
+                                            <input 
+                                                onChange={ handleChange } 
+                                                className='form-control' 
+                                                name='first_name'
+                                                type='text' 
+                                                placeholder='First name' 
+                                            />
+                                            <Validation
+                                                fieldName='first_name'
+                                                errorArray={registerFormError}
+                                            />
                                         </div>
                                     </div>
                                     <div className='col-12 col-sm-6'>
                                         <div className='form-group'>
                                             <label>Last name <i className='req'>*</i></label>
-                                            <input onChange={ handleChange } 
-                                                    className='form-control' 
-                                                    name='last_name'
-                                                    type='text' 
-                                                    placeholder='Last name' />
-                                            <Validation field_name='last_name' errorObject={registerFormError} />
+                                            <input 
+                                                onChange={ handleChange } 
+                                                className='form-control' 
+                                                name='last_name'
+                                                type='text' 
+                                                placeholder='Last name' 
+                                            />
+                                            <Validation
+                                                fieldName='last_name'
+                                                errorArray={registerFormError}
+                                            />
                                         </div>
                                     </div>
 
                                     <div className='col-12'>
                                         <div className='form-group'>
                                             <label>Telegram <i className='req'>*</i></label>
-                                            <input onChange={ handleChange } 
-                                                    className='form-control' 
-                                                    name='telegram'
-                                                    type='text' 
-                                                    placeholder='Telegram' />
-                                            <Validation field_name='telegram' errorObject={registerFormError} />
+                                            <input 
+                                                onChange={ handleChange } 
+                                                className='form-control' 
+                                                name='telegram'
+                                                type='text' 
+                                                placeholder='Telegram' 
+                                            />
+                                            <Validation
+                                                fieldName='telegram'
+                                                errorArray={registerFormError}
+                                            />
                                         </div>
                                     </div>
 
                                     <div className='col-12'>
                                         <div className='form-group'>
                                             <label>Username <i className='req'>*</i></label>
-                                            <input onChange={ handleChange } 
-                                                    className='form-control' 
-                                                    name='username'
-                                                    type='text' 
-                                                    placeholder='Username' />
-                                            <Validation field_name='username' errorObject={registerFormError} />
+                                            <input 
+                                                onChange={ handleChange } 
+                                                className='form-control' 
+                                                name='username'
+                                                type='text' 
+                                                placeholder='Username' 
+                                            />
+                                            <Validation
+                                                fieldName='username'
+                                                errorArray={registerFormError}
+                                            />
                                         </div>
                                     </div>
 
                                     <div className='col-12'>
                                         <div className='form-group'>
                                             <label>Password <i className='req'>*</i></label>
-                                            <input onChange={ handleChange } 
-                                                    className='form-control' 
-                                                    name='password'
-                                                    type='password' 
-                                                    placeholder='Password' />
-                                            <Validation field_name='password' errorObject={registerFormError} />
+                                            <input 
+                                                onChange={ handleChange } 
+                                                className='form-control' 
+                                                name='password'
+                                                type='password' 
+                                                placeholder='Password' 
+                                            />
+                                            <Validation
+                                                fieldName='password'
+                                                errorArray={registerFormError}
+                                            />
                                         </div>
                                     </div>
                                     

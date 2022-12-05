@@ -4,7 +4,9 @@ import { Collapse } from "react-bootstrap";
 import { FaAngleDown, FaAngleUp, FaPencilAlt, FaPlus, FaTrash } from "react-icons/fa";
 import Api from "../../../services/Api";
 
-const Email = ({title, muliply = true, defaultOpen = true, form, setForm}) => {
+import Validation from '../Validation/Validation';
+
+const Email = ({title, muliply = true, defaultOpen = true, errorArray = {}, form, setForm}) => {
 
     const api = new Api();
 
@@ -183,6 +185,10 @@ const Email = ({title, muliply = true, defaultOpen = true, form, setForm}) => {
                                             <div className='row'>
                                                 <div className='col-12 col-sm-3'>
                                                     {value['email']}
+                                                    <Validation
+                                                        fieldName={`emails.${index}.email`}
+                                                        errorArray={errorArray}
+                                                    />
                                                 </div>
                                                 <div className='col-12 col-sm-3'>
                                                     {value['password']}
@@ -193,6 +199,10 @@ const Email = ({title, muliply = true, defaultOpen = true, form, setForm}) => {
                                                 <div className='col-12 col-sm-3 d-flex'>
                                                     <div className='mr-auto'>
                                                         {value['phone']}
+                                                        <Validation
+                                                            fieldName={`emails.${index}.phone`}
+                                                            errorArray={errorArray}
+                                                        />
                                                     </div>
                                                     <div>
                                                         <span 

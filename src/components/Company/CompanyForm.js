@@ -10,7 +10,7 @@ import * as STATUS from '../../consts/Status';
 import * as COMPANY from '../../consts/Company';
 import * as ROLE from '../../consts/Role';
 
-import Validation from '../Helper/Validation';
+import Validation from '../Helper/Validation/Validation';
 import Notification from '../Helper/Notification/Notification';
 
 import File from '../Helper/File/File';
@@ -419,27 +419,23 @@ const CompanyForm = () => {
                 <div className='c-form-body container-fluid'>
                     <form className='c-form-body-block row'>
 
-                        <div 
-                            className={`c-form-field col-12 col-sm-4 form-group`}
-                            ref = { e => errorRef.current['legal_name'] = e }
-                        >
+                        <div className='c-form-field col-12 col-sm-4 form-group'>
                             <label>Company Legal Name <i className='req'>*</i></label>
                             <input 
-                                className={`form-control`} 
+                                className='form-control' 
                                 type='text' 
                                 name='legal_name' 
                                 placeholder='Company Legal Name' 
                                 onChange={ handleChange } 
                                 value={ companyForm['legal_name'] }
                             />
-                            <Validation 
-                                field_name='legal_name' 
-                                errorObject={companyFormError} 
-                                errorRef={errorRef}
+                            <Validation
+                                fieldName='legal_name'
+                                errorArray={companyFormError}
                             />
                         </div>
 
-                        <div className={`c-form-field col-12 col-sm-4 form-group`}>
+                        <div className='c-form-field col-12 col-sm-4 form-group'>
                             <label>SIC code</label>
                             <Select 
                                 options={sicCodeList}
@@ -448,10 +444,7 @@ const CompanyForm = () => {
                             />
                         </div>
 
-                        <div 
-                            className={`c-form-field col-12 col-sm-4 form-group`}
-                            ref = { e => errorRef.current['director_uuid'] = e }
-                        >
+                        <div className='c-form-field col-12 col-sm-4 form-group'>
                             <label>Director <i className='req'>*</i></label>
                             <Select 
                                 options={optDirectorList}
@@ -460,17 +453,16 @@ const CompanyForm = () => {
                                 onChange={ (e) => { handleChange({'target': {'name': 'director_uuid', 'value': e.value} }); } }
                                 isDisabled={directorSelectDisabled}
                             />
-                            <Validation 
-                                field_name='director_uuid' 
-                                errorObject={companyFormError} 
-                                errorRef={errorRef}
+                            <Validation
+                                fieldName='director_uuid'
+                                errorArray={companyFormError}
                             />
                         </div>
 
-                        <div className={`c-form-field col-12 form-group`}>
+                        <div className='c-form-field col-12 form-group'>
                             <label>Incorporation date</label>
                             <input 
-                                className={`form-control`} 
+                                className='form-control'
                                 type='date' 
                                 name='incorporation_date' 
                                 placeholder='Incorporation Date' 
@@ -479,10 +471,10 @@ const CompanyForm = () => {
                             />
                         </div>
 
-                        <div className={`c-form-field col-12 col-sm-4 form-group`}>
+                        <div className='c-form-field col-12 col-sm-4 form-group'>
                             <label>Incorporation State</label>
                             <select 
-                                className={`form-control`} 
+                                className='form-control' 
                                 name='incorporation_state_uuid' 
                                 onChange={(e) => { handleChange(e); }} 
                                 value={ companyForm['incorporation_state_uuid'] }
@@ -498,10 +490,10 @@ const CompanyForm = () => {
                             </select>
                         </div>
 
-                        <div className={`c-form-field col-12 col-sm-4 form-group`}>
+                        <div className='c-form-field col-12 col-sm-4 form-group'>
                             <label>Doing business in state</label>
                             <select 
-                                className={`form-control`} 
+                                className='form-control' 
                                 name='doing_business_in_state_uuid' 
                                 onChange={(e) => { handleChange(e); }} 
                                 value={ companyForm['doing_business_in_state_uuid'] }
@@ -517,32 +509,28 @@ const CompanyForm = () => {
                             </select>
                         </div>
 
-                        <div 
-                            className={`c-form-field col-12 col-sm-4 form-group`}
-                            ref = { e => errorRef.current['ein'] = e }
-                        >
+                        <div className='c-form-field col-12 col-sm-4 form-group'>
                             <label>Company EIN <i className='req'>*</i></label>
                             <InputMask 
                                 mask="99-9999999" 
                                 maskChar={null} 
-                                className={`form-control`} 
+                                className='form-control' 
                                 type='text' 
                                 name='ein' 
                                 placeholder='Company EIN' 
                                 onChange={ handleChange } 
                                 value={ companyForm['ein'] }
                             />
-                            <Validation 
-                                field_name='ein' 
-                                errorObject={companyFormError} 
-                                errorRef={errorRef}
+                            <Validation
+                                fieldName='ein'
+                                errorArray={companyFormError}
                             />
                         </div>
 
-                        <div className={`c-form-field col-12 col-sm-4 form-group`}>
+                        <div className='c-form-field col-12 col-sm-4 form-group'>
                             <label>Incorporation State business name</label>
                             <input 
-                                className={`form-control`} 
+                                className='form-control' 
                                 type='text' 
                                 name='incorporation_state_name' 
                                 placeholder='Incorporation State business name' 
@@ -551,10 +539,10 @@ const CompanyForm = () => {
                             />
                         </div>
 
-                        <div className={`c-form-field col-12 col-sm-4 form-group`}>
+                        <div className='c-form-field col-12 col-sm-4 form-group'>
                             <label>Doing business in state name</label>
                             <input 
-                                className={`form-control`} 
+                                className='form-control'
                                 type='text' 
                                 name='doing_business_in_state_name' 
                                 placeholder='Doing business in state name' 
@@ -563,22 +551,19 @@ const CompanyForm = () => {
                             />
                         </div>
 
-                        <div 
-                            className={`c-form-field col-12 col-sm-4 form-group`}
-                            ref = { e => errorRef.current['website'] = e }
-                        >
+                        <div className='c-form-field col-12 col-sm-4 form-group'>
                             <label>Company website</label>
-                            <input className={`form-control`} 
-                                    type='text' 
-                                    name='website' 
-                                    placeholder='Company website' 
-                                    onChange={ handleChange } 
-                                    value={ companyForm['website'] }
-                                    />
-                            <Validation 
-                                field_name='website' 
-                                errorObject={companyFormError} 
-                                errorRef={errorRef}
+                            <input 
+                                className='form-control' 
+                                type='text' 
+                                name='website' 
+                                placeholder='Company website' 
+                                onChange={ handleChange } 
+                                value={ companyForm['website'] }
+                            />
+                            <Validation
+                                fieldName='website'
+                                errorArray={companyFormError}
                             />
                         </div>
 
@@ -586,6 +571,7 @@ const CompanyForm = () => {
                             <Address
                                 title='Registered Agent'
                                 unique='registered_agent'
+                                errorArray={companyFormError}
                                 form={companyForm}
                                 setForm={setCompanyForm}
                                 defaulfOpen={false}
@@ -599,6 +585,7 @@ const CompanyForm = () => {
                                 unique='address'
                                 hasPlus={true}
                                 onPlusClick={onPlusClick}
+                                errorArray={companyFormError}
                                 form={companyForm}
                                 setForm={setCompanyForm}
                             />
@@ -610,6 +597,7 @@ const CompanyForm = () => {
                                     title='Extra Address'
                                     unique='extra_address'
                                     isExtra={true}
+                                    errorArray={companyFormError}
                                     form={companyForm}
                                     setForm={setCompanyForm}
                                     onExtraCloseClick={onExtraCloseClick}
@@ -620,6 +608,7 @@ const CompanyForm = () => {
                         <div className={`col-12 ${!extraAddressShow?'col-sm-6':''} form-group`}>
                             <Phones 
                                 title='Phones'
+                                errorArray={companyFormError}
                                 form={companyForm}
                                 setForm={setCompanyForm}
                             />
@@ -629,6 +618,7 @@ const CompanyForm = () => {
                             <Email
                                 title='Emails'
                                 muliply={true}
+                                errorArray={companyFormError}
                                 form={companyForm}
                                 setForm={setCompanyForm}
                             />
@@ -670,6 +660,7 @@ const CompanyForm = () => {
                         <div className='col-12 form-group'>
                             <BankAccount
                                 title='Business Bank Account'
+                                errorArray={companyFormError}
                                 form={companyForm}
                                 setForm={setCompanyForm}
                             />
@@ -724,9 +715,7 @@ const CompanyForm = () => {
                         </div>
 
                         <div 
-                            className={`${styles['company-form-field']} col-12 col-sm-8 form-group`}
-                            ref = { e => errorRef.current['db_report_number'] = e }
-                        >
+                            className='c-form-field col-12 col-sm-8 form-group'>
                             <label>D&B Number <i className='req'>*</i></label>
                             <input className={`form-control`} 
                                     type='text' 
@@ -735,10 +724,9 @@ const CompanyForm = () => {
                                     onChange={ handleChange } 
                                     value={ companyForm['db_report_number'] }
                             />
-                            <Validation 
-                                field_name='db_report_number' 
-                                errorObject={companyFormError} 
-                                errorRef={errorRef}
+                            <Validation
+                                fieldName='db_report_number'
+                                errorArray={companyFormError}
                             />
                         </div>
 

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { Mediator } from '../../../context/Mediator';
 import { FaCircle, FaEnvelope, FaTelegram, FaTimes } from 'react-icons/fa';
 
-import Validation from '../../Helper/Validation';
+import Validation from '../../Helper/Validation/Validation';
 
 const InviteUserForm = () => {
 
@@ -95,7 +95,10 @@ const InviteUserForm = () => {
                                         value={inviteForm['unique_identify']}
                                         onChange={ (e) => { setInviteForm({'unique_identify': e.target.value}) } }
                                 />
-                                <Validation field_name='unique_identify' errorObject={inviteFormError} />
+                                <Validation
+                                    fieldName='unique_identify'
+                                    errorArray={inviteFormError}
+                                />
                             </div>
                         </div>
                         <div className='col-12 col-sm-6 mb-2'>

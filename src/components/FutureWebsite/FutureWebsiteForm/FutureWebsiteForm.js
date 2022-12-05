@@ -3,7 +3,6 @@ import React, { useState, useEffect, useContext } from 'react';
 import * as STATUS from '../../../consts/Status';
 import * as FUTUREWEBSITES from '../../../consts/FutureWebsites';
 
-import Validation from '../../Helper/Validation';
 import { Mediator } from '../../../context/Mediator';
 
 import { FaTimes } from 'react-icons/fa';
@@ -259,11 +258,6 @@ const FutureWebsiteForm = () => {
                                 value={ sicCodeList.filter(option => { return option.value == form['sic_code_uuid'] }) }
                                 onChange={ (e) => { handleChange({'target': {'name': 'sic_code_uuid', 'value': e.value} }); } }    
                             />
-                            <Validation 
-                                field_name='sic_code_uuid'
-                                errorObject={formError} 
-                                errorRef={errorRef}    
-                            />
                         </div>
 
                         <div 
@@ -278,11 +272,6 @@ const FutureWebsiteForm = () => {
                                 placeholder='Link' 
                                 onChange={ handleChange } 
                                 value={ form['link'] }
-                            />
-                            <Validation 
-                                field_name='link' 
-                                errorObject={formError}
-                                errorRef={errorRef} 
                             />
                         </div>
 

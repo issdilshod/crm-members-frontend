@@ -1,24 +1,25 @@
 import React, { useState, useEffect, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Api from '../../services/Api';
+
 import { Mediator } from '../../context/Mediator';
 import { FaArrowLeft, FaBars, FaClone, FaFileAlt, FaMapMarkerAlt, FaPlus, FaUser } from 'react-icons/fa';
+
 import Pagination from '../Helper/Pagination';
 import Search from '../Helper/Search';
 
 import * as STATUS from '../../consts/Status';
-import { useNavigate } from 'react-router-dom';
 
 const DirectorList = () => {
     const { 
-            api, styles, 
             menuOpen, setMenuOpen,
-            directorFormOriginal, setDirectorFormOriginal,
-            directorForm, setDirectorForm, directorFormOpen, setDirectorFormOpen, directorEdit, setDirectorEdit, directorList, setDirectorList,
-            directorFormEntity, directorFormError, setDirectorFormError, handleCardClick,
-            setLoadingShow,
-            lastAccepted, setLastAccepted, lastRejected, setLastRejected
+            setDirectorFormOriginal, setDirectorForm, setDirectorFormOpen, setDirectorEdit,  directorFormEntity,
+            directorList, setDirectorList,
+            setLoadingShow
         } = useContext(Mediator);
 
     const nav = useNavigate();
+    const api = new Api();
 
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPage, setTotalPage] = useState(1);
@@ -29,7 +30,7 @@ const DirectorList = () => {
     const [search, setSearch] = useState('');
 
     useEffect(() => {
-        firstInit();
+        getDirectorList();
     }, []);
 
     useEffect(() => {
@@ -48,7 +49,7 @@ const DirectorList = () => {
 
         const setStandart = () => {
             if (!defaultList){
-                firstInit();
+                getDirectorList();
                 setDefaultList(true);
             }
         }
@@ -61,7 +62,7 @@ const DirectorList = () => {
 
     }, [search]);
 
-    const firstInit = () => {
+    const getDirectorList = () => {
         api.request('/api/director', 'GET')
             .then(res => {
                 if (res.status===200 || res.status===201){ //success
@@ -77,8 +78,6 @@ const DirectorList = () => {
         setDirectorEdit(false);
         setDirectorForm(directorFormEntity);
         setDirectorFormOriginal(directorFormEntity);
-        setLastAccepted(null);
-        setLastRejected(null);
     }
 
     const handlePaginatioClick = (number) => {

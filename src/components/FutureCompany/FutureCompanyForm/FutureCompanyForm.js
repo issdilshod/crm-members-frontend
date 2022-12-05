@@ -3,7 +3,6 @@ import React, { useState, useEffect, useContext } from 'react';
 import * as STATUS from '../../../consts/Status';
 import * as FUTURECOMPANY from '../../../consts/FutureCompany';
 
-import Validation from '../../Helper/Validation';
 import { Mediator } from '../../../context/Mediator';
 
 import { FaTimes } from 'react-icons/fa';

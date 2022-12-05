@@ -19,19 +19,19 @@ const Login = () => {
         setErrorMsg({'show': false, 'text': ''});
 
         api.request('/api/login', 'POST', loginForm)
-                        .then(res => { 
-                                        if (res.status==200){
-                                            localStorage.setItem('auth', JSON.stringify(res.data.access_token.token));
-                                            navigate(`${process.env.REACT_APP_FRONTEND_PREFIX}/dashboard`);
-                                            api.request('/api/user-online', 'GET');
-                                        }else{
-                                            let msg = 'Fill the required fields.'; 
-                                            if (res.status==404){
-                                                msg = res.data.data.msg;
-                                            }
-                                            setErrorMsg({'show': true, 'text': msg});
-                                        }
-                                    });
+            .then(res => { 
+                if (res.status==200){
+                    localStorage.setItem('auth', JSON.stringify(res.data.access_token.token));
+                    navigate(`${process.env.REACT_APP_FRONTEND_PREFIX}/dashboard`);
+                    api.request('/api/user-online', 'GET');
+                }else{
+                    let msg = 'Fill the required fields.'; 
+                    if (res.status==404){
+                        msg = res.data.data.msg;
+                    }
+                    setErrorMsg({'show': true, 'text': msg});
+                }
+            });
     }
 
     const handleChange = async (e) => {
