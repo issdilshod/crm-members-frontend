@@ -48,8 +48,7 @@ const Company = () => {
             'password': '', 
             'account_number': '', 
             'routing_number': '', 
-            'bank_account_security': [],
-            'bank_account_security_to_delete': []
+            'bank_account_security': []
         },
 
         // addresses

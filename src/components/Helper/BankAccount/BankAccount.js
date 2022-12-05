@@ -37,8 +37,12 @@ const BankAccount = ({title, defaultOpen = true, form, setForm}) => {
         let tmpArray = {...form};
 
         // to delete
-        if ('uuid' in tmpArray['bank_account']['bank_account_security']){
-            tmpArray['bank_account']['bank_account_security_to_delete'].push(tmpArray['bank_account']['bank_account_security']['uuid']);
+        if ('uuid' in tmpArray['bank_account']['bank_account_security'][index]){
+            if ('bank_account_security_to_delete' in tmpArray['bank_account']){
+                tmpArray['bank_account']['bank_account_security_to_delete'].push(tmpArray['bank_account']['bank_account_security'][index]['uuid']);
+            }else{
+                tmpArray['bank_account']['bank_account_security_to_delete'] = [tmpArray['bank_account']['bank_account_security'][index]['uuid']];
+            }
         }
 
         tmpArray['bank_account']['bank_account_security'].splice(index, 1);
