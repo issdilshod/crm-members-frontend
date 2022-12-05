@@ -5,20 +5,15 @@ import Search from '../Helper/Search';
 import Pagination from '../Helper/Pagination';
 import * as STATUS from '../../consts/Status';
 import { useNavigate } from 'react-router-dom';
+import Api from '../../services/Api';
 
 const CompanyList = () => {
     const { 
-            api, navigate, styles, 
-            menuOpen, setMenuOpen,
-            companyFormOriginal, setCompanyFormOriginal,
-            companyForm, setCompanyForm, companyFormOpen, setCompanyFormOpen, companyEdit, setCompanyEdit, companyList, setCompanyList,
-            companyFormEntity, companyFormError, setCompanyFormError, handleCardClick,
-            setLoadingShow,
-
-            lastAccepted, setLastAccepted, lastRejected, setLastRejected
-        } = useContext(Mediator);
+        menuOpen, setMenuOpen,setCompanyFormOriginal, setCompanyForm, setCompanyFormOpen, setCompanyEdit, companyList, setCompanyList, companyFormEntity, setLoadingShow
+    } = useContext(Mediator);
 
     const nav = useNavigate();
+    const api = new Api();
 
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPage, setTotalPage] = useState(1);
@@ -73,16 +68,11 @@ const CompanyList = () => {
     }
 
     const handleAddClick = (e) => {
-
         setCompanyFormOpen(true);
         setCompanyEdit(false);
 
         setCompanyForm(companyFormEntity);
         setCompanyFormOriginal(companyFormEntity);
-
-        setLastAccepted(null);
-        setLastRejected(null);
-
     }
 
     const handlePaginatioClick = (number) => {

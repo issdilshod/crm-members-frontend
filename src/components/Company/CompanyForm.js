@@ -18,14 +18,16 @@ import Address from '../Helper/Address/Address';
 import Email from '../Helper/Email/Email';
 import Phones from '../Helper/Phones/Phones';
 import BankAccount from '../Helper/BankAccount/BankAccount';
+import Api from '../../services/Api';
 
 const CompanyForm = () => {
 
     const { 
-            api, styles, permissions, companyFormOriginal, companyFormOpen, setCompanyFormOpen, companyEdit, companyList, setCompanyList, companyForm, setCompanyForm, companyFormError, setCompanyFormError, setLoadingShow
+        permissions, companyFormOriginal, companyFormOpen, setCompanyFormOpen, companyEdit, companyList, setCompanyList, companyForm, setCompanyForm, companyFormError, setCompanyFormError, setLoadingShow
     } = useContext(Mediator);
 
     const nav = useNavigate();
+    const api = new Api();
 
     const [sicCodeList, setSicCodeList] = useState([]);
     const [stateList, setStateList] = useState([]);
@@ -38,8 +40,6 @@ const CompanyForm = () => {
     const [directorSelectDisabled, setDirectorSelectDisabled] = useState(false);
 
     const [extraAddressShow, setExtraAddressShow] = useState(false);
-
-    const errorRef = useRef({});
 
     useEffect(() => {
         setCompanyFormError({});
