@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Mediator } from '../../context/Mediator';
 import CompanyList from './CompanyList';
-import CompanyForm from './CompanyForm/CompanyForm';
+import CompanyForm from './CompanyForm';
 import Menu from '../Header/Menu';
 import styles from './Company.module.scss';
 import Api from '../../services/Api';

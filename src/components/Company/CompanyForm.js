@@ -4,20 +4,20 @@ import { FaTimes } from 'react-icons/fa';
 import InputMask from 'react-input-mask';
 import Select from 'react-select';
 
-import { Mediator } from '../../../context/Mediator';
+import { Mediator } from '../../context/Mediator';
 
-import * as STATUS from '../../../consts/Status';
-import * as COMPANY from '../../../consts/Company';
-import * as ROLE from '../../../consts/Role';
+import * as STATUS from '../../consts/Status';
+import * as COMPANY from '../../consts/Company';
+import * as ROLE from '../../consts/Role';
 
-import Validation from '../../Helper/Validation';
-import Notification from '../../Helper/Notification/Notification';
+import Validation from '../Helper/Validation';
+import Notification from '../Helper/Notification/Notification';
 
-import File from '../../Helper/File/File';
-import Address from '../../Helper/Address/Address';
-import Email from '../../Helper/Email/Email';
-import Phones from '../../Helper/Phones/Phones';
-import BankAccount from '../../Helper/BankAccount/BankAccount';
+import File from '../Helper/File/File';
+import Address from '../Helper/Address/Address';
+import Email from '../Helper/Email/Email';
+import Phones from '../Helper/Phones/Phones';
+import BankAccount from '../Helper/BankAccount/BankAccount';
 
 const CompanyForm = () => {
 
