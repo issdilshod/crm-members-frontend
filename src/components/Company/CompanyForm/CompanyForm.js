@@ -17,6 +17,7 @@ import File from '../../Helper/File/File';
 import Address from '../../Helper/Address/Address';
 import Email from '../../Helper/Email/Email';
 import Phones from '../../Helper/Phones/Phones';
+import BankAccount from '../../Helper/BankAccount/BankAccount';
 
 const CompanyForm = () => {
 
@@ -663,6 +664,14 @@ const CompanyForm = () => {
                                 title='Company EIN upload'
                                 onChange={handleChange}
                                 downloadEnable={(permissions.some((e) => e==COMPANY.DOWNLOAD))}
+                            />
+                        </div>
+
+                        <div className='col-12 form-group'>
+                            <BankAccount
+                                title='Business Bank Account'
+                                form={companyForm}
+                                setForm={setCompanyForm}
                             />
                         </div>
 

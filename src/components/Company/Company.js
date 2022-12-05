@@ -25,6 +25,7 @@ const Company = () => {
         'doing_business_in_state_uuid': '',
         'doing_business_in_state_name': '',
         'ein': '',
+
         'business_number': '',
         'business_number_type': '',
         'voip_provider': '',
@@ -35,35 +36,21 @@ const Company = () => {
         'business_mobile_number_provider': '',
         'business_mobile_number_login': '',
         'business_mobile_number_password': '',
+
         'website': '',
         'db_report_number': '',
-        'address[street_address]': '',
-        'address[address_line_2]': '',
-        'address[city]': '',
-        'address[state]': '',
-        'address[postal]': '',
-        'address[country]': '',
-        'extra_address[street_address]': '',
-        'extra_address[address_line_2]': '',
-        'extra_address[city]': '',
-        'extra_address[state]': '',
-        'extra_address[postal]': '',
-        'extra_address[country]': '',
-        'extra_address[description]': '',
-        'bank_account[name]': '',
-        'bank_account[website]': '',
-        'bank_account[username]': '',
-        'bank_account[password]': '',
-        'bank_account[account_number]': '',
-        'bank_account[routing_number]': '',
-        'bank_account[bank_account_security]': [],
-        'security': [],
-        'emailsdb': [],
 
-        // bank account & security
-        'bank_account': [],
-        'bank_account_security': [],
-        'bank_account_security_to_delete': [],
+        // bank account
+        'bank_account': {
+            'name': '', 
+            'website': '', 
+            'username': '', 
+            'password': '', 
+            'account_number': '', 
+            'routing_number': '', 
+            'bank_account_security': [],
+            'bank_account_security_to_delete': []
+        },
 
         // addresses
         'addresses': [],
