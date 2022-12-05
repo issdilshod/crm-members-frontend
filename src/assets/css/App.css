@@ -13,6 +13,10 @@
     border: 1px solid #3447675e;
 }
 
+body{
+    overflow: hidden;
+}
+
 #root{
     background-color: #f4f8fb;
     min-height: 100vh;

@@ -91,7 +91,7 @@ const Dashboard = () => {
                     taskFormEntity, taskForm, setTaskForm, taskFormOpen, setTaskFormOpen, taskFormError, setTaskFormError
                 }}
         >
-            <div className={styles['main-content']}>
+            <div className='c-main-content' style={{'margin-top': '80px'}}>
                 <Header 
                     setSearch={setSearch}
                 />
