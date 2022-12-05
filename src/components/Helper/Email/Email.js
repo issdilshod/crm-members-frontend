@@ -60,7 +60,15 @@ const Email = ({title, muliply = true, defaultOpen = true, form, setForm}) => {
 
     const handleDelete = (index) => {
         let tmpArray = {...form};
-        let tmpEmail = tmpArray['emails'][index];
+
+        if ('uuid' in tmpArray['emails'][index]){
+            if ('emails_to_delete' in tmpArray){
+                tmpArray['emails_to_delete'].push(tmpArray['emails'][index]['uuid']);
+            }else{
+                tmpArray['emails_to_delete'] = [tmpArray['emails'][index]['uuid']];
+            }
+        }
+
         tmpArray['emails'].splice(index, 1);
         setForm(tmpArray);
     }
