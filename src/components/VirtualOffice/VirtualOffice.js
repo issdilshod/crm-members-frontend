@@ -5,7 +5,7 @@ import Menu from '../Header/Menu';
 import Api from '../../services/Api';
 import Loading from '../Helper/Loading';
 import VirtualOfficeList from './VirtualOfficeList';
-import VirtualOfficeForm from './VirtualOfficeForm/VirtualOfficeForm';
+import VirtualOfficeForm from './VirtualOfficeForm';
 
 const VirtualOffice = () => {
 

@@ -5,7 +5,7 @@ import Menu from '../Header/Menu';
 import Api from '../../services/Api';
 import Loading from '../Helper/Loading';
 import FutureCompanyList from './FutureCompanyList';
-import FutureCompanyForm from './FutureCompanyForm/FutureCompanyForm';
+import FutureCompanyForm from './FutureCompanyForm';
 
 const FutureCompany = () => {
 

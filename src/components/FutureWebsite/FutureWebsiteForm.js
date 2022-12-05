@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useContext } from 'react';
 
-import * as STATUS from '../../../consts/Status';
-import * as FUTUREWEBSITES from '../../../consts/FutureWebsites';
+import * as STATUS from '../../consts/Status';
+import * as FUTUREWEBSITES from '../../consts/FutureWebsites';
 
-import { Mediator } from '../../../context/Mediator';
+import { Mediator } from '../../context/Mediator';
 
 import { FaTimes } from 'react-icons/fa';
-import Notification from '../../Helper/Notification/Notification';
+import Notification from '../Helper/Notification/Notification';
 import Select from 'react-select';
 import { useRef } from 'react';
 

@@ -5,7 +5,7 @@ import Menu from '../Header/Menu';
 import Api from '../../services/Api';
 import Loading from '../Helper/Loading';
 import FutureWebsiteList from './FutureWebsiteList';
-import FutureWebsiteForm from './FutureWebsiteForm/FutureWebsiteForm';
+import FutureWebsiteForm from './FutureWebsiteForm';
 
 const FutureWebsite = () => {
 
