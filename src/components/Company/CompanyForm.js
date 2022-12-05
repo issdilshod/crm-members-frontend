@@ -52,7 +52,7 @@ const CompanyForm = () => {
         // director get
         if (companyFormOpen && companyEdit){
             if (companyForm['director']!=null){
-                loadDirectorList(companyForm['director']['first_name'] + ' ' + companyForm['director']['last_name']);
+                loadDirectorList(companyForm['director']['first_name'] + ' ' + (companyForm['director']['middle_name']!=null?companyForm['director']['middle_name']+' ':'') + companyForm['director']['last_name']);
                 setDirectorSelectDisabled(true);
             }else{
                 if (ROLE.HEADQUARTERS==role){
