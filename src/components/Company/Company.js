@@ -70,9 +70,6 @@ const Company = () => {
     const [companyFormOriginal, setCompanyFormOriginal] = useState(companyFormEntity);
     const [companyFormError, setCompanyFormError] = useState({});
 
-    const [lastAccepted, setLastAccepted] = useState(null);
-    const [lastRejected, setLastRejected] = useState(null);
-
     // permissions
     const [permissions, setPermissions] = useState([]);
 
@@ -120,10 +117,6 @@ const Company = () => {
                     setCompanyEdit(true);
                     setCompanyFormOpen(true);
                     setCompanyFormError({});
-                    
-                    // last accepted & rejected
-                    setLastAccepted(res.data.data.last_accepted);
-                    setLastRejected(res.data.data.last_rejected);
 
                     let tmp_company = res.data.data;
 

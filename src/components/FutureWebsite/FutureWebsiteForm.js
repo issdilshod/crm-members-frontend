@@ -9,23 +9,30 @@ import { FaTimes } from 'react-icons/fa';
 import Notification from '../Helper/Notification/Notification';
 import Select from 'react-select';
 import { useRef } from 'react';
+import Api from '../../services/Api';
+import { useNavigate } from 'react-router-dom';
 
 const FutureWebsiteForm = () => {
 
     const { 
-        api, navigate, permissions,
-        menuOpen, setMenuOpen, 
-        formOriginal, setFormOriginal,
-        formOpen, setFormOpen, edit, setEdit, list, setList,
-            form, setForm, formError, setFormError, formEntity, setFormEntity, handleCardClick,
-        setLoadingShow
+        permissions, formOriginal, formOpen, setFormOpen, edit, list, setList, form, setForm, setFormError, setLoadingShow
     } = useContext(Mediator);
+
+    const api = new Api()
+    const nav = useNavigate();
+
+    const [meUuid, setMeUuid] = useState('');
+    const [sicCodeList, setSicCodeList] = useState([]);
+    const [alert, setAlert] = useState({'msg': '', 'show': false, 'type': ''});
 
     useEffect(() => {
         setFormError({});
-    }, [formOpen])
 
-    const [meUuid, setMeUuid] = useState('');
+        if (!formOpen){
+            nav(`${process.env.REACT_APP_FRONTEND_PREFIX}/future-websites`);
+        }
+
+    }, [formOpen])
 
     useEffect(() => {
         api.request('/api/get_me', 'GET')
@@ -37,8 +44,7 @@ const FutureWebsiteForm = () => {
 
         getSicCodes();
     }, [])
-
-    const [sicCodeList, setSicCodeList] = useState([]);
+    
     const getSicCodes = () => {
         api.request('/api/sic_code', 'GET')
             .then(res => {
@@ -50,11 +56,9 @@ const FutureWebsiteForm = () => {
                     setSicCodeList(tmp_sic_code);
                 }
             });
-    }
+    }  
 
-    const [alert, setAlert] = useState({'msg': '', 'show': false, 'type': ''});
-
-    const handleChange = (e, file = false) => {
+    const handleChange = (e) => {
         let { value, name } = e.target;
         setForm({ ...form, [name]: value });
     }
@@ -231,27 +235,22 @@ const FutureWebsiteForm = () => {
         handleClose();
     }
 
-    const errorRef = useRef({});
-
     return (  
         <div>
             <Notification Alert={alert} SetAlert={setAlert} />
             <div className={`c-card-left ${!formOpen?'w-0':''}`} onClick={ () => { handleClickOutCard() } }></div>
             <div className={`c-form ${formOpen ?'c-form-active':''}`}>
-                <div className={`c-form-head d-flex`}>
-                    <div className={`c-form-head-title mr-auto`}>{(!edit?'Add future website':'Edit future website')}</div>
-                    <div className={`c-form-close`} onClick={(e) => { handleClose(e) } }>
+                <div className='c-form-head d-flex'>
+                    <div className='c-form-head-title mr-auto'>{(!edit?'Add future website':'Edit future website')}</div>
+                    <div className='c-form-close' onClick={(e) => { handleClose(e) } }>
                         <FaTimes />
                     </div>
                 </div>
-                <hr className={`divider`} />
-                <div className={`c-form-body container-fluid`}>
-                    <form className={`c-form-body-block row`}>
+                <hr className='divider' />
+                <div className='c-form-body container-fluid'>
+                    <form className='c-form-body-block row'>
 
-                        <div 
-                            className={`c-form-field col-12 col-sm-6 form-group`}
-                            ref = { e => errorRef.current['sic_code_uuid'] = e }
-                        >
+                        <div className='c-form-field col-12 col-sm-6 form-group'>
                             <label>SIC code <i className='req'>*</i></label>
                             <Select 
                                 options={sicCodeList}
@@ -260,13 +259,10 @@ const FutureWebsiteForm = () => {
                             />
                         </div>
 
-                        <div 
-                            className={`c-form-field col-12 col-sm-6 form-group`}
-                            ref = { e => errorRef.current['link'] = e }
-                        >
+                        <div className='c-form-field col-12 col-sm-6 form-group'>
                             <label>Link <i className='req'>*</i></label>
                             <input 
-                                className={`form-control`} 
+                                className='form-control' 
                                 type='text' 
                                 name='link' 
                                 placeholder='Link' 
@@ -275,7 +271,7 @@ const FutureWebsiteForm = () => {
                             />
                         </div>
 
-                        <div className={`c-form-field col-12 d-flex form-group`}>
+                        <div className='c-form-field col-12 d-flex form-group'>
                             <div className='ml-auto'>
 
                                 { permissions.includes(FUTUREWEBSITES.STORE)  && //permitted to add

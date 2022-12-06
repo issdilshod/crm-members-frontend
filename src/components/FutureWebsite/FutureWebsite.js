@@ -33,9 +33,16 @@ const FutureWebsite = () => {
     const [loadingShow, setLoadingShow] = useState(true);
 
     const { uuid } = useParams();
+
     useEffect(() => {
         firstInit();
     }, []);
+
+    useEffect(() => {
+        if (uuid!='' && uuid!=null){
+            handleCardClick(uuid);
+        }
+    }, [uuid]);
 
     const firstInit = () => {
         document.title = 'Future Websites';

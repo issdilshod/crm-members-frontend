@@ -5,22 +5,52 @@ import Pagination from '../Helper/Pagination';
 import Search from '../Helper/Search';
 
 import * as STATUS from '../../consts/Status';
+import Api from '../../services/Api';
+import { useNavigate } from 'react-router-dom';
 
 const FutureWebsiteList = () => {
     const { 
-            api, navigate, permissions,
-            menuOpen, setMenuOpen, 
-            formOriginal, setFormOriginal,
-            formOpen, setFormOpen, edit, setEdit, list, setList,
-                form, setForm, formError, setFormError, formEntity, setFormEntity, handleCardClick,
-            setLoadingShow
-        } = useContext(Mediator);
+        permissions, menuOpen, setMenuOpen, setFormOriginal, setFormOpen, setEdit, list, setList, setForm, formEntity, setLoadingShow
+    } = useContext(Mediator);
+
+    const api = new Api();
+    const nav = useNavigate();
+
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPage, setTotalPage] = useState(1);
+    const [rangeShow, setRangeShow] = useState(9);
+
+    const [defaultList, setDefaultList] = useState(true);
+
+    const [search, setSearch] = useState('');
 
     useEffect(() => {
-        firstInit();
+        getStandardList();
     }, []);
 
-    const firstInit = () => {
+    useEffect(() => {
+        if (search.length>=2){
+            setLoadingShow(true);
+            api.request('/api/pending/search?q=' + encodeURIComponent(search), 'GET')
+                .then(res => {
+                    if (res.status===200 || res.status===201){ // success
+                        let tmpArr = [...res.data.companies, ...res.data.directors];
+                        setList(tmpArr);
+                        setTotalPage(1);
+                    }
+                    setLoadingShow(false);
+                    setDefaultList(false);
+                });
+        }else{
+            if (!defaultList){
+                setLoadingShow(true);
+                getStandardList();
+                setDefaultList(true);
+            }
+        }
+    }, [search]);
+
+    const getStandardList = () => {
         api.request('/api/future-websites', 'GET')
             .then(res => {
                 if (res.status===200 || res.status===201){ //success
@@ -50,38 +80,15 @@ const FutureWebsiteList = () => {
             });
     }
 
-    const [currentPage, setCurrentPage] = useState(1);
-    const [totalPage, setTotalPage] = useState(1);
-    const [rangeShow, setRangeShow] = useState(9);
-
-    const [defaultList, setDefaultList] = useState(true);
-
-    const handleTextChange = (text) => {
-        if (text.length>=3){
-            setLoadingShow(true);
-            setDefaultList(false);
-            api.request('/api/future-websites-search/'+text, 'GET')
-                .then(res => {
-                    if (res.status===200 || res.status===201){ // success
-                        setList(res.data.data);
-                        setTotalPage(res.data.meta['last_page']);
-                    }
-                    setLoadingShow(false);
-                });
-        }else{
-            if (!defaultList){
-                setLoadingShow(true);
-                firstInit();
-                setDefaultList(true);
-            }
-        }
-    } 
+    const handleGoToCard = (link) => {
+        nav(process.env.REACT_APP_FRONTEND_PREFIX + link);
+    }
 
     return (  
         <div className={`c-main-content container-fluid`}>
             <div className={`c-list`}>
                 <div className={`c-list-head d-flex`}>
-                    <div className={`c-list-head-back mr-4`} onClick={() => {navigate(`${process.env.REACT_APP_FRONTEND_PREFIX}/dashboard`)}}>
+                    <div className={`c-list-head-back mr-4`} onClick={() => {nav(`${process.env.REACT_APP_FRONTEND_PREFIX}/dashboard`)}}>
                         <span>
                             <FaArrowLeft />
                         </span>
@@ -101,7 +108,7 @@ const FutureWebsiteList = () => {
                     </div>
                 </div>
                 <div className={`c-body container-fluid`}>
-                    <Search handleTextChange={ handleTextChange } />
+                    <Search handleTextChange={setSearch} />
                     <div className={`c-list-item row`}>
                         {
                             list.map((value, index) => {
@@ -112,7 +119,7 @@ const FutureWebsiteList = () => {
                                                     ${STATUS.ACTIVED==value['status']?'t-card-primary':''}
                                                     ${STATUS.REJECTED==value['status']?'t-card-danger':''}
                                                      d-flex`} 
-                                        onClick={ () => { handleCardClick(value['uuid']) } }
+                                        onClick={ () => { handleGoToCard(value['last_activity']['link']) } }
                                         >
                                             <div className={`c-item-icon mr-2`}>
                                                 <span>
@@ -120,7 +127,13 @@ const FutureWebsiteList = () => {
                                                 </span>
                                             </div>
                                             <div className={`c-item-info`}>
-                                                <p>{value['link']}</p>
+                                                <p>{value['name']}</p>
+                                                { !defaultList &&
+                                                    <>
+                                                        <p><FaMapMarkerAlt /> {value.address.street_address}, {value.address.city}, {value.address.state}</p>
+                                                        <p><FaFileAlt /> {value.uploaded_files.length}</p>
+                                                    </>
+                                                }
                                             </div>
                                         </div>
                                     </div>
