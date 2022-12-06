@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext, useRef } from 'react';
 import { FaTimes, FaUnlink } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
-import InputMask from 'react-input-mask';
 
 import * as STATUS from '../../consts/Status';
 import * as DIRECTOR from '../../consts/Director';
@@ -16,10 +15,14 @@ import File from '../Helper/File/File';
 import Address from '../Helper/Address/Address';
 import Email from '../Helper/Email/Email';
 
+import Input from '../Helper/Input/Input';
+import InputMask from '../Helper/Input/InputMask';
+import Select from '../Helper/Input/Select';
+
 const DirectorForm = () => {
 
     const { 
-        api, permissions, directorFormOriginal, directorFormOpen, setDirectorFormOpen, directorEdit, directorList, setDirectorList, directorForm, setDirectorForm, directorFormError, setDirectorFormError, setLoadingShow
+        api, query, permissions, directorFormOriginal, directorFormOpen, setDirectorFormOpen, directorEdit, directorList, setDirectorList, directorForm, setDirectorForm, directorFormError, setDirectorFormError, setLoadingShow
     } = useContext(Mediator);
 
     const nav = useNavigate();
@@ -304,93 +307,78 @@ const DirectorForm = () => {
             <Notification Alert={alert} SetAlert={setAlert} />
             <div className={`c-card-left ${!directorFormOpen?'w-0':''}`} onClick={ () => { handleClickOutCard() } }></div>
             <div className={`c-form ${directorFormOpen?'c-form-active':''}`}>
-                <div className={`c-form-head d-flex`}>
-                    <div className={`c-form-head-title mr-auto`}>{(!directorEdit?'Add director':'Edit director')}</div>
-                    <div className={`c-form-close`} onClick={(e) => { handleClose(e) } }>
+                <div className='c-form-head d-flex'>
+                    <div className='c-form-head-title mr-auto'>{(!directorEdit?'Add director':'Edit director')}</div>
+                    <div className='c-form-close' onClick={(e) => { handleClose(e) } }>
                         <FaTimes />
                     </div>
                 </div>
-                <hr className={`divider`} />
-                <div className={`c-form-body container-fluid`}>
-                    <form className={`c-form-body-block row`}>
+                <hr className='divider' />
+                <div className='c-form-body container-fluid'>
+                    <form className='c-form-body-block row'>
 
-                        <div className='c-form-field col-12 col-sm-4 form-group'>
-                            <label>First Name <i className='req'>*</i></label>
-                            <input 
-                                className='form-control'
-                                type='text' 
-                                name='first_name' 
-                                placeholder='First Name' 
-                                onChange={ handleChange } 
-                                value={ directorForm['first_name'] }
-                            />
-                            <Validation
-                                fieldName='first_name'
+                        <div className='c-form-field col-12 col-sm-4'>
+                            <Input
+                                title='First Name'
+                                req={true}
+                                name='first_name'
+                                onChange={handleChange}
+                                defaultValue={directorForm['first_name']}
                                 errorArray={directorFormError}
+                                query={query}
                             />
                         </div>
 
-                        <div className='c-form-field col-12 col-sm-4 form-group'>
-                            <label>Middle Name</label>
-                            <input 
-                                className='form-control' 
-                                type='text' 
-                                name='middle_name' 
-                                placeholder='Middle Name' 
-                                onChange={ handleChange } 
-                                value={directorForm['middle_name']}
-                            />
-                        </div>
-
-                        <div className='c-form-field col-12 col-sm-4 form-group'>
-                            <label>Last Name <i className='req'>*</i></label>
-                            <input 
-                                className='form-control' 
-                                type='text' 
-                                name='last_name' 
-                                placeholder='Last Name' 
-                                onChange={ handleChange } 
-                                value={directorForm['last_name']}
-                            />
-                            <Validation
-                                fieldName='last_name'
+                        <div className='c-form-field col-12 col-sm-4'>
+                            <Input
+                                title='Middle Name'
+                                name='middle_name'
+                                onChange={handleChange}
+                                defaultValue={directorForm['middle_name']}
                                 errorArray={directorFormError}
+                                query={query}
                             />
                         </div>
 
-                        <div className='c-form-field col-12 col-sm-6 form-group'>
-                            <label>Date of Birth <i className='req'>*</i></label>
-                            <input 
-                                className='form-control'
-                                type='date' 
-                                name='date_of_birth' 
-                                onChange={ handleChange } 
-                                value={directorForm['date_of_birth']}
-                            />
-                            <Validation
-                                fieldName='date_of_birth'
+                        <div className='c-form-field col-12 col-sm-4'>
+                            <Input
+                                title='Last Name'
+                                req={true}
+                                name='last_name'
+                                onChange={handleChange}
+                                defaultValue={directorForm['last_name']}
                                 errorArray={directorFormError}
+                                query={query}
                             />
                         </div>
 
-                        <div className='c-form-field col-12 col-sm-6 form-group'>
-                            <label>SSN/CPN <i className='req'>*</i></label>
-                            <InputMask 
-                                mask="999-99-9999" 
-                                maskChar={null} 
-                                className='form-control'
-                                name='ssn_cpn' 
-                                placeholder='SSN/CPN' 
-                                onChange={ handleChange } 
-                                value={directorForm['ssn_cpn']}
-                            />
-                            <Validation
-                                fieldName='ssn_cpn'
+                        <div className='c-form-field col-12 col-sm-6'>
+                            <Input
+                                title='Date of Birth'
+                                req={true}
+                                type='date'
+                                name='date_of_birth'
+                                onChange={handleChange}
+                                defaultValue={directorForm['date_of_birth']}
                                 errorArray={directorFormError}
+                                query={query}
                             />
                         </div>
 
-                        <div className='c-form-field col-12 col-sm-6 form-group c-position-relative'>
+                        <div className='c-form-field col-12 col-sm-6'>
+                            <InputMask
+                                title='SSN/CPN'
+                                req={true}
+                                mask='999-99-9999'
+                                name='ssn_cpn'
+                                onChange={handleChange}
+                                defaultValue={directorForm['ssn_cpn']}
+                                errorArray={directorFormError}
+                                query={query}
+                            />
+                        </div>
+
+                        <div className='c-form-field col-12 col-sm-6 c-position-relative'>
                             <label>Company Association</label>
                             <div className='d-flex'>
                                 <div className='w-100 mr-auto'>
@@ -420,40 +408,34 @@ const DirectorForm = () => {
                             </div>
                         </div>
 
-                        <div className='c-form-field col-12 col-sm-6 form-group'>
-                            <div className={`row`}>
-                                <div className='col-12 form-group'>
-                                    <label>Director's Phone Number <i className='req'>*</i></label>
-                                    <input 
-                                        className='form-control'
-                                        type='text'
+                        <div className='c-form-field col-12 col-sm-6'>
+                            <div className='row'>
+                                <div className='col-12'>
+                                    <Input
+                                        title="Director's Phone Number"
+                                        req={true}
                                         name='phone_number'
-                                        placeholder='Phone Number'
-                                        onChange={ handleChange } 
-                                        value={directorForm['phone_number']}
-                                    />
-                                    <Validation
-                                        fieldName='phone_number'
+                                        onChange={handleChange}
+                                        defaultValue={directorForm['phone_number']}
                                         errorArray={directorFormError}
+                                        query={query}
                                     />
                                 </div>
 
-                                <div className='col-12 form-group'>
-                                    <label>Phone Type <i className='req'>*</i></label>
-                                    <select 
-                                        className='form-control'
-                                        name='phone_type' 
-                                        onChange={ handleChange } 
-                                        value={directorForm['phone_type']}
-                                    >
-                                        <option>-</option>
-                                        <option>Phisycal</option>
-                                        <option>VoiP</option>
-                                        <option>Mobile</option>
-                                    </select>
-                                    <Validation
-                                        fieldName='phone_type'
+                                <div className='col-12'>
+                                    <Select
+                                        title='Phone Type'
+                                        req={true}
+                                        name='phone_type'
+                                        onChange={handleChange}
+                                        defaultValue={directorForm['phone_type']}
                                         errorArray={directorFormError}
+                                        options={[
+                                            {'value': 'Phisycal', 'label': 'Phisycal'},
+                                            {'value': 'VoiP', 'label': 'VoiP'},
+                                            {'value': 'Mobile', 'label': 'Mobile'}
+                                        ]}
+                                        query={query}
                                     />
                                 </div>
                             </div>
@@ -466,6 +448,8 @@ const DirectorForm = () => {
                                 onChange={handleChange}
                                 form={directorForm}
                                 setForm={setDirectorForm}
+                                errorArray={directorFormError}
+                                query={query}
                             />
                         </div>
 
@@ -476,6 +460,8 @@ const DirectorForm = () => {
                                 onChange={handleChange}
                                 form={directorForm}
                                 setForm={setDirectorForm}
+                                errorArray={directorFormError}
+                                query={query}
                             />
                         </div>
 
@@ -483,9 +469,10 @@ const DirectorForm = () => {
                             <Email
                                 title='Email'
                                 muliply={false}
-                                errorArray={directorFormError}
                                 form={directorForm}
                                 setForm={setDirectorForm}
+                                errorArray={directorFormError}
+                                query={query}
                             />
                         </div>
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import { Mediator } from '../../context/Mediator';
 import DirectorList from './DirectorList';
 import DirectorForm from './DirectorForm';
@@ -45,10 +45,17 @@ const Director = () => {
 
     const [permissions, setPermissions] = useState([]);
     const [loadingShow, setLoadingShow] = useState(true);
+
     const { uuid } = useParams();
+    const [ params, setParams ] = useSearchParams();
+    const [ query, setQuery ] = useState('');
 
     useEffect(() => {
         init();
+
+        if (params.get('q')!=null){
+            setQuery(params.get('q'));
+        }
     }, []);
 
     useEffect(() => {
@@ -102,7 +109,7 @@ const Director = () => {
 
     return (  
         <Mediator.Provider value={ { 
-                                api, permissions,
+                                api, permissions, query,
                                 menuOpen, setMenuOpen, 
                                 directorFormOriginal, setDirectorFormOriginal, directorFormOpen, setDirectorFormOpen, directorEdit, setDirectorEdit, directorList, setDirectorList, directorForm, setDirectorForm, directorFormError, setDirectorFormError, directorFormEntity, setDirectorFormEntity,
                                 setLoadingShow

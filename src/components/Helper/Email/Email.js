@@ -6,7 +6,7 @@ import Api from "../../../services/Api";
 
 import Validation from '../Validation/Validation';
 
-const Email = ({title, muliply = true, defaultOpen = true, errorArray = {}, form, setForm}) => {
+const Email = ({title, muliply = true, defaultOpen = true, errorArray = {}, form, setForm, query = ''}) => {
 
     const api = new Api();
 

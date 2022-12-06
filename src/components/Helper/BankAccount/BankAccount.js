@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { Collapse } from "react-bootstrap";
 import { FaAngleDown, FaAngleUp, FaPlus, FaTrash } from "react-icons/fa";
+import Input from "../Input/Input";
 import Validation from "../Validation/Validation";
 
 
-const BankAccount = ({title, defaultOpen = true, errorArray = {}, form, setForm}) => {
+const BankAccount = ({title, defaultOpen = true, errorArray = {}, form, setForm, query = ''}) => {
 
     const [isOpen, setIsOpen] = useState(defaultOpen);
 
@@ -83,103 +84,75 @@ const BankAccount = ({title, defaultOpen = true, errorArray = {}, form, setForm}
                     <div className='row'>
 
                         <div className='col-12 col-sm-6'>
-                            <div className='form-group'>
-                                <label>Bank Name</label>
-                                <input
-                                    className='form-control'
-                                    placeholder='Bank Name'
-                                    type='text'
-                                    name='name'
-                                    value={inForm['name']}
-                                    onChange={onChange}
-                                />
-                                <Validation
-                                    fieldName='bank_account.name'
-                                    errorArray={errorArray}
-                                />
-                            </div>
+                            <Input
+                                title='Bank Name'
+                                name='name'
+                                validationName='bank_account.name'
+                                onChange={onChange}
+                                defaultValue={inForm['name']}
+                                errorArray={errorArray}
+                                query={query}
+                            />
                         </div>
 
                         <div className='col-12 col-sm-6'>
-                            <div className='form-group'>
-                                <label>Bank Website</label>
-                                <input
-                                    className='form-control'
-                                    placeholder='Bank Website'
-                                    type='text'
-                                    name='website'
-                                    value={inForm['website']}
-                                    onChange={onChange}
-                                />
-                            </div>
+                            <Input
+                                title='Bank Website'
+                                name='website'
+                                validationName='bank_account.website'
+                                onChange={onChange}
+                                defaultValue={inForm['website']}
+                                errorArray={errorArray}
+                                query={query}
+                            />
                         </div>
 
                         <div className='col-12 col-sm-6'>
-                            <div className='form-group'>
-                                <label>User Name</label>
-                                <input
-                                    className='form-control'
-                                    placeholder='User Name'
-                                    type='text'
-                                    name='username'
-                                    value={inForm['username']}
-                                    onChange={onChange}
-                                />
-                                <Validation
-                                    fieldName='bank_account.username'
-                                    errorArray={errorArray}
-                                />
-                            </div>
+                            <Input
+                                title='User Name'
+                                name='username'
+                                validationName='bank_account.username'
+                                onChange={onChange}
+                                defaultValue={inForm['username']}
+                                errorArray={errorArray}
+                                query={query}
+                            />
                         </div>
 
                         <div className='col-12 col-sm-6'>
-                            <div className='form-group'>
-                                <label>Password</label>
-                                <input
-                                    className='form-control'
-                                    placeholder='Password'
-                                    type='text'
-                                    name='password'
-                                    value={inForm['password']}
-                                    onChange={onChange}
-                                />
-                            </div>
+                            <Input
+                                title='Password'
+                                name='password'
+                                validationName='bank_account.password'
+                                onChange={onChange}
+                                defaultValue={inForm['password']}
+                                errorArray={errorArray}
+                                query={query}
+                            />
                         </div>
 
                         <div className='col-12 col-sm-6'>
-                            <div className='form-group'>
-                                <label>Account number</label>
-                                <input
-                                    className='form-control'
-                                    placeholder='Account number'
-                                    type='text'
-                                    name='account_number'
-                                    value={inForm['account_number']}
-                                    onChange={onChange}
-                                />
-                                <Validation
-                                    fieldName='bank_account.account_number'
-                                    errorArray={errorArray}
-                                />
-                            </div>
+                            <Input
+                                title='Account number'
+                                name='account_number'
+                                validationName='bank_account.account_number'
+                                onChange={onChange}
+                                defaultValue={inForm['account_number']}
+                                errorArray={errorArray}
+                                query={query}
+                            />
                         </div>
 
                         <div className='col-12 col-sm-6'>
-                            <div className='form-group'>
-                                <label>Routing number</label>
-                                <input
-                                    className='form-control'
-                                    placeholder='Routing number'
-                                    type='text'
-                                    name='routing_number'
-                                    value={inForm['routing_number']}
-                                    onChange={onChange}
-                                />
-                                <Validation
-                                    fieldName='bank_account.routing_number'
-                                    errorArray={errorArray}
-                                />
-                            </div>
+                            <Input
+                                title='Routing number'
+                                name='routing_number'
+                                validationName='bank_account.routing_number'
+                                onChange={onChange}
+                                defaultValue={inForm['routing_number']}
+                                errorArray={errorArray}
+                                query={query}
+                            />
                         </div>
 
                         <div className='col-12 mt-2'>

@@ -837,6 +837,22 @@ label .req {
 }
 
 /*
+    match-found
+*/
+.match-found{
+    box-shadow: 0 0px 5px 0 #607cab;
+    animation: hightlight-animation-input 1s infinite linear;
+}
+
+@keyframes hightlight-animation-input {
+    0% { box-shadow: 0 0px 6px 0 #607cab; }
+    25% { box-shadow: 0 0px 8px 0 #607cab; }
+    50% { box-shadow: 0 0px 10px 0 #607cab; }
+    75% { box-shadow: 0 0px 8px 0 #607cab; }
+    100% { box-shadow: 0 0px 6px 0 #607cab; }
+}
+
+/*
     ui-list
 */
 .ui-list{

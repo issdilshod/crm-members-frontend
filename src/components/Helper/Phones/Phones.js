@@ -1,10 +1,13 @@
 import { useState } from "react";
 import { Collapse } from "react-bootstrap";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa";
+
+import Select from '../Input/Select';
+import Input from "../Input/Input";
 import Validation from "../Validation/Validation";
 
 
-const Phones = ({title, defaultOpen = true, errorArray = {}, form, setForm}) => {
+const Phones = ({title, defaultOpen = true, errorArray = {}, form, setForm, query = ''}) => {
 
     const [isOpen, setIsOpen] = useState(defaultOpen);
 
@@ -36,140 +39,123 @@ const Phones = ({title, defaultOpen = true, errorArray = {}, form, setForm}) => 
                 >
                     <div className='row'>
 
-                        <div className='col-12 col-sm-6 form-group'>
-                            <label>Business Number</label>
-                            <input 
-                                className='form-control' 
-                                type='text' 
-                                name='business_number' 
-                                placeholder='Business Number' 
-                                onChange={onChange} 
-                                value={form['business_number']}
-                            />
-                            <Validation
-                                fieldName='business_number'
+                        <div className='col-12 col-sm-6'>
+                            <Input
+                                title='Business Number'
+                                name='business_number'
+                                onChange={onChange}
+                                defaultValue={form['business_number']}
                                 errorArray={errorArray}
+                                query={query}
                             />
                         </div>
 
-                        <div className='col-12 col-sm-6 form-group'>
-                            <label>Business Number Type</label>
-                            <select className='form-control'
-                                    name='business_number_type' 
-                                    onChange={(e) => { onChange(e); }} 
-                                    value={form['business_number_type']}
-                                    >
-                                <option>-</option>
-                                <option>VoiP</option>
-                                <option>Landline</option>
-                            </select>
-                        </div>
-
-                        <div className='col-12 form-group'>
-                            <label>VOIP Provider</label>
-                            <input 
-                                className='form-control' 
-                                type='text' 
-                                name='voip_provider' 
-                                placeholder='VOIP Provider' 
-                                onChange={onChange} 
-                                value={form['voip_provider']}
-                            />
-                        </div>
-
-                        <div className='col-12 col-sm-6 form-group'>
-                            <label>VOIP Login</label>
-                            <input 
-                                className='form-control' 
-                                type='text' 
-                                name='voip_login' 
-                                placeholder='VOIP Login' 
-                                onChange={onChange} 
-                                value={form['voip_login']}
-                            />
-                        </div>
-
-                        <div className='col-12 col-sm-6 form-group'>
-                            <label>VOIP Password</label>
-                            <input 
-                                className='form-control' 
-                                type='text' 
-                                name='voip_password' 
-                                placeholder='VOIP Password' 
-                                onChange={onChange} 
-                                value={form['voip_password']}
-                            />
-                        </div>
-
-                        <div className='col-12 col-sm-6 form-group'>
-                            <label>Business Mobile Number</label>
-                            <input 
-                                className='form-control' 
-                                type='text' 
-                                name='business_mobile_number' 
-                                placeholder='Business Mobile Number' 
-                                onChange={onChange} 
-                                value={form['business_mobile_number']}
-                            />
-                            <Validation
-                                fieldName='business_mobile_number'
+                        <div className='col-12 col-sm-6'>
+                            <Select 
+                                title='Business Number Type'
+                                name='business_number_type'
+                                onChange={onChange}
+                                defaultValue={form['business_number_type']}
+                                options={[
+                                    {'value': 'VoiP', 'label': 'VoiP'},
+                                    {'value': 'Landline', 'label': 'Landline'}
+                                ]}
                                 errorArray={errorArray}
+                                query={query}
                             />
                         </div>
 
-                        <div className='col-12 col-sm-6 form-group'>
-                            <label>Business Mobile Number Type</label>
-                            <input 
-                                className='form-control' 
-                                type='text' 
-                                name='business_mobile_number_type' 
-                                placeholder='Business Mobile Number Type' 
-                                onChange={onChange} 
-                                value={form['business_mobile_number_type']}
-                            />
-                        </div>
-
-                        <div className='col-12 form-group'>
-                            <label>Business Mobile Number Provider</label>
-                            <select 
-                                className='form-control' 
-                                name='business_mobile_number_provider' 
-                                onChange={(e) => { onChange(e); }} 
-                                value={form['business_mobile_number_provider']}
-                            >
-                                <option>-</option>
-                                <option>Verizon</option>
-                                <option>T-Mobile</option>
-                                <option>Simple Mobile</option>
-                                <option>None</option>
-                            </select>
-                        </div>
-
-                        <div className='col-12 col-sm-6 form-group'>
-                            <label>Business Mobile Number Login</label>
-                            <input 
-                                className='form-control' 
-                                type='text' 
-                                name='business_mobile_number_login' 
-                                placeholder='Business Mobile Number Login' 
-                                onChange={onChange} 
-                                value={form['business_mobile_number_login']}
-                            />
-                            <Validation
-                                fieldName='business_mobile_number_login'
+                        <div className='col-12'>
+                            <Input
+                                title='VOIP Provider'
+                                name='voip_provider'
+                                onChange={onChange}
+                                defaultValue={form['voip_provider']}
                                 errorArray={errorArray}
+                                query={query}
                             />
                         </div>
 
-                        <div className='col-12 col-sm-6 form-group'>
-                            <label>Business Mobile Number Password</label>
-                            <input 
-                                className='form-control' 
-                                type='text' 
-                                name='business_mobile_number_password' 
-                                placeholder='Business Mobile Number Password' 
-                                onChange={onChange} 
-                                value={form['business_mobile_number_password']}
+                        <div className='col-12 col-sm-6'>
+                            <Input
+                                title='VOIP Login'
+                                name='voip_login'
+                                onChange={onChange}
+                                defaultValue={form['voip_login']}
+                                errorArray={errorArray}
+                                query={query}
+                            />
+                        </div>
+
+                        <div className='col-12 col-sm-6'>
+                            <Input
+                                title='VOIP Password'
+                                name='voip_password'
+                                onChange={onChange}
+                                defaultValue={form['voip_password']}
+                                errorArray={errorArray}
+                                query={query}
+                            />
+                        </div>
+
+                        <div className='col-12 col-sm-6'>
+                            <Input
+                                title='Business Mobile Number'
+                                name='business_mobile_number'
+                                onChange={onChange}
+                                defaultValue={form['business_mobile_number']}
+                                errorArray={errorArray}
+                                query={query}
+                            />
+                        </div>
+
+                        <div className='col-12 col-sm-6'>
+                            <Input
+                                title='Business Mobile Number Type'
+                                name='business_mobile_number_type'
+                                onChange={onChange}
+                                defaultValue={form['business_mobile_number_type']}
+                                errorArray={errorArray}
+                                query={query}
+                            />
+                        </div>
+
+                        <div className='col-12'>
+                            <Select 
+                                title='Business Mobile Number Provider'
+                                name='business_mobile_number_provider'
+                                onChange={onChange}
+                                defaultValue={form['business_mobile_number_provider']}
+                                options={[
+                                    {'value': 'Verizon', 'label': 'Verizon'},
+                                    {'value': 'T-Mobile', 'label': 'T-Mobile'},
+                                    {'value': 'Simple Mobile', 'label': 'Simple Mobile'},
+                                    {'value': 'None', 'label': 'None'}
+                                ]}
+                                errorArray={errorArray}
+                                query={query}
+                            />
+                        </div>
+
+                        <div className='col-12 col-sm-6'>
+                            <Input
+                                title='Business Mobile Number Login'
+                                name='business_mobile_number_login'
+                                onChange={onChange}
+                                defaultValue={form['business_mobile_number_login']}
+                                errorArray={errorArray}
+                                query={query}
+                            />
+                        </div>
+
+                        <div className='col-12 col-sm-6'>
+                            <Input
+                                title='Business Mobile Number Password'
+                                name='business_mobile_number_password'
+                                onChange={onChange}
+                                defaultValue={form['business_mobile_number_password']}
+                                errorArray={errorArray}
+                                query={query}
                             />
                         </div>
 

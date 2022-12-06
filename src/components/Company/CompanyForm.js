@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaTimes } from 'react-icons/fa';
-import InputMask from 'react-input-mask';
 import Select from 'react-select';
 
 import { Mediator } from '../../context/Mediator';
@@ -19,11 +18,13 @@ import Email from '../Helper/Email/Email';
 import Phones from '../Helper/Phones/Phones';
 import BankAccount from '../Helper/BankAccount/BankAccount';
 import Api from '../../services/Api';
+import Input from '../Helper/Input/Input';
+import InputMask from '../Helper/Input/InputMask';
 
 const CompanyForm = () => {
 
     const { 
-        permissions, companyFormOriginal, companyFormOpen, setCompanyFormOpen, companyEdit, companyList, setCompanyList, companyForm, setCompanyForm, companyFormError, setCompanyFormError, setLoadingShow
+        permissions, query, companyFormOriginal, companyFormOpen, setCompanyFormOpen, companyEdit, companyList, setCompanyList, companyForm, setCompanyForm, companyFormError, setCompanyFormError, setLoadingShow
     } = useContext(Mediator);
 
     const nav = useNavigate();
@@ -427,19 +428,15 @@ const CompanyForm = () => {
                 <div className='c-form-body container-fluid'>
                     <form className='c-form-body-block row'>
 
-                        <div className='c-form-field col-12 col-sm-4 form-group'>
-                            <label>Company Legal Name <i className='req'>*</i></label>
-                            <input 
-                                className='form-control' 
-                                type='text' 
-                                name='legal_name' 
-                                placeholder='Company Legal Name' 
-                                onChange={ handleChange } 
-                                value={ companyForm['legal_name'] }
-                            />
-                            <Validation
-                                fieldName='legal_name'
+                        <div className='c-form-field col-12 col-sm-4'>
+                            <Input
+                                title='Company Legal Name'
+                                req={true}
+                                name='legal_name'
+                                onChange={handleChange}
+                                defaultValue={companyForm['legal_name']}
                                 errorArray={companyFormError}
+                                query={query}
                             />
                         </div>
 
@@ -467,15 +464,15 @@ const CompanyForm = () => {
                             />
                         </div>
 
-                        <div className='c-form-field col-12 form-group'>
-                            <label>Incorporation date</label>
-                            <input 
-                                className='form-control'
-                                type='date' 
-                                name='incorporation_date' 
-                                placeholder='Incorporation Date' 
-                                onChange={ handleChange } 
-                                value={ companyForm['incorporation_date'] }
+                        <div className='c-form-field col-12'>
+                            <Input
+                                title='Incorporation date'
+                                name='incorporation_date'
+                                type='date'
+                                onChange={handleChange}
+                                defaultValue={companyForm['incorporation_date']}
+                                errorArray={companyFormError}
+                                query={query}
                             />
                         </div>
 
@@ -487,7 +484,7 @@ const CompanyForm = () => {
                                 onChange={(e) => { handleChange(e); }} 
                                 value={ companyForm['incorporation_state_uuid'] }
                             >
-                                <option>-</option>
+                                <option value=''>-</option>
                                 {
                                     stateList.map((value, index) => {
                                         return (
@@ -506,7 +503,7 @@ const CompanyForm = () => {
                                 onChange={(e) => { handleChange(e); }} 
                                 value={ companyForm['doing_business_in_state_uuid'] }
                             >
-                                <option>-</option>
+                                <option value=''>-</option>
                                 {
                                     stateList.map((value, index) => {
                                         return (
@@ -517,61 +514,49 @@ const CompanyForm = () => {
                             </select>
                         </div>
 
-                        <div className='c-form-field col-12 col-sm-4 form-group'>
-                            <label>Company EIN <i className='req'>*</i></label>
-                            <InputMask 
-                                mask="99-9999999" 
-                                maskChar={null} 
-                                className='form-control' 
-                                type='text' 
-                                name='ein' 
-                                placeholder='Company EIN' 
-                                onChange={ handleChange } 
-                                value={ companyForm['ein'] }
-                            />
-                            <Validation
-                                fieldName='ein'
+                        <div className='c-form-field col-12 col-sm-4'>
+                            <InputMask
+                                title='EIN'
+                                req={true}
+                                mask='99-9999999'
+                                name='ein'
+                                onChange={handleChange}
+                                defaultValue={companyForm['ein']}
                                 errorArray={companyFormError}
+                                query={query}
                             />
                         </div>
 
-                        <div className='c-form-field col-12 col-sm-4 form-group'>
-                            <label>Incorporation State business name</label>
-                            <input 
-                                className='form-control' 
-                                type='text' 
-                                name='incorporation_state_name' 
-                                placeholder='Incorporation State business name' 
-                                onChange={ handleChange } 
-                                value={ companyForm['incorporation_state_name'] }
-                            />
-                        </div>
-
-                        <div className='c-form-field col-12 col-sm-4 form-group'>
-                            <label>Doing business in state name</label>
-                            <input 
-                                className='form-control'
-                                type='text' 
-                                name='doing_business_in_state_name' 
-                                placeholder='Doing business in state name' 
-                                onChange={ handleChange } 
-                                value={ companyForm['doing_business_in_state_name'] }
-                            />
-                        </div>
-
-                        <div className='c-form-field col-12 col-sm-4 form-group'>
-                            <label>Company website</label>
-                            <input 
-                                className='form-control' 
-                                type='text' 
-                                name='website' 
-                                placeholder='Company website' 
-                                onChange={ handleChange } 
-                                value={ companyForm['website'] }
-                            />
-                            <Validation
-                                fieldName='website'
+                        <div className='c-form-field col-12 col-sm-4'>
+                            <Input
+                                title='Incorporation State business name'
+                                name='incorporation_state_name'
+                                onChange={handleChange}
+                                defaultValue={companyForm['incorporation_state_name']}
                                 errorArray={companyFormError}
+                                query={query}
+                            />
+                        </div>
+
+                        <div className='c-form-field col-12 col-sm-4'>
+                            <Input
+                                title='Doing business in state name'
+                                name='doing_business_in_state_name'
+                                onChange={handleChange}
+                                defaultValue={companyForm['doing_business_in_state_name']}
+                                errorArray={companyFormError}
+                                query={query}
+                            />
+                        </div>
+
+                        <div className='c-form-field col-12 col-sm-4'>
+                            <Input
+                                title='Company website'
+                                name='website'
+                                onChange={handleChange}
+                                defaultValue={companyForm['website']}
+                                errorArray={companyFormError}
+                                query={query}
                             />
                         </div>
 
@@ -579,11 +564,12 @@ const CompanyForm = () => {
                             <Address
                                 title='Registered Agent'
                                 unique='registered_agent'
-                                errorArray={companyFormError}
                                 form={companyForm}
                                 setForm={setCompanyForm}
                                 defaulfOpen={false}
                                 isRegisterAgent={true}
+                                errorArray={companyFormError}
+                                query={query}
                             />
                         </div>
 
@@ -593,9 +579,10 @@ const CompanyForm = () => {
                                 unique='address'
                                 hasPlus={true}
                                 onPlusClick={onPlusClick}
-                                errorArray={companyFormError}
                                 form={companyForm}
                                 setForm={setCompanyForm}
+                                errorArray={companyFormError}
+                                query={query}
                             />
                         </div>
 
@@ -605,10 +592,11 @@ const CompanyForm = () => {
                                     title='Extra Address'
                                     unique='extra_address'
                                     isExtra={true}
-                                    errorArray={companyFormError}
                                     form={companyForm}
                                     setForm={setCompanyForm}
                                     onExtraCloseClick={onExtraCloseClick}
+                                    errorArray={companyFormError}
+                                    query={query}
                                 />
                             </div>
                         }
@@ -616,9 +604,10 @@ const CompanyForm = () => {
                         <div className={`col-12 ${!extraAddressShow?'col-sm-6':''} form-group`}>
                             <Phones 
                                 title='Phones'
-                                errorArray={companyFormError}
                                 form={companyForm}
                                 setForm={setCompanyForm}
+                                errorArray={companyFormError}
+                                query={query}
                             />
                         </div>
 
@@ -626,9 +615,10 @@ const CompanyForm = () => {
                             <Email
                                 title='Emails'
                                 muliply={true}
-                                errorArray={companyFormError}
                                 form={companyForm}
                                 setForm={setCompanyForm}
+                                errorArray={companyFormError}
+                                query={query}
                             />
                         </div>
 
@@ -668,9 +658,10 @@ const CompanyForm = () => {
                         <div className='col-12 form-group'>
                             <BankAccount
                                 title='Business Bank Account'
-                                errorArray={companyFormError}
                                 form={companyForm}
                                 setForm={setCompanyForm}
+                                errorArray={companyFormError}
+                                query={query}
                             />
                         </div>
 
@@ -718,23 +709,15 @@ const CompanyForm = () => {
                             />
                         </div>
 
-                        <div className='col-12 form-group'>
-                            
-                        </div>
-
-                        <div 
-                            className='c-form-field col-12 col-sm-8 form-group'>
-                            <label>D&B Number <i className='req'>*</i></label>
-                            <input className={`form-control`} 
-                                    type='text' 
-                                    name='db_report_number' 
-                                    placeholder='D&B Number' 
-                                    onChange={ handleChange } 
-                                    value={ companyForm['db_report_number'] }
-                            />
-                            <Validation
-                                fieldName='db_report_number'
+                        <div className='c-form-field col-12 col-sm-8'>
+                            <Input
+                                title='D&B Number'
+                                req={true}
+                                name='db_report_number'
+                                onChange={handleChange}
+                                defaultValue={companyForm['db_report_number']}
                                 errorArray={companyFormError}
+                                query={query}
                             />
                         </div>
 
@@ -760,7 +743,7 @@ const CompanyForm = () => {
                             />
                         </div>
 
-                        <div className={`c-form-field col-12 d-flex form-group`}>
+                        <div className='c-form-field col-12 d-flex form-group'>
                             
                             <div className='ml-auto'>
                                 

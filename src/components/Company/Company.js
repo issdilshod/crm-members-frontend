@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import { Mediator } from '../../context/Mediator';
 import CompanyList from './CompanyList';
 import CompanyForm from './CompanyForm';
@@ -79,9 +79,15 @@ const Company = () => {
     const [loadingShow, setLoadingShow] = useState(true);
 
     const { uuid } = useParams();
+    const [ params, setParams ] = useSearchParams();
+    const [ query, setQuery ] = useState('');
 
     useEffect(() => {
-        firstInit();
+        init();
+
+        if (params.get('q')!=null){
+            setQuery(params.get('q'));
+        }
     }, []);
 
     useEffect(() => {
@@ -90,7 +96,7 @@ const Company = () => {
         }
     }, [uuid]);
 
-    const firstInit = () => {
+    const init = () => {
         document.title = 'Companies';
 
         if (uuid){
@@ -130,7 +136,7 @@ const Company = () => {
 
     return (  
         <Mediator.Provider value={ { 
-                                permissions,
+                                permissions, query,
                                 menuOpen, setMenuOpen, 
                                 companyFormOriginal, setCompanyFormOriginal,
                                 companyFormOpen, setCompanyFormOpen, companyEdit, setCompanyEdit, companyList, setCompanyList,

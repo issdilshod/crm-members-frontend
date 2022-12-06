@@ -3,9 +3,10 @@ import { useState } from "react";
 import Collapse from "react-bootstrap/Collapse";
 import { FaAngleDown, FaAngleUp, FaPlus, FaTimes } from "react-icons/fa";
 import * as COMPANY from '../../../consts/Company';
+import Input from "../Input/Input";
 import Validation from "../Validation/Validation";
 
-const Address = ({title, unique, hasPlus = false, isExtra = false, isRegisterAgent = false, defaulfOpen = true, onPlusClick, onExtraCloseClick, errorArray, form, setForm}) => {
+const Address = ({title, unique, hasPlus = false, isExtra = false, isRegisterAgent = false, defaulfOpen = true, onPlusClick, onExtraCloseClick, errorArray = {}, form, setForm, query}) => {
 
     const [isOpen, setIsOpen] = useState(defaulfOpen);
 
@@ -111,118 +112,85 @@ const Address = ({title, unique, hasPlus = false, isExtra = false, isRegisterAge
 
                         { isRegisterAgent &&
                             <div className='col-12'>
-                                <div className='form-group'>
-                                    <label>Registered Agent Name</label>
-                                    <input
-                                        className='form-control'
-                                        placeholder='Registered Agent Name'
-                                        type='text'
-                                        name='register_agent'
-                                        onChange={ (e) => { handleChange(e) } }
-                                        value={inForm['register_agent']}
-                                    />
-                                </div>
+                                <Input
+                                    title='Registered Agent Name'
+                                    name='register_agent'
+                                    onChange={handleChange}
+                                    defaultValue={inForm['register_agent']}
+                                    errorArray={errorArray}
+                                    query={query}
+                                />
                             </div>
                         }
 
                         <div className='col-12'>
-                            <div className='form-group'>
-                                <label>Street Address</label>
-                                <input
-                                    className='form-control'
-                                    placeholder='Street Address'
-                                    type='text'
-                                    name='street_address'
-                                    onChange={ (e) => { handleChange(e) } }
-                                    value={inForm['street_address']}
-                                />
-                                <Validation
-                                    fieldName={`addresses.${unique}.street_address`}
-                                    errorArray={errorArray}
-                                />
-                            </div>
+                            <Input
+                                title='Street Address'
+                                name='street_address'
+                                validationName={`addresses.${unique}.street_address`}
+                                onChange={handleChange}
+                                defaultValue={inForm['street_address']}
+                                errorArray={errorArray}
+                                query={query}
+                            />
                         </div>
 
                         <div className='col-12'>
-                            <div className='form-group'>
-                                <label>Address Line 2</label>
-                                <input
-                                    className='form-control'
-                                    placeholder='Address Line 2'
-                                    type='text'
-                                    name='address_line_2'
-                                    onChange={ (e) => { handleChange(e) } }
-                                    value={inForm['address_line_2']}
-                                />
-                                <Validation
-                                    fieldName={`addresses.${unique}.address_line_2`}
-                                    errorArray={errorArray}
-                                />
-                            </div>
+                            <Input
+                                title='Address Line 2'
+                                name='address_line_2'
+                                validationName={`addresses.${unique}.address_line_2`}
+                                onChange={handleChange}
+                                defaultValue={inForm['address_line_2']}
+                                errorArray={errorArray}
+                                query={query}
+                            />
                         </div>
 
                         <div className='col-12 col-sm-6'>
-                            <div className='form-group'>
-                                <label>City</label>
-                                <input
-                                    className='form-control'
-                                    placeholder='City'
-                                    type='text'
-                                    name='city'
-                                    onChange={ (e) => { handleChange(e) } }
-                                    value={inForm['city']}
-                                />
-                                <Validation
-                                    fieldName={`addresses.${unique}.city`}
-                                    errorArray={errorArray}
-                                />
-                            </div>
+                            <Input
+                                title='City'
+                                name='city'
+                                validationName={`addresses.${unique}.city`}
+                                onChange={handleChange}
+                                defaultValue={inForm['city']}
+                                errorArray={errorArray}
+                                query={query}
+                            />
                         </div>
 
                         <div className='col-12 col-sm-6'>
-                            <div className='form-group'>
-                                <label>State</label>
-                                <input
-                                    className='form-control'
-                                    placeholder='State'
-                                    type='text'
-                                    name='state'
-                                    onChange={ (e) => { handleChange(e) } }
-                                    value={inForm['state']}
-                                />
-                            </div>
+                            <Input
+                                title='State'
+                                name='state'
+                                onChange={handleChange}
+                                defaultValue={inForm['state']}
+                                errorArray={errorArray}
+                                query={query}
+                            />
                         </div>
 
                         <div className='col-12 col-sm-6'>
-                            <div className='form-group'>
-                                <label>Postal</label>
-                                <input
-                                    className='form-control'
-                                    placeholder='Postal'
-                                    type='text'
-                                    name='postal'
-                                    onChange={ (e) => { handleChange(e) } }
-                                    value={inForm['postal']}
-                                />
-                                <Validation
-                                    fieldName={`addresses.${unique}.postal`}
-                                    errorArray={errorArray}
-                                />
-                            </div>
+                            <Input
+                                title='Postal'
+                                name='postal'
+                                validationName={`addresses.${unique}.postal`}
+                                onChange={handleChange}
+                                defaultValue={inForm['postal']}
+                                errorArray={errorArray}
+                                query={query}
+                            />
                         </div>
 
                         <div className='col-12 col-sm-6'>
-                            <div className='form-group'>
-                                <label>Country</label>
-                                <input
-                                    className='form-control'
-                                    placeholder='Country'
-                                    type='text'
-                                    name='country'
-                                    onChange={ (e) => { handleChange(e) } }
-                                    value={inForm['country']}
-                                />
-                            </div>
+                            <Input
+                                title='Country'
+                                name='country'
+                                onChange={handleChange}
+                                defaultValue={inForm['country']}
+                                errorArray={errorArray}
+                                query={query}
+                            />
                         </div>
 
                         { isExtra &&
