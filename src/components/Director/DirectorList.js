@@ -93,7 +93,11 @@ const DirectorList = () => {
     }
 
     const handleGoToCard = (link) => {
-        nav(process.env.REACT_APP_FRONTEND_PREFIX + link);
+
+        let s = ''; 
+        if (search.length>0){ s = '?q=' + encodeURIComponent(search); }
+
+        nav(process.env.REACT_APP_FRONTEND_PREFIX + link + s);
     }
 
     return (  

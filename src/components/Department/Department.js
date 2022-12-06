@@ -150,6 +150,7 @@ const Department = () => {
         } }>
             <div className={styles['main-content']}>
                 <Header 
+                    search={search}
                     setSearch={setSearch}
                     searchVariant={searchVariant}
                 />

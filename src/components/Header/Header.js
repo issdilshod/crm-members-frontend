@@ -10,7 +10,7 @@ import Api from '../../services/Api';
 import { Link, useNavigate } from 'react-router-dom';
 import { useRef } from 'react';
 
-const Header = ({ setSearch = () => {}, searchVariant = []}) => {
+const Header = ({ search = '', setSearch = () => {}, searchVariant = []}) => {
 
     const api = new Api();
     const nav = useNavigate();
@@ -33,6 +33,12 @@ const Header = ({ setSearch = () => {}, searchVariant = []}) => {
 
     const handleSearch = (e) => {
         setSearch(e.target.value);
+    }
+
+    const goTo = (link) => {
+        let s = ''; 
+        if (search.length>0){ s = '?q=' + encodeURIComponent(search); }
+        nav(process.env.REACT_APP_FRONTEND_PREFIX + link + s);
     }
 
     const useOutsideClick = (ref) => {
@@ -71,22 +77,21 @@ const Header = ({ setSearch = () => {}, searchVariant = []}) => {
                                 {
                                     searchVariant.map((value, index) => {
                                         return (
-                                            <Link
-                                                key={index}
-                                                to={process.env.REACT_APP_FRONTEND_PREFIX + value['last_activity']['link']}
+                                            <div 
+                                                key={index} 
+                                                className='search-variant-item d-flex'
+                                                onClick={ () => { goTo(value['last_activity']['link']) } }
                                             >
-                                                <div className='search-variant-item d-flex'>
-                                                    <div className='search-variant-icon mr-2'>
-                                                        <i>
-                                                            <FaAddressCard />
-                                                        </i>
-                                                    </div>
-                                                    <div className='search-variant-info'>
-                                                        <p>{value['name']}</p>
-                                                        <p>{value['last_activity']['description']}</p>
-                                                    </div>
+                                                <div className='search-variant-icon mr-2'>
+                                                    <i>
+                                                        <FaAddressCard />
+                                                    </i>
                                                 </div>
-                                            </Link>
+                                                <div className='search-variant-info'>
+                                                    <p>{value['name']}</p>
+                                                    <p>{value['last_activity']['description']}</p>
+                                                </div>
+                                            </div>
                                         )
                                     })
                                 }

@@ -98,7 +98,10 @@ const Pending = ({ pendingNextFetch, pendingSummary, pendingMeta, setPendingMeta
             setOnSelectedCard(uuid);
         }else{
             if (!selectionMode){
-                nav(process.env.REACT_APP_FRONTEND_PREFIX + link);
+                let s = ''; 
+                if (search.length>0){ s = '?q=' + encodeURIComponent(search); }
+
+                nav(process.env.REACT_APP_FRONTEND_PREFIX + link + s);
             }else { // multipty select
                 let exists = false;
                 for (let key in checked){
