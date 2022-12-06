@@ -10,7 +10,8 @@ import FutureCompanyForm from './FutureCompanyForm';
 const FutureCompany = () => {
 
     const api = new Api();
-    const navigate = useNavigate();
+    const nav = useNavigate();
+
     const [menuOpen, setMenuOpen] = useState(false);
 
     // list
@@ -49,9 +50,16 @@ const FutureCompany = () => {
     const [virtualOfficeList, setVirtualOfficeList] = useState([]);
 
     const { uuid } = useParams();
+
     useEffect(() => {
         firstInit();
     }, []);
+
+    useEffect(() => {
+        if (uuid!='' && uuid!=null){
+            handleCardClick(uuid);
+        }
+    }, [uuid]);
 
     const firstInit = () => {
         document.title = 'Future Companies';
@@ -99,8 +107,7 @@ const FutureCompany = () => {
                 if (res.status===200||res.status===201){
                     let tmpArray = [];
                     res.data.data.map((vo) => {
-                        let name = vo.vo_provider_name;
-                        return tmpArray.push({ 'value': vo.uuid, 'label': name});
+                        return tmpArray.push({ 'value': vo.uuid, 'label': vo.name});
                     });
                     setVirtualOfficeList(tmpArray);
                 }
@@ -126,7 +133,7 @@ const FutureCompany = () => {
 
     return (  
         <Mediator.Provider value={ { 
-                                api, navigate, permissions,
+                                permissions,
                                 menuOpen, setMenuOpen, 
                                 formOriginal, setFormOriginal,
                                 formOpen, setFormOpen, edit, setEdit, list, setList,

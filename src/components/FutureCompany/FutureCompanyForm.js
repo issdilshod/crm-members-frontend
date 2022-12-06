@@ -8,25 +8,35 @@ import { Mediator } from '../../context/Mediator';
 import { FaTimes } from 'react-icons/fa';
 import Notification from '../Helper/Notification/Notification';
 import Select from 'react-select';
+import Api from '../../services/Api';
+import { useNavigate } from 'react-router-dom';
 
 const FutureCompanyForm = () => {
 
     const { 
-        api, navigate, permissions,
-        menuOpen, setMenuOpen, 
-        formOriginal, setFormOriginal,
-        formOpen, setFormOpen, edit, setEdit, list, setList,
-            form, setForm, formError, setFormError, formEntity, setFormEntity, handleCardClick,
-        setLoadingShow,
-        sicCodeList, stateList,
-        virtualOfficeList, searchVO
+        permissions, formOriginal, formOpen, setFormOpen, edit, list, setList, form, setForm, setFormError, setLoadingShow, sicCodeList, stateList, virtualOfficeList, searchVO
     } = useContext(Mediator);
+
+    const api = new Api();
+    const nav = useNavigate();
+
+    const [meUuid, setMeUuid] = useState('');
+
+    const [alert, setAlert] = useState({'msg': '', 'show': false, 'type': ''});
+    const [optDirectorList, setOptDirectorList] = useState([]);
 
     useEffect(() => {
         setFormError({});
-    }, [formOpen])
+        if (formOpen && edit){
+            if (form['director']!=null){
+                setOptDirectorList([{'value': form['director']['uuid'], 'label': form['director']['first_name'] + ' ' + (form['director']['middle_name']!=null?form['director']['middle_name']+' ':'') + form['director']['last_name']}]);
+            }
+        }
 
-    const [meUuid, setMeUuid] = useState('');
+        if (!formOpen){
+            nav(`${process.env.REACT_APP_FRONTEND_PREFIX}/future-companies`);
+        }
+    }, [formOpen])
 
     useEffect(() => {
         loadDirectorList();
@@ -38,9 +48,6 @@ const FutureCompanyForm = () => {
                 }
             })
     }, [])
-
-    const [alert, setAlert] = useState({'msg': '', 'show': false, 'type': ''});
-    const [optDirectorList, setOptDirectorList] = useState([]);
 
     const loadDirectorList = (value = '') => {
         let search = '';
@@ -59,15 +66,6 @@ const FutureCompanyForm = () => {
                 }
             })
     };
-
-    useEffect(() => {
-        setFormError({});
-        if (formOpen && edit){
-            if (form['director']!=null){
-                loadDirectorList(form['director']['first_name'] + ' ' + form['director']['last_name']);
-            }
-        }
-    }, [formOpen])
 
     const handleChange = (e, file = false) => {
         let { value, name } = e.target;
@@ -251,17 +249,17 @@ const FutureCompanyForm = () => {
             <Notification Alert={alert} SetAlert={setAlert} />
             <div className={`c-card-left ${!formOpen?'w-0':''}`} onClick={ () => { handleClickOutCard() } }></div>
             <div className={`c-form ${formOpen ?'c-form-active':''}`}>
-                <div className={`c-form-head d-flex`}>
-                    <div className={`c-form-head-title mr-auto`}>{(!edit?'Add future company':'Edit future company')}</div>
-                    <div className={`c-form-close`} onClick={(e) => { handleClose(e) } }>
+                <div className='c-form-head d-flex'>
+                    <div className='c-form-head-title mr-auto'>{(!edit?'Add future company':'Edit future company')}</div>
+                    <div className='c-form-close' onClick={(e) => { handleClose(e) } }>
                         <FaTimes />
                     </div>
                 </div>
-                <hr className={`divider`} />
-                <div className={`c-form-body container-fluid`}>
-                    <form className={`c-form-body-block row`}>
+                <hr className='divider' />
+                <div className='c-form-body container-fluid'>
+                    <form className='c-form-body-block row'>
 
-                        <div className={`c-form-field col-12 col-sm-4 form-group`}>
+                        <div className='c-form-field col-12 col-sm-4 form-group'>
                             <label>SIC code</label>
                             <Select 
                                 options={sicCodeList}
@@ -270,7 +268,7 @@ const FutureCompanyForm = () => {
                             />
                         </div>
 
-                        <div className={`c-form-field col-12 col-sm-4 form-group`}>
+                        <div className='c-form-field col-12 col-sm-4 form-group'>
                             <label>Incorporation State</label>
                             <Select 
                                 options={stateList}
@@ -279,7 +277,7 @@ const FutureCompanyForm = () => {
                             />
                         </div>
 
-                        <div className={`c-form-field col-12 col-sm-4 form-group`}>
+                        <div className='c-form-field col-12 col-sm-4 form-group'>
                             <label>Doing Business in State</label>
                             <Select 
                                 options={stateList}
@@ -288,7 +286,7 @@ const FutureCompanyForm = () => {
                             />
                         </div>
 
-                        <div className={`c-form-field col-12 col-sm-4 form-group`}>
+                        <div className='c-form-field col-12 col-sm-4 form-group'>
                             <label>Virtual Office</label>
                             <Select 
                                 options={virtualOfficeList}
@@ -297,10 +295,10 @@ const FutureCompanyForm = () => {
                             />
                         </div>
 
-                        <div className={`c-form-field col-12 col-sm-4 form-group`}>
+                        <div className='c-form-field col-12 col-sm-4 form-group'>
                             <label>Revival Date</label>
                             <input 
-                                className={`form-control`} 
+                                className='form-control' 
                                 type='date' 
                                 name='revival_date' 
                                 placeholder='Revival date' 
@@ -309,10 +307,10 @@ const FutureCompanyForm = () => {
                             />
                         </div>
 
-                        <div className={`c-form-field col-12 col-sm-4 form-group`}>
+                        <div className='c-form-field col-12 col-sm-4 form-group'>
                             <label>Revival Fee</label>
                             <input 
-                                className={`form-control`} 
+                                className='form-control' 
                                 type='number'
                                 step='.01' 
                                 name='revival_fee' 
@@ -322,10 +320,10 @@ const FutureCompanyForm = () => {
                             />
                         </div>
 
-                        <div className={`c-form-field col-12 col-sm-4 form-group`}>
+                        <div className='c-form-field col-12 col-sm-4 form-group'>
                             <label>Future website link</label>
                             <input 
-                                className={`form-control`} 
+                                className='form-control' 
                                 type='text' 
                                 name='future_website_link' 
                                 placeholder='Future website link' 
@@ -334,7 +332,7 @@ const FutureCompanyForm = () => {
                             />
                         </div>
 
-                        <div className={`c-form-field col-12 col-sm-4 form-group`}>
+                        <div className='c-form-field col-12 col-sm-4 form-group'>
                             <label>Director</label>
                             <Select 
                                 options={optDirectorList}
@@ -344,7 +342,7 @@ const FutureCompanyForm = () => {
                             />
                         </div>
 
-                        <div className={`c-form-field col-12 col-sm-4 form-group`}>
+                        <div className='c-form-field col-12 col-sm-4 form-group'>
                             <label>Revived</label>
                             <select
                                 className={`form-control`} 
@@ -358,10 +356,10 @@ const FutureCompanyForm = () => {
                             </select>
                         </div>
 
-                        <div className={`c-form-field col-12 col-sm-4 form-group`}>
+                        <div className='c-form-field col-12 col-sm-4 form-group'>
                             <label>D&B Number</label>
                             <input 
-                                className={`form-control`} 
+                                className='form-control' 
                                 type='text' 
                                 name='db_report_number' 
                                 placeholder='D&B Number' 
@@ -371,7 +369,7 @@ const FutureCompanyForm = () => {
                         </div>
 
                         
-                        <div className={`c-form-field col-12 d-flex form-group`}>
+                        <div className='c-form-field col-12 d-flex form-group'>
                             <div className='ml-auto'>
 
                                 { permissions.includes(FUTURECOMPANY.STORE)  && //permitted to add
