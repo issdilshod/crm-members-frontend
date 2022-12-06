@@ -1,28 +1,32 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { Mediator } from '../../context/Mediator';
+import React, { useState, useEffect } from 'react';
 
-import styles from './Header.module.scss';
-import { FaSignOutAlt, FaRegStickyNote, FaBars } from 'react-icons/fa';
+import { FaSignOutAlt, FaRegStickyNote, FaBars, FaAddressCard } from 'react-icons/fa';
 import Menu from './Menu';
 import Note from '../Note/Note';
 
 import Santa from '../../assets/img/santa2022.png';
 
-const Header = ({ setSearch = () => {} }) => {
-    const {
-        api, navigate
-    } = useContext(Mediator)
+import Api from '../../services/Api';
+import { Link, useNavigate } from 'react-router-dom';
+import { useRef } from 'react';
+
+const Header = ({ setSearch = () => {}, searchVariant = []}) => {
+
+    const api = new Api();
+    const nav = useNavigate();
 
     const [menuOpen, setMenuOpen] = useState(false);
     const [noteOpen, setNoteOpen] = useState(false);
 
-    async function handleSignOut(e){
+    const searchVariantRef = useRef(null);
+
+    const handleSignOut = (e) => {
         e.preventDefault();
         let _token = JSON.parse(localStorage.getItem('auth'));
         api.request('/api/user-offline', 'GET');
         api.request('/api/logout', 'POST', { 'token': _token })
             .then( res => {
-                navigate(`${process.env.REACT_APP_FRONTEND_PREFIX}/`);
+                nav(`${process.env.REACT_APP_FRONTEND_PREFIX}/`);
                 localStorage.removeItem("auth");
             });
     }
@@ -31,11 +35,27 @@ const Header = ({ setSearch = () => {} }) => {
         setSearch(e.target.value);
     }
 
+    const useOutsideClick = (ref) => {
+        useEffect(() => {
+            function handleClickOutside(event) {
+                if (ref.current && !ref.current.contains(event.target)) {
+                    setSearch('');
+                }
+            }
+            document.addEventListener("mousedown", handleClickOutside);
+            return () => {
+                document.removeEventListener("mousedown", handleClickOutside);
+            };
+        }, [ref]);
+    }
+
+    useOutsideClick(searchVariantRef);
+
     return (
         <div>
-            <div className={`${styles['header']} container-fluid`}>
-                <div className={`${styles['header-sticky']} d-flex`}>
-                    <div className={`${styles['header-breadcrumbs']} mr-auto`}>
+            <div className='container-fluid'>
+                <div className='header-sticky d-flex'>
+                    <div className='header-title mr-auto'>
                         Dashboard
                         <img 
                             className='header-santa2022'
@@ -43,16 +63,44 @@ const Header = ({ setSearch = () => {} }) => {
                             src={Santa}
                         />
                     </div>
-                    <div className={`${styles['header-search']}`}>
-                        <input className={`${styles['search-input']} form-control`} type='text' placeholder='Type here...' onChange={ (e) => { handleSearch(e) } } />
+                    <div className='header-search c-position-relative'>
+                        <input className='form-control' type='text' placeholder='Type here...' onChange={ (e) => { handleSearch(e) } } />
+                        
+                        { (searchVariant.length>0) &&
+                            <div className='search-variant' ref={searchVariantRef}>
+                                {
+                                    searchVariant.map((value, index) => {
+                                        return (
+                                            <Link
+                                                key={index}
+                                                to={process.env.REACT_APP_FRONTEND_PREFIX + value['last_activity']['link']}
+                                            >
+                                                <div className='search-variant-item d-flex'>
+                                                    <div className='search-variant-icon mr-2'>
+                                                        <i>
+                                                            <FaAddressCard />
+                                                        </i>
+                                                    </div>
+                                                    <div className='search-variant-info'>
+                                                        <p>{value['name']}</p>
+                                                        <p>{value['last_activity']['description']}</p>
+                                                    </div>
+                                                </div>
+                                            </Link>
+                                        )
+                                    })
+                                }
+                            </div>
+                        }
+
                     </div>
-                    <div className={`${styles['header-sign-out']} ml-2`} onClick={handleSignOut}>
+                    <div className='header-menu-items ml-2' onClick={handleSignOut}>
                         <FaSignOutAlt />
                     </div>
-                    <div className={`${styles['header-note']} ml-2`} onClick={ () => { setNoteOpen(!noteOpen) }}>
+                    <div className='header-menu-items ml-2' onClick={ () => { setNoteOpen(!noteOpen) }}>
                         <FaRegStickyNote />
                     </div>
-                    <div className={`${styles['header-menu']} ml-2`} onClick={() => { setMenuOpen(!menuOpen) }}>
+                    <div className='header-menu-items ml-2' onClick={() => { setMenuOpen(!menuOpen) }}>
                         <FaBars />
                     </div>
                 </div>

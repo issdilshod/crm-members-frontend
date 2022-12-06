@@ -54,9 +54,26 @@ const Department = () => {
 
     const [loadingShow, setLoadingShow] = useState(true);
 
+    const [search, setSearch] = useState('');
+    const [searchVariant, setSearchVariant] = useState([]);
+
     useEffect(() => {
         firstInit()
     }, []);
+
+    useEffect(() => {
+        if (search.length>2){
+            api.request('/api/pending/search?q=' + encodeURIComponent(search), 'GET')
+                .then(res => {
+                    if (res.status===200 || res.status===201){ // success
+                        let tmpArr = [...res.data.companies, ...res.data.directors];
+                        setSearchVariant(tmpArr);
+                    }
+                });
+        }else{
+            setSearchVariant([]);
+        }
+    }, [search]);
 
     const firstInit = () => {
         document.title = 'Departments';
@@ -132,7 +149,10 @@ const Department = () => {
             permissionFormOpen, setPermissionFormOpen, permissionList, setPermissionList, entityPermission, setEntityPermission, permissionEntityIs, setPermissionEntityIs, selectedPermissionEntity, setSelectedPermissionEntity
         } }>
             <div className={styles['main-content']}>
-                <Header />
+                <Header 
+                    setSearch={setSearch}
+                    searchVariant={searchVariant}
+                />
                 <div className={`${styles['department-block']} container`}>
                     <div className='row mb-4'>
                         <div className='col-12'>
