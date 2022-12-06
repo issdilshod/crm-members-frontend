@@ -8,22 +8,29 @@ import { Mediator } from '../../context/Mediator';
 import { FaTimes } from 'react-icons/fa';
 import Notification from '../Helper/Notification/Notification';
 
+import Api from '../../services/Api';
+import { useNavigate } from 'react-router-dom';
+
 const VirtualOfficeForm = () => {
 
     const { 
-        api, navigate, permissions,
-        menuOpen, setMenuOpen, 
-        formOriginal, setFormOriginal,
-        formOpen, setFormOpen, edit, setEdit, list, setList,
-            form, setForm, formError, setFormError, formEntity, setFormEntity, handleCardClick,
-        setLoadingShow
+        permissions, formOriginal, formOpen, setFormOpen, edit, list, setList, form, setForm, setFormError, setLoadingShow
     } = useContext(Mediator);
+
+    const api = new Api();
+    const nav = useNavigate();
+
+    const [meUuid, setMeUuid] = useState('');
+
+    const [alert, setAlert] = useState({'msg': '', 'show': false, 'type': ''});
 
     useEffect(() => {
         setFormError({});
-    }, [formOpen])
 
-    const [meUuid, setMeUuid] = useState('');
+        if (!formOpen){
+            nav(`${process.env.REACT_APP_FRONTEND_PREFIX}/virtual-offices`);
+        }
+    }, [formOpen])
 
     useEffect(() => {
         api.request('/api/get_me', 'GET')
@@ -33,8 +40,6 @@ const VirtualOfficeForm = () => {
                 }
             })
     }, [])
-
-    const [alert, setAlert] = useState({'msg': '', 'show': false, 'type': ''});
 
     const handleChange = (e, file = false) => {
         let { value, name } = e.target;

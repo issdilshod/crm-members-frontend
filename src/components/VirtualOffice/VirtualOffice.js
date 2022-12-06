@@ -10,7 +10,7 @@ import VirtualOfficeForm from './VirtualOfficeForm';
 const VirtualOffice = () => {
 
     const api = new Api();
-    const navigate = useNavigate();
+    const nav = useNavigate();
     const [menuOpen, setMenuOpen] = useState(false);
 
     // list
@@ -42,9 +42,16 @@ const VirtualOffice = () => {
     const [loadingShow, setLoadingShow] = useState(true);
 
     const { uuid } = useParams();
+
     useEffect(() => {
         firstInit();
     }, []);
+
+    useEffect(() => {
+        if (uuid!='' && uuid!=null){
+            handleCardClick(uuid);
+        }
+    }, [uuid])
 
     const firstInit = () => {
         document.title = 'Virtual Offices';
@@ -78,11 +85,11 @@ const VirtualOffice = () => {
 
     return (  
         <Mediator.Provider value={ { 
-                                api, navigate, permissions,
+                                permissions,
                                 menuOpen, setMenuOpen, 
                                 formOriginal, setFormOriginal,
                                 formOpen, setFormOpen, edit, setEdit, list, setList,
-                                    form, setForm, formError, setFormError, formEntity, setFormEntity, handleCardClick,
+                                    form, setForm, formError, setFormError, formEntity, setFormEntity,
                                 setLoadingShow
                             } } >
             
