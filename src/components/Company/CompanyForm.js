@@ -41,13 +41,10 @@ const CompanyForm = () => {
 
     const [extraAddressShow, setExtraAddressShow] = useState(false);
 
+    const firstInitialRef = useRef(true);
+
     useEffect(() => {
         setCompanyFormError({});
-
-        // out card
-        if (!companyFormOpen){
-            nav(`${process.env.REACT_APP_FRONTEND_PREFIX}/companies`);
-        }
 
         // director get
         if (companyFormOpen && companyEdit){
@@ -74,6 +71,15 @@ const CompanyForm = () => {
             }else{
                 setExtraAddressShow(false);
             }
+        }
+
+        // out card
+        if (!firstInitialRef.current){
+            if (!companyFormOpen){
+                nav(`${process.env.REACT_APP_FRONTEND_PREFIX}/companies`);
+            }
+        }else{
+            firstInitialRef.current = false;
         }
     }, [companyFormOpen])
 

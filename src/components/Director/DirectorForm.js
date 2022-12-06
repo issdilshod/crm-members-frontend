@@ -29,15 +29,19 @@ const DirectorForm = () => {
 
     const [alert, setAlert] = useState({'msg': '', 'show': false, 'type': ''});
 
+    const firstInitialRef = useRef(true);
+
     useEffect(() => {
-
-        // out card
-        if (!directorFormOpen){
-            nav(`${process.env.REACT_APP_FRONTEND_PREFIX}/directors`);
-        }
-
         setDirectorFormError({});
 
+        // out card
+        if (!firstInitialRef.current){
+            if (!directorFormOpen){
+                nav(`${process.env.REACT_APP_FRONTEND_PREFIX}/directors`);
+            }
+        }else{
+            firstInitialRef.current = false;
+        }
     }, [directorFormOpen])
 
     useEffect(() => {
@@ -52,6 +56,10 @@ const DirectorForm = () => {
                     setMeUuid(res.data.uuid);
                 }
             })
+    }
+
+    const removeUuid = () => {
+        nav(`${process.env.REACT_APP_FRONTEND_PREFIX}/directors`);
     }
 
     const handleChange = (e) => {
