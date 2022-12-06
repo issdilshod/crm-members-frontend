@@ -52,7 +52,8 @@ const CompanyForm = () => {
         // director get
         if (companyFormOpen && companyEdit){
             if (companyForm['director']!=null){
-                loadDirectorList(companyForm['director']['first_name'] + ' ' + (companyForm['director']['middle_name']!=null?companyForm['director']['middle_name']+' ':'') + companyForm['director']['last_name']);
+                setOptDirectorList([{'value': companyForm['director']['uuid'], 'label': companyForm['director']['first_name'] + ' ' + (companyForm['director']['middle_name']!=null?companyForm['director']['middle_name']+' ':'') + companyForm['director']['last_name']}]);
+
                 setDirectorSelectDisabled(true);
             }else{
                 if (ROLE.HEADQUARTERS==role){
@@ -63,6 +64,7 @@ const CompanyForm = () => {
             }
         }else{
             setDirectorSelectDisabled(false);
+            loadDirectorList();
         }
 
         // extra address
