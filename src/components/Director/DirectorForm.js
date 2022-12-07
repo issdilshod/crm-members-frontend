@@ -16,9 +16,10 @@ import Input from '../Helper/Input/Input';
 import InputMask from '../Helper/Input/InputMask';
 import Select from '../Helper/Input/Select';
 
-
 import toast from 'react-hot-toast';
 import Toast from '../Helper/Toast/Toast';
+
+import { confirmDialog, ConfirmDialog } from 'primereact/confirmdialog';
 
 const DirectorForm = () => {
 
@@ -125,13 +126,7 @@ const DirectorForm = () => {
             });
     } 
 
-    const handleDelete = (e, uuid, card_name) => {
-        e.preventDefault();
-
-        let confirm = true;
-        confirm = window.confirm('Are you sure you want to remove card '+ card_name +' from the platform? This action can not be undone.');
-        if (!confirm){ return false; }
-
+    const handleDelete = (uuid) => {
         setLoadingShow(true);
         api.request('/api/director/' + uuid, 'DELETE')
             .then(res => {
@@ -202,7 +197,8 @@ const DirectorForm = () => {
                 if (res.status===200 || res.status===201){ // success
                     toast.success('Succefully director card rejected!');
                     setDirectorFormOpen(false);
-                    handleGoToDashboard();
+
+                    confirmGoToDashboard();
                 }else if (res.status===403){ // permission
                     toast.error('Permission error!');
                 }
@@ -220,7 +216,8 @@ const DirectorForm = () => {
                     toast.success('Succefully director card approved!');
                     setDirectorList([ res.data.data, ...directorList ]);
                     setDirectorFormOpen(false);
-                    handleGoToDashboard();
+
+                    confirmGoToDashboard();
                 }else if (res.status===403){ // permission
                     toast.error('Permission error!');
                 }else if (res.status===409){ // conflict
@@ -258,36 +255,16 @@ const DirectorForm = () => {
                         setDirectorList(tmpArray);
                     }
                 
-                    toast.success('Succefully director card overrided!');
                     setDirectorFormOpen(false);
-                    handleGoToDashboard();
+                    toast.success('Succefully director card overrided!');
+
+                    confirmGoToDashboard();
                 }else if (res.status===403){ // permission
                     toast.error('Permission error!');
                 }
                 setDirectorFormError([]);
                 setLoadingShow(false);
             });
-    }
-
-    const handleGoToDashboard = () => {
-        let confirm = true;
-        confirm = window.confirm('Do you want to redirect to dashboard?');
-        if (!confirm){ return false; }
-        nav(process.env.REACT_APP_FRONTEND_PREFIX + '/dashboard');
-    }
-
-    const handleClose = () => {
-        let confirm = true;
-        if (JSON.stringify(directorFormOriginal) != JSON.stringify(directorForm)){
-            confirm = window.confirm('You have unsaved changes, are you sure you want to close this card?');
-        }
-        
-        if (!confirm){ return false; }
-        setDirectorFormOpen(false);
-    }
-
-    const handleClickOutCard = () => {
-        handleClose();
     }
 
     const handleUnlink = () => {
@@ -300,14 +277,52 @@ const DirectorForm = () => {
             })
     }
 
+    const confirmDelete = (e, uuid, cardName) => {
+        e.preventDefault();
+        craeteConfirmation({
+            message: 'Are you sure you want to remove card '+ cardName +' from the platform? This action can not be undone.',
+            accept: () => { handleDelete(uuid); }
+        });
+    }
+
+    const confirmGoToDashboard = () => {
+        confirmDialog({
+            message: 'Do you want to redirect to dashboard?',
+            accept: () => { nav(process.env.REACT_APP_FRONTEND_PREFIX + '/dashboard'); }
+        })
+    }
+
+    const confirmCloseCard = () => {
+        if (JSON.stringify(directorForm)!=JSON.stringify(directorFormOriginal)){
+            craeteConfirmation({
+                message: 'You have unsaved changes, are you sure you want to close this card?',
+                accept: () => { setDirectorFormOpen(false); }
+            });
+        }else{
+            setDirectorFormOpen(false);
+        }
+    }
+
+    const craeteConfirmation = ({message = '', header = 'Confirmation', accept = () => {}}) => {
+        confirmDialog({
+            message: message,
+            header: header,
+            icon: 'pi pi-info-circle',
+            acceptClassName: 'd-btn d-btn-primary',
+            position: 'top',
+            accept: accept
+        });
+    }
+
     return (  
         <div>
             <Toast />
-            <div className={`c-card-left ${!directorFormOpen?'w-0':''}`} onClick={ () => { handleClickOutCard() } }></div>
+            <ConfirmDialog />
+            <div className={`c-card-left ${!directorFormOpen?'w-0':''}`} onClick={ () => { confirmCloseCard() } }></div>
             <div className={`c-form ${directorFormOpen?'c-form-active':''}`}>
                 <div className='c-form-head d-flex'>
                     <div className='c-form-head-title mr-auto'>{(!directorEdit?'Add director':'Edit director')}</div>
-                    <div className='c-form-close' onClick={(e) => { handleClose(e) } }>
+                    <div className='c-form-close' onClick={(e) => { confirmCloseCard() } }>
                         <FaTimes />
                     </div>
                 </div>
@@ -574,7 +589,7 @@ const DirectorForm = () => {
                                         { (permissions.includes(DIRECTOR.DELETE) && directorForm['status']!='') &&
                                             <button 
                                                 className={`d-btn d-btn-danger mr-2`} 
-                                                onClick={ (e) => { handleDelete(e, directorForm['uuid'], directorForm['first_name'] + ' ' + (directorForm['middle_name']!=null?directorForm['middle_name']:'') + ' ' + directorForm['last_name']) } }
+                                                onClick={ (e) => { confirmDelete(e, directorForm['uuid'], directorForm['first_name'] + ' ' + (directorForm['middle_name']!=null?directorForm['middle_name']:'') + ' ' + directorForm['last_name']) } }
                                             >
                                                 Delete
                                             </button>

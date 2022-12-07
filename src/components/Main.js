@@ -19,6 +19,10 @@ import Pusher from 'pusher-js';
 
 import '../assets/css/App.css';
 
+import 'primereact/resources/themes/lara-light-indigo/theme.css';
+import 'primereact/resources/primereact.min.css';
+import 'primeicons/primeicons.css';
+
 const Main = () => {
 
     let pusher = new Pusher(process.env.REACT_APP_PUSHER_KEY, {

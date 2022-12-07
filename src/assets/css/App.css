@@ -896,19 +896,6 @@ label .req {
 }
 
 /*
-    field-history
-*/
-.field-history{
-    border-radius: 0px 0px 10px 10px;
-    padding: 5px;
-    font-weight: 500;
-    font-size: .8em;
-    border-left: 1px solid #3447675e;
-    border-right: 1px solid #3447675e;
-    border-bottom: 1px solid #3447675e;
-}
-
-/*
     badges
 */
 .d-badge{

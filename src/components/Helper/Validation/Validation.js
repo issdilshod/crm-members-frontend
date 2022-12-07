@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 
 
-const Validation = ({fieldName = '', errorArray = [], }) => {
+const Validation = ({fieldName = '', errorArray = {} }) => {
 
     const ref = useRef(null);
 

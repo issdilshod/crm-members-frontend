@@ -13,6 +13,8 @@ import { useNavigate } from 'react-router-dom';
 import Toast from '../Helper/Toast/Toast';
 import toast from 'react-hot-toast';
 
+import { confirmDialog, ConfirmDialog } from 'primereact/confirmdialog';
+
 const VirtualOfficeForm = () => {
 
     const { 
@@ -173,6 +175,8 @@ const VirtualOfficeForm = () => {
                 if (res.status===200 || res.status===201){ // success
                     setFormOpen(false);
                     toast.success('Successfully virtual office card rejected!');
+
+                    confirmGoToDashboard();
                 }else if (res.status===403){ // permission
                     toast.error('Permission error!');
                 }else if (res.status===409){ // conflict
@@ -196,6 +200,8 @@ const VirtualOfficeForm = () => {
                     setList([ res.data.data, ...list ]);
                     setFormOpen(false);
                     toast.success('Successfully virtual office card approved!');
+
+                    confirmGoToDashboard();
                 }else if (res.status===403){ // permission
                     toast.error('Permission error!');
                 }else if (res.status===409){ // conflict
@@ -209,28 +215,52 @@ const VirtualOfficeForm = () => {
             });
     }
 
-    const handleClose = () => {
-        let confirm = true;
-        if (JSON.stringify(formOriginal) != JSON.stringify(form)){
-            confirm = window.confirm('You have unsaved changes, are you sure you want to close this card?');
-        }
-        
-        if (!confirm){ return false; }
-        setFormOpen(false);
+    const confirmDelete = (e, uuid, cardName = '') => {
+        e.preventDefault();
+        craeteConfirmation({
+            message: 'Are you sure you want to remove card '+ cardName +' from the platform? This action can not be undone.',
+            accept: () => { handleDelete(uuid); }
+        });
     }
 
-    const handleClickOutCard = () => {
-        handleClose();
+    const confirmGoToDashboard = () => {
+        confirmDialog({
+            message: 'Do you want to redirect to dashboard?',
+            accept: () => { nav(process.env.REACT_APP_FRONTEND_PREFIX + '/dashboard'); }
+        })
+    }
+
+    const confirmCloseCard = () => {
+        if (JSON.stringify(form)!=JSON.stringify(formOriginal)){
+            craeteConfirmation({
+                message: 'You have unsaved changes, are you sure you want to close this card?',
+                accept: () => { setFormOpen(false); }
+            });
+        }else{
+            setFormOpen(false);
+        }
+    }
+
+    const craeteConfirmation = ({message = '', header = 'Confirmation', accept = () => {}}) => {
+        confirmDialog({
+            message: message,
+            header: header,
+            icon: 'pi pi-info-circle',
+            acceptClassName: 'd-btn d-btn-primary',
+            position: 'top',
+            accept: accept
+        });
     }
 
     return (  
         <div>
             <Toast />
-            <div className={`c-card-left ${!formOpen?'w-0':''}`} onClick={ () => { handleClickOutCard() } }></div>
+            <ConfirmDialog />
+            <div className={`c-card-left ${!formOpen?'w-0':''}`} onClick={ () => { confirmCloseCard() } }></div>
             <div className={`c-form ${formOpen ?'c-form-active':''}`}>
                 <div className={`c-form-head d-flex`}>
                     <div className={`c-form-head-title mr-auto`}>{(!edit?'Add virtual office':'Edit virtual office')}</div>
-                    <div className={`c-form-close`} onClick={(e) => { handleClose(e) } }>
+                    <div className={`c-form-close`} onClick={(e) => { confirmCloseCard() } }>
                         <FaTimes />
                     </div>
                 </div>
@@ -382,7 +412,7 @@ const VirtualOfficeForm = () => {
                                             <>
                                                 <button 
                                                     className={`d-btn d-btn-danger mr-2`} 
-                                                    onClick={ (e) => { handleDelete(e, form['uuid']) } }
+                                                    onClick={ (e) => { confirmDelete(e, form['uuid']) } }
                                                 >
                                                     Delete
                                                 </button>
@@ -406,7 +436,7 @@ const VirtualOfficeForm = () => {
                                                 </button>
                                                 <button 
                                                     className={`d-btn d-btn-danger mr-2`} 
-                                                    onClick={ (e) => { handleDelete(e, form['uuid']) } }
+                                                    onClick={ (e) => { confirmDelete(e, form['uuid']) } }
                                                 >
                                                     Delete
                                                 </button>

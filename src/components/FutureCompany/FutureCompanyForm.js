@@ -13,6 +13,7 @@ import { useNavigate } from 'react-router-dom';
 
 import Toast from '../Helper/Toast/Toast';
 import toast from 'react-hot-toast';
+import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
 
 const FutureCompanyForm = () => {
 
@@ -128,8 +129,7 @@ const FutureCompanyForm = () => {
             });
     } 
 
-    const handleDelete = (e, uuid) => {
-        e.preventDefault();
+    const handleDelete = (uuid) => {
         setLoadingShow(true);
         api.request('/api/future-company/' + uuid, 'DELETE')
             .then(res => {
@@ -200,6 +200,8 @@ const FutureCompanyForm = () => {
                 if (res.status===200 || res.status===201){ // success
                     setFormOpen(false);
                     toast.success('Successfully future company card rejected!');
+
+                    confirmGoToDashboard();
                 }else if (res.status===403){ // permission
                     toast.error('Permission error!');
                 }else if (res.status===409){ // conflict
@@ -223,6 +225,8 @@ const FutureCompanyForm = () => {
                     setList([ res.data.data, ...list ]);
                     setFormOpen(false);
                     toast.success('Successfully future company card approved!');
+
+                    confirmGoToDashboard();
                 }else if (res.status===403){ // permission
                     toast.error('Permission error!');
                 }else if (res.status===409){ // conflict
@@ -236,28 +240,52 @@ const FutureCompanyForm = () => {
             });
     }
 
-    const handleClose = () => {
-        let confirm = true;
-        if (JSON.stringify(formOriginal) != JSON.stringify(form)){
-            confirm = window.confirm('You have unsaved changes, are you sure you want to close this card?');
-        }
-        
-        if (!confirm){ return false; }
-        setFormOpen(false);
+    const confirmDelete = (e, uuid, cardName = '') => {
+        e.preventDefault();
+        craeteConfirmation({
+            message: 'Are you sure you want to remove card '+ cardName +' from the platform? This action can not be undone.',
+            accept: () => { handleDelete(uuid); }
+        });
     }
 
-    const handleClickOutCard = () => {
-        handleClose();
+    const confirmGoToDashboard = () => {
+        confirmDialog({
+            message: 'Do you want to redirect to dashboard?',
+            accept: () => { nav(process.env.REACT_APP_FRONTEND_PREFIX + '/dashboard'); }
+        })
+    }
+
+    const confirmCloseCard = () => {
+        if (JSON.stringify(form)!=JSON.stringify(formOriginal)){
+            craeteConfirmation({
+                message: 'You have unsaved changes, are you sure you want to close this card?',
+                accept: () => { setFormOpen(false); }
+            });
+        }else{
+            setFormOpen(false);
+        }
+    }
+
+    const craeteConfirmation = ({message = '', header = 'Confirmation', accept = () => {}}) => {
+        confirmDialog({
+            message: message,
+            header: header,
+            icon: 'pi pi-info-circle',
+            acceptClassName: 'd-btn d-btn-primary',
+            position: 'top',
+            accept: accept
+        });
     }
 
     return (  
         <div>
             <Toast />
-            <div className={`c-card-left ${!formOpen?'w-0':''}`} onClick={ () => { handleClickOutCard() } }></div>
+            <ConfirmDialog />
+            <div className={`c-card-left ${!formOpen?'w-0':''}`} onClick={ () => { confirmCloseCard() } }></div>
             <div className={`c-form ${formOpen ?'c-form-active':''}`}>
                 <div className='c-form-head d-flex'>
                     <div className='c-form-head-title mr-auto'>{(!edit?'Add future company':'Edit future company')}</div>
-                    <div className='c-form-close' onClick={(e) => { handleClose(e) } }>
+                    <div className='c-form-close' onClick={(e) => { confirmCloseCard() } }>
                         <FaTimes />
                     </div>
                 </div>
@@ -390,7 +418,7 @@ const FutureCompanyForm = () => {
                                             <>
                                                 <button 
                                                     className={`d-btn d-btn-danger mr-2`} 
-                                                    onClick={ (e) => { handleDelete(e, form['uuid']) } }
+                                                    onClick={ (e) => { confirmDelete(e, form['uuid']) } }
                                                 >
                                                     Delete
                                                 </button>
@@ -414,7 +442,7 @@ const FutureCompanyForm = () => {
                                                 </button>
                                                 <button 
                                                     className={`d-btn d-btn-danger mr-2`} 
-                                                    onClick={ (e) => { handleDelete(e, form['uuid']) } }
+                                                    onClick={ (e) => { confirmDelete(e, form['uuid']) } }
                                                 >
                                                     Delete
                                                 </button>

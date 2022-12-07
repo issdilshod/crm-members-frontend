@@ -22,6 +22,7 @@ import Input from '../Helper/Input/Input';
 import InputMask from '../Helper/Input/InputMask';
 import toast from 'react-hot-toast';
 import Toast from '../Helper/Toast/Toast';
+import { confirmDialog, ConfirmDialog } from 'primereact/confirmdialog';
 
 const CompanyForm = () => {
 
@@ -151,7 +152,7 @@ const CompanyForm = () => {
     const handleStore = (e) => {
         e.preventDefault();
 
-        setCompanyFormError([]);
+        setCompanyFormError({});
         setLoadingShow(true);
 
         api.request('/api/company', 'POST', companyForm)
@@ -176,7 +177,7 @@ const CompanyForm = () => {
     const handleUpdate = (e) => {
         e.preventDefault();
 
-        setCompanyFormError([]);
+        setCompanyFormError({});
         setLoadingShow(true);
 
         api.request('/api/company/'+companyForm['uuid'], 'PUT', companyForm)
@@ -205,13 +206,7 @@ const CompanyForm = () => {
             });
     } 
 
-    const handleDelete = (e, uuid, card_name) => {
-        e.preventDefault();
-
-        let confirm = true;
-        confirm = window.confirm('Are you sure you want to remove card '+ card_name +' from the platform? This action can not be undone.');
-        if (!confirm){ return false; }
-
+    const handleDelete = (uuid) => {
         setLoadingShow(true);
         api.request('/api/company/' + uuid, 'DELETE')
             .then(res => {
@@ -288,7 +283,8 @@ const CompanyForm = () => {
                 if (res.status===200 || res.status===201){ // success
                     setCompanyFormOpen(false);
                     toast.success('Successfully company card rejected!');
-                    handleGoToDashboard();
+
+                    confirmGoToDashboard();
                 }else if (res.status===403){ // permission
                     toast.error('Permission error!');
                 }else if (res.status===409){ // conflict
@@ -305,7 +301,7 @@ const CompanyForm = () => {
     const handlePendingAccept = (e) => {
         e.preventDefault();
 
-        setCompanyFormError([]);
+        setCompanyFormError({});
         setLoadingShow(true);
 
         api.request('/api/company-accept/'+companyForm['uuid'], 'PUT', companyForm)
@@ -314,7 +310,8 @@ const CompanyForm = () => {
                     setCompanyList([ res.data.data, ...companyList ]);
                     setCompanyFormOpen(false);
                     toast.success('Successfully company card approved!');
-                    handleGoToDashboard();
+
+                    confirmGoToDashboard();
                 }else if (res.status===403){ // permission
                     toast.error('Permission error!');
                 }else if (res.status===409){ // conflict
@@ -356,34 +353,14 @@ const CompanyForm = () => {
 
                     setCompanyFormOpen(false);
                     toast.success('Successfully company card overrided!');
-                    handleGoToDashboard();
+
+                    confirmGoToDashboard();
                 }else if (res.status===403){ // permission
                     toast.error('Permission error!');
                 }
-                setCompanyFormError([]);
+                setCompanyFormError({});
                 setLoadingShow(false);
             });
-    }
-
-    const handleGoToDashboard = () => {
-        let confirm = true;
-        confirm = window.confirm('Do you want to redirect to dashboard?');
-        if (!confirm){ return false; }
-        nav(process.env.REACT_APP_FRONTEND_PREFIX + '/dashboard');
-    }
-
-    const handleClose = () => {
-        let confirm = true;
-        if (JSON.stringify(companyFormOriginal) != JSON.stringify(companyForm)){
-            confirm = window.confirm('You have unsaved changes, are you sure you want to close this card?');
-        }
-        
-        if (!confirm){ return false; }
-        setCompanyFormOpen(false);
-    }
-
-    const handleClickOutCard = () => {
-        handleClose();
     }
 
     const onExtraCloseClick = (unique) => {
@@ -415,16 +392,54 @@ const CompanyForm = () => {
         setExtraAddressShow(true);
     }
 
+    const confirmDelete = (e, uuid, cardName) => {
+        e.preventDefault();
+        craeteConfirmation({
+            message: 'Are you sure you want to remove card '+ cardName +' from the platform? This action can not be undone.',
+            accept: () => { handleDelete(uuid); }
+        });
+    }
+
+    const confirmGoToDashboard = () => {
+        confirmDialog({
+            message: 'Do you want to redirect to dashboard?',
+            accept: () => { nav(process.env.REACT_APP_FRONTEND_PREFIX + '/dashboard'); }
+        })
+    }
+
+    const confirmCloseCard = () => {
+        if (JSON.stringify(companyForm)!=JSON.stringify(companyFormOriginal)){
+            craeteConfirmation({
+                message: 'You have unsaved changes, are you sure you want to close this card?',
+                accept: () => { setCompanyFormOpen(false); }
+            });
+        }else{
+            setCompanyFormOpen(false);
+        }
+    }
+
+    const craeteConfirmation = ({message = '', header = 'Confirmation', accept = () => {}}) => {
+        confirmDialog({
+            message: message,
+            header: header,
+            icon: 'pi pi-info-circle',
+            acceptClassName: 'd-btn d-btn-primary',
+            position: 'top',
+            accept: accept
+        });
+    }
+
     return (  
         <div>
             <Toast />
-            <div className={`c-card-left ${!companyFormOpen?'w-0':''}`} onClick={ () => { handleClickOutCard() } }></div>
+            <ConfirmDialog />
+            <div className={`c-card-left ${!companyFormOpen?'w-0':''}`} onClick={ () => { confirmCloseCard(); } }></div>
             <div
                 className={`c-form ${companyFormOpen?'c-form-active':''}`}
             >
                 <div className='c-form-head d-flex'>
                     <div className='c-form-head-title mr-auto'>{(!companyEdit?'Add company':'Edit company')}</div>
-                    <div className='c-form-close' onClick={ (e) => { handleClose(e); } }>
+                    <div className='c-form-close' onClick={ () => { confirmCloseCard(); } }>
                         <FaTimes />
                     </div>
                 </div>
@@ -798,7 +813,7 @@ const CompanyForm = () => {
                                         }
 
                                         { (permissions.includes(COMPANY.DELETE) && companyForm['status']!='') && 
-                                            <button className={`d-btn d-btn-danger mr-2`} onClick={ (e) => { handleDelete(e, companyForm['uuid'], companyForm['legal_name']) } }>
+                                            <button className={`d-btn d-btn-danger mr-2`} onClick={ (e) => { confirmDelete(e, companyForm['uuid'], companyForm['legal_name']) } }>
                                                 Delete
                                             </button>
                                         }
