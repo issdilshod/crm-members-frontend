@@ -1,12 +1,15 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Mediator } from '../../context/Mediator';
+
 import Draggable from 'react-draggable';
 
 import styles from './Note.module.scss';
 import { FaTimes } from 'react-icons/fa';
 
+import Api from '../../services/Api';
+
 const Note = ({ noteOpen, setNoteOpen }) => {
-    const { api } = useContext(Mediator);
+    
+    const api = new Api();
 
     const [hasNote, setHasNote] = useState(false);
     const [note, setNote] = useState({ text: '' });

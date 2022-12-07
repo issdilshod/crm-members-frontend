@@ -1,19 +1,20 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { Mediator } from '../../../context/Mediator';
 import DateFormatter from '../../../services/DateFormatter';
 
-import styles from './Activity.module.scss';
 import { FaClock } from 'react-icons/fa';
 import LoadingMini from '../../Helper/LoadingMini';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import Api from '../../../services/Api';
 
 const Activity = ({pusher}) => {
 
-    const { api } = useContext(Mediator);
+    const api = new Api();
 
     const [activityList, setActivityList] = useState([]);
     const [activityMeta, setActivityMeta] = useState({'current_page': 0, 'max_page': 1});
+
+    const [meUuid, setMeUuid] = useState('');
 
     const [pusherUpdates, setPusherUpdates] = useState(null);
 
@@ -21,6 +22,12 @@ const Activity = ({pusher}) => {
         activityNextFetch();
         getMe();
     }, [])
+
+    useEffect(() => {
+        if (pusherUpdates){
+            addActivtiy(pusherUpdates['data']['data']);
+        }
+    }, [pusherUpdates])
 
     const activityNextFetch = () => {
         api.request('/api/activity?page='+parseInt(activityMeta['current_page']+1), 'GET')
@@ -32,7 +39,6 @@ const Activity = ({pusher}) => {
             });
     }
 
-    const [meUuid, setMeUuid] = useState('');
     const getMe = () => {
         api.request('/api/get_me', 'GET')
             .then(res => {
@@ -49,12 +55,6 @@ const Activity = ({pusher}) => {
             setPusherUpdates(data);
         })
     }
-
-    useEffect(() => {
-        if (pusherUpdates){
-            addActivtiy(pusherUpdates['data']['data']);
-        }
-    }, [pusherUpdates])
 
     const addActivtiy = (activityNew) => {
         let tmpArray = [...activityList];
@@ -78,11 +78,10 @@ const Activity = ({pusher}) => {
     }
 
     return (
-        <div className={styles['activity-card']}>
-            <div className={styles['activity-card-head']}>Activity</div>
-            <div className={styles['activity-card-body']}>
-                <div className={styles['activity-block']} id='activity-block'>
-
+        <div className='a-card'>
+            <div className='a-card-head'>Activity</div>
+            <div className='a-card-body' >
+                <div className='a-card-content' id='activity-content'>
                     <InfiniteScroll
                         dataLength={activityList.length}
                         next={activityNextFetch}
@@ -93,20 +92,23 @@ const Activity = ({pusher}) => {
                                 <b>Yay! You have seen it all</b>
                             </p>
                         }
-                        scrollableTarget='activity-block'
+                        scrollableTarget='activity-content'
                     >
 
                     {
                         activityList.map((value, index) => {
                             return (
-                                <Link className={styles['activity-a']} key={index} to={ process.env.REACT_APP_FRONTEND_PREFIX + value['link']}>
-                                    <div className={`${styles['activity']} mb-3`}>
-                                        <span className={styles['activity-status']}>
+                                <Link 
+                                    key={index} 
+                                    to={ process.env.REACT_APP_FRONTEND_PREFIX + value['link']}
+                                >
+                                    <div className='a-card-item mb-3'>
+                                        <span className='a-card-item-status'>
                                             <FaClock />
                                         </span>
-                                        <div className={`${styles['activity-user']}`}>{value['user']['first_name']} {value['user']['last_name']}</div>
-                                        <div className={`${styles['activity-description']}`}>{value['description']}</div>
-                                        <div className={`${styles['activity-date']}`}>{ DateFormatter.beautifulDate(value['updated_at']) }</div>
+                                        <div className='a-card-item-title'>{value['user']['first_name']} {value['user']['last_name']}</div>
+                                        <div className='a-card-item-desc'>{value['description']}</div>
+                                        <div className='a-card-item-date'>{ DateFormatter.beautifulDate(value['updated_at']) }</div>
                                     </div>
                                 </Link>
                             )
@@ -114,8 +116,7 @@ const Activity = ({pusher}) => {
                     }
 
                     </InfiniteScroll>
-                    
-                </div>
+                </div>  
             </div>
         </div>
     );

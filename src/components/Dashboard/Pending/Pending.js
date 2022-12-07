@@ -18,7 +18,7 @@ import PendingSummary from './PendingSummary';
 import * as ROLE from '../../../consts/Role';
 import ContextMenu from './ContextMenu';
 
-const Pending = ({ pendingNextFetch, pendingSummary, pendingMeta, setPendingMeta, pending, setPending, filterPending, setFilterPending, pusher, summaryFilter, setSummaryFilter, setLoadingShow, search, firstPending }) => {
+const Pending = ({ pusher, search, setLoadingShow }) => {
 
     const api = new Api();
     const nav = useNavigate();
@@ -39,9 +39,17 @@ const Pending = ({ pendingNextFetch, pendingSummary, pendingMeta, setPendingMeta
 
     const [meUuid, setMeUuid] = useState('');
 
+    const [firstPending, setFirstPending] = useState([]);
+    const [pending, setPending] = useState([]);
+    const [pendingMeta, setPendingMeta] = useState({'current_page': 0, 'max_page': 1});
+    const [pendingSummary, setPendingSummary] = useState({'directors':{}, 'companies':{}});
+    const [filterPending, setFilterPending] = useState('');
+    const [summaryFilter, setSummaryFilter] = useState('');
+
     // first init
     useEffect(() => {
         getMe();
+        pendingNextFetch();
     }, [])
 
     // select mode
@@ -90,6 +98,39 @@ const Pending = ({ pendingNextFetch, pendingSummary, pendingMeta, setPendingMeta
             addPending(pusherUpdates['data']['data']);
         }
     }, [pusherUpdates])
+
+    const pendingNextFetch = (attr = '') => {
+
+        // select filter
+        if (filterPending==''){
+            attr = '?page='+parseInt(pendingMeta['current_page']+1);
+        }else{
+            attr = '?page='+parseInt(pendingMeta['current_page']+1)+'&filter=' + filterPending;
+        }
+
+        // summary filter
+        if (summaryFilter!=''){
+            attr += '&summary_filter=' + summaryFilter;
+        }
+
+        api.request('/api/pending'+attr, 'GET')
+            .then(res => {
+                if (res.status===200||res.status===201){ // success
+                    let tmpArr = [...res.data.companies, ...res.data.directors];
+                    // TODO: check if exists on pending then replace from pending
+                    tmpArr.sort((a, b) => {
+                        return new Date(b.last_activity.updated_at) - new Date(a.last_activity.updated_at);
+                    });
+                    
+                    setPending([ ...pending, ...tmpArr ]);
+                    if (pendingMeta['current_page']==0){
+                        setFirstPending(tmpArr);
+                    }
+                    setPendingMeta(res.data.meta);
+                    setPendingSummary(res.data.summary);
+                }
+            })
+    }
 
     const handlePendingClick = (e, uuid, link = '') => {
         if (e.type == 'contextmenu') {
@@ -345,7 +386,7 @@ const Pending = ({ pendingNextFetch, pendingSummary, pendingMeta, setPendingMeta
     return (
         <div className='c-position-relative'>
             <div className='d-flex mb-2'>
-                <div className='mr-auto d-title'></div>
+                <div className='mr-auto d-title'>{title}</div>
                 <div className='mr-2'>
                     { (checked.length<=0) &&
                         <select className='form-control' onChange={ (e) => { handleFilterPending(e) } }>
@@ -405,7 +446,6 @@ const Pending = ({ pendingNextFetch, pendingSummary, pendingMeta, setPendingMeta
             </div>
 
             <div className='pending-block' id='pending-block' onMouseUp={ (e) => { handlePendingMouseDown(e) } }>
-                <div>{title}</div>
                 <InfiniteScroll 
                     dataLength={pending.length}
                     next={pendingNextFetch}
