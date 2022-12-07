@@ -84,10 +84,6 @@ const Company = () => {
 
     useEffect(() => {
         init();
-
-        if (params.get('q')!=null){
-            setQuery(params.get('q'));
-        }
     }, []);
 
     useEffect(() => {
@@ -95,6 +91,12 @@ const Company = () => {
             handleCardClick(uuid);
         }
     }, [uuid]);
+
+    useEffect(() => {
+        if (params.get('q')!=null){
+            setQuery(params.get('q'));
+        }
+    }, [params])
 
     const init = () => {
         document.title = 'Companies';

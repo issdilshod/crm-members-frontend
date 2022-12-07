@@ -15,13 +15,13 @@ const Select = ({title = '', req = false, name, onChange, options, defaultValue,
     }, [defaultValue])
 
     const findMatch = () => {
-        if (defaultValue!=null && defaultValue!=''){
+        if (defaultValue!=null && defaultValue!='' && query!=''){
             let found = false;
 
-            let pos = query.toLowerCase().search(defaultValue.toLowerCase());
+            let pos = query.toLowerCase().indexOf(defaultValue.toLowerCase());
             if (pos!=-1){ found = true; }
 
-            pos = defaultValue.toLowerCase().search(query.toLowerCase());
+            pos = defaultValue.toLowerCase().indexOf(query.toLowerCase());
             if (pos!=-1){ found = true; }
 
             if (found){

@@ -92,7 +92,7 @@ const CompanyList = () => {
         let s = ''; 
         if (search.length>0){ s = '?q=' + encodeURIComponent(search); }
 
-        nav(process.env.REACT_APP_FRONTEND_PREFIX + link);
+        nav(process.env.REACT_APP_FRONTEND_PREFIX + link + s);
     }
 
     return (  
@@ -131,7 +131,7 @@ const CompanyList = () => {
                                                     ${STATUS.ACTIVED==value['status']?'t-card-primary':''}
                                                     ${STATUS.REJECTED==value['status']?'t-card-danger':''}
                                                      d-flex`} 
-                                        onClick={ () => { handleGoToCard(value['last_activity']['link']) } }
+                                        onClick={ () => { handleGoToCard(value['last_activity']['link']); } }
                                         >
                                             <div className='c-item-icon mr-2'>
                                                 <span>
