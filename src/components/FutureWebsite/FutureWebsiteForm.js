@@ -6,11 +6,13 @@ import * as FUTUREWEBSITES from '../../consts/FutureWebsites';
 import { Mediator } from '../../context/Mediator';
 
 import { FaTimes } from 'react-icons/fa';
-import Notification from '../Helper/Notification/Notification';
 import Select from 'react-select';
-import { useRef } from 'react';
 import Api from '../../services/Api';
+
 import { useNavigate } from 'react-router-dom';
+
+import toast from 'react-hot-toast';
+import Toast from '../Helper/Toast/Toast';
 
 const FutureWebsiteForm = () => {
 
@@ -72,15 +74,15 @@ const FutureWebsiteForm = () => {
                 if (res.status===200 || res.status===201){ // success
                     setList([ res.data.data, ...list ]);
                     setFormOpen(false);
-                    setAlert({'msg': 'Successfully future website added', 'show': true, 'type': 'success'});
+                    toast.success('Successfully future website card added!');
                 }else if (res.status===403){ // permission
-
+                    toast.error('Permission error!');
                 }else if (res.status===409){ // conflict
                     setFormError(res.data.data);
-                    setAlert({'msg': 'Some data already exists', 'show': true, 'type': 'danger'});
+                    toast.error('Some data is already exists in cards!');
                 }else if (res.status===422){ // unprocessable content
                     setFormError(res.data.errors);
-                    setAlert({'msg': 'Fill the important fields', 'show': true, 'type': 'danger'});
+                    toast.error('Fill the all required fields!');
                 }
                 setLoadingShow(false);
             });
@@ -102,15 +104,15 @@ const FutureWebsiteForm = () => {
                     }
                     setList(tmpList);
                     setFormOpen(false);
-                    setAlert({'msg': 'Successfully future website updated', 'show': true, 'type': 'success'});
+                    toast.success('Successfully future website card updated!');
                 }else if (res.status===403){ // permission
-
+                    toast.error('Permission error!');
                 }else if (res.status===409){ // conflict
                     setFormError(res.data.data);
-                    setAlert({'msg': 'Some data already exists', 'show': true, 'type': 'danger'});
+                    toast.error('Some data is already exists in cards!');
                 }else if (res.status===422){ // unprocessable content
                     setFormError(res.data.errors);
-                    setAlert({'msg': 'Fill the important fields', 'show': true, 'type': 'danger'});
+                    toast.error('Fill the all required fields!');
                 }
                 setLoadingShow(false);
             });
@@ -130,9 +132,9 @@ const FutureWebsiteForm = () => {
                     }
                     setList(tmpArray);
                     setFormOpen(false);
-                    setAlert({'msg': 'Successfully future website deleted', 'show': true, 'type': 'success'});
+                    toast.success('Successfully future website card deleted!');
                 }else if (res.status===403){ // permission
-                    
+                    toast.error('Permission error!');
                 }
                 setLoadingShow(false);
             })
@@ -145,14 +147,14 @@ const FutureWebsiteForm = () => {
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
                     setFormOpen(false);
-                    setAlert({'msg': 'Succefully sent future website to approve', 'show': true, 'type': 'success'});
+                    toast.success('Successfully sent future website card to approve!');
                 }else if (res.status===403){ // permission
-
+                    toast.error('Permission error!');
                 }else if (res.status===409){ // conflict
-                    setFormError(res.data.data);
+                    toast.error('Some data is already exists in cards!');
                 }else if (res.status===422){ // unprocessable content
                     setFormError(res.data.errors);
-                    setAlert({'msg': 'Fill the important fields', 'show': true, 'type': 'danger'});
+                    toast.error('Fill the all required fields!');
                 }
                 setLoadingShow(false);
             });
@@ -164,15 +166,15 @@ const FutureWebsiteForm = () => {
         api.request('/api/future-websites-pending-update/'+form['uuid'], 'PUT', form)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
-                    setAlert({'msg': 'Succefully sent updates to approve', 'show': true, 'type': 'success'});
+                    toast.success('Successfully sent future website card updates to approve!');
                     setFormOpen(false);
                 }else if (res.status===403){ // permission
-
+                    toast.error('Permission error!');
                 }else if (res.status===409){ // conflict
                     setFormError(res.data.data);
-                    setAlert({'msg': 'Some data already exists', 'show': true, 'type': 'danger'});
+                    toast.error('Some data is already exists in cards!');
                 }else if (res.status===422){ // unprocessable content
-                    setAlert({'msg': 'Fill the important fields', 'show': true, 'type': 'danger'});
+                    toast.error('Fill the all required fields!');
                     setFormError(res.data.errors);
                 }
                 setLoadingShow(false);
@@ -185,14 +187,16 @@ const FutureWebsiteForm = () => {
         api.request('/api/future-websites-reject/'+form['uuid'], 'PUT')
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
-                    setAlert({'msg': 'Succefully future website rejected', 'show': true, 'type': 'success'});
+                    toast.success('Successfully future website card rejected!');
                     setFormOpen(false);
                 }else if (res.status===403){ // permission
-
+                    toast.error('Permission error!');
                 }else if (res.status===409){ // conflict
                     setFormError(res.data.data);
+                    toast.error('Some data is already exists in cards!');
                 }else if (res.status===422){ // unprocessable content
                     setFormError(res.data.errors);
+                    toast.error('Fill the all required fields!');
                 }
                 setLoadingShow(false);
             });
@@ -205,16 +209,16 @@ const FutureWebsiteForm = () => {
         api.request('/api/future-websites-accept/'+form['uuid'], 'PUT', form)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
-                    setAlert({'msg': 'Succefully future website approve', 'show': true, 'type': 'success'});
+                    toast.success('Successfully future website card approved!');
                     setList([ res.data.data, ...list ]);
                     setFormOpen(false);
                 }else if (res.status===403){ // permission
-
+                    toast.error('Permission error!');
                 }else if (res.status===409){ // conflict
                     setFormError(res.data.data);
-                    setAlert({'msg': 'Some data already exists', 'show': true, 'type': 'danger'});
+                    toast.error('Some data is already exists in cards!');
                 }else if (res.status===422){ // unprocessable content
-                    setAlert({'msg': 'Fill the important fields', 'show': true, 'type': 'danger'});
+                    toast.error('Fill the all required fields!');
                     setFormError(res.data.errors);
                 }
                 setLoadingShow(false);
@@ -237,7 +241,7 @@ const FutureWebsiteForm = () => {
 
     return (  
         <div>
-            <Notification Alert={alert} SetAlert={setAlert} />
+            <Toast />
             <div className={`c-card-left ${!formOpen?'w-0':''}`} onClick={ () => { handleClickOutCard() } }></div>
             <div className={`c-form ${formOpen ?'c-form-active':''}`}>
                 <div className='c-form-head d-flex'>

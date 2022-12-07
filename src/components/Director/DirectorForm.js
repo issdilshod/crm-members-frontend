@@ -8,9 +8,6 @@ import * as ROLE from '../../consts/Role';
 
 import { Mediator } from '../../context/Mediator';
 
-import Validation from '../Helper/Validation/Validation';
-import Notification from '../Helper/Notification/Notification';
-
 import File from '../Helper/File/File';
 import Address from '../Helper/Address/Address';
 import Email from '../Helper/Email/Email';
@@ -18,6 +15,10 @@ import Email from '../Helper/Email/Email';
 import Input from '../Helper/Input/Input';
 import InputMask from '../Helper/Input/InputMask';
 import Select from '../Helper/Input/Select';
+
+
+import toast from 'react-hot-toast';
+import Toast from '../Helper/Toast/Toast';
 
 const DirectorForm = () => {
 
@@ -80,15 +81,15 @@ const DirectorForm = () => {
                 if (res.status===200 || res.status===201){ // success
                     setDirectorList([ res.data.data, ...directorList ]);
                     setDirectorFormOpen(false);
-                    setAlert({'msg': 'Successfully director added', 'show': true, 'type': 'success'});
+                    toast.success('Successfully director card added!');
                 }else if (res.status===403){ // permission
-
+                    toast.error('Permission error!');
                 }else if (res.status===409){ // conflict
                     setDirectorFormError(res.data.data);
-                    setAlert({'msg': 'Some data already exists', 'show': true, 'type': 'danger'});
+                    toast.error('Some data is already exists in cards!');
                 }else if (res.status===422){ // unprocessable content
                     setDirectorFormError(res.data.errors);
-                    setAlert({'msg': 'Fill the important fields', 'show': true, 'type': 'danger'});
+                    toast.error('Fill the all required fields!');
                 }
                 setLoadingShow(false);
             });
@@ -110,15 +111,15 @@ const DirectorForm = () => {
                     }
                     setDirectorList(tmp_directorList);
                     setDirectorFormOpen(false);
-                    setAlert({'msg': 'Successfully director updated', 'show': true, 'type': 'success'});
+                    toast.success('Successfully director card updated!');
                 }else if (res.status===403){ // permission
-
+                    toast.error('Permission error!');
                 }else if (res.status===409){ // conflict
                     setDirectorFormError(res.data.data);
-                    setAlert({'msg': 'Some data already exists', 'show': true, 'type': 'danger'});
+                    toast.error('Some data is already exists in cards!');
                 }else if (res.status===422){ // unprocessable content
                     setDirectorFormError(res.data.errors);
-                    setAlert({'msg': 'Fill the important fields', 'show': true, 'type': 'danger'});
+                    toast.error('Fill the all required fields!');
                 }
                 setLoadingShow(false);
             });
@@ -143,9 +144,9 @@ const DirectorForm = () => {
                     }
                     setDirectorList(tmpArray);
                     setDirectorFormOpen(false);
-                    setAlert({'msg': 'Successfully director deleted', 'show': true, 'type': 'success'});
+                    toast.success('Successfully director card deleted!');
                 }else if (res.status===403){ // permission
-                    
+                    toast.error('Permission error!');
                 }
                 setLoadingShow(false);
             })
@@ -158,14 +159,15 @@ const DirectorForm = () => {
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
                     setDirectorFormOpen(false);
-                    setAlert({'msg': 'Succefully sent director to approve', 'show': true, 'type': 'success'});
+                    toast.success('Succefully sent director card to approve!');
                 }else if (res.status===403){ // permission
-
+                    toast.error('Permission error!');
                 }else if (res.status===409){ // conflict
                     setDirectorFormError(res.data.data);
+                    toast.error('Some data is already exists in cards!');
                 }else if (res.status===422){ // unprocessable content
                     setDirectorFormError(res.data.errors);
-                    setAlert({'msg': 'Fill the important fields', 'show': true, 'type': 'danger'});
+                    toast.error('Fill the all required fields!');
                 }
                 setLoadingShow(false);
             });
@@ -177,15 +179,15 @@ const DirectorForm = () => {
         api.request('/api/director-pending-update/'+directorForm['uuid'], 'PUT', directorForm)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
-                    setAlert({'msg': 'Succefully sent updates to approve', 'show': true, 'type': 'success'});
+                    toast.success('Succefully sent director card updates to approve!');
                     setDirectorFormOpen(false);
                 }else if (res.status===403){ // permission
-
+                    toast.error('Permission error!');
                 }else if (res.status===409){ // conflict
                     setDirectorFormError(res.data.data);
-                    setAlert({'msg': 'Some data already exists', 'show': true, 'type': 'danger'});
+                    toast.error('Some data is already exists in cards!');
                 }else if (res.status===422){ // unprocessable content
-                    setAlert({'msg': 'Fill the important fields', 'show': true, 'type': 'danger'});
+                    toast.error('Fill the all required fields!');
                     setDirectorFormError(res.data.errors);
                 }
                 setLoadingShow(false);
@@ -198,15 +200,11 @@ const DirectorForm = () => {
         api.request('/api/director-reject/'+directorForm['uuid'], 'PUT')
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
-                    setAlert({'msg': 'Succefully director rejected', 'show': true, 'type': 'success'});
+                    toast.success('Succefully director card rejected!');
                     setDirectorFormOpen(false);
                     handleGoToDashboard();
                 }else if (res.status===403){ // permission
-
-                }else if (res.status===409){ // conflict
-                    setDirectorFormError(res.data.data);
-                }else if (res.status===422){ // unprocessable content
-                    setDirectorFormError(res.data.errors);
+                    toast.error('Permission error!');
                 }
                 setLoadingShow(false);
             });
@@ -219,17 +217,17 @@ const DirectorForm = () => {
         api.request('/api/director-accept/'+directorForm['uuid'], 'PUT', directorForm)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
-                    setAlert({'msg': 'Succefully director approve', 'show': true, 'type': 'success'});
+                    toast.success('Succefully director card approved!');
                     setDirectorList([ res.data.data, ...directorList ]);
                     setDirectorFormOpen(false);
                     handleGoToDashboard();
                 }else if (res.status===403){ // permission
-
+                    toast.error('Permission error!');
                 }else if (res.status===409){ // conflict
                     setDirectorFormError(res.data.data);
-                    setAlert({'msg': 'Some data already exists', 'show': true, 'type': 'danger'});
+                    toast.error('Some data is already exists in cards!');
                 }else if (res.status===422){ // unprocessable content
-                    setAlert({'msg': 'Fill the important fields', 'show': true, 'type': 'danger'});
+                    toast.error('Fill the all required fields!');
                     setDirectorFormError(res.data.errors);
                 }
                 setLoadingShow(false);
@@ -260,11 +258,11 @@ const DirectorForm = () => {
                         setDirectorList(tmpArray);
                     }
                 
-                    setAlert({'msg': 'Succefully director overrided', 'show': true, 'type': 'success'});
+                    toast.success('Succefully director card overrided!');
                     setDirectorFormOpen(false);
                     handleGoToDashboard();
                 }else if (res.status===403){ // permission
-
+                    toast.error('Permission error!');
                 }
                 setDirectorFormError([]);
                 setLoadingShow(false);
@@ -304,7 +302,7 @@ const DirectorForm = () => {
 
     return (  
         <div>
-            <Notification Alert={alert} SetAlert={setAlert} />
+            <Toast />
             <div className={`c-card-left ${!directorFormOpen?'w-0':''}`} onClick={ () => { handleClickOutCard() } }></div>
             <div className={`c-form ${directorFormOpen?'c-form-active':''}`}>
                 <div className='c-form-head d-flex'>

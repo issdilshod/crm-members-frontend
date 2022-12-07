@@ -20,6 +20,8 @@ import BankAccount from '../Helper/BankAccount/BankAccount';
 import Api from '../../services/Api';
 import Input from '../Helper/Input/Input';
 import InputMask from '../Helper/Input/InputMask';
+import toast from 'react-hot-toast';
+import Toast from '../Helper/Toast/Toast';
 
 const CompanyForm = () => {
 
@@ -157,15 +159,15 @@ const CompanyForm = () => {
                 if (res.status===200 || res.status===201){ // success
                     setCompanyList([ res.data.data, ...companyList ]);
                     setCompanyFormOpen(false);
-                    setAlert({'msg': 'Successfully company added', 'show': true, 'type': 'success'});
+                    toast.success('Successfully company card added!');
                 }else if (res.status===403){ // permission
-
+                    toast.error('Permission error!');
                 }else if (res.status===409){ // conflict
                     setCompanyFormError(res.data.data);
-                    setAlert({'msg': 'Some data already exists', 'show': true, 'type': 'danger'});
+                    toast.error('Some data is already exists in cards!');
                 }else if (res.status===422){ // unprocessable content
                     setCompanyFormError(res.data.errors);
-                    setAlert({'msg': 'Fill the important fields', 'show': true, 'type': 'danger'});
+                    toast.error('Fill the all required fields!');
                 }
                 setLoadingShow(false);
             });
@@ -189,15 +191,15 @@ const CompanyForm = () => {
                     }
                     setCompanyList(tmp_companyList);
                     setCompanyFormOpen(false);
-                    setAlert({'msg': 'Successfully company updated', 'show': true, 'type': 'success'});
+                    toast.success('Successfully company card updated!');
                 }else if (res.status===403){ // permission
-
+                    toast.error('Permission error!');
                 }else if (res.status===409){ // conflict
                     setCompanyFormError(res.data.data);
-                    setAlert({'msg': 'Some data already exists', 'show': true, 'type': 'danger'});
+                    toast.error('Some data is already exists in cards!');
                 }else if (res.status===422){ // unprocessable content
                     setCompanyFormError(res.data.errors);
-                    setAlert({'msg': 'Fill the important fields', 'show': true, 'type': 'danger'});
+                    toast.error('Fill the all required fields!');
                 }
                 setLoadingShow(false);
             });
@@ -222,9 +224,9 @@ const CompanyForm = () => {
                     }
                     setCompanyList(tmpArray);
                     setCompanyFormOpen(false);
-                    setAlert({'msg': 'Successfully company deleted', 'show': true, 'type': 'success'});
+                    toast.success('Successfully company card deleted!');
                 }else if (res.status===403){ // permission
-
+                    toast.error('Permission error!');
                 }
                 setLoadingShow(false);
             })
@@ -239,15 +241,15 @@ const CompanyForm = () => {
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
                     setCompanyFormOpen(false);
-                    setAlert({'msg': 'Succefully sent company to approve', 'show': true, 'type': 'success'});
+                    toast.success('Successfully sent company card to approve!');
                 }else if (res.status===403){ // permission
-
+                    toast.error('Permission error!');
                 }else if (res.status===409){ // conflict
                     setCompanyFormError(res.data.data);
-                    setAlert({'msg': 'Some data already exists', 'show': true, 'type': 'danger'});
+                    toast.error('Some data is already exists in cards!');
                 }else if (res.status===422){ // unprocessable content
                     setCompanyFormError(res.data.errors);
-                    setAlert({'msg': 'Fill the important fields', 'show': true, 'type': 'danger'});
+                    toast.error('Fill the all required fields!');
                 }
                 setLoadingShow(false);
             });
@@ -262,15 +264,15 @@ const CompanyForm = () => {
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
                     setCompanyFormOpen(false);
-                    setAlert({'msg': 'Succefully sent updates to approve', 'show': true, 'type': 'success'});
+                    toast.success('Successfully sent company card updates to approve!');
                 }else if (res.status===403){ // permission
-
+                    toast.error('Permission error!');
                 }else if (res.status===409){ // conflict
                     setCompanyFormError(res.data.data);
-                    setAlert({'msg': 'Some data already exists', 'show': true, 'type': 'danger'});
+                    toast.error('Some data is already exists in cards!');
                 }else if (res.status===422){ // unprocessable content
                     setCompanyFormError(res.data.errors);
-                    setAlert({'msg': 'Fill the important fields', 'show': true, 'type': 'danger'});
+                    toast.error('Fill the all required fields!');
                 }
                 setLoadingShow(false);
             });
@@ -285,14 +287,16 @@ const CompanyForm = () => {
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
                     setCompanyFormOpen(false);
-                    setAlert({'msg': 'Succefully company rejected', 'show': true, 'type': 'success'});
+                    toast.success('Successfully company card rejected!');
                     handleGoToDashboard();
                 }else if (res.status===403){ // permission
-
+                    toast.error('Permission error!');
                 }else if (res.status===409){ // conflict
                     setCompanyFormError(res.data.data);
+                    toast.error('Some data is already exists in cards!');
                 }else if (res.status===422){ // unprocessable content
                     setCompanyFormError(res.data.errors);
+                    toast.error('Fill the all required fields!');
                 }
                 setLoadingShow(false);
             });
@@ -309,16 +313,16 @@ const CompanyForm = () => {
                 if (res.status===200 || res.status===201){ // success
                     setCompanyList([ res.data.data, ...companyList ]);
                     setCompanyFormOpen(false);
-                    setAlert({'msg': 'Succefully company approve', 'show': true, 'type': 'success'});
+                    toast.success('Successfully company card approved!');
                     handleGoToDashboard();
                 }else if (res.status===403){ // permission
-
+                    toast.error('Permission error!');
                 }else if (res.status===409){ // conflict
                     setCompanyFormError(res.data.data);
-                    setAlert({'msg': 'Some data already exists', 'show': true, 'type': 'danger'});
+                    toast.error('Some data is already exists in cards!');
                 }else if (res.status===422){ // unprocessable content
                     setCompanyFormError(res.data.errors);
-                    setAlert({'msg': 'Fill the important fields', 'show': true, 'type': 'danger'});
+                    toast.error('Fill the all required fields!');
                 }
                 setLoadingShow(false);
             });
@@ -351,10 +355,10 @@ const CompanyForm = () => {
                     }
 
                     setCompanyFormOpen(false);
-                    setAlert({'msg': 'Succefully company ovverided', 'show': true, 'type': 'success'});
+                    toast.success('Successfully company card overrided!');
                     handleGoToDashboard();
                 }else if (res.status===403){ // permission
-
+                    toast.error('Permission error!');
                 }
                 setCompanyFormError([]);
                 setLoadingShow(false);
@@ -413,7 +417,7 @@ const CompanyForm = () => {
 
     return (  
         <div>
-            <Notification Alert={alert} SetAlert={setAlert} />
+            <Toast />
             <div className={`c-card-left ${!companyFormOpen?'w-0':''}`} onClick={ () => { handleClickOutCard() } }></div>
             <div
                 className={`c-form ${companyFormOpen?'c-form-active':''}`}

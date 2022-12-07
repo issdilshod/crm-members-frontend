@@ -6,10 +6,12 @@ import * as VIRTUALOFFICE from '../../consts/VirtualOffice';
 import { Mediator } from '../../context/Mediator';
 
 import { FaTimes } from 'react-icons/fa';
-import Notification from '../Helper/Notification/Notification';
 
 import Api from '../../services/Api';
 import { useNavigate } from 'react-router-dom';
+
+import Toast from '../Helper/Toast/Toast';
+import toast from 'react-hot-toast';
 
 const VirtualOfficeForm = () => {
 
@@ -55,15 +57,15 @@ const VirtualOfficeForm = () => {
                 if (res.status===200 || res.status===201){ // success
                     setList([ res.data.data, ...list ]);
                     setFormOpen(false);
-                    setAlert({'msg': 'Successfully virtual office added', 'show': true, 'type': 'success'});
+                    toast.success('Successfully virtual office card added!');
                 }else if (res.status===403){ // permission
-
+                    toast.error('Permission error!');
                 }else if (res.status===409){ // conflict
                     setFormError(res.data.data);
-                    setAlert({'msg': 'Some data already exists', 'show': true, 'type': 'danger'});
+                    toast.error('Some data is already exists in cards!');
                 }else if (res.status===422){ // unprocessable content
                     setFormError(res.data.errors);
-                    setAlert({'msg': 'Fill the important fields', 'show': true, 'type': 'danger'});
+                    toast.error('Fill the all required fields!');
                 }
                 setLoadingShow(false);
             });
@@ -85,15 +87,15 @@ const VirtualOfficeForm = () => {
                     }
                     setList(tmpList);
                     setFormOpen(false);
-                    setAlert({'msg': 'Successfully virtual office updated', 'show': true, 'type': 'success'});
+                    toast.success('Successfully virtual office card updated!');
                 }else if (res.status===403){ // permission
-
+                    toast.error('Permission error!');
                 }else if (res.status===409){ // conflict
                     setFormError(res.data.data);
-                    setAlert({'msg': 'Some data already exists', 'show': true, 'type': 'danger'});
+                    toast.error('Some data is already exists in cards!');
                 }else if (res.status===422){ // unprocessable content
                     setFormError(res.data.errors);
-                    setAlert({'msg': 'Fill the important fields', 'show': true, 'type': 'danger'});
+                    toast.error('Fill the all required fields!');
                 }
                 setLoadingShow(false);
             });
@@ -113,9 +115,9 @@ const VirtualOfficeForm = () => {
                     }
                     setList(tmpArray);
                     setFormOpen(false);
-                    setAlert({'msg': 'Successfully virtual office deleted', 'show': true, 'type': 'success'});
+                    toast.success('Successfully virtual office card deleted!');
                 }else if (res.status===403){ // permission
-                    
+                    toast.error('Permission error!');
                 }
                 setLoadingShow(false);
             })
@@ -128,14 +130,15 @@ const VirtualOfficeForm = () => {
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
                     setFormOpen(false);
-                    setAlert({'msg': 'Succefully sent virtual office to approve', 'show': true, 'type': 'success'});
+                    toast.success('Successfully sent virtual office card to approve!');
                 }else if (res.status===403){ // permission
-
+                    toast.error('Permission error!');
                 }else if (res.status===409){ // conflict
                     setFormError(res.data.data);
+                    toast.error('Some data is already exists in cards!');
                 }else if (res.status===422){ // unprocessable content
                     setFormError(res.data.errors);
-                    setAlert({'msg': 'Fill the important fields', 'show': true, 'type': 'danger'});
+                    toast.error('Fill the all required fields!');
                 }
                 setLoadingShow(false);
             });
@@ -147,16 +150,16 @@ const VirtualOfficeForm = () => {
         api.request('/api/virtual-office-pending-update/'+form['uuid'], 'PUT', form)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
-                    setAlert({'msg': 'Succefully sent updates to approve', 'show': true, 'type': 'success'});
                     setFormOpen(false);
+                    toast.success('Successfully sent virtual office card updates to approve!');
                 }else if (res.status===403){ // permission
-
+                    toast.error('Permission error!');
                 }else if (res.status===409){ // conflict
                     setFormError(res.data.data);
-                    setAlert({'msg': 'Some data already exists', 'show': true, 'type': 'danger'});
+                    toast.error('Some data is already exists in cards!');
                 }else if (res.status===422){ // unprocessable content
-                    setAlert({'msg': 'Fill the important fields', 'show': true, 'type': 'danger'});
                     setFormError(res.data.errors);
+                    toast.error('Fill the all required fields!');
                 }
                 setLoadingShow(false);
             });
@@ -168,14 +171,16 @@ const VirtualOfficeForm = () => {
         api.request('/api/virtual-office-reject/'+form['uuid'], 'PUT')
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
-                    setAlert({'msg': 'Succefully virtual office rejected', 'show': true, 'type': 'success'});
                     setFormOpen(false);
+                    toast.success('Successfully virtual office card rejected!');
                 }else if (res.status===403){ // permission
-
+                    toast.error('Permission error!');
                 }else if (res.status===409){ // conflict
                     setFormError(res.data.data);
+                    toast.error('Some data is already exists in cards!');
                 }else if (res.status===422){ // unprocessable content
                     setFormError(res.data.errors);
+                    toast.error('Fill the all required fields!');
                 }
                 setLoadingShow(false);
             });
@@ -188,17 +193,17 @@ const VirtualOfficeForm = () => {
         api.request('/api/virtual-office-accept/'+form['uuid'], 'PUT', form)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
-                    setAlert({'msg': 'Succefully virtual office approve', 'show': true, 'type': 'success'});
                     setList([ res.data.data, ...list ]);
                     setFormOpen(false);
+                    toast.success('Successfully virtual office card approved!');
                 }else if (res.status===403){ // permission
-
+                    toast.error('Permission error!');
                 }else if (res.status===409){ // conflict
                     setFormError(res.data.data);
-                    setAlert({'msg': 'Some data already exists', 'show': true, 'type': 'danger'});
+                    toast.error('Some data is already exists in cards!');
                 }else if (res.status===422){ // unprocessable content
-                    setAlert({'msg': 'Fill the important fields', 'show': true, 'type': 'danger'});
                     setFormError(res.data.errors);
+                    toast.error('Fill the all required fields!');
                 }
                 setLoadingShow(false);
             });
@@ -220,7 +225,7 @@ const VirtualOfficeForm = () => {
 
     return (  
         <div>
-            <Notification Alert={alert} SetAlert={setAlert} />
+            <Toast />
             <div className={`c-card-left ${!formOpen?'w-0':''}`} onClick={ () => { handleClickOutCard() } }></div>
             <div className={`c-form ${formOpen ?'c-form-active':''}`}>
                 <div className={`c-form-head d-flex`}>

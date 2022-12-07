@@ -6,10 +6,13 @@ import * as FUTURECOMPANY from '../../consts/FutureCompany';
 import { Mediator } from '../../context/Mediator';
 
 import { FaTimes } from 'react-icons/fa';
-import Notification from '../Helper/Notification/Notification';
+
 import Select from 'react-select';
 import Api from '../../services/Api';
 import { useNavigate } from 'react-router-dom';
+
+import Toast from '../Helper/Toast/Toast';
+import toast from 'react-hot-toast';
 
 const FutureCompanyForm = () => {
 
@@ -81,15 +84,15 @@ const FutureCompanyForm = () => {
                 if (res.status===200 || res.status===201){ // success
                     setList([ res.data.data, ...list ]);
                     setFormOpen(false);
-                    setAlert({'msg': 'Successfully future company added', 'show': true, 'type': 'success'});
+                    toast.success('Successfully future company card added!');
                 }else if (res.status===403){ // permission
-
+                    toast.error('Permission error!');
                 }else if (res.status===409){ // conflict
                     setFormError(res.data.data);
-                    setAlert({'msg': 'Some data already exists', 'show': true, 'type': 'danger'});
+                    toast.error('Some data is already exists in cards!');
                 }else if (res.status===422){ // unprocessable content
                     setFormError(res.data.errors);
-                    setAlert({'msg': 'Fill the important fields', 'show': true, 'type': 'danger'});
+                    toast.error('Fill the all required fields!');
                 }
                 setLoadingShow(false);
             });
@@ -111,15 +114,15 @@ const FutureCompanyForm = () => {
                     }
                     setList(tmpList);
                     setFormOpen(false);
-                    setAlert({'msg': 'Successfully future-company updated', 'show': true, 'type': 'success'});
+                    toast.success('Successfully future company card updated!');
                 }else if (res.status===403){ // permission
-
+                    toast.error('Permission error!');
                 }else if (res.status===409){ // conflict
                     setFormError(res.data.data);
-                    setAlert({'msg': 'Some data already exists', 'show': true, 'type': 'danger'});
+                    toast.error('Some data is already exists in cards!');
                 }else if (res.status===422){ // unprocessable content
                     setFormError(res.data.errors);
-                    setAlert({'msg': 'Fill the important fields', 'show': true, 'type': 'danger'});
+                    toast.error('Fill the all required fields!');
                 }
                 setLoadingShow(false);
             });
@@ -139,9 +142,9 @@ const FutureCompanyForm = () => {
                     }
                     setList(tmpArray);
                     setFormOpen(false);
-                    setAlert({'msg': 'Successfully future company deleted', 'show': true, 'type': 'success'});
+                    toast.success('Successfully future company card deleted!');
                 }else if (res.status===403){ // permission
-                    
+                    toast.error('Permission error!');
                 }
                 setLoadingShow(false);
             })
@@ -154,14 +157,15 @@ const FutureCompanyForm = () => {
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
                     setFormOpen(false);
-                    setAlert({'msg': 'Succefully sent future company to approve', 'show': true, 'type': 'success'});
+                    toast.success('Successfully sent future company card to approve!');
                 }else if (res.status===403){ // permission
-
+                    toast.error('Permission error!');
                 }else if (res.status===409){ // conflict
                     setFormError(res.data.data);
+                    toast.error('Some data is already exists in cards!');
                 }else if (res.status===422){ // unprocessable content
                     setFormError(res.data.errors);
-                    setAlert({'msg': 'Fill the important fields', 'show': true, 'type': 'danger'});
+                    toast.error('Fill the all required fields!');
                 }
                 setLoadingShow(false);
             });
@@ -173,16 +177,16 @@ const FutureCompanyForm = () => {
         api.request('/api/future-company-pending-update/'+form['uuid'], 'PUT', form)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
-                    setAlert({'msg': 'Succefully sent updates to approve', 'show': true, 'type': 'success'});
+                    toast.success('Successfully sent future company card updates to approve!');
                     setFormOpen(false);
                 }else if (res.status===403){ // permission
-
+                    toast.error('Permission error!');
                 }else if (res.status===409){ // conflict
                     setFormError(res.data.data);
-                    setAlert({'msg': 'Some data already exists', 'show': true, 'type': 'danger'});
+                    toast.error('Some data is already exists in cards!');
                 }else if (res.status===422){ // unprocessable content
-                    setAlert({'msg': 'Fill the important fields', 'show': true, 'type': 'danger'});
                     setFormError(res.data.errors);
+                    toast.error('Fill the all required fields!');
                 }
                 setLoadingShow(false);
             });
@@ -194,14 +198,16 @@ const FutureCompanyForm = () => {
         api.request('/api/future-company-reject/'+form['uuid'], 'PUT')
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
-                    setAlert({'msg': 'Succefully future company rejected', 'show': true, 'type': 'success'});
                     setFormOpen(false);
+                    toast.success('Successfully future company card rejected!');
                 }else if (res.status===403){ // permission
-
+                    toast.error('Permission error!');
                 }else if (res.status===409){ // conflict
                     setFormError(res.data.data);
+                    toast.error('Some data is already exists in cards!');
                 }else if (res.status===422){ // unprocessable content
                     setFormError(res.data.errors);
+                    toast.error('Fill the all required fields!');
                 }
                 setLoadingShow(false);
             });
@@ -214,17 +220,17 @@ const FutureCompanyForm = () => {
         api.request('/api/future-company-accept/'+form['uuid'], 'PUT', form)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
-                    setAlert({'msg': 'Succefully future company approve', 'show': true, 'type': 'success'});
                     setList([ res.data.data, ...list ]);
                     setFormOpen(false);
+                    toast.success('Successfully future company card approved!');
                 }else if (res.status===403){ // permission
-
+                    toast.error('Permission error!');
                 }else if (res.status===409){ // conflict
                     setFormError(res.data.data);
-                    setAlert({'msg': 'Some data already exists', 'show': true, 'type': 'danger'});
+                    toast.error('Some data is already exists in cards!');
                 }else if (res.status===422){ // unprocessable content
-                    setAlert({'msg': 'Fill the important fields', 'show': true, 'type': 'danger'});
                     setFormError(res.data.errors);
+                    toast.error('Fill the all required fields!');
                 }
                 setLoadingShow(false);
             });
@@ -246,7 +252,7 @@ const FutureCompanyForm = () => {
 
     return (  
         <div>
-            <Notification Alert={alert} SetAlert={setAlert} />
+            <Toast />
             <div className={`c-card-left ${!formOpen?'w-0':''}`} onClick={ () => { handleClickOutCard() } }></div>
             <div className={`c-form ${formOpen ?'c-form-active':''}`}>
                 <div className='c-form-head d-flex'>

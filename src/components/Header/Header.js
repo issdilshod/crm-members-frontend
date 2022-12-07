@@ -105,7 +105,7 @@ const Header = ({ search = '', setSearch = () => {}, searchVariant = []}) => {
                     <div className='header-menu-items ml-2' onClick={ () => { setNoteOpen(!noteOpen) }}>
                         <FaRegStickyNote />
                     </div>
-                    <div className='header-menu-items ml-2' onClick={() => { setMenuOpen(!menuOpen) }}>
+                    <div className='header-menu-items ml-2 pr-0' onClick={() => { setMenuOpen(!menuOpen) }}>
                         <FaBars />
                     </div>
                 </div>
