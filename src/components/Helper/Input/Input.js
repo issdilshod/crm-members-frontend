@@ -7,12 +7,6 @@ const Input = ({title = '', req = false, type = 'text', name, validationName = '
     const [queryFoundMatch, setQueryFoundMatch] = useState(false);
 
     useEffect(() => {
-        if (validationName==''){
-            validationName = name;
-        }
-    }, [])
-
-    useEffect(() => {
         findMatch();
     }, [query])
 
@@ -50,7 +44,7 @@ const Input = ({title = '', req = false, type = 'text', name, validationName = '
                 value={defaultValue}
             />
             <Validation
-                fieldName={validationName}
+                fieldName={(validationName==''?name:validationName)}
                 errorArray={errorArray}
             />
         </div>
