@@ -15,10 +15,14 @@ import toast from 'react-hot-toast';
 
 import { confirmDialog, ConfirmDialog } from 'primereact/confirmdialog';
 
+import Address from '../Helper/Address/Address';
+import Input from '../Helper/Input/Input';
+import Select from '../Helper/Input/Select';
+
 const VirtualOfficeForm = () => {
 
     const { 
-        permissions, formOriginal, formOpen, setFormOpen, edit, list, setList, form, setForm, setFormError, setLoadingShow
+        permissions, formOriginal, formOpen, setFormOpen, edit, list, setList, form, setForm, setFormError, formError, setLoadingShow
     } = useContext(Mediator);
 
     const api = new Api();
@@ -27,6 +31,18 @@ const VirtualOfficeForm = () => {
     const [meUuid, setMeUuid] = useState('');
 
     const [alert, setAlert] = useState({'msg': '', 'show': false, 'type': ''});
+
+    const [onlineAccountShow, setOnlineAccountShow] = useState(false);
+    const [cardOnFileShow, setCardOnFileShow] = useState(false);
+
+    useEffect(() => {
+        api.request('/api/get_me', 'GET')
+            .then(res => {
+                if (res.status===200||res.status===201){
+                    setMeUuid(res.data.uuid);
+                }
+            })
+    }, [])
 
     useEffect(() => {
         setFormError({});
@@ -37,13 +53,18 @@ const VirtualOfficeForm = () => {
     }, [formOpen])
 
     useEffect(() => {
-        api.request('/api/get_me', 'GET')
-            .then(res => {
-                if (res.status===200||res.status===201){
-                    setMeUuid(res.data.uuid);
-                }
-            })
-    }, [])
+        if (form['online_account']=='YES'){
+            setOnlineAccountShow(true);
+        }else{
+            setOnlineAccountShow(false);
+        }
+
+        if (form['card_on_file']=='YES'){
+            setCardOnFileShow(true);
+        }else{
+            setCardOnFileShow(false);
+        }
+    }, [form]);
 
     const handleChange = (e, file = false) => {
         let { value, name } = e.target;
@@ -103,8 +124,7 @@ const VirtualOfficeForm = () => {
             });
     } 
 
-    const handleDelete = (e, uuid) => {
-        e.preventDefault();
+    const handleDelete = (uuid) => {
         setLoadingShow(true);
         api.request('/api/virtual-office/' + uuid, 'DELETE')
             .then(res => {
@@ -258,149 +278,209 @@ const VirtualOfficeForm = () => {
             <ConfirmDialog />
             <div className={`c-card-left ${!formOpen?'w-0':''}`} onClick={ () => { confirmCloseCard() } }></div>
             <div className={`c-form ${formOpen ?'c-form-active':''}`}>
-                <div className={`c-form-head d-flex`}>
-                    <div className={`c-form-head-title mr-auto`}>{(!edit?'Add virtual office':'Edit virtual office')}</div>
-                    <div className={`c-form-close`} onClick={(e) => { confirmCloseCard() } }>
+                <div className='c-form-head d-flex'>
+                    <div className='c-form-head-title mr-auto'>{(!edit?'Add virtual office':'Edit virtual office')}</div>
+                    <div className='c-form-close' onClick={(e) => { confirmCloseCard() } }>
                         <FaTimes />
                     </div>
                 </div>
-                <hr className={`divider`} />
-                <div className={`c-form-body container-fluid`}>
-                    <form className={`c-form-body-block row`}>
+                <hr className='divider' />
+                <div className='c-form-body container-fluid'>
+                    <form className='c-form-body-block row'>
 
-                        <div className={`c-form-field col-12 col-sm-6 form-group`}>
-                            <label>VO Provider Name</label>
-                            <input 
-                                className={`form-control`} 
-                                type='text' 
-                                name='vo_provider_name' 
-                                placeholder='VO Provider Name' 
-                                onChange={ handleChange } 
-                                value={ form['vo_provider_name'] }
+                        <div className='c-form-field col-12 col-sm-6'>
+                            <Input 
+                                title='VO Provider Name'
+                                name='vo_provider_name'
+                                onChange={handleChange}
+                                defaultValue={form['vo_provider_name']}
+                                errorArray={formError}
                             />
                         </div>
 
-                        <div className={`c-form-field col-12 col-sm-6 form-group`}>
-                            <label>VO Provider Domain</label>
-                            <input 
-                                className={`form-control`} 
-                                type='text' 
-                                name='vo_provider_domain' 
-                                placeholder='VO Provider Domain' 
-                                onChange={ handleChange } 
-                                value={ form['vo_provider_domain'] }
+                        <div className='c-form-field col-12 col-sm-6'>
+                            <Input 
+                                title='VO Website'
+                                name='vo_website'
+                                onChange={handleChange}
+                                defaultValue={form['vo_website']}
+                                errorArray={formError}
                             />
                         </div>
 
-                        <div className={`c-form-field col-12 col-sm-6 form-group`}>
-                            <label>VO Provider Username</label>
-                            <input 
-                                className={`form-control`} 
-                                type='text' 
-                                name='vo_provider_username' 
-                                placeholder='VO Provider Username' 
-                                onChange={ handleChange } 
-                                value={ form['vo_provider_username'] }
+                        <div className='c-form-field col-12 col-sm-4'>
+                            <Input 
+                                title='VO contact person name'
+                                name='vo_contact_person_name'
+                                onChange={handleChange}
+                                defaultValue={form['vo_contact_person_name']}
+                                errorArray={formError}
                             />
                         </div>
 
-                        <div className={`c-form-field col-12 col-sm-6 form-group`}>
-                            <label>VO Provider Password</label>
-                            <input 
-                                className={`form-control`} 
-                                type='text' 
-                                name='vo_provider_password' 
-                                placeholder='VO Provider Password' 
-                                onChange={ handleChange } 
-                                value={ form['vo_provider_password'] }
+                        <div className='c-form-field col-12 col-sm-4'>
+                            <Input 
+                                title='VO contact peson phone number'
+                                name='vo_contact_person_phone_number'
+                                onChange={handleChange}
+                                defaultValue={form['vo_contact_person_phone_number']}
+                                errorArray={formError}
                             />
                         </div>
 
-                        <div className='col-12 form-group'>
-                            <div className='dd-card'>
-                                <div className='dd-card-head'>VO Address</div>
-                                <div className='dd-card-body'>
-                                    <div className='row'>
-                                        <div className='c-form-field col-12 col-sm-6 form-group'>
-                                            <label>Street address</label>
-                                            <input 
-                                                className={`form-control`} 
-                                                type='text' 
-                                                name='street_address' 
-                                                placeholder='Street address' 
-                                                onChange={ handleChange } 
-                                                value={ form['street_address'] }
-                                            />
-                                        </div>
+                        <div className='c-form-field col-12 col-sm-4'>
+                            <Input 
+                                title='VO contact peson email'
+                                name='vo_contact_person_email'
+                                onChange={handleChange}
+                                defaultValue={form['vo_contact_person_email']}
+                                errorArray={formError}
+                            />
+                        </div>
 
-                                        <div className='c-form-field col-12 col-sm-6 form-group'>
-                                            <label>Address Line 2</label>
-                                            <input 
-                                                className={`form-control`} 
-                                                type='text' 
-                                                name='address_line2' 
-                                                placeholder='Address Line 2' 
-                                                onChange={ handleChange } 
-                                                value={ form['address_line2'] }
-                                            />
-                                        </div>
+                        <div className='c-form-field col-12 col-sm-6'>
+                            <Input 
+                                title='VO Provider Username'
+                                name='vo_provider_username'
+                                onChange={handleChange}
+                                defaultValue={form['vo_provider_username']}
+                                errorArray={formError}
+                            />
+                        </div>
 
-                                        <div className='c-form-field col-12 col-sm-6 form-group'>
-                                            <label>City</label>
-                                            <input 
-                                                className={`form-control`} 
-                                                type='text' 
-                                                name='city' 
-                                                placeholder='City' 
-                                                onChange={ handleChange } 
-                                                value={ form['city'] }
-                                            />
-                                        </div>
+                        <div className='c-form-field col-12 col-sm-6'>
+                            <Input 
+                                title='VO Provider Password'
+                                name='vo_provider_password'
+                                onChange={handleChange}
+                                defaultValue={form['vo_provider_password']}
+                                errorArray={formError}
+                            />
+                        </div>
 
-                                        <div className='c-form-field col-12 col-sm-6 form-group'>
-                                            <label>State</label>
-                                            <input 
-                                                className={`form-control`} 
-                                                type='text' 
-                                                name='state' 
-                                                placeholder='State' 
-                                                onChange={ handleChange } 
-                                                value={ form['state'] }
-                                            />
-                                        </div>
+                        <div className='c-form-field col-12 col-sm-2'>
+                            <Select 
+                                title='Online Account'
+                                name='online_account'
+                                onChange={handleChange}
+                                options={[
+                                    {'value': 'YES', 'label': 'YES'},
+                                    {'value': 'NO', 'label': 'NO'},
+                                ]}
+                                defaultValue={form['online_account']}
+                                errorArray={formError}
+                            />
+                        </div>
 
-                                        <div className='c-form-field col-12 col-sm-6 form-group'>
-                                            <label>Postal</label>
-                                            <input 
-                                                className={`form-control`} 
-                                                type='text' 
-                                                name='postal' 
-                                                placeholder='Postal' 
-                                                onChange={ handleChange } 
-                                                value={ form['postal'] }
-                                            />
-                                        </div>
-
-                                        <div className='c-form-field col-12 col-sm-6 form-group'>
-                                            <label>Country</label>
-                                            <input 
-                                                className={`form-control`} 
-                                                type='text' 
-                                                name='country' 
-                                                placeholder='Country' 
-                                                onChange={ handleChange } 
-                                                value={ form['country'] }
-                                            />
-                                        </div>
-                                    </div>
+                        { onlineAccountShow &&
+                            <>
+                                <div className='c-form-field col-12 col-sm-5'>
+                                    <Input 
+                                        title='Online Account Username'
+                                        name='online_account_username'
+                                        onChange={handleChange}
+                                        defaultValue={form['online_account_username']}
+                                        errorArray={formError}
+                                    />
                                 </div>
-                            </div>
+
+                                <div className='c-form-field col-12 col-sm-5'>
+                                    <Input 
+                                        title='Online Account Password'
+                                        name='online_account_password'
+                                        onChange={handleChange}
+                                        defaultValue={form['online_account_password']}
+                                        errorArray={formError}
+                                    />
+                                </div>
+                            </>
+                        }
+
+                        <div className='c-form-field col-12 col-sm-2'>
+                            <Select 
+                                title='Card on file'
+                                name='card_on_file'
+                                onChange={handleChange}
+                                options={[
+                                    {'value': 'YES', 'label': 'YES'},
+                                    {'value': 'NO', 'label': 'NO'},
+                                ]}
+                                defaultValue={form['card_on_file']}
+                                errorArray={formError}
+                            />
                         </div>
 
-                        <div className={`c-form-field col-12 d-flex form-group`}>
+                        { cardOnFileShow && 
+                            <>
+                                <div className='c-form-field col-12 col-sm-5'>
+                                    <Input 
+                                        title='Card last 4 digits'
+                                        name='card_last_four_digits'
+                                        onChange={handleChange}
+                                        defaultValue={form['card_last_four_digits']}
+                                        errorArray={formError}
+                                    />
+                                </div>
+
+                                <div className='c-form-field col-12 col-sm-5'>
+                                    <Input 
+                                        title='Card holder name'
+                                        name='card_holder_name'
+                                        onChange={handleChange}
+                                        defaultValue={form['card_holder_name']}
+                                        errorArray={formError}
+                                    />
+                                </div>
+                            </>
+                        }
+
+                        <div className='c-form-field col-12 col-sm-5'>
+                            <Input 
+                                title='Monthly payment amount'
+                                name='monthly_payment_amount'
+                                onChange={handleChange}
+                                defaultValue={form['monthly_payment_amount']}
+                                errorArray={formError}
+                            />
+                        </div>
+
+                        <div className='c-form-field col-12 col-sm-2'>
+                            <Select 
+                                title='Contract'
+                                name='contract'
+                                onChange={handleChange}
+                                options={[
+                                    {'value': 'YES', 'label': 'YES'},
+                                    {'value': 'NO', 'label': 'NO'},
+                                ]}
+                                defaultValue={form['contract']}
+                                errorArray={formError}
+                            />
+                        </div>
+
+                        <div className={`c-form-field col-12 col-sm-5`}>
+                            <Input 
+                                title='Contract Terms'
+                                name='contract_terms'
+                                onChange={handleChange}
+                                defaultValue={form['contract_terms']}
+                                errorArray={formError}
+                            />
+                        </div>
+
+                        <div className='col-12'>
+                            <Address
+                                title='VO Address'
+                                unique='address'
+                                form={form}
+                                setForm={setForm}
+                            />
+                        </div>
+
+                        <div className='c-form-field col-12 d-flex mt-4 mb-2'>
                             <div className='ml-auto'>
 
-                                { permissions.includes(VIRTUALOFFICE.STORE)  && //permitted to add
+                                { permissions.includes(VIRTUALOFFICE.STORE)  && // store
                                     <>
                                         { form['status']=='' &&
                                             <button className='d-btn d-btn-primary mr-2' onClick={ (e) => { handleStore(e) } }>
@@ -409,49 +489,42 @@ const VirtualOfficeForm = () => {
                                         }
 
                                         { form['status']==STATUS.ACTIVED &&
-                                            <>
-                                                <button 
-                                                    className={`d-btn d-btn-danger mr-2`} 
-                                                    onClick={ (e) => { confirmDelete(e, form['uuid']) } }
-                                                >
-                                                    Delete
-                                                </button>
-                                                <button 
-                                                    className='d-btn d-btn-primary mr-2' 
-                                                    onClick={ (e) => { handleUpdate(e) } }
-                                                >
-                                                    Update
-                                                </button>
-                                            </>
+                                            <button className='d-btn d-btn-primary mr-2' onClick={ (e) => { handleUpdate(e) } }>
+                                                Update
+                                            </button>
                                         }
+                                    </>
+                                }
 
+                                { (permissions.includes(VIRTUALOFFICE.ACCEPT) && form['status']!='' && form['status']!=STATUS.ACTIVED) && // accept/reject
+                                    <>
                                         { (form['status']!='' && form['status']!=STATUS.ACTIVED) && 
                                             <>
                                                 <button className='d-btn d-btn-success mr-2' onClick={ (e) => { handlePendingAccept(e) } }>
-                                                    Pending accept
+                                                    Approve
                                                 </button>
 
                                                 <button className='d-btn d-btn-danger mr-2' onClick={ (e) => { handlePendingReject(e) } }>
-                                                    Pending reject
-                                                </button>
-                                                <button 
-                                                    className={`d-btn d-btn-danger mr-2`} 
-                                                    onClick={ (e) => { confirmDelete(e, form['uuid']) } }
-                                                >
-                                                    Delete
+                                                    Reject
                                                 </button>
                                             </>
                                         }
                                     </>
                                 }
 
-                                { (!permissions.includes(VIRTUALOFFICE.STORE) && permissions.includes(VIRTUALOFFICE.SAVE)) && // not permitted to add
+                                { (permissions.includes(VIRTUALOFFICE.DELETE) && form['status']!='')  && // delete
+                                    <button className={`d-btn d-btn-danger mr-2`} onClick={ (e) => { confirmDelete(e, form['uuid']) } }>
+                                        Delete
+                                    </button>
+                                }
+
+                                { (!permissions.includes(VIRTUALOFFICE.STORE) && permissions.includes(VIRTUALOFFICE.SAVE)) && // pending
                                     <>
                                         { edit &&
                                             <>
                                                 {   form['user_uuid']==meUuid &&
                                                     <button className='d-btn d-btn-primary mr-2' onClick={ (e) => { handlePendingUpdate(e) } }>
-                                                        Pending update
+                                                        Upadte
                                                     </button>
                                                 }
                                             </>
@@ -459,7 +532,7 @@ const VirtualOfficeForm = () => {
 
                                         { !edit &&
                                             <button className='d-btn d-btn-primary mr-2' onClick={ (e) => { handlePending(e) } }>
-                                                Pending
+                                                Save
                                             </button>
                                         }
                                     </>

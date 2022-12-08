@@ -6,7 +6,7 @@ import * as COMPANY from '../../../consts/Company';
 import Input from "../Input/Input";
 import Validation from "../Validation/Validation";
 
-const Address = ({title, unique, hasPlus = false, isExtra = false, isRegisterAgent = false, defaulfOpen = true, onPlusClick, onExtraCloseClick, errorArray = {}, form, setForm, query}) => {
+const Address = ({title, unique, hasPlus = false, isExtra = false, isRegisterAgent = false, defaulfOpen = true, onPlusClick, onExtraCloseClick, errorArray = {}, form, setForm, query = ''}) => {
 
     const [isOpen, setIsOpen] = useState(defaulfOpen);
 

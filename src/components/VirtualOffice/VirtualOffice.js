@@ -18,17 +18,27 @@ const VirtualOffice = () => {
     // form
     const [formEntity, setFormEntity] = useState({
         'vo_provider_name': '', 
-        'vo_provider_domain': '',
+        'vo_website': '',
         'vo_provider_username': '',
         'vo_provider_password': '',
-        // address
-        'street_address': '',
-        'address_line2': '',
-        'city': '',
-        'state': '',
-        'postal': '',
-        'country': '',
+        'vo_contact_person_name': '',
+        'vo_contact_person_phone_number': '',
+        'vo_contact_person_email': '',
+        'online_account': '',
+        'online_account_username': '',
+        'online_account_password': '',
+        'card_on_file': '',
+        'card_last_four_digit': '',
+        'card_holder_name': '',
+        'monthly_payment_amount': '',
+        'contract': '',
+        'contract_terms': '',
+        
+        // addresses
+        'addresses': [],
+
         'status': ''
+
     });
     const [edit, setEdit] = useState(false);
     const [formOpen, setFormOpen] = useState(false);
