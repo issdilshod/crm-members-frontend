@@ -65,7 +65,6 @@ const CompanyForm = () => {
             }
         }else{
             setDirectorSelectDisabled(false);
-            loadDirectorList();
         }
 
         // extra address
