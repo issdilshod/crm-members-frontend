@@ -6,6 +6,8 @@ import NoInternet from './components/Helper/NoInternet';
 
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en.json';
+import Toast from './components/Helper/Toast/Toast';
+import { ConfirmDialog } from 'primereact/confirmdialog';
 
 const App = () => {
     TimeAgo.addDefaultLocale(en);
@@ -14,6 +16,8 @@ const App = () => {
         <BrowserRouter>
             <Main />
             <NoInternet />
+            <Toast />
+            <ConfirmDialog />
         </BrowserRouter>
     );
 }

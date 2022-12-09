@@ -24,7 +24,7 @@ const Dashboard = () => {
 
     // tasks
     const [taskFormOpen, setTaskFormOpen] = useState(false);
-    const [taskUuid, setTaskUuid] = useState('');
+    const [taskList, setTaskList] = useState([]);
 
     useEffect(() => {
         document.title = 'Dashboard';
@@ -39,17 +39,12 @@ const Dashboard = () => {
                 <div className='container-fluid'>
                     <div className='row'>
                         <div className='col-12 col-sm-5'>
-                            <div className='row'>
-                                <div className='col-12 col-sm-6'>
-                                    <TaskList
-                                        selector='employee'
-                                        setFormOpen={setTaskFormOpen}
-                                    />
-                                </div>
-                                <div className='col-12 col-sm-6'>
-                                    
-                                </div>
-                            </div>
+                            <TaskList 
+                                setFormOpen={setTaskFormOpen}
+                                taskList={taskList}
+                                setTaskList={setTaskList}
+                                pusher={pusher}
+                            />
                         </div>
                         <div className='col-12 col-sm-3'>
                             <Pending 
@@ -70,8 +65,9 @@ const Dashboard = () => {
             <TaskForm
                 isOpen={taskFormOpen}
                 setIsOpen={setTaskFormOpen}
-                uuid={taskUuid}
-                setUuid={setTaskUuid}
+                setLoadingShow={setLoadingShow}
+                taskList={taskList}
+                setTaskList={setTaskList}
             />
 
             <Chat

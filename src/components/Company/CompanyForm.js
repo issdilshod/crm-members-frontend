@@ -21,8 +21,7 @@ import Api from '../../services/Api';
 import Input from '../Helper/Input/Input';
 import InputMask from '../Helper/Input/InputMask';
 import toast from 'react-hot-toast';
-import Toast from '../Helper/Toast/Toast';
-import { confirmDialog, ConfirmDialog } from 'primereact/confirmdialog';
+import { confirmDialog } from 'primereact/confirmdialog';
 
 const CompanyForm = () => {
 
@@ -430,8 +429,6 @@ const CompanyForm = () => {
 
     return (  
         <div>
-            <Toast />
-            <ConfirmDialog />
             <div className={`c-card-left ${!companyFormOpen?'w-0':''}`} onClick={ () => { confirmCloseCard(); } }></div>
             <div
                 className={`c-form ${companyFormOpen?'c-form-active':''}`}

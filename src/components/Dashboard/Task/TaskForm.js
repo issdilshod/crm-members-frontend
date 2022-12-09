@@ -1,12 +1,14 @@
 import Form from './Form/Form';
 
-const TaskForm = ({isOpen, setIsOpen, uuid, setUuid}) => {
+const TaskForm = ({isOpen, setIsOpen, setLoadingShow, taskList, setTaskList}) => {
+
     return (
         <Form 
             open={isOpen}
             setOpen={setIsOpen}
-            uuid={uuid}
-            setUuid={setUuid}
+            setLoadingShow={setLoadingShow}
+            taskList={taskList}
+            setTaskList={setTaskList}
         />
     )
 }

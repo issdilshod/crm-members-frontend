@@ -291,7 +291,7 @@ a:hover{
     loading 
 */
 .loading-black-wall{
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     background-color: rgb(244 248 251 / 50%);
@@ -299,7 +299,7 @@ a:hover{
     width: 100%;
     text-align: center;
     vertical-align: middle;
-    z-index: 10;
+    z-index: 100;
 }
 
 .loading-black-wall img{
@@ -492,6 +492,25 @@ label .req {
 .t-card-icon{
     position: relative;
     top: 9px;
+}
+
+.t-card-users{
+    border-radius: 50%;
+    background-image: linear-gradient(0deg, #607cab, #344767); 
+    box-shadow: 0 .3125rem .625rem 0 rgba(0,0,0,.12)!important;
+    padding: 5px;
+    color: #fff;
+    font-weight: 500;
+    font-size: .8em;
+    display: inline-block;
+    height: 20px;
+    width: 20px;
+    text-align: center;
+}
+
+.t-card-users span{
+    position: relative;
+    top: -5px;
 }
 
 /* 
@@ -966,6 +985,21 @@ label .req {
 .menu-item-active .menu-item-icon{
     background-color: #607cab !important;
     color: #fff !important;
+}
+
+/*
+    d-area
+*/
+.d-area{
+    padding: 5px;
+    border-radius: 20px;
+    font-weight: 500;
+    border: 1px solid #344767;
+    transition: .4s;
+}
+
+.d-area:hover{
+    box-shadow: 0 0.125rem 0.625rem 6px rgb(0 0 0 / 12%) !important;
 }
 
 /* medias */

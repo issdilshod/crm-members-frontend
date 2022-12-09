@@ -12,8 +12,7 @@ import Api from '../../services/Api';
 import { useNavigate } from 'react-router-dom';
 
 import toast from 'react-hot-toast';
-import Toast from '../Helper/Toast/Toast';
-import { confirmDialog, ConfirmDialog } from 'primereact/confirmdialog';
+import { confirmDialog } from 'primereact/confirmdialog';
 
 const FutureWebsiteForm = () => {
 
@@ -268,8 +267,6 @@ const FutureWebsiteForm = () => {
 
     return (  
         <div>
-            <Toast />
-            <ConfirmDialog />
             <div className={`c-card-left ${!formOpen?'w-0':''}`} onClick={ () => { confirmCloseCard() } }></div>
             <div className={`c-form ${formOpen ?'c-form-active':''}`}>
                 <div className='c-form-head d-flex'>

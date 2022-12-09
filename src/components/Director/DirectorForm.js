@@ -17,9 +17,7 @@ import InputMask from '../Helper/Input/InputMask';
 import Select from '../Helper/Input/Select';
 
 import toast from 'react-hot-toast';
-import Toast from '../Helper/Toast/Toast';
-
-import { confirmDialog, ConfirmDialog } from 'primereact/confirmdialog';
+import { confirmDialog } from 'primereact/confirmdialog';
 
 const DirectorForm = () => {
 
@@ -316,8 +314,6 @@ const DirectorForm = () => {
 
     return (  
         <div>
-            <Toast />
-            <ConfirmDialog />
             <div className={`c-card-left ${!directorFormOpen?'w-0':''}`} onClick={ () => { confirmCloseCard() } }></div>
             <div className={`c-form ${directorFormOpen?'c-form-active':''}`}>
                 <div className='c-form-head d-flex'>
