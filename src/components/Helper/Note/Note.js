@@ -5,7 +5,7 @@ import Draggable from 'react-draggable';
 import styles from './Note.module.scss';
 import { FaTimes } from 'react-icons/fa';
 
-import Api from '../../services/Api';
+import Api from '../../../services/Api';
 
 const Note = ({ noteOpen, setNoteOpen }) => {
     
