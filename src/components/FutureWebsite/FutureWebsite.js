@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Mediator } from '../../context/Mediator';
-import Menu from '../Header/Menu';
+import Menu from '../Helper/Menu/Menu';
 import Api from '../../services/Api';
 import Loading from '../Helper/Loading';
 import FutureWebsiteList from './FutureWebsiteList';

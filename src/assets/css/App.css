@@ -538,78 +538,12 @@ label .req {
 }
 
 /* 
-    d-notification  
-*/
-.d-notification{
-    position: absolute;
-    top: 20px;
-    right: -100%;
-    width: 320px;
-    z-index: 20;
-    background-color: #ffffff;
-    color:#344767;
-    padding: 20px;
-    border-radius: 20px;
-    overflow: hidden;
-    transition: .4s;
-}
-
-.d-notification-active{
-    right: 2%;
-}
-
-.d-notification-primary{
-    border: 1px solid #607cab;
-    box-shadow: 0px 0px 10px 0px #607cab5e;
-}
-
-.d-notification-primary:before{
-    content: '';
-    position: absolute;
-    background-color: #607cab;
-    top: 0;
-    left: 0;
-    width: 10px;
-    height: 100%;
-}
-
-.d-notification-danger{
-    border: 1px solid #f26051;
-    box-shadow: 0px 0px 10px 0px #f260515e;
-}
-
-.d-notification-danger:before{
-    content: '';
-    position: absolute;
-    background-color: #f26051;
-    top: 0;
-    left: 0;
-    width: 10px;
-    height: 100%;
-}
-
-.d-notification-success{
-    border: 1px solid #20da9b;
-    box-shadow: 0px 0px 10px 0px #20da9b5e;
-}
-
-.d-notification-success:before{
-    content: '';
-    position: absolute;
-    background-color: #20da9b;
-    top: 0;
-    left: 0;
-    width: 10px;
-    height: 100%;
-}
-
-/* 
     c-card (right module)
 */
 .c-card-left, .c-card-left-lg, .c-card-left-sm{
     width: 25%;
     height: 100%;
-    position: absolute;
+    position: fixed;
     left: 0;
     top: 0;
     background-color: hsla(0deg, 0%, 100%, 0.8);
@@ -630,6 +564,8 @@ label .req {
     padding: 20px 10px;
     overflow: auto;
     color:#344767;
+    width: 100%;
+    position: fixed;
 }
 
 /*
@@ -696,7 +632,7 @@ label .req {
 }
 
 .c-form{
-    position: absolute;
+    position: fixed;
     top: 0;
     right: -75%;
     background-color: #fff;
@@ -706,8 +642,13 @@ label .req {
     overflow: auto;
     padding: 0px 10px;
     transition: .2s ease;
-    z-index: 10;
+    z-index: 11;
     color:#344767;
+}
+
+.c-form-sm{
+    right: -25%;
+    width: 25%;
 }
 
 .c-form-head{
@@ -992,7 +933,39 @@ label .req {
 
 .a-card-item-date{
     font-size: .8em;
-                    color:#607cab;
+    color:#607cab;
+}
+
+/*
+    menu-item
+*/
+.menu-item{
+
+}
+
+.menu-item-icon{
+    color: #607cab;
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 7px 10px;
+    box-shadow: 0 0.3125rem 0.625rem 0 rgb(0 0 0 / 12%) !important;
+    transition: .5s;
+}
+
+.menu-item-name{
+    font-weight: 500;
+    position: relative;
+    top: 6px;
+    width: 100%;
+}
+
+.menu-item:hover .menu-item-icon{
+    box-shadow: 0 0.3125rem 0.625rem 6px rgb(0 0 0 / 12%) !important;
+}
+
+.menu-item-active .menu-item-icon{
+    background-color: #607cab !important;
+    color: #fff !important;
 }
 
 /* medias */

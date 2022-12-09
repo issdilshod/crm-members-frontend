@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 
 import { FaSignOutAlt, FaRegStickyNote, FaBars, FaAddressCard } from 'react-icons/fa';
-import Menu from './Menu';
+
+import Menu from '../Helper/Menu/Menu';
 import Note from '../Note/Note';
 
 import Santa from '../../assets/img/santa2022.png';

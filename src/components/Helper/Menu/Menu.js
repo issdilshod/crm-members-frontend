@@ -1,14 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
 
 import MenuItem from './MenuItem';
 
-import styles from './Menu.module.scss';
-import { FaBell, FaBuilding, FaCalendar, FaCog, FaConnectdevelop, FaGlobe, FaList, FaRegBell, FaRegBuilding, FaRegClock, FaRegComment, FaTachometerAlt, FaTimes, FaUser, FaUsers } from 'react-icons/fa';
+import { FaBell, FaBuilding, FaCalendar, FaCog, FaConnectdevelop, FaGlobe, FaRegBell, FaRegBuilding, FaRegClock, FaRegComment, FaTachometerAlt, FaTimes, FaUser, FaUsers } from 'react-icons/fa';
 
 const Menu = ({ menuOpen, setMenuOpen }) => {
-    const navigate = useNavigate();
-    const location = useLocation();
+
     const [notificationCount, setNotificationCount] = useState(0);
 
     return (
@@ -16,15 +13,15 @@ const Menu = ({ menuOpen, setMenuOpen }) => {
             <div 
                 className={`c-card-left-lg ${!menuOpen?'w-0':''}`} 
                 onClick={ () => { setMenuOpen(false) } }></div>
-            <div className={`${styles['menu-card']} ${menuOpen ? styles['menu-card-active']:''}`}>
-                <div className={`${styles['menu-card-head']} d-flex`}>
-                    <div className={`${styles['menu-card-title']} mr-auto`}>Menu</div>
-                    <div className={styles['menu-card-close']} onClick={() => setMenuOpen(!menuOpen)}>
+            <div className={`c-form c-form-sm ${menuOpen?'c-form-active':''}`}>
+                <div className='c-form-head d-flex'>
+                    <div className='c-form-head-title mr-auto'>Menu</div>
+                    <div className='c-form-close' onClick={() => setMenuOpen(!menuOpen)}>
                         <FaTimes />
                     </div>
                 </div>
-                <hr className={styles['divider']} />
-                <div className={styles['menu-card-body']}>
+                <hr className='divider' />
+                <div className='c-form-body container-fluid'>
                     <MenuItem page_link='dashboard' page_name='Dashboard' icon={<FaTachometerAlt />} />
                     <MenuItem page_link='directors' page_name='Directors' icon={<FaUser />} />
                     <MenuItem page_link='companies' page_name='Companies' icon={<FaBuilding />} />

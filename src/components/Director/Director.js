@@ -3,7 +3,7 @@ import { useParams, useSearchParams } from 'react-router-dom';
 import { Mediator } from '../../context/Mediator';
 import DirectorList from './DirectorList';
 import DirectorForm from './DirectorForm';
-import Menu from '../Header/Menu';
+import Menu from '../Helper/Menu/Menu';
 import Api from '../../services/Api';
 import Loading from '../Helper/Loading';
 
