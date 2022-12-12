@@ -334,11 +334,19 @@ const Form = ({open, setOpen, setLoadingShow, meUuid, meRole, permissions}) => {
                                             return (
                                                 <span 
                                                     key={index} 
-                                                    className='d-area d-cursor-pointer mr-1'
-                                                    onClick={ () => { selectUser(value['user']) } }
-                                                    title='Remove user'
+                                                    className='d-area mr-1'
                                                 >
                                                     {value['user']['first_name'] + ' ' + value['user']['last_name']}
+
+                                                    <span 
+                                                        className='d-btn d-btn-sm d-btn-danger ml-2'
+                                                        onClick={ () => { selectUser(value['user']) } }
+                                                        title={`Remove ${value['user']['first_name'] + ' ' + value['user']['last_name']}`}
+                                                    >
+                                                        <i>
+                                                            <FaTimes />
+                                                        </i>
+                                                    </span>
                                                 </span>
                                             )
                                         })
