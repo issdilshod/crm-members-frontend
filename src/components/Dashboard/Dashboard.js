@@ -29,6 +29,7 @@ const Dashboard = () => {
     // tasks
     const [taskFormOpen, setTaskFormOpen] = useState(false);
     const [taskList, setTaskList] = useState([]);
+    const [taskMeta, setTaskMeta] = useState({'current_page': 0, 'last_page': 1, 'total': 0});
 
     useEffect(() => {
         document.title = 'Dashboard';
@@ -61,6 +62,8 @@ const Dashboard = () => {
                                 setTaskList={setTaskList}
                                 pusher={pusher}
                                 meUuid={meUuid}
+                                taskMeta={taskMeta}
+                                setTaskMeta={setTaskMeta}
                             />
                         </div>
                         <div className='col-12 col-sm-3'>

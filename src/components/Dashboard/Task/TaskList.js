@@ -11,7 +11,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import * as TASKPROGRESS from '../../../consts/Task/TaskProgress';
 
-const TaskList = ({setFormOpen, taskList, setTaskList, pusher, meUuid}) => {
+const TaskList = ({setFormOpen, taskList, setTaskList, pusher, meUuid, taskMeta, setTaskMeta}) => {
 
     const api = new Api();
     const nav = useNavigate();
@@ -72,11 +72,14 @@ const TaskList = ({setFormOpen, taskList, setTaskList, pusher, meUuid}) => {
     const nextTask = (attr = '') => {
 
         // filter attr
+        attr = '?page='+parseInt(taskMeta['current_page']+1);
 
         api.request('/api/task' + attr, 'GET')
             .then(res => {
                 if (res.status==200||res.status==201){
-                    setTaskList(res.data.data);
+                    // TODO: search and destroy duplicate uuid
+                    setTaskList([...taskList, ...res.data.data]);
+                    setTaskMeta(res.data.meta);
                 }
             })
     }
@@ -99,7 +102,7 @@ const TaskList = ({setFormOpen, taskList, setTaskList, pusher, meUuid}) => {
                 <div className='c-position-relative'>
 
                     <div className='d-flex mb-2'>
-                        <div className='mr-auto d-title'>Employee Tasks ()</div>
+                        <div className='mr-auto d-title'>Employee Tasks ({taskMeta['total']})</div>
                         <div className='ml-2'>
                             <span 
                                 className='d-btn d-btn-sm d-btn-primary'
@@ -116,7 +119,7 @@ const TaskList = ({setFormOpen, taskList, setTaskList, pusher, meUuid}) => {
                         <InfiniteScroll 
                             dataLength={taskList.length}
                             next={nextTask}
-                            hasMore={false}
+                            hasMore={(taskMeta['current_page']<taskMeta['last_page'])}
                             loader={<LoadingMini />}
                             scrollableTarget='tasks-block-employee'
                         >

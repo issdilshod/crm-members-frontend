@@ -402,7 +402,7 @@ const Form = ({open, setOpen, setLoadingShow, meUuid, meRole, permissions}) => {
                                 onChange={handleChange}
                                 placeholder='Description'
                                 value={form['description']}
-                                style={{'min-height': '150px'}}
+                                style={{'minHeight': '150px'}}
                             ></textarea>
                         </div>
 
