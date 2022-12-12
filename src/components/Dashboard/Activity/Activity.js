@@ -93,7 +93,7 @@ const Activity = ({pusher, meUuid}) => {
                             return (
                                 <Link 
                                     key={index} 
-                                    to={ process.env.REACT_APP_FRONTEND_PREFIX + value['link']}
+                                    to={ process.env.REACT_APP_FRONTEND_PREFIX + value['link'].replace('=/', '=') }
                                 >
                                     <div className='a-card-item mb-3'>
                                         <span className='a-card-item-status'>
