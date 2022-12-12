@@ -13,7 +13,7 @@ import ChatIn from "./Chats/ChatIn";
 import ChatList from "./Chats/ChatList";
 import DepartmentList from "./Departments/DepartmentList";
 
-const Chat = ({pusher}) => {
+const Chat = ({pusher, meUuid}) => {
 
     const api = new Api();
     const contentState = {'chat_list': 0, 'department_list': 1, 'user_list': 2, 'chat': 3};
@@ -34,11 +34,29 @@ const Chat = ({pusher}) => {
     const [soundNotification] = useSound(nSound);
 
     useEffect(() => {
-        firstInit();
-        getMe();
+        init();
     }, [])
 
-    const firstInit = () => {
+    useEffect(() => {
+        if (pusherUpdates){
+            soundNotification();
+            findChat(pusherUpdates['data']['data']);
+        }
+    }, [pusherUpdates])
+
+    useEffect(() => {
+        if (pusherUsersUpdates){
+            updateUsersList(pusherUsersUpdates['data']['data']);
+        }
+    }, [pusherUsersUpdates])
+
+    useEffect(() => {
+        if (meUuid!=''){
+            subsribeChannel(meUuid);
+        }
+    }, [meUuid])
+
+    const init = () => {
         api.request('/api/chat', 'GET')
             .then(res => {
                 if (res.status===200||res.status===201){
@@ -54,17 +72,6 @@ const Chat = ({pusher}) => {
             });
     }
 
-    const [meUuid, setMeUuid] = useState('');
-    const getMe = () => {
-        api.request('/api/get_me', 'GET')
-            .then(res => {
-                if (res.status===200||res.status===201){
-                    setMeUuid(res.data.uuid);
-                    subsribeChannel(res.data.uuid);
-                }
-            })
-    }
-
     const subsribeChannel = (uuid) => {
         let channel_chat = pusher.subscribe('chat_' + uuid);
         channel_chat.bind('chat-push', function(data) {
@@ -76,19 +83,6 @@ const Chat = ({pusher}) => {
             setPusherUsersUpdates(data);
         })
     }
-
-    useEffect(() => {
-        if (pusherUpdates){
-            soundNotification();
-            findChat(pusherUpdates['data']['data']);
-        }
-    }, [pusherUpdates])
-
-    useEffect(() => {
-        if (pusherUsersUpdates){
-            updateUsersList(pusherUsersUpdates['data']['data']);
-        }
-    }, [pusherUsersUpdates])
 
     const findChat = (message) => {
         let tmpArr = [...chats];
