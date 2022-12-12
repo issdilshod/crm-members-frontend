@@ -12,9 +12,10 @@ import TaskForm from './Task/TaskForm';
 import TaskList from './Task/TaskList';
 
 import Loading from '../Helper/Loading';
-import Toast from '../Helper/Toast/Toast';
 
 const Dashboard = () => {
+
+    const api = new Api();
 
     const pusher = useOutletContext();
 
@@ -22,13 +23,28 @@ const Dashboard = () => {
 
     const [loadingShow, setLoadingShow] = useState(false);
 
+    const [meUuid, setMeUuid] = useState('');
+    const [meRole, setMeRole] = useState('');
+
     // tasks
     const [taskFormOpen, setTaskFormOpen] = useState(false);
     const [taskList, setTaskList] = useState([]);
 
     useEffect(() => {
         document.title = 'Dashboard';
+
+        getMe();
     }, [])
+
+    const getMe = () => {
+        api.request('/api/get_me', 'GET')
+            .then(res => {
+                if (res.status===200||res.status===201){
+                    setMeUuid(res.data.uuid);
+                    setMeRole(res.data.role_alias);
+                }
+            })
+    }
 
     return (
         <>
@@ -44,6 +60,7 @@ const Dashboard = () => {
                                 taskList={taskList}
                                 setTaskList={setTaskList}
                                 pusher={pusher}
+                                meUuid={meUuid}
                             />
                         </div>
                         <div className='col-12 col-sm-3'>
@@ -51,11 +68,14 @@ const Dashboard = () => {
                                 search={search}
                                 pusher={pusher}
                                 setLoadingShow={setLoadingShow}
+                                meUuid={meUuid}
+                                meRole={meRole}
                             />
                         </div>
                         <div className='col-12 col-sm-4'>
                             <Activity 
                                 pusher={pusher}
+                                meUuid={meUuid}
                             />
                         </div>
                     </div>
@@ -72,9 +92,9 @@ const Dashboard = () => {
 
             <Chat
                 pusher={pusher}
+                meUuid={meUuid}
+                meRole={meRole}
             />
-
-            <Toast />
 
             { loadingShow &&
                 <Loading />

@@ -18,7 +18,7 @@ import PendingSummary from './PendingSummary';
 import * as ROLE from '../../../consts/Role';
 import ContextMenu from './ContextMenu';
 
-const Pending = ({ pusher, search, setLoadingShow }) => {
+const Pending = ({ pusher, search, setLoadingShow, meUuid, meRole }) => {
 
     const api = new Api();
     const nav = useNavigate();
@@ -37,8 +37,6 @@ const Pending = ({ pusher, search, setLoadingShow }) => {
 
     const [title, setTitle] = useState('Normal View');
 
-    const [meUuid, setMeUuid] = useState('');
-
     const [firstPending, setFirstPending] = useState([]);
     const [pending, setPending] = useState([]);
     const [pendingMeta, setPendingMeta] = useState({'current_page': 0, 'max_page': 1});
@@ -48,7 +46,6 @@ const Pending = ({ pusher, search, setLoadingShow }) => {
 
     // first init
     useEffect(() => {
-        getMe();
         pendingNextFetch();
     }, [])
 
@@ -98,6 +95,12 @@ const Pending = ({ pusher, search, setLoadingShow }) => {
             addPending(pusherUpdates['data']['data']);
         }
     }, [pusherUpdates])
+
+    useEffect(() => {
+        if (meUuid!=''){
+            subsribeChannel(meUuid);
+        }
+    }, [meUuid])
 
     const pendingNextFetch = (attr = '') => {
 
@@ -321,17 +324,6 @@ const Pending = ({ pusher, search, setLoadingShow }) => {
         }
     }
 
-    const getMe = () => {
-        api.request('/api/get_me', 'GET')
-            .then(res => {
-                if (res.status===200||res.status===201){
-                    setRole(res.data.role_alias);
-                    setMeUuid(res.data.uuid);
-                    subsribeChannel(res.data.uuid);
-                }
-            })
-    }
-
     const subsribeChannel = (uuid) => {
         let channel_chat = pusher.subscribe('pending_' + uuid);
         channel_chat.bind('pending-push', function(data) {
@@ -465,7 +457,7 @@ const Pending = ({ pusher, search, setLoadingShow }) => {
                             pending.map((value, index) => {
                                 return (
                                     <div className='c-position-relative' key={index}>
-                                        { (ROLE.HEADQUARTERS==role) &&
+                                        { (ROLE.HEADQUARTERS==meRole) &&
                                             <QuickApproveCheck 
                                                 uuid={value['uuid']}
                                                 checkList={checked}

@@ -7,20 +7,17 @@ import LoadingMini from '../../Helper/LoadingMini';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import Api from '../../../services/Api';
 
-const Activity = ({pusher}) => {
+const Activity = ({pusher, meUuid}) => {
 
     const api = new Api();
 
     const [activityList, setActivityList] = useState([]);
     const [activityMeta, setActivityMeta] = useState({'current_page': 0, 'max_page': 1});
 
-    const [meUuid, setMeUuid] = useState('');
-
     const [pusherUpdates, setPusherUpdates] = useState(null);
 
     useEffect(() => {
         activityNextFetch();
-        getMe();
     }, [])
 
     useEffect(() => {
@@ -28,6 +25,12 @@ const Activity = ({pusher}) => {
             addActivtiy(pusherUpdates['data']['data']);
         }
     }, [pusherUpdates])
+
+    useEffect(() => {
+        if (meUuid!=''){
+            subsribeChannel(meUuid);
+        }
+    }, [meUuid])
 
     const activityNextFetch = () => {
         api.request('/api/activity?page='+parseInt(activityMeta['current_page']+1), 'GET')
@@ -37,16 +40,6 @@ const Activity = ({pusher}) => {
                     setActivityMeta({'current_page': res.data.meta.current_page, 'max_page': res.data.meta.last_page})
                 }
             });
-    }
-
-    const getMe = () => {
-        api.request('/api/get_me', 'GET')
-            .then(res => {
-                if (res.status===200||res.status===201){
-                    setMeUuid(res.data.uuid);
-                    subsribeChannel(res.data.uuid);
-                }
-            })
     }
 
     const subsribeChannel = (uuid) => {

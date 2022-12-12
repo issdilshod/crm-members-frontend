@@ -1,0 +1,1 @@
+export const STORE = 'task_store';

@@ -9,20 +9,18 @@ import LoadingMini from '../../Helper/LoadingMini';
 import DateFormatter from '../../../services/DateFormatter';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
-import * as TASK from '../../../consts/Task';
+import * as TASKPROGRESS from '../../../consts/Task/TaskProgress';
 
-const TaskList = ({setFormOpen, taskList, setTaskList, pusher}) => {
+const TaskList = ({setFormOpen, taskList, setTaskList, pusher, meUuid}) => {
 
     const api = new Api();
     const nav = useNavigate();
 
     const [pusherUpdates, setPusherUpdates] = useState(null);
-    const [meUuid, setMeUuid] = useState('');
 
     const [ params, setParams ] = useSearchParams();
 
     useEffect(() => {
-        getMe();
         nextTask();
     }, [])
 
@@ -32,15 +30,11 @@ const TaskList = ({setFormOpen, taskList, setTaskList, pusher}) => {
         }
     }, [pusherUpdates])
 
-    const getMe = () => {
-        api.request('/api/get_me', 'GET')
-            .then(res => {
-                if (res.status===200||res.status===201){
-                    setMeUuid(res.data.uuid);
-                    subsribeChannel(res.data.uuid);
-                }
-            })
-    }
+    useEffect(() => {
+        if (meUuid!=''){
+            subsribeChannel(meUuid);
+        }
+    }, [meUuid])
 
     const subsribeChannel = (uuid) => {
         let channel_task = pusher.subscribe('task_' + uuid);
@@ -132,8 +126,8 @@ const TaskList = ({setFormOpen, taskList, setTaskList, pusher}) => {
                                         <div 
                                             key={index}
                                             className={`t-card d-flex 
-                                                        ${(value['progress']==TASK.REJECTED)?'t-card-danger':''}
-                                                        ${(value['progress']==TASK.COMPLETED)?'t-card-success':''}
+                                                        ${(value['progress']==TASKPROGRESS.REJECTED)?'t-card-danger':''}
+                                                        ${(value['progress']==TASKPROGRESS.COMPLETED)?'t-card-success':''}
                                                         mb-2`}
                                             onClick={ () => { cardClick(value['uuid']) } }
                                         >

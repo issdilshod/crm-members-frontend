@@ -6,11 +6,14 @@ import Api from '../../../../services/Api';
 import Select from '../../../Helper/Input/Select';
 import Input from '../../../Helper/Input/Input';
 
-import Toast from "../../../Helper/Toast/Toast";
 import { toast } from "react-hot-toast";
 import { useSearchParams } from "react-router-dom";
 
-const Form = ({open, setOpen, setLoadingShow}) => {
+import * as ROLE from '../../../../consts/Role';
+import * as TASKPERMISSION from '../../../../consts/Task/TaskPermission';
+import * as TASKPROGRESS from '../../../../consts/Task/TaskProgress';
+
+const Form = ({open, setOpen, setLoadingShow, meUuid, meRole, permissions}) => {
 
     const api = new Api();
 
@@ -20,7 +23,9 @@ const Form = ({open, setOpen, setLoadingShow}) => {
         'users': [],
         'due_date': '',
         'description': '',
-        'priority': ''
+        'priority': '',
+        'progress': '',
+        'status': ''
     });
     const [form, setForm] = useState(formEntity);
     const [formError, setFormError] = useState({});
@@ -248,7 +253,7 @@ const Form = ({open, setOpen, setLoadingShow}) => {
 
                         { (form['users'].length>0) &&
                             <div className='c-form-field col-12 form-group'>
-                                <label>Choosed users</label>
+                                <label>Users</label>
                                 <div>
                                     {
                                         form['users'].map((value, index) => {
@@ -319,44 +324,50 @@ const Form = ({open, setOpen, setLoadingShow}) => {
                         </div>
 
                         <div className='c-form-field col-12 mt-4 mb-4 text-right'>
-                            { (!isEdit) &&
-                                <span 
-                                    className='d-btn d-btn-primary'
-                                    onClick={() => { handleStore() }}
-                                >
-                                    Save
-                                </span>
+
+                            { (permissions.includes(TASKPERMISSION.STORE)) &&
+
+                                <>
+                                    { (!isEdit) &&
+                                        <span 
+                                            className='d-btn d-btn-primary'
+                                            onClick={() => { handleStore() }}
+                                        >
+                                            Save
+                                        </span>
+                                    }
+
+                                    { (isEdit) &&
+                                        <span 
+                                            className='d-btn d-btn-primary'
+                                            onClick={() => { handleUpdate() }}
+                                        >
+                                            Update
+                                        </span>
+                                    }
+                                </>
+
                             }
 
-                            { (isEdit) &&
-                                <span 
-                                    className='d-btn d-btn-primary'
-                                    onClick={() => { handleUpdate() }}
-                                >
-                                    Update
-                                </span>
+                            { (form['progress']!=TASKPROGRESS.COMPLETED && form['progress']!='') &&
+                                <>
+                                    <span 
+                                        className='d-btn d-btn-primary ml-2'
+                                        onClick={() => { }}
+                                    >
+                                        Progress
+                                    </span>
+
+                                    <span 
+                                        className='d-btn d-btn-success ml-2'
+                                        onClick={() => { }}
+                                    >
+                                        Completed
+                                    </span>
+                                </>
                             }
 
-                            <span 
-                                className='d-btn d-btn-primary ml-2'
-                                onClick={() => { }}
-                            >
-                                Request
-                            </span>
-
-                            <span 
-                                className='d-btn d-btn-danger ml-2'
-                                onClick={() => { }}
-                            >
-                                Progress
-                            </span>
-
-                            <span 
-                                className='d-btn d-btn-success ml-2'
-                                onClick={() => { }}
-                            >
-                                Completed
-                            </span>
+                            
                         </div>
 
                     </div>
