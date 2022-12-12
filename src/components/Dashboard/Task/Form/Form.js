@@ -469,23 +469,28 @@ const Form = ({open, setOpen, setLoadingShow, meUuid, meRole, permissions}) => {
                                         </>
                                     }
 
-                                    { (form['progress']!=TASKPROGRESS.DOING) &&
-                                        <span 
-                                            className='d-btn d-btn-primary ml-2'
-                                            onClick={() => { handleToProgress() }}
-                                        >
-                                            Progress
-                                        </span>
-                                    }
+                                    { (form['users'].some(el => {return el.user_uuid==meUuid})) && // me is executor
+                                        <>
+                                            { (form['progress']==TASKPROGRESS.TODO || form['progress']==TASKPROGRESS.REJECTED || form['progress']==TASKPROGRESS.APPROVE) &&
+                                                <span 
+                                                    className='d-btn d-btn-primary ml-2'
+                                                    onClick={() => { handleToProgress() }}
+                                                >
+                                                    Progress
+                                                </span>
+                                            }
 
-                                    { (form['progress']!=TASKPROGRESS.APPROVE) &&
-                                        <span 
-                                            className='d-btn d-btn-success ml-2'
-                                            onClick={() => { handleToCompleted() }}
-                                        >
-                                            Complete
-                                        </span>
+                                            { (form['progress']==TASKPROGRESS.DOING || form['progress']==TASKPROGRESS.REJECTED || form['progress']==TASKPROGRESS.TODO) &&
+                                                <span 
+                                                    className='d-btn d-btn-success ml-2'
+                                                    onClick={() => { handleToCompleted() }}
+                                                >
+                                                    Complete
+                                                </span>
+                                            }
+                                        </> 
                                     }
+                                    
                                 </>
                             }
                             
