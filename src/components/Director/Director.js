@@ -75,7 +75,9 @@ const Director = () => {
 
         api.request('/api/director-permission', 'GET')
             .then(res => {
-                setPermissions(res.data);
+                if (res.status===200||res.status===201){
+                    setPermissions(res.data);
+                }
             })
     }
 

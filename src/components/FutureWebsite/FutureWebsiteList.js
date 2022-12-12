@@ -134,7 +134,14 @@ const FutureWebsiteList = () => {
                                                 <p>{value['name']}</p>
                                                 { !defaultList &&
                                                     <>
-                                                        <p><FaMapMarkerAlt /> {value.address.street_address}, {value.address.city}, {value.address.state}</p>
+                                                        <p>
+                                                            <FaMapMarkerAlt /> 
+                                                            { (value.address!=null) &&
+                                                                <>
+                                                                    {value.address.street_address}, {value.address.city}, {value.address.state}
+                                                                </>
+                                                            }
+                                                        </p>
                                                         <p><FaFileAlt /> {value.uploaded_files.length}</p>
                                                     </>
                                                 }

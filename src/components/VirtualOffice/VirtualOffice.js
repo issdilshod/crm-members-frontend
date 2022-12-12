@@ -54,7 +54,7 @@ const VirtualOffice = () => {
     const { uuid } = useParams();
 
     useEffect(() => {
-        firstInit();
+        init();
     }, []);
 
     useEffect(() => {
@@ -63,7 +63,7 @@ const VirtualOffice = () => {
         }
     }, [uuid])
 
-    const firstInit = () => {
+    const init = () => {
         document.title = 'Virtual Offices';
 
         if (uuid){
@@ -72,7 +72,9 @@ const VirtualOffice = () => {
 
         api.request('/api/virtual-office-permission', 'GET')
             .then(res => {
-                setPermissions(res.data);
+                if (res.status===200||res.status===201){
+                    setPermissions(res.data);
+                }
             })
     }
 

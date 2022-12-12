@@ -52,7 +52,7 @@ const FutureCompany = () => {
     const { uuid } = useParams();
 
     useEffect(() => {
-        firstInit();
+        init();
     }, []);
 
     useEffect(() => {
@@ -61,7 +61,7 @@ const FutureCompany = () => {
         }
     }, [uuid]);
 
-    const firstInit = () => {
+    const init = () => {
         document.title = 'Future Companies';
 
         if (uuid){
@@ -70,7 +70,9 @@ const FutureCompany = () => {
 
         api.request('/api/future-company-permission', 'GET')
             .then(res => {
-                setPermissions(res.data);
+                if (res.status===200||res.status===201){
+                    setPermissions(res.data);
+                }
             })
 
         api.request('/api/sic_code', 'GET')

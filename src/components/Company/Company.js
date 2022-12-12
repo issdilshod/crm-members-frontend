@@ -107,7 +107,9 @@ const Company = () => {
 
         api.request('/api/company-permission', 'GET')
             .then(res => {
-                setPermissions(res.data);
+                if (res.status===200||res.status===201){
+                    setPermissions(res.data);
+                }
             })
     }
 

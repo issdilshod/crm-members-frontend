@@ -35,7 +35,7 @@ const FutureWebsite = () => {
     const { uuid } = useParams();
 
     useEffect(() => {
-        firstInit();
+        init();
     }, []);
 
     useEffect(() => {
@@ -44,7 +44,7 @@ const FutureWebsite = () => {
         }
     }, [uuid]);
 
-    const firstInit = () => {
+    const init = () => {
         document.title = 'Future Websites';
 
         if (uuid){
@@ -53,7 +53,9 @@ const FutureWebsite = () => {
 
         api.request('/api/future-websites-permission', 'GET')
             .then(res => {
-                setPermissions(res.data);
+                if (res.status===200||res.status===201){
+                    setPermissions(res.data);
+                }
             })
     }
 
