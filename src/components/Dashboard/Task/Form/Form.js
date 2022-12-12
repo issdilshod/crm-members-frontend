@@ -12,6 +12,8 @@ import { useSearchParams } from "react-router-dom";
 import * as ROLE from '../../../../consts/Role';
 import * as TASKPERMISSION from '../../../../consts/Task/TaskPermission';
 import * as TASKPROGRESS from '../../../../consts/Task/TaskProgress';
+import Modal from "../../../Helper/Modal/Modal";
+import DateFormatter from "../../../../services/DateFormatter";
 
 const Form = ({open, setOpen, setLoadingShow, meUuid, meRole, permissions}) => {
 
@@ -31,11 +33,16 @@ const Form = ({open, setOpen, setLoadingShow, meUuid, meRole, permissions}) => {
     const [formError, setFormError] = useState({});
     const [isEdit, setIsEdit] = useState(false);
 
+    const [taskComments, setTaskComments] = useState([]);
+
     const [departments, setDepartments] = useState([]);
     const [departmentList, setDepartmentList] = useState([]);
     const [userList, setUserList] = useState([]);
 
     const [ params, setParams ] = useSearchParams();
+
+    const [commentModalShow, setCommentModalShow] = useState(false);
+    const [commentForm, setCommentForm] = useState({'comment': ''});
 
     useEffect(() => {
         api.request('/api/department', 'GET')
@@ -56,7 +63,8 @@ const Form = ({open, setOpen, setLoadingShow, meUuid, meRole, permissions}) => {
         setFormError({});
         setForm(formEntity);
         setIsEdit(false);
-        setUserList([])
+        setUserList([]);
+        setTaskComments([]);
     }, [open])
 
     useEffect(() => {
@@ -80,10 +88,18 @@ const Form = ({open, setOpen, setLoadingShow, meUuid, meRole, permissions}) => {
             .then(res => {
                 if (res.status===200||res.status===201){
                     setForm(res.data.data);
+                    getComments(res.data.data.uuid);
                     setIsEdit(true);
                 }
                 setLoadingShow(false);
             });
+    }
+
+    const getComments = (taskUuid) => {
+        api.request('/api/task-comment/'+taskUuid, 'GET')
+            .then(res => {
+                setTaskComments(res.data.data);
+            })
     }
 
     const handleChange = (e) => {
@@ -157,25 +173,61 @@ const Form = ({open, setOpen, setLoadingShow, meUuid, meRole, permissions}) => {
     }
 
     const handleUpdate = () => {
-        
+        //    
     }
 
     const handleToProgress = () => {
+        toast('You must to write comment to submit the card!', {'icon': 'ℹ️'});
+        setCommentForm({...commentForm, 'progress': TASKPROGRESS.DOING});
+        setCommentModalShow(true);
+    }
 
-        api.request('/api/task-to-progress/' + form['uuid'], 'POST')
+    const handleToCompleted = () => {
+        toast('You must to write comment to submit the card!', {'icon': 'ℹ️'});
+        setCommentForm({...commentForm, 'progress': TASKPROGRESS.APPROVE});
+        setCommentModalShow(true);
+    }
+
+    const handleApprove = () => {
+        api.request('/api/task-approve/' + form['uuid'], 'PUT')
             .then(res => {
                 if (res.status===200||res.status===201){
-                    toast.success('Task successfully moved to in progress!');
+                    toast.success('Task successfully approved!');
                 }
             })
     }
 
-    const handleCompleted = () => {
-
+    const handleReject = () => {
+        api.request('/api/task-reject/' + form['uuid'], 'PUT')
+            .then(res => {
+                if (res.status===200||res.status===201){
+                    toast.success('Task successfully rejected!');
+                }
+            })
     }
 
-    const confirmToProgress = () => {
+    const handleCommentClose = () => {
+        setCommentModalShow(false);
+        setCommentForm({'comment': ''});
+    }
 
+    const handleCommentChange = (e) => {
+        const { value, name } = e.target;
+        setCommentForm({...commentForm, [name]: value});
+    }
+
+    const handleCommentSubmit = () => {      
+        api.request('/api/task-progress/' + form['uuid'], 'PUT', commentForm)
+            .then(res => {
+                if (res.status===200||res.status===201){
+                    setTaskComments([res.data.data, ...taskComments]);
+                    setCommentModalShow(false);
+                    setCommentForm({'comment': ''});
+                    toast.success('Task successfully submitted!');
+                }else if (res.status===422){
+                    toast.error('Before submit must to write comment!');
+                }
+            })
     }
 
     return (
@@ -183,7 +235,29 @@ const Form = ({open, setOpen, setLoadingShow, meUuid, meRole, permissions}) => {
             <div className={`c-card-left ${!open?'w-0':''}`} onClick={ () => { confirmCloseCard() } }></div>
             <div className={`c-form ${open?'c-form-active':''}`}>
                 <div className='c-form-head d-flex'>
-                    <div className='c-form-head-title mr-auto'>{(form['task_name']=='')?'New Task':form['task_name']}</div>
+                    <div className='c-form-head-title mr-auto'>
+                        {(form['task_name']=='')?'New Task':form['task_name']}
+
+                        { (form['progress']==TASKPROGRESS.COMPLETED) &&
+                            <span className='d-badge d-badge-sm d-badge-success ml-2'>Approved</span>
+                        }
+
+                        { (form['progress']==TASKPROGRESS.REJECTED) &&
+                            <span className='d-badge d-badge-sm d-badge-danger ml-2'>Rejected</span>
+                        }
+
+                        { (form['progress']==TASKPROGRESS.APPROVE) &&
+                            <span className='d-badge d-badge-sm d-badge-primary ml-2'>Sent to approve</span>
+                        }
+
+                        { (form['progress']==TASKPROGRESS.DOING) &&
+                            <span className='d-badge d-badge-sm d-badge-primary ml-2'>In process</span>
+                        }
+
+                        { (form['progress']==TASKPROGRESS.TODO) &&
+                            <span className='d-badge d-badge-sm d-badge-primary ml-2'>Not started</span>
+                        }
+                    </div>
                     <div className='c-form-close' onClick={(e) => { confirmCloseCard() } }>
                         <FaTimes />
                     </div>
@@ -253,7 +327,7 @@ const Form = ({open, setOpen, setLoadingShow, meUuid, meRole, permissions}) => {
 
                         { (form['users'].length>0) &&
                             <div className='c-form-field col-12 form-group'>
-                                <label>Users</label>
+                                <label>Executors</label>
                                 <div>
                                     {
                                         form['users'].map((value, index) => {
@@ -323,6 +397,32 @@ const Form = ({open, setOpen, setLoadingShow, meUuid, meRole, permissions}) => {
                             ></textarea>
                         </div>
 
+                        { (taskComments.length>0) &&
+                            <div className='c-form-field col-12 mt-2 mb-2'>
+                                <label>Comments</label>
+                                {
+                                    taskComments.map((value, index) => {
+                                        return (
+                                            <div 
+                                                key={index}
+                                                className='d-flex mt-2'
+                                            >
+                                                <div className={`task-comment-item ${(meUuid==value['user_uuid'])?'ml-auto':'mr-auto'}`}>
+                                                    <div className='d-title'>
+                                                        {value['user']['first_name'] + ' ' + value['user']['last_name']}
+                                                    </div>
+                                                    <div>{value['comment']}</div>
+                                                    <div className='text-right d-appear'>
+                                                        {DateFormatter.beautifulDate(value['updated_at'])}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        )
+                                    })
+                                }
+                            </div>
+                        }
+
                         <div className='c-form-field col-12 mt-4 mb-4 text-right'>
 
                             { (permissions.includes(TASKPERMISSION.STORE)) &&
@@ -349,30 +449,74 @@ const Form = ({open, setOpen, setLoadingShow, meUuid, meRole, permissions}) => {
 
                             }
 
-                            { (form['progress']!=TASKPROGRESS.COMPLETED && form['progress']!='') &&
+                            { (form['progress']!='') && // not new
                                 <>
-                                    <span 
-                                        className='d-btn d-btn-primary ml-2'
-                                        onClick={() => { }}
-                                    >
-                                        Progress
-                                    </span>
+                                    { (form['progress']!=TASKPROGRESS.COMPLETED && meRole==ROLE.HEADQUARTERS) && // not completed & headquarter
+                                        <>
+                                            <span
+                                                className='d-btn d-btn-success ml-2'
+                                                onClick={handleApprove}
+                                            >
+                                                Approve
+                                            </span>
 
-                                    <span 
-                                        className='d-btn d-btn-success ml-2'
-                                        onClick={() => { }}
-                                    >
-                                        Completed
-                                    </span>
+                                            <span
+                                                className='d-btn d-btn-danger ml-2'
+                                                onClick={handleReject}
+                                            >
+                                                Reject
+                                            </span>
+                                        </>
+                                    }
+
+                                    { (form['progress']!=TASKPROGRESS.DOING) &&
+                                        <span 
+                                            className='d-btn d-btn-primary ml-2'
+                                            onClick={() => { handleToProgress() }}
+                                        >
+                                            Progress
+                                        </span>
+                                    }
+
+                                    { (form['progress']!=TASKPROGRESS.APPROVE) &&
+                                        <span 
+                                            className='d-btn d-btn-success ml-2'
+                                            onClick={() => { handleToCompleted() }}
+                                        >
+                                            Complete
+                                        </span>
+                                    }
                                 </>
                             }
-
                             
                         </div>
 
                     </div>
                 </div>
             </div>
+
+            <Modal
+                show={commentModalShow} 
+                title='Comment to task'
+                body={
+                    <div className='row'>
+                        <div className='col-12'>
+                            <div className='form-group'>
+                                <label>Comment <i className='req'>*</i></label>
+                                <textarea
+                                    className='form-control'
+                                    name='comment'
+                                    placeholder='Type your comment here...'
+                                    value={commentForm['comment']}
+                                    onChange={ (e) => { handleCommentChange(e) } }
+                                ></textarea>
+                            </div>
+                        </div>
+                    </div>
+                }
+                onClose={handleCommentClose}
+                onSubmit={handleCommentSubmit}
+            />
         </div>
     )
 }

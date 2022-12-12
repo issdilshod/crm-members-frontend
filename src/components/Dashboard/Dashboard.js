@@ -88,12 +88,14 @@ const Dashboard = () => {
                 setLoadingShow={setLoadingShow}
                 taskList={taskList}
                 setTaskList={setTaskList}
+                meUuid={meUuid}
+                meRole={meRole}
             />
 
             <Chat
                 pusher={pusher}
                 meUuid={meUuid}
-                meRole={meRole}
+                
             />
 
             { loadingShow &&
