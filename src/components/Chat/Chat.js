@@ -8,10 +8,10 @@ import useSound from 'use-sound';
 import nSound from '../../assets/sound/message-notification.mp3';
 
 import './Chat.scss';
-import ChatControl from "./Chats/ChatControl";
 import ChatIn from "./Chats/ChatIn";
 import ChatList from "./Chats/ChatList";
 import DepartmentList from "./Departments/DepartmentList";
+import { useSearchParams } from "react-router-dom";
 
 const Chat = ({pusher, meUuid}) => {
 
@@ -32,6 +32,8 @@ const Chat = ({pusher, meUuid}) => {
     const [pusherUsersUpdates, setPusherUsersUpdates] = useState(null);
 
     const [soundNotification] = useSound(nSound);
+
+    const [ params, setParams ] = useSearchParams();
 
     useEffect(() => {
         init();
@@ -55,6 +57,19 @@ const Chat = ({pusher, meUuid}) => {
             subsribeChannel(meUuid);
         }
     }, [meUuid])
+
+    useEffect(() => {
+        // find chat section
+        if (params.has('section')){
+            if (params.get('section')=='chat'){
+                setFormOpen(true);
+            }else{
+                setFormOpen(false);
+            }
+        }else{
+            setFormOpen(false);
+        }
+    }, [params])
 
     const init = () => {
         api.request('/api/chat', 'GET')
@@ -216,10 +231,23 @@ const Chat = ({pusher, meUuid}) => {
             });
     }
 
+    const openChat = () => {
+        params.append('section', 'chat');
+        params.append('part', 'chats');
+        setParams(params);
+    }
+
+    const closeChat = () => {
+        params.delete('section');
+        params.delete('part');
+        params.delete('uuid');
+        setParams(params);
+    }
+
     return (
         <>
             <div className='chats'>
-                <div className='chats-button' onClick={ () => { setFormOpen(!formOpen) } }>
+                <div className='chats-button' onClick={ () => { openChat() } }>
                     <i>
                         <FaComment />
                     </i>
@@ -227,40 +255,20 @@ const Chat = ({pusher, meUuid}) => {
             </div>
             <div 
                 className={`c-card-left-lg ${!formOpen?'w-0':''}`} 
-                onClick={ () => { setFormOpen(false) } }></div>
-            <div className={`chats-list ${formOpen?'chats-list-active':''}`}>
-                <div className='chats-list-head mb-2 d-flex'>
-                    <div className='mr-auto'>Chats</div>
-                    <div className='d-cursor-pointer' onClick={ () => { setFormOpen(false) } }>
-                        <i>
-                            <FaTimes />
-                        </i>
-                    </div>
-                </div>
-                <div className='chats-list-body'>
-                    <ChatControl 
-                        handleChatClick={ () => { setContent(contentState['chat_list']); setActive('chats'); setChatMessages([]) } }
-                        handleDepartmentClick={ () => { setContent(contentState['department_list']); setActive('departments'); setChatMessages([]) } }
-                        active={active}
-                    />
+                onClick={ () => { closeChat() } }></div>
+            <div className={`c-form ${formOpen?'c-form-active':''}`} style={{'padding': '0px'}}>
+                <div className='container-fluid'>
 
-                    <div className='chats-content mt-2'>
-                        {   (content==contentState['chat_list']) &&
+                    <div className='row'>
+                        <div className='col-4' style={{'borderRight': '1px solid #f6f6f6'}}>
                             <ChatList 
                                 handleClick={handleDialogClick}
                                 chats={chats}
                                 meUuid={meUuid}
                             />
-                        }
+                        </div>
 
-                        {   (content==contentState['department_list']) &&
-                            <DepartmentList 
-                                handleClick={handleClickChatCreate}
-                                departments={departments}
-                            />
-                        }
-
-                        {   (content==contentState['chat']) &&
+                        <div className='col-8 p-0' >
                             <ChatIn
                                 setChats={setChats}
                                 chats={chats}
@@ -272,7 +280,7 @@ const Chat = ({pusher, meUuid}) => {
                                 meUuid={meUuid}
                                 sortChat={sortChat}
                             />
-                        }
+                        </div>
                     </div>
                 </div>  
             </div>

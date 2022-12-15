@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import { useEffect } from "react";
-import { FaTelegram } from "react-icons/fa";
+import { FaEllipsisV, FaTelegram } from "react-icons/fa";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Api from "../../../services/Api";
 
@@ -114,14 +114,28 @@ const ChatIn = ({chats, setChats, chatMessages, setChatMessages, chatMessagesMet
 
     return (
         <div>
-
+            <div className='d-chat-header d-flex'>
+                <div className='mr-auto d-flex'>
+                    <div className='d-avatar'>DI</div>
+                    <div className='ml-2 d-chat-header-info'>
+                        <div>Dilshod Ismoizod</div>
+                        <div>online</div>
+                    </div>
+                </div>
+                <div>
+                    <span
+                        className='d-cursor-pointer'
+                        onClick={() => {}}
+                    >
+                        <i>
+                            <FaEllipsisV />
+                        </i>
+                    </span>
+                </div>
+            </div>
             <div 
-                className='message-control' 
-                id='message-control'
-                style={{
-                    display: 'flex',
-                    flexDirection: 'column-reverse',
-                }}
+                className='d-messages-area' 
+                id='d-messages-area'
             >
                 <div ref={toBottom} />
                 <InfiniteScroll
@@ -129,7 +143,7 @@ const ChatIn = ({chats, setChats, chatMessages, setChatMessages, chatMessagesMet
                     next={loadEarlierMessages}
                     hasMore={chatMessagesMeta['current_page']<chatMessagesMeta['max_page']}
                     loader={<LoadingMini />}
-                    scrollableTarget='message-control'
+                    scrollableTarget='d-messages-area'
                     style={{ display: 'flex', flexDirection: 'column-reverse' }}
                     inverse={true}
                 >
@@ -171,7 +185,7 @@ const ChatIn = ({chats, setChats, chatMessages, setChatMessages, chatMessagesMet
                 </InfiniteScroll>
             </div>
 
-            <div className='write-control d-flex'>
+            <div className='d-message-type-area d-flex'>
                 <div className='mr-auto w-100'>
                     <textarea
                         className='form-control'
@@ -182,14 +196,14 @@ const ChatIn = ({chats, setChats, chatMessages, setChatMessages, chatMessagesMet
                     ></textarea>
                 </div>
                 <div className='ml-2'>
-                    <button 
-                        className='d-btn d-btn-primary send-message'
+                    <span
+                        className='send-message'
                         onClick={ () => { handlePostMessage() } }
                     >
                         <i>
                             <FaTelegram />
                         </i>
-                    </button>
+                    </span>
                 </div>
             </div>
 
