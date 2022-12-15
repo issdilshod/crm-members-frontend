@@ -7,7 +7,9 @@ import Api from "../../../services/Api";
 import LoadingMini from "../../Helper/LoadingMini";
 import DateFormats from "../Functions/DateFormats";
 
-const ChatIn = ({chats, setChats, chatMessages, setChatMessages, chatMessagesMeta, setChatMessagesMeta, activeChat, meUuid, sortChat}) => {
+import * as CHATCONST from '../../../consts/Chat/Chat';
+
+const ChatIn = ({chats, setChats, chatMessages, setChatMessages, chatMessagesMeta, setChatMessagesMeta, chat, meUuid, sortChat}) => {
 
     const api = new Api();
 
@@ -18,7 +20,7 @@ const ChatIn = ({chats, setChats, chatMessages, setChatMessages, chatMessagesMet
 
     const handlePostMessage = () => {
         if (message.length>0){
-            api.request('/api/message', 'POST', {'message': message, 'chat_uuid': activeChat['data']['uuid']})
+            api.request('/api/message', 'POST', {'message': message, 'chat_uuid': chat['uuid']})
                 .then(res => {
                     if (res.status===200||res.status===201){
                         setMessage('');
@@ -85,7 +87,7 @@ const ChatIn = ({chats, setChats, chatMessages, setChatMessages, chatMessagesMet
 
     const loadEarlierMessages = () => {
         setIsScroll(true);
-        api.request('/api/chat-messages/' + activeChat['data']['uuid'] + '?page=' + parseInt(parseInt(chatMessagesMeta['current_page'])+1), 'GET')
+        api.request('/api/chat-messages/' + chat['uuid'] + '?page=' + parseInt(parseInt(chatMessagesMeta['current_page'])+1), 'GET')
             .then(res => {
                 if (res.status===200||res.status===201){
 
@@ -116,10 +118,18 @@ const ChatIn = ({chats, setChats, chatMessages, setChatMessages, chatMessagesMet
         <div>
             <div className='d-chat-header d-flex'>
                 <div className='mr-auto d-flex'>
-                    <div className='d-avatar'>DI</div>
+                    <div className='d-avatar'>{chat['name'].substr(0, 2)}</div>
                     <div className='ml-2 d-chat-header-info'>
-                        <div>Dilshod Ismoizod</div>
-                        <div>online</div>
+                        <div>{chat['name']}</div>
+                        <div>
+                            { (chat['type']==CHATCONST.PRIVATE) &&
+                                <>online</>
+                            }
+
+                            { (chat['type']==CHATCONST.GROUP) &&
+                                <>{chat['members'].length} members</>
+                            }
+                        </div>
                     </div>
                 </div>
                 <div>

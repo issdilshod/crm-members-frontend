@@ -1,7 +1,7 @@
 import DateFormats from "../Functions/DateFormats";
-import * as CHATCONST from '../../../consts/Chat';
+import * as CHATCONST from '../../../consts/Chat/Chat';
 
-const ChatList = ({handleClick, chats, meUuid}) => {
+const ChatList = ({handleClick, chats, chat, meUuid}) => {
 
     return (
         <div className='d-chat-list'>
@@ -16,17 +16,17 @@ const ChatList = ({handleClick, chats, meUuid}) => {
                 { 
                     chats.map((value, index) => {
                         return (
-                            <div key={index} className='d-dialog-item d-cursor-pointer' onClick={ () => { handleClick(value['uuid']) } }>
+                            <div key={index} className={`d-dialog-item ${chat['uuid']==value['uuid']?'d-dialog-item-active':''} d-cursor-pointer`} onClick={ () => { handleClick(value['uuid']) } }>
                                 <div className='d-flex'>
                                     <div>
                                         <div className='d-dialog-item-avatar'>
-                                            <div className='d-avatar'>DI</div>
+                                            <div className='d-avatar'>{value['name'].substr(0, 2)}</div>
                                         </div>
                                     </div>
                                     <div className='w-100 pl-2'>
                                         <div className='d-flex'>
                                             <div className='d-dialog-item-name mr-auto'>
-                                                { value['name']==CHATCONST.STANDART_NAME && // one by one
+                                                { value['type']==CHATCONST.PRIVATE && // one by one
                                                     <>
                                                         {value['user_uuid']!=meUuid && // not created by me
                                                             <>{value['user']['first_name'] + ' ' + value['user']['last_name']}</>
@@ -38,7 +38,7 @@ const ChatList = ({handleClick, chats, meUuid}) => {
                                                     </>
                                                 }
 
-                                                { value['name']!=CHATCONST.STANDART_NAME && // group
+                                                { value['type']==CHATCONST.GROUP && // group
                                                     <>{value['name']}</>
                                                 }
                                             </div>

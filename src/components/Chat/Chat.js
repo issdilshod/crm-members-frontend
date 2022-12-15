@@ -16,15 +16,12 @@ import { useSearchParams } from "react-router-dom";
 const Chat = ({pusher, meUuid}) => {
 
     const api = new Api();
-    const contentState = {'chat_list': 0, 'department_list': 1, 'user_list': 2, 'chat': 3};
 
     const [formOpen, setFormOpen] = useState(false);
     const [chats, setChats] = useState([]);
     const [departments, setDepartments] = useState([]);
-    const [content, setContent] = useState(0);
-    const [active, setActive] = useState('chats');
 
-    const [activeChat, setActiveChat] = useState();
+    const [chat, setChat] = useState({'uuid': ''});
     const [chatMessages, setChatMessages] = useState([]);
     const [chatMessagesMeta, setChatMessagesMeta] = useState({'current_page': 0, 'max_page': 1});
 
@@ -63,6 +60,11 @@ const Chat = ({pusher, meUuid}) => {
         if (params.has('section')){
             if (params.get('section')=='chat'){
                 setFormOpen(true);
+
+                // get chat
+                if (params.has('uuid')){
+                    getChat(params.get('uuid'));
+                }
             }else{
                 setFormOpen(false);
             }
@@ -139,10 +141,8 @@ const Chat = ({pusher, meUuid}) => {
 
         // set to chat
         let tmpChatMessages = [...chatMessages];
-        if (content==contentState['chat']){
-            if (activeChat['data']['uuid']==message['chat_uuid']){
-                tmpChatMessages.unshift(message); 
-            }
+        if (chat['uuid']==message['chat_uuid']){
+            tmpChatMessages.unshift(message); 
         }
 
         setChatMessages(tmpChatMessages);
@@ -192,6 +192,17 @@ const Chat = ({pusher, meUuid}) => {
         setDepartments(tmpArr);
     }
 
+    const getChat = (uuid) => {
+        api.request('/api/chat/' + uuid, 'GET')
+            .then( res => {
+                if (res.status===200||res.status===201){
+                    setChat(res.data.data);
+                    getMessages(uuid);
+                }
+            });
+        getMessages(uuid);
+    }
+
     const getMessages = (chat_uuid) => {
         api.request('/api/chat-messages/' + chat_uuid, 'GET')
             .then( res => {
@@ -206,26 +217,17 @@ const Chat = ({pusher, meUuid}) => {
             });
     }
 
-    const handleDialogClick = (uuid) => {
-        setActive('chats');
-        setContent(contentState['chat']);
-        api.request('/api/chat/' + uuid, 'GET')
-            .then( res => {
-                if (res.status===200||res.status===201){
-                    setActiveChat(res.data);
-                    getMessages(uuid);
-                }
-            });
-        getMessages(uuid);
+    const handleChatClick = (uuid) => {
+        params.delete('uuid');
+        params.append('uuid', uuid);
+        setParams(params);
     }
 
     const handleClickChatCreate = (uuid, name) => {
-        setActive('chats');
-        setContent(contentState['chat']);
         api.request('/api/chat', 'POST', {'entity_uuid': uuid, 'name': name})
             .then( res => {
                 if (res.status===200||res.status===201){
-                    setActiveChat(res.data);
+                    setChat(res.data);
                     getMessages(res.data.data.uuid);
                 }
             });
@@ -262,24 +264,27 @@ const Chat = ({pusher, meUuid}) => {
                     <div className='row'>
                         <div className='col-4' style={{'borderRight': '1px solid #f6f6f6'}}>
                             <ChatList 
-                                handleClick={handleDialogClick}
+                                handleClick={handleChatClick}
                                 chats={chats}
+                                chat={chat}
                                 meUuid={meUuid}
                             />
                         </div>
 
                         <div className='col-8 p-0' >
-                            <ChatIn
-                                setChats={setChats}
-                                chats={chats}
-                                setChatMessages={setChatMessages}
-                                chatMessages={chatMessages}
-                                chatMessagesMeta={chatMessagesMeta}
-                                setChatMessagesMeta={setChatMessagesMeta}
-                                activeChat={activeChat}
-                                meUuid={meUuid}
-                                sortChat={sortChat}
-                            />
+                            { ('type' in chat) &&
+                                <ChatIn
+                                    setChats={setChats}
+                                    chats={chats}
+                                    setChatMessages={setChatMessages}
+                                    chatMessages={chatMessages}
+                                    chatMessagesMeta={chatMessagesMeta}
+                                    setChatMessagesMeta={setChatMessagesMeta}
+                                    chat={chat}
+                                    meUuid={meUuid}
+                                    sortChat={sortChat}
+                                />
+                            }
                         </div>
                     </div>
                 </div>  
