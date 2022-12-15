@@ -49,22 +49,7 @@ const CompanyForm = () => {
     useEffect(() => {
         setCompanyFormError({});
 
-        // director get
-        if (companyFormOpen && companyEdit){
-            if (companyForm['director']!=null){
-                setOptDirectorList([{'value': companyForm['director']['uuid'], 'label': companyForm['director']['first_name'] + ' ' + (companyForm['director']['middle_name']!=null?companyForm['director']['middle_name']+' ':'') + companyForm['director']['last_name']}]);
-
-                setDirectorSelectDisabled(true);
-            }else{
-                if (ROLE.HEADQUARTERS==role){
-                    setDirectorSelectDisabled(false);
-                }else{
-                    setDirectorSelectDisabled(true);
-                }
-            }
-        }else{
-            setDirectorSelectDisabled(false);
-        }
+        detectDirectorDis();
 
         // extra address
         for (let key in companyForm['addresses']){
@@ -91,6 +76,29 @@ const CompanyForm = () => {
         loadSicCodes();
         loadStates();
     }, []);
+
+    useEffect(() => {
+        detectDirectorDis();
+    }, [role])
+
+    const detectDirectorDis = () => {
+        // director get
+        if (companyFormOpen && companyEdit){
+            if (companyForm['director']!=null){
+                setOptDirectorList([{'value': companyForm['director']['uuid'], 'label': companyForm['director']['first_name'] + ' ' + (companyForm['director']['middle_name']!=null?companyForm['director']['middle_name']+' ':'') + companyForm['director']['last_name']}]);
+
+                setDirectorSelectDisabled(true);
+            }else{
+                if (ROLE.HEADQUARTERS==role){
+                    setDirectorSelectDisabled(false);
+                }else{
+                    setDirectorSelectDisabled(true);
+                }
+            }
+        }else{
+            setDirectorSelectDisabled(false);
+        }
+    }
 
     const getMe = () => {
         api.request('/api/get_me', 'GET')
