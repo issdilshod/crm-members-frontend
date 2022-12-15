@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 
+import ReactSelect from 'react-select';
+
 import * as STATUS from '../../consts/Status';
 import * as VIRTUALOFFICE from '../../consts/VirtualOffice';
 
@@ -28,10 +30,11 @@ const VirtualOfficeForm = () => {
 
     const [meUuid, setMeUuid] = useState('');
 
-    const [alert, setAlert] = useState({'msg': '', 'show': false, 'type': ''});
-
     const [onlineAccountShow, setOnlineAccountShow] = useState(false);
     const [cardOnFileShow, setCardOnFileShow] = useState(false);
+    const [contractShow, setContractShow] = useState(false);
+
+    const [directorList, setDirectorList] = useState([]);
 
     useEffect(() => {
         api.request('/api/get_me', 'GET')
@@ -40,6 +43,8 @@ const VirtualOfficeForm = () => {
                     setMeUuid(res.data.uuid);
                 }
             })
+
+        loadDirectorList();
     }, [])
 
     useEffect(() => {
@@ -47,6 +52,10 @@ const VirtualOfficeForm = () => {
 
         if (!formOpen){
             nav(`${process.env.REACT_APP_FRONTEND_PREFIX}/virtual-offices`);
+        }else{
+            if (form['director']!=null){
+                setDirectorList([{'value': form['director']['uuid'], 'label': form['director']['first_name'] + ' ' + (form['director']['middle_name']!=null?form['director']['middle_name']+' ':'') + form['director']['last_name']}]);
+            }
         }
     }, [formOpen])
 
@@ -62,9 +71,33 @@ const VirtualOfficeForm = () => {
         }else{
             setCardOnFileShow(false);
         }
+
+        if (form['contract']=='YES'){
+            setContractShow(true);
+        }else{
+            setContractShow(false);
+        }
     }, [form]);
 
-    const handleChange = (e, file = false) => {
+    const loadDirectorList = (v = '') => {
+        let search = '';
+        if (v!=''){
+            search = '/' + v;
+        }
+        api.request('/api/director-list'+search, 'GET')
+            .then(res => {
+                if (res.status===200||res.status===201){
+                    let tmpArray = [];
+                    res.data.map((director) => {
+                        let full_name = director.first_name + ' ' + (director.middle_name!=null?director.middle_name+' ':'') + director.last_name;
+                        return tmpArray.push({ 'value': director.uuid, 'label': full_name});
+                    });
+                    setDirectorList(tmpArray);
+                }
+            })
+    }
+
+    const handleChange = (e) => {
         let { value, name } = e.target;
         setForm({ ...form, [name]: value });
     }
@@ -284,7 +317,17 @@ const VirtualOfficeForm = () => {
                 <div className='c-form-body container-fluid'>
                     <form className='c-form-body-block row'>
 
-                        <div className='c-form-field col-12 col-sm-6'>
+                        <div className='c-form-field col-12 col-sm-4'>
+                            <label>VO Signer</label>
+                            <ReactSelect 
+                                options={directorList}
+                                onKeyDown={ (e) => { loadDirectorList(e.target.value) } }
+                                value={ directorList.filter(option => { return option.value == form['vo_signer_uuid'] }) }
+                                onChange={ (e) => { handleChange({'target': {'name': 'vo_signer_uuid', 'value': e.value} }); } }
+                            />
+                        </div>
+
+                        <div className='c-form-field col-12 col-sm-4'>
                             <Input 
                                 title='VO Provider Name'
                                 name='vo_provider_name'
@@ -294,7 +337,7 @@ const VirtualOfficeForm = () => {
                             />
                         </div>
 
-                        <div className='c-form-field col-12 col-sm-6'>
+                        <div className='c-form-field col-12 col-sm-4'>
                             <Input 
                                 title='VO Website'
                                 name='vo_website'
@@ -354,7 +397,7 @@ const VirtualOfficeForm = () => {
                             />
                         </div>
 
-                        <div className='c-form-field col-12 col-sm-2'>
+                        <div className='c-form-field col-12 col-sm-6'>
                             <Select 
                                 title='Online Account'
                                 name='online_account'
@@ -366,33 +409,33 @@ const VirtualOfficeForm = () => {
                                 defaultValue={form['online_account']}
                                 errorArray={formError}
                             />
+
+                            { onlineAccountShow &&
+                                <div className='row'>
+                                    <div className='c-form-field col-12 col-sm-6'>
+                                        <Input 
+                                            title='Online Account Username'
+                                            name='online_account_username'
+                                            onChange={handleChange}
+                                            defaultValue={form['online_account_username']}
+                                            errorArray={formError}
+                                        />
+                                    </div>
+
+                                    <div className='c-form-field col-12 col-sm-6'>
+                                        <Input 
+                                            title='Online Account Password'
+                                            name='online_account_password'
+                                            onChange={handleChange}
+                                            defaultValue={form['online_account_password']}
+                                            errorArray={formError}
+                                        />
+                                    </div>
+                                </div>
+                            }
                         </div>
 
-                        { onlineAccountShow &&
-                            <>
-                                <div className='c-form-field col-12 col-sm-5'>
-                                    <Input 
-                                        title='Online Account Username'
-                                        name='online_account_username'
-                                        onChange={handleChange}
-                                        defaultValue={form['online_account_username']}
-                                        errorArray={formError}
-                                    />
-                                </div>
-
-                                <div className='c-form-field col-12 col-sm-5'>
-                                    <Input 
-                                        title='Online Account Password'
-                                        name='online_account_password'
-                                        onChange={handleChange}
-                                        defaultValue={form['online_account_password']}
-                                        errorArray={formError}
-                                    />
-                                </div>
-                            </>
-                        }
-
-                        <div className='c-form-field col-12 col-sm-2'>
+                        <div className='c-form-field col-12 col-sm-6'>
                             <Select 
                                 title='Card on file'
                                 name='card_on_file'
@@ -404,33 +447,35 @@ const VirtualOfficeForm = () => {
                                 defaultValue={form['card_on_file']}
                                 errorArray={formError}
                             />
+
+                            
+                            { cardOnFileShow && 
+                                <div className='row'>
+                                    <div className='c-form-field col-12 col-sm-5'>
+                                        <Input 
+                                            title='Payment card last 4 digits'
+                                            name='card_last_four_digits'
+                                            onChange={handleChange}
+                                            defaultValue={form['card_last_four_digits']}
+                                            errorArray={formError}
+                                        />
+                                    </div>
+
+                                    <div className='c-form-field col-12 col-sm-7'>
+                                        <Input 
+                                            title='Card holder name'
+                                            name='card_holder_name'
+                                            onChange={handleChange}
+                                            defaultValue={form['card_holder_name']}
+                                            errorArray={formError}
+                                        />
+                                    </div>
+                                </div>
+                            }
+                            
                         </div>
 
-                        { cardOnFileShow && 
-                            <>
-                                <div className='c-form-field col-12 col-sm-5'>
-                                    <Input 
-                                        title='Card last 4 digits'
-                                        name='card_last_four_digits'
-                                        onChange={handleChange}
-                                        defaultValue={form['card_last_four_digits']}
-                                        errorArray={formError}
-                                    />
-                                </div>
-
-                                <div className='c-form-field col-12 col-sm-5'>
-                                    <Input 
-                                        title='Card holder name'
-                                        name='card_holder_name'
-                                        onChange={handleChange}
-                                        defaultValue={form['card_holder_name']}
-                                        errorArray={formError}
-                                    />
-                                </div>
-                            </>
-                        }
-
-                        <div className='c-form-field col-12 col-sm-5'>
+                        <div className='c-form-field col-12 col-sm-3'>
                             <Input 
                                 title='Monthly payment amount'
                                 name='monthly_payment_amount'
@@ -454,12 +499,42 @@ const VirtualOfficeForm = () => {
                             />
                         </div>
 
-                        <div className={`c-form-field col-12 col-sm-5`}>
-                            <Input 
-                                title='Contract Terms'
-                                name='contract_terms'
+                        { contractShow &&
+                            <>
+                                <div className='c-form-field col-12 col-sm-3'>
+                                    <Select 
+                                        title='Contract Terms'
+                                        name='contract_terms'
+                                        onChange={handleChange}
+                                        options={[
+                                            {'value': 'Month to Month', 'label': 'Month to Month'},
+                                            {'value': 'Six Month', 'label': 'Six Month'},
+                                            {'value': 'Twelve Month', 'label': 'Twelve Month'},
+                                        ]}
+                                        defaultValue={form['contract_terms']}
+                                        errorArray={formError}
+                                    />
+                                </div>
+
+                                <div className='c-form-field col-12 col-sm-4'>
+                                    <Input
+                                        title='Contract terms notes'
+                                        name='contract_terms_notes'
+                                        onChange={handleChange}
+                                        defaultValue={form['contract_terms_notes']}
+                                        errorArray={formError}
+                                    />
+                                </div>
+                            </>
+                        }
+
+                        <div className='c-form-field col-12 col-sm-7'>
+                            <Input
+                                title='Contract effective date'
+                                name='contract_effective_date'
+                                type='date'
                                 onChange={handleChange}
-                                defaultValue={form['contract_terms']}
+                                defaultValue={form['contract_effective_date']}
                                 errorArray={formError}
                             />
                         </div>

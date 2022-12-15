@@ -10,7 +10,6 @@ import * as COMPANY from '../../consts/Company';
 import * as ROLE from '../../consts/Role';
 
 import Validation from '../Helper/Validation/Validation';
-import Notification from '../Helper/Notification/Notification';
 
 import File from '../Helper/File/File';
 import Address from '../Helper/Address/Address';

@@ -17,6 +17,8 @@ const VirtualOffice = () => {
     const [list, setList] = useState([]);
     // form
     const [formEntity, setFormEntity] = useState({
+        'vo_signer_uuid': '',
+        'director': null,
         'vo_provider_name': '', 
         'vo_website': '',
         'vo_provider_username': '',
@@ -33,6 +35,8 @@ const VirtualOffice = () => {
         'monthly_payment_amount': '',
         'contract': '',
         'contract_terms': '',
+        'contract_terms_notes': '',
+        'contract_effective_date': '',
         
         // addresses
         'addresses': [],
