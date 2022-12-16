@@ -677,17 +677,6 @@ const CompanyForm = () => {
                             <File
                                 form={companyForm}
                                 setForm={setCompanyForm}
-                                parentUnique='doing_business_in_state'
-                                title='Doing business in state upload'
-                                onChange={handleChange}
-                                downloadEnable={(permissions.some((e) => e==COMPANY.DOWNLOAD))}
-                            />
-                        </div>
-
-                        <div className='col-12 col-sm-4 form-group'>
-                            <File
-                                form={companyForm}
-                                setForm={setCompanyForm}
                                 parentUnique='company_ein'
                                 title='Company EIN upload'
                                 onChange={handleChange}
