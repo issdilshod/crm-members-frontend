@@ -57,6 +57,9 @@ const Company = () => {
         // emails
         'emails': [],
 
+        // register agent
+        'register_agents': [],
+
         // files
         'files': [],
         'files_to_delete': [],

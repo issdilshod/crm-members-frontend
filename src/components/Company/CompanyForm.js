@@ -21,6 +21,7 @@ import Input from '../Helper/Input/Input';
 import InputMask from '../Helper/Input/InputMask';
 import toast from 'react-hot-toast';
 import { confirmDialog } from 'primereact/confirmdialog';
+import RegisterAgent from '../Helper/RegisterAgent/RegisterAgent';
 
 const CompanyForm = () => {
 
@@ -583,14 +584,13 @@ const CompanyForm = () => {
                         </div>
 
                         <div className='col-12 form-group'>
-                            <Address
+                            <RegisterAgent 
                                 title='Registered Agent'
-                                unique='registered_agent'
+                                unique='reg_ag'
+                                defaulfOpen={false}
+                                errorArray={companyFormError}
                                 form={companyForm}
                                 setForm={setCompanyForm}
-                                defaulfOpen={false}
-                                isRegisterAgent={true}
-                                errorArray={companyFormError}
                                 query={query}
                             />
                         </div>

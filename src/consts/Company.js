@@ -11,4 +11,5 @@ export const DOWNLOAD = 'company_download';
 
 export const ADDRESS = 'address';
 export const EXTRA_ADDRESS = 'extra_address';
-export const REGISTERED_AGENT = 'registered_agent';
+
+export const REGISTER_AGENT = 'reg_ag';

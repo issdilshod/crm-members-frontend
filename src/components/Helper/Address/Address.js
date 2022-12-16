@@ -2,20 +2,18 @@ import { useEffect } from "react";
 import { useState } from "react";
 import Collapse from "react-bootstrap/Collapse";
 import { FaAngleDown, FaAngleUp, FaPlus, FaTimes } from "react-icons/fa";
-import * as COMPANY from '../../../consts/Company';
 import Input from "../Input/Input";
 import Validation from "../Validation/Validation";
 
-const Address = ({title, unique, hasPlus = false, isExtra = false, isRegisterAgent = false, defaulfOpen = true, onPlusClick, onExtraCloseClick, errorArray = {}, form, setForm, query = ''}) => {
+const Address = ({title, unique, hasPlus = false, isExtra = false, defaulfOpen = true, onPlusClick, onExtraCloseClick, errorArray = {}, form, setForm, query = ''}) => {
 
     const [isOpen, setIsOpen] = useState(defaulfOpen);
 
-    const [inFormEntity, setInFromEntity] = useState({'registered_agent':'', 'street_address': '', 'address_line_2': '', 'city': '', 'state': '', 'postal': '', 'country': '', 'description': ''});
+    const [inFormEntity, setInFromEntity] = useState({'street_address': '', 'address_line_2': '', 'city': '', 'state': '', 'postal': '', 'country': '', 'description': ''});
     const [inForm, setInForm] = useState(inFormEntity);
 
     useEffect(() => {
         let setted = false;
-
         // search
         for (let key in form['addresses']){
             if (form['addresses'][key]['address_parent']==unique){
@@ -27,11 +25,6 @@ const Address = ({title, unique, hasPlus = false, isExtra = false, isRegisterAge
 
         if (!setted){
             setInForm(inFormEntity);
-
-            // only registered agent
-            if (unique==COMPANY.REGISTERED_AGENT){
-                setIsOpen(false);
-            }
         }
     }, [form]);
 
@@ -109,19 +102,6 @@ const Address = ({title, unique, hasPlus = false, isExtra = false, isRegisterAge
                     in={isOpen}
                 >
                     <div className='row'>
-
-                        { isRegisterAgent &&
-                            <div className='col-12'>
-                                <Input
-                                    title='Registered Agent Name'
-                                    name='register_agent'
-                                    onChange={handleChange}
-                                    defaultValue={inForm['register_agent']}
-                                    errorArray={errorArray}
-                                    query={query}
-                                />
-                            </div>
-                        }
 
                         <div className='col-12'>
                             <Input
