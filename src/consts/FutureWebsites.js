@@ -1,7 +1,7 @@
-export const VIEW = 'websites_future_view';
-export const STORE = 'websites_future_store';
-export const UPDATE = 'websites_future_update';
-export const SAVE = 'websites_future_save';
-export const DELETE = 'websites_future_delete';
-export const ACCEPT = 'websites_future_accept';
-export const REJECT = 'websites_future_reject';
+export const VIEW = 'future_website_view';
+export const STORE = 'future_website_store';
+export const UPDATE = 'future_website_update';
+export const SAVE = 'future_website_save';
+export const DELETE = 'future_website_delete';
+export const ACCEPT = 'future_website_accept';
+export const REJECT = 'future_website_reject';
