@@ -22,6 +22,7 @@ import InputMask from '../Helper/Input/InputMask';
 import toast from 'react-hot-toast';
 import { confirmDialog } from 'primereact/confirmdialog';
 import RegisterAgent from '../Helper/RegisterAgent/RegisterAgent';
+import Incorporation from '../Helper/Company/Incorporation';
 
 const CompanyForm = () => {
 
@@ -583,6 +584,34 @@ const CompanyForm = () => {
                             />
                         </div>
 
+                        <div className='col-12 col-sm-6 form-group'>
+                            <Incorporation 
+                                title='Incorporation State'
+                                unique='incorporation_state'
+                                errorArray={companyFormError}
+                                form={companyForm}
+                                setForm={setCompanyForm}
+                                query={query}
+
+                                onChange={handleChange}
+                                downloadEnable={(permissions.some((e) => e==COMPANY.DOWNLOAD))}
+                            />
+                        </div>
+
+                        <div className='col-12 col-sm-6 form-group'>
+                            <Incorporation 
+                                title='Doing business in state'
+                                unique='doing_business_in_state'
+                                errorArray={companyFormError}
+                                form={companyForm}
+                                setForm={setCompanyForm}
+                                query={query}
+
+                                onChange={handleChange}
+                                downloadEnable={(permissions.some((e) => e==COMPANY.DOWNLOAD))}
+                            />
+                        </div>
+
                         <div className='col-12 form-group'>
                             <RegisterAgent 
                                 title='Registered Agent'
@@ -641,17 +670,6 @@ const CompanyForm = () => {
                                 setForm={setCompanyForm}
                                 errorArray={companyFormError}
                                 query={query}
-                            />
-                        </div>
-
-                        <div className='col-12 col-sm-4 form-group'>
-                            <File
-                                form={companyForm}
-                                setForm={setCompanyForm}
-                                parentUnique='incorporation_state'
-                                title='Incorporation state upload'
-                                onChange={handleChange}
-                                downloadEnable={(permissions.some((e) => e==COMPANY.DOWNLOAD))}
                             />
                         </div>
 

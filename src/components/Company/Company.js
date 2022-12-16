@@ -60,6 +60,9 @@ const Company = () => {
         // register agent
         'register_agents': [],
 
+        // incorporation
+        'incorporations': [],
+
         // files
         'files': [],
         'files_to_delete': [],
