@@ -7,11 +7,11 @@ import Input from "../Input/Input";
 import Select from "../Input/Select";
 import RegisterAgent from "../RegisterAgent/RegisterAgent";
 
-const Incorporation = ({title, unique, defaulfOpen = true, errorArray = {}, form, setForm, query = '', onChange, downloadEnable}) => {
+const Incorporation = ({title, unique, registrationDate = '', defaulfOpen = true, errorArray = {}, form, setForm, query = '', onChange, downloadEnable}) => {
 
     const [isOpen, setIsOpen] = useState(defaulfOpen);
 
-    const [inFormEntity, setInFromEntity] = useState({'annual_report': '', 'effective_date': '', 'registered_agent_exists': '', 'notes': '', 'parent': ''});
+    const [inFormEntity, setInFromEntity] = useState({'incorporation_date': '', 'annual_report_date': '', 'registered_agent_exists': '', 'notes': '', 'parent': ''});
     const [inForm, setInForm] = useState(inFormEntity);
 
     const [registerAgentShow, setRegisterAgentShow] = useState(false);
@@ -114,10 +114,11 @@ const Incorporation = ({title, unique, defaulfOpen = true, errorArray = {}, form
 
                         <div className='col-12 col-sm-6'>
                             <Input
-                                title='Annual Report'
-                                name='anuual_report'
+                                title={(registrationDate!=''?registrationDate:'Incorporation Date')}
+                                name='incorporation_date'
+                                type='date'
                                 onChange={handleChange}
-                                defaultValue={inForm['anuual_report']}
+                                defaultValue={inForm['incorporation_date']}
                                 errorArray={errorArray}
                                 query={query}
                             />
@@ -125,11 +126,11 @@ const Incorporation = ({title, unique, defaulfOpen = true, errorArray = {}, form
 
                         <div className='col-12 col-sm-6'>
                             <Input
-                                title='Effective date'
-                                name='effective_date'
+                                title='Annual report date'
+                                name='annual_report_date'
                                 type='date'
                                 onChange={handleChange}
-                                defaultValue={inForm['effective_date']}
+                                defaultValue={inForm['annual_report_date']}
                                 errorArray={errorArray}
                                 query={query}
                             />

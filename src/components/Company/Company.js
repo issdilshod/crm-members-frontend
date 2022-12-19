@@ -33,9 +33,15 @@ const Company = () => {
         'voip_password': '',
         'business_mobile_number': '',
         'business_mobile_number_type': '',
-        'business_mobile_number_provider': '',
-        'business_mobile_number_login': '',
-        'business_mobile_number_password': '',
+
+        'business_mobile_provider': '',
+        'business_mobile_website': '',
+        'business_mobile_login': '',
+        'business_mobile_password': '',
+
+        'card_on_file': '',
+        'card_last_four_digit': '',
+        'card_holder_name': '',
 
         'website': '',
         'db_report_number': '',

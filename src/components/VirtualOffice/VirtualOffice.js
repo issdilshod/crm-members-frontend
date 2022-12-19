@@ -33,7 +33,12 @@ const VirtualOffice = () => {
         'card_last_four_digit': '',
         'card_holder_name': '',
         'monthly_payment_amount': '',
-        'contract': '',
+        
+        'agreement_terms': '',
+        'deposit': '',
+        'registration_fee': '',
+        'etc': '',
+
         'contract_terms': '',
         'contract_terms_notes': '',
         'contract_effective_date': '',

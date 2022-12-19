@@ -209,6 +209,10 @@ const Chat = ({pusher, meUuid}) => {
             setChat(tmpChat);
         }
 
+        tmpArr.sort(function(a, b){
+            return new Date(b.last_seen) - new Date(a.last_seen);
+        });
+
         setUsers(tmpArr);
     }
 

@@ -120,45 +120,6 @@ const Phones = ({title, defaultOpen = true, errorArray = {}, form, setForm, quer
                             />
                         </div>
 
-                        <div className='col-12'>
-                            <Select 
-                                title='Business Mobile Number Provider'
-                                name='business_mobile_number_provider'
-                                onChange={onChange}
-                                defaultValue={form['business_mobile_number_provider']}
-                                options={[
-                                    {'value': 'Verizon', 'label': 'Verizon'},
-                                    {'value': 'T-Mobile', 'label': 'T-Mobile'},
-                                    {'value': 'Simple Mobile', 'label': 'Simple Mobile'},
-                                    {'value': 'None', 'label': 'None'}
-                                ]}
-                                errorArray={errorArray}
-                                query={query}
-                            />
-                        </div>
-
-                        <div className='col-12 col-sm-6'>
-                            <Input
-                                title='Business Mobile Number Login'
-                                name='business_mobile_number_login'
-                                onChange={onChange}
-                                defaultValue={form['business_mobile_number_login']}
-                                errorArray={errorArray}
-                                query={query}
-                            />
-                        </div>
-
-                        <div className='col-12 col-sm-6'>
-                            <Input
-                                title='Business Mobile Number Password'
-                                name='business_mobile_number_password'
-                                onChange={onChange}
-                                defaultValue={form['business_mobile_number_password']}
-                                errorArray={errorArray}
-                                query={query}
-                            />
-                        </div>
-
                     </div>
                 </Collapse>
             </div>

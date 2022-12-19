@@ -136,6 +136,11 @@ const VirtualOfficeList = () => {
                                             </div>
                                             <div className='c-item-info'>
                                                 <p>{value['name']}</p>
+                                                <p>
+                                                    { (value['company']!=null) &&
+                                                        <>{value['company']['legal_name']}</>
+                                                    }
+                                                </p>
                                                 { !defaultList && 
                                                     <>
                                                         <p>
