@@ -72,6 +72,12 @@ const VirtualOfficeForm = () => {
             setCardOnFileShow(false);
         }
 
+        if (form['contract']=='YES'){
+            setContractShow(true);
+        }else{
+            setContractShow(false);
+        }
+
     }, [form]);
 
     const loadDirectorList = (v = '') => {
@@ -470,19 +476,38 @@ const VirtualOfficeForm = () => {
                             
                         </div>
 
-                        <div className='c-form-field col-12 col-sm-2'>
+                        <div className='c-form-field col-12 col-sm-1'>
                             <Select 
-                                title='Agreement terms'
-                                name='agreement_terms'
+                                title='Contract'
+                                name='contract'
                                 onChange={handleChange}
                                 options={[
                                     {'value': 'YES', 'label': 'YES'},
                                     {'value': 'NO', 'label': 'NO'},
                                 ]}
-                                defaultValue={form['agreement_terms']}
+                                defaultValue={form['contract']}
                                 errorArray={formError}
                             />
                         </div>
+
+                        { contractShow &&
+                            <>
+                                <div className='c-form-field col-12 col-sm-2'>
+                                    <Select 
+                                        title='Contract Terms'
+                                        name='contract_terms'
+                                        onChange={handleChange}
+                                        options={[
+                                            {'value': 'Month to Month', 'label': 'Month to Month'},
+                                            {'value': 'Six Month', 'label': 'Six Month'},
+                                            {'value': 'Twelve Month', 'label': 'Twelve Month'},
+                                        ]}
+                                        defaultValue={form['contract_terms']}
+                                        errorArray={formError}
+                                    />
+                                </div>
+                            </>
+                        }
 
                         <div className='c-form-field col-12 col-sm-2'>
                             <Input
@@ -491,36 +516,6 @@ const VirtualOfficeForm = () => {
                                 type='date'
                                 onChange={handleChange}
                                 defaultValue={form['contract_effective_date']}
-                                errorArray={formError}
-                            />
-                        </div>
-
-                        <div className='c-form-field col-12 col-sm-2'>
-                            <Input
-                                title='Deposit'
-                                name='deposit'
-                                onChange={handleChange}
-                                defaultValue={form['deposit']}
-                                errorArray={formError}
-                            />
-                        </div>
-
-                        <div className='c-form-field col-12 col-sm-2'>
-                            <Input
-                                title='Registration fee'
-                                name='registration_fee'
-                                onChange={handleChange}
-                                defaultValue={form['registration_fee']}
-                                errorArray={formError}
-                            />
-                        </div>
-
-                        <div className='c-form-field col-12 col-sm-2'>
-                            <Input
-                                title='Etc...'
-                                name='etc'
-                                onChange={handleChange}
-                                defaultValue={form['etc']}
                                 errorArray={formError}
                             />
                         </div>
@@ -535,34 +530,15 @@ const VirtualOfficeForm = () => {
                             />
                         </div>
 
-                        { contractShow &&
-                            <>
-                                <div className='c-form-field col-12 col-sm-3'>
-                                    <Select 
-                                        title='Contract Terms'
-                                        name='contract_terms'
-                                        onChange={handleChange}
-                                        options={[
-                                            {'value': 'Month to Month', 'label': 'Month to Month'},
-                                            {'value': 'Six Month', 'label': 'Six Month'},
-                                            {'value': 'Twelve Month', 'label': 'Twelve Month'},
-                                        ]}
-                                        defaultValue={form['contract_terms']}
-                                        errorArray={formError}
-                                    />
-                                </div>
-
-                                <div className='c-form-field col-12 col-sm-4'>
-                                    <Input
-                                        title='Contract terms notes'
-                                        name='contract_terms_notes'
-                                        onChange={handleChange}
-                                        defaultValue={form['contract_terms_notes']}
-                                        errorArray={formError}
-                                    />
-                                </div>
-                            </>
-                        }
+                        <div className={`c-form-field col-12 ${contractShow?'col-sm-5':'col-sm-7'}`}>
+                            <Input 
+                                title='Agreement Terms (Deposit, registration fee, etc....)'
+                                name='agreement_terms'
+                                onChange={handleChange}
+                                defaultValue={form['agreement_terms']}
+                                errorArray={formError}
+                            />
+                        </div>
 
                         <div className='col-12'>
                             <Address
