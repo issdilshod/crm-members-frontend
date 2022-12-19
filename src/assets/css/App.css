@@ -1266,7 +1266,6 @@ label .req {
     d-mobile-back
 */
 .d-mobile-back, .d-back{
-    margin-right: 10px;
     font-size: 1.5em;
     cursor: pointer;
     display: none;
@@ -1274,10 +1273,6 @@ label .req {
     text-align: center;
     border-radius: 50%;
     transition: .4s;
-}
-
-.d-mobile-back:hover, .d-back:hover{
-    background-color: #b3b3b321;
 }
 
 .d-back{

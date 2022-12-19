@@ -264,7 +264,20 @@ const Chat = ({pusher, meUuid}) => {
         api.request('/api/chat', 'POST', form)
             .then( res => {
                 if (res.status===200||res.status===201){
-                    setChats([ res.data.data, ...chats]);
+
+                    // search chat if not exists then set
+                    let tmpArr = [...chats];
+                    let exists = false;
+                    for(let key in tmpArr){
+                        if (res.data.data['uuid']==tmpArr[key]['uuid']){
+                            exists = true;
+                            break;
+                        }
+                    }
+                    if (!exists){
+                        setChats([ res.data.data, ...chats]);
+                    }
+                    
                     setChat(res.data.data);
                     getMessages(res.data.data.uuid);
 
@@ -332,6 +345,7 @@ const Chat = ({pusher, meUuid}) => {
                                 meUuid={meUuid}
                                 handleNewGroup={handleNewGroup}
                                 handleNewPrivate={handleNewPrivate}
+                                handleClose={closeChat}
                             />
                         }
 

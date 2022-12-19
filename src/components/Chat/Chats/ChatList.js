@@ -1,22 +1,29 @@
 import DateFormats from "../Functions/DateFormats";
 import * as CHATCONST from '../../../consts/Chat/Chat';
-import { FaPencilAlt, FaUser, FaUsers } from "react-icons/fa";
+import { FaPencilAlt, FaTimes, FaUser, FaUsers } from "react-icons/fa";
 import { Collapse } from "react-bootstrap";
 import { useState } from "react";
 import ChatControl from "../Functions/ChatControl";
 
-const ChatList = ({handleClick, chats, chat, meUuid, handleNewGroup, handleNewPrivate}) => {
+const ChatList = ({handleClick, chats, chat, meUuid, handleNewGroup, handleNewPrivate, handleClose}) => {
 
     const [newConversationMenu, setNewConversationMenu] = useState(false);
 
     return (
         <div className='d-chat-list'>
-            <div className='d-chat-list-header'>
-                <input
-                    className='form-control'
-                    name='search-chat'
-                    placeholder='Search...'
-                />
+            <div className='d-chat-list-header d-flex'>
+                <div className='d-back mr-2' onClick={handleClose}>
+                    <i>
+                        <FaTimes />
+                    </i>
+                </div>
+                <div className='w-100'>
+                    <input
+                        className='form-control'
+                        name='search-chat'
+                        placeholder='Search...'
+                    />
+                </div>
             </div>
             <div className='d-chat-list-body mt-2'>
                 { 

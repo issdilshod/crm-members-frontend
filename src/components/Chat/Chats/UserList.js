@@ -44,7 +44,7 @@ const UserList = ({handleBack, users, handleCreateChat, isGroup}) => {
         <div className='d-user-list'>
             <div className='d-user-list-header'>
                 <div className='d-flex'>
-                    <div className='d-back' onClick={handleBack}>
+                    <div className='d-back mr-2' onClick={handleBack}>
                         <i>
                             <FaArrowLeft />
                         </i>
