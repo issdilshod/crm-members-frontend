@@ -31,9 +31,19 @@ const Incorporation = ({title, unique, defaulfOpen = true, errorArray = {}, form
             setInForm(inFormEntity);
         }
 
-        if (inForm['registered_agent_exists']=='YES'){
-            setRegisterAgentShow(true);
-        }else{
+        let yes = false;
+        for (let key in form['incorporations']){
+            if (form['incorporations'][key]['parent']==unique){
+                if ('registered_agent_exists' in form['incorporations'][key]){
+                    if (form['incorporations'][key]['registered_agent_exists']=='YES'){
+                        setRegisterAgentShow(true);
+                        yes = true;
+                        break;
+                    }
+                }
+            }
+        }
+        if(!yes){
             setRegisterAgentShow(false);
         }
     }, [form]);
