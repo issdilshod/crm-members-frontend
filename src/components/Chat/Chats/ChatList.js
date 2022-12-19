@@ -3,6 +3,7 @@ import * as CHATCONST from '../../../consts/Chat/Chat';
 import { FaPencilAlt, FaUser, FaUsers } from "react-icons/fa";
 import { Collapse } from "react-bootstrap";
 import { useState } from "react";
+import ChatControl from "../Functions/ChatControl";
 
 const ChatList = ({handleClick, chats, chat, meUuid, handleNewGroup, handleNewPrivate}) => {
 
@@ -25,7 +26,15 @@ const ChatList = ({handleClick, chats, chat, meUuid, handleNewGroup, handleNewPr
                                 <div className='d-flex'>
                                     <div>
                                         <div className='d-dialog-item-avatar'>
-                                            <div className='d-avatar'>{value['name'].substr(0, 2)}</div>
+                                            <div className='d-avatar'>
+                                                { value['type']==CHATCONST.GROUP && // group
+                                                    <>{value['name'].substr(0, 2)}</>
+                                                }
+
+                                                { value['type']==CHATCONST.PRIVATE && // one by one
+                                                    <>{ChatControl.getPartnerName(meUuid, value['members']).substr(0, 2)}</>
+                                                }
+                                            </div>
                                         </div>
                                     </div>
                                     <div className='w-100 pl-2'>
@@ -33,13 +42,7 @@ const ChatList = ({handleClick, chats, chat, meUuid, handleNewGroup, handleNewPr
                                             <div className='d-dialog-item-name mr-auto'>
                                                 { value['type']==CHATCONST.PRIVATE && // one by one
                                                     <>
-                                                        {value['user_uuid']!=meUuid && // not created by me
-                                                            <>{value['user']['first_name'] + ' ' + value['user']['last_name']}</>
-                                                        }
-
-                                                        {value['user_uuid']==meUuid && // created by me
-                                                            <>{value['members'][0]['first_name'] + ' ' + value['members'][0]['last_name']}</>
-                                                        }
+                                                        {ChatControl.getPartnerName(meUuid, value['members'])}
                                                     </>
                                                 }
 

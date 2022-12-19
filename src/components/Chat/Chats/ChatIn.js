@@ -8,6 +8,9 @@ import LoadingMini from "../../Helper/LoadingMini";
 import DateFormats from "../Functions/DateFormats";
 
 import * as CHATCONST from '../../../consts/Chat/Chat';
+import ChatControl from "../Functions/ChatControl";
+
+import ReactTimeAgo from 'react-time-ago';
 
 const ChatIn = ({chats, setChats, chatMessages, setChatMessages, chatMessagesMeta, setChatMessagesMeta, chat, meUuid, sortChat, backClick}) => {
 
@@ -123,12 +126,36 @@ const ChatIn = ({chats, setChats, chatMessages, setChatMessages, chatMessagesMet
                             <FaArrowLeft />
                         </i>
                     </div>
-                    <div className='d-avatar'>{chat['name'].substr(0, 2)}</div>
+                    <div className='d-avatar'>
+                        { (chat['type']==CHATCONST.GROUP) &&
+                            <>{chat['name'].substr(0, 2)}</>
+                        }
+
+                        { (chat['type']==CHATCONST.PRIVATE) &&
+                            <>{ChatControl.getPartnerName(meUuid, chat['members']).substr(0, 2)}</>
+                        }
+                    </div>
                     <div className='ml-2 d-chat-header-info'>
-                        <div>{chat['name']}</div>
+                        <div>
+                            { (chat['type']==CHATCONST.GROUP) &&
+                                <>{chat['name']}</>
+                            }
+
+                            { (chat['type']==CHATCONST.PRIVATE) &&
+                                <>{ChatControl.getPartnerName(meUuid, chat['members'])}</>
+                            }
+                        </div>
                         <div>
                             { (chat['type']==CHATCONST.PRIVATE) &&
-                                <>online</>
+                                <>
+                                    { (ChatControl.getPartnerLastSeen(meUuid, chat['members'])==null) &&
+                                        <>online</>
+                                    }
+
+                                    { (ChatControl.getPartnerLastSeen(meUuid, chat['members'])!=null) &&
+                                        <><ReactTimeAgo date={new Date(ChatControl.getPartnerLastSeen(meUuid, chat['members']))} locale="en-US" /></>
+                                    }
+                                </>
                             }
 
                             { (chat['type']==CHATCONST.GROUP) &&

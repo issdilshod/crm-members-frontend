@@ -13,6 +13,8 @@ import ChatList from "./Chats/ChatList";
 import { useSearchParams } from "react-router-dom";
 import UserList from "./Chats/UserList";
 
+import * as CHATCONST from '../../consts/Chat/Chat';
+
 const Chat = ({pusher, meUuid}) => {
 
     const api = new Api();
@@ -31,6 +33,7 @@ const Chat = ({pusher, meUuid}) => {
     const [chatInActive, setChatInActive] = useState(false);
 
     const [newConversation, setNewConversation] = useState(false);
+    const [newIsGroup, setNewIsGroup] = useState(false);
 
     const [soundNotification] = useSound(nSound);
 
@@ -191,6 +194,18 @@ const Chat = ({pusher, meUuid}) => {
             }
         }
 
+        // chat members update
+        if ('members' in chat){
+            let tmpChat = {...chat};
+            for (let key in tmpChat['members']){
+                if (tmpChat['members'][key]['user_uuid']==user['uuid']){
+                    tmpChat['members'][key]['last_seen'] = user['last_seen'];
+                    break;
+                }
+            }
+            setChat(tmpChat);
+        }
+
         setUsers(tmpArr);
     }
 
@@ -225,22 +240,51 @@ const Chat = ({pusher, meUuid}) => {
         setParams(params);
     }
 
-    const handleClickChatCreate = (uuid) => {
-        /*api.request('/api/chat', 'POST')
+    const handleCreateChat = (uuid = '', name = '', members = []) => {
+
+        // detect private or group
+        let form = {};
+        if (uuid!=''){ // private
+            form = {
+                'type': CHATCONST.PRIVATE,
+                'name': '~~',
+                'members': [
+                    {'uuid': uuid},
+                    {'uuid': meUuid}
+                ]
+            };
+        }else{ // group
+            form = {
+                'type': CHATCONST.GROUP,
+                'name': name,
+                'members': members
+            };
+        }
+
+        api.request('/api/chat', 'POST', form)
             .then( res => {
                 if (res.status===200||res.status===201){
-                    setChat(res.data);
+                    setChats([ res.data.data, ...chats]);
+                    setChat(res.data.data);
                     getMessages(res.data.data.uuid);
+
+                    params.delete('uuid');
+                    params.append('uuid', res.data.data.uuid);
+                    setParams(params);
+
+                    setNewConversation(false);
                 }
-            });*/
+            });
     }
 
     const handleNewGroup = () => {
-        //
+        setNewIsGroup(true);
+        setNewConversation(true);
     }
 
     const handleNewPrivate = () => {
         setNewConversation(true);
+        setNewIsGroup(false);
     }
 
     const closeNewConversation = () => {
@@ -295,7 +339,8 @@ const Chat = ({pusher, meUuid}) => {
                             <UserList 
                                 users={users}
                                 handleBack={closeNewConversation}
-                                handleCreateChat={handleClickChatCreate}
+                                handleCreateChat={handleCreateChat}
+                                isGroup={newIsGroup}
                             />
                         }
                     </div>
