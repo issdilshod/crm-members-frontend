@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import { useEffect } from "react";
-import { FaEllipsisV, FaTelegram } from "react-icons/fa";
+import { FaArrowLeft, FaEllipsisV, FaTelegram } from "react-icons/fa";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Api from "../../../services/Api";
 
@@ -9,7 +9,7 @@ import DateFormats from "../Functions/DateFormats";
 
 import * as CHATCONST from '../../../consts/Chat/Chat';
 
-const ChatIn = ({chats, setChats, chatMessages, setChatMessages, chatMessagesMeta, setChatMessagesMeta, chat, meUuid, sortChat}) => {
+const ChatIn = ({chats, setChats, chatMessages, setChatMessages, chatMessagesMeta, setChatMessagesMeta, chat, meUuid, sortChat, backClick}) => {
 
     const api = new Api();
 
@@ -118,6 +118,11 @@ const ChatIn = ({chats, setChats, chatMessages, setChatMessages, chatMessagesMet
         <div>
             <div className='d-chat-header d-flex'>
                 <div className='mr-auto d-flex'>
+                    <div className='d-mobile-back' onClick={backClick}>
+                        <i>
+                            <FaArrowLeft />
+                        </i>
+                    </div>
                     <div className='d-avatar'>{chat['name'].substr(0, 2)}</div>
                     <div className='ml-2 d-chat-header-info'>
                         <div>{chat['name']}</div>

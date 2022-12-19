@@ -656,9 +656,9 @@ label .req {
 .c-form{
     position: fixed;
     top: 0;
-    right: -75%;
+    right: -90%;
     background-color: #fff;
-    width: 75%;
+    width: 90%;
     height: 100%;
     box-shadow: 0 8px 26px -4px hsla(0,0%,8%,.15),0 8px 9px -5px hsla(0,0%,8%,.06)!important;
     overflow: auto;
@@ -1065,18 +1065,26 @@ label .req {
 }
 
 /*
-    chat
+    chat, users
 */
-.d-chat-list{
+.d-chat-list, .d-user-list{
+    margin: 0px 10px;
+    position: relative;
+    min-width: 400px !important;
 }
 
-.d-chat-list-header{
+.d-chat-list-header, .d-user-list-header{
     min-height: 55px;
     padding: 5px 0px;
 }
 
-.d-chat-list-body{
+.d-chat-list-body, .d-user-list-body{
     height: calc(100vh - 63px);
+}
+
+.user-item{
+    margin-bottom: 10px;
+    font-weight: 500;
 }
 
 .d-dialog-item{
@@ -1251,6 +1259,43 @@ label .req {
     100% { box-shadow: 0 0px 4px 0 #20da9b; }
 }
 
+/*
+    d-mobile-back
+*/
+.d-mobile-back, .d-back{
+    margin-right: 10px;
+    font-size: 1.5em;
+    cursor: pointer;
+    display: none;
+    width: 44px;
+    text-align: center;
+    border-radius: 50%;
+    transition: .4s;
+}
+
+.d-mobile-back:hover, .d-back:hover{
+    background-color: #b3b3b321;
+}
+
+.d-back{
+    display: block;
+    font-size: 1.3em;
+    width: 38px;
+}
+
+/*
+    g-chat-list
+*/
+.g-chat-list{
+    width: 30%;
+    transition: .4s;
+}
+
+.g-chat-in{
+    width: 70%;
+    transition: .4s;
+}
+
 /* medias */
 @media (max-width: 800px){
     .c-card-left, .c-card-left-lg{
@@ -1268,5 +1313,18 @@ label .req {
 
     [role=tooltip].popup-content{
         width: 80% !important;
+    }
+
+    .d-mobile-back{
+        display: block;
+    }
+
+    .g-chat-list, .g-chat-in{
+        width: 0%;
+        overflow: hidden;
+    }
+
+    .g-chat-active{
+        width: 100%;
     }
 }

@@ -1,7 +1,12 @@
 import DateFormats from "../Functions/DateFormats";
 import * as CHATCONST from '../../../consts/Chat/Chat';
+import { FaPencilAlt, FaUser, FaUsers } from "react-icons/fa";
+import { Collapse } from "react-bootstrap";
+import { useState } from "react";
 
-const ChatList = ({handleClick, chats, chat, meUuid}) => {
+const ChatList = ({handleClick, chats, chat, meUuid, handleNewGroup, handleNewPrivate}) => {
+
+    const [newConversationMenu, setNewConversationMenu] = useState(false);
 
     return (
         <div className='d-chat-list'>
@@ -87,6 +92,26 @@ const ChatList = ({handleClick, chats, chat, meUuid}) => {
                 { (chats.length==0) &&
                     <div className='text-center'>Don't have any chat yet.</div>
                 }
+            </div>
+
+            <div className='d-conversation-canvas text-right'>
+                <Collapse in={newConversationMenu}>
+                    <div className='d-conversation-variant'>
+                        <div className='d-flex d-cursor-pointer' onClick={() => { setNewConversationMenu(false);  handleNewGroup(); }}>
+                            <div className='mr-1'><i><FaUsers /></i></div>
+                            <div className='ml-auto'>New Group</div>
+                        </div>
+                        <div className='d-flex d-cursor-pointer' onClick={() => { setNewConversationMenu(false);  handleNewPrivate(); }}>
+                            <div className='mr-1'><i><FaUser /></i></div>
+                            <div className='ml-auto'>New Private Chat</div>
+                        </div>
+                    </div>
+                </Collapse>
+                <span className='create-conversation' onClick={() => { setNewConversationMenu(!newConversationMenu) }}>
+                    <i>
+                        <FaPencilAlt />
+                    </i>
+                </span>
             </div>
         </div>
     )

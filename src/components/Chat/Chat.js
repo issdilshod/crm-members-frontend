@@ -10,8 +10,8 @@ import nSound from '../../assets/sound/message-notification.mp3';
 import './Chat.scss';
 import ChatIn from "./Chats/ChatIn";
 import ChatList from "./Chats/ChatList";
-import DepartmentList from "./Departments/DepartmentList";
 import { useSearchParams } from "react-router-dom";
+import UserList from "./Chats/UserList";
 
 const Chat = ({pusher, meUuid}) => {
 
@@ -19,7 +19,7 @@ const Chat = ({pusher, meUuid}) => {
 
     const [formOpen, setFormOpen] = useState(false);
     const [chats, setChats] = useState([]);
-    const [departments, setDepartments] = useState([]);
+    const [users, setUsers] = useState([]);
 
     const [chat, setChat] = useState({'uuid': ''});
     const [chatMessages, setChatMessages] = useState([]);
@@ -27,6 +27,10 @@ const Chat = ({pusher, meUuid}) => {
 
     const [pusherUpdates, setPusherUpdates] = useState(null);
     const [pusherUsersUpdates, setPusherUsersUpdates] = useState(null);
+
+    const [chatInActive, setChatInActive] = useState(false);
+
+    const [newConversation, setNewConversation] = useState(false);
 
     const [soundNotification] = useSound(nSound);
 
@@ -64,6 +68,11 @@ const Chat = ({pusher, meUuid}) => {
                 // get chat
                 if (params.has('uuid')){
                     getChat(params.get('uuid'));
+
+                    setChatInActive(true);
+                }else{
+                    setChatInActive(false);
+                    setChat({'uuid': ''});
                 }
             }else{
                 setFormOpen(false);
@@ -81,10 +90,10 @@ const Chat = ({pusher, meUuid}) => {
                 }
             });
 
-        api.request('/api/chat-department', 'GET')
+        api.request('/api/chat-users', 'GET')
             .then(res => {
                 if (res.status===200||res.status===201){
-                    setDepartments(res.data.data);
+                    setUsers(res.data.data);
                 }
             });
     }
@@ -172,24 +181,18 @@ const Chat = ({pusher, meUuid}) => {
     }
 
     const updateUsersList = (user) => {
-        let tmpArr = [...departments];
+        let tmpArr = [...users];
 
         // departments
-        let found = false;
-        for (let key in tmpArr){
-            // users
-            for (let key1 in tmpArr[key]['users']){
-                if (tmpArr[key]['users'][key1]['uuid']==user['uuid']){
-                    // change last seen
-                    tmpArr[key]['users'][key1]['last_seen'] = user['last_seen'];
-                    found = true;
-                    break;
-                }
+        for (let key in tmpArr['users']){
+            if (tmpArr['users'][key]['uuid']==user['uuid']){
+                // change last seen
+                tmpArr['users'][key]['last_seen'] = user['last_seen'];
+                break;
             }
-            if (found){ break; }
         }
 
-        setDepartments(tmpArr);
+        setUsers(tmpArr);
     }
 
     const getChat = (uuid) => {
@@ -223,14 +226,26 @@ const Chat = ({pusher, meUuid}) => {
         setParams(params);
     }
 
-    const handleClickChatCreate = (uuid, name) => {
-        api.request('/api/chat', 'POST', {'entity_uuid': uuid, 'name': name})
+    const handleClickChatCreate = (uuid) => {
+        /*api.request('/api/chat', 'POST')
             .then( res => {
                 if (res.status===200||res.status===201){
                     setChat(res.data);
                     getMessages(res.data.data.uuid);
                 }
-            });
+            });*/
+    }
+
+    const handleNewGroup = () => {
+        //
+    }
+
+    const handleNewPrivate = () => {
+        setNewConversation(true);
+    }
+
+    const closeNewConversation = () => {
+        setNewConversation(false);
     }
 
     const openChat = () => {
@@ -242,6 +257,11 @@ const Chat = ({pusher, meUuid}) => {
     const closeChat = () => {
         params.delete('section');
         params.delete('part');
+        params.delete('uuid');
+        setParams(params);
+    }
+
+    const backClick = () => {
         params.delete('uuid');
         setParams(params);
     }
@@ -259,33 +279,43 @@ const Chat = ({pusher, meUuid}) => {
                 className={`c-card-left-lg ${!formOpen?'w-0':''}`} 
                 onClick={ () => { closeChat() } }></div>
             <div className={`c-form ${formOpen?'c-form-active':''}`} style={{'padding': '0px'}}>
-                <div className='container-fluid'>
-
-                    <div className='row'>
-                        <div className='col-4' style={{'borderRight': '1px solid #f6f6f6'}}>
+                <div className='d-flex'>
+                    <div className={`g-chat-list ${!chatInActive?'g-chat-active':''}`} style={{'borderRight': '1px solid #f6f6f6'}}>
+                        { (!newConversation) &&
                             <ChatList 
                                 handleClick={handleChatClick}
                                 chats={chats}
                                 chat={chat}
                                 meUuid={meUuid}
+                                handleNewGroup={handleNewGroup}
+                                handleNewPrivate={handleNewPrivate}
                             />
-                        </div>
+                        }
 
-                        <div className='col-8 p-0' >
-                            { ('type' in chat) &&
-                                <ChatIn
-                                    setChats={setChats}
-                                    chats={chats}
-                                    setChatMessages={setChatMessages}
-                                    chatMessages={chatMessages}
-                                    chatMessagesMeta={chatMessagesMeta}
-                                    setChatMessagesMeta={setChatMessagesMeta}
-                                    chat={chat}
-                                    meUuid={meUuid}
-                                    sortChat={sortChat}
-                                />
-                            }
-                        </div>
+                        { newConversation &&
+                            <UserList 
+                                users={users}
+                                handleBack={closeNewConversation}
+                                handleCreateChat={handleClickChatCreate}
+                            />
+                        }
+                    </div>
+
+                    <div className={`g-chat-in ${chatInActive?'g-chat-active':''}`}>
+                        { ('type' in chat) &&
+                            <ChatIn
+                                setChats={setChats}
+                                chats={chats}
+                                setChatMessages={setChatMessages}
+                                chatMessages={chatMessages}
+                                chatMessagesMeta={chatMessagesMeta}
+                                setChatMessagesMeta={setChatMessagesMeta}
+                                chat={chat}
+                                meUuid={meUuid}
+                                sortChat={sortChat}
+                                backClick={backClick}
+                            />
+                        }
                     </div>
                 </div>  
             </div>
