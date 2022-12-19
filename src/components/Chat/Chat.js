@@ -129,6 +129,7 @@ const Chat = ({pusher, meUuid}) => {
         // set chat list
         if (!exists){
             tmpArr.push({
+                'unread_count': 1,
                 'last_message': {
                     'first_name': message['user']['first_name'],
                     'last_name': message['user']['last_name'],
@@ -149,6 +150,8 @@ const Chat = ({pusher, meUuid}) => {
                 'message': message['message'],
                 'created_at': message['created_at']
             };
+
+            tmpArr[exists_index]['unread_count'] = parseInt(tmpArr[exists_index]['unread_count']) + 1;
         }
 
         // set to chat
@@ -238,6 +241,15 @@ const Chat = ({pusher, meUuid}) => {
         params.delete('uuid');
         params.append('uuid', uuid);
         setParams(params);
+
+        let tmpArr = [...chats];
+        for (let key in tmpArr){
+            if (tmpArr[key]['uuid']==uuid){
+                tmpArr[key]['unread_count'] = 0;
+            }
+        }
+
+        setChats(tmpArr);
     }
 
     const handleCreateChat = (uuid = '', name = '', members = []) => {

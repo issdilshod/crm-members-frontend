@@ -87,8 +87,16 @@ const ChatList = ({handleClick, chats, chat, meUuid, handleNewGroup, handleNewPr
                                                 
                                             </div>
                                             <div className='ml-2'>
-                                                { (1==2) && // TODO: logic for new messages
-                                                    <span className='new-message'></span>
+                                                { (value['unread_count']>0) &&
+                                                    <span className='d-dialog-item-message-new'>
+                                                        { (value['unread_count']<100) &&
+                                                            <>{value['unread_count']}</>
+                                                        }
+
+                                                        { (value['unread_count']>=100) &&
+                                                            <>+99</>
+                                                        }
+                                                    </span>
                                                 }
                                             </div>
                                         </div>
