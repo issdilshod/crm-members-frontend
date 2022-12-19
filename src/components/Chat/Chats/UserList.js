@@ -27,7 +27,7 @@ const UserList = ({handleBack, users, handleCreateChat}) => {
                         return (
                             <div key={index} className='user-item d-flex'>
                                 <div className='mr-auto'>
-                                    <span className='mr-2'>{value['first_name'] + ' ' + value['last_name']}</span>
+                                    <span className='user-item-name mr-2'>{value['first_name'] + ' ' + value['last_name']}</span>
                                     { (value['last_seen']==null) &&
                                         <span className='online'></span>
                                     }

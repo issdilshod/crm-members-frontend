@@ -183,11 +183,10 @@ const Chat = ({pusher, meUuid}) => {
     const updateUsersList = (user) => {
         let tmpArr = [...users];
 
-        // departments
-        for (let key in tmpArr['users']){
-            if (tmpArr['users'][key]['uuid']==user['uuid']){
+        for (let key in tmpArr){
+            if (tmpArr[key]['uuid']==user['uuid']){
                 // change last seen
-                tmpArr['users'][key]['last_seen'] = user['last_seen'];
+                tmpArr[key]['last_seen'] = user['last_seen'];
                 break;
             }
         }

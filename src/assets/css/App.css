@@ -1084,6 +1084,9 @@ label .req {
 
 .user-item{
     margin-bottom: 10px;
+}
+
+.user-item-name{
     font-weight: 500;
 }
 
