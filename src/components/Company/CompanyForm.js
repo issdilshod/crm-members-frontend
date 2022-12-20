@@ -22,7 +22,9 @@ import Input from '../Helper/Input/Input';
 import InputMask from '../Helper/Input/InputMask';
 import toast from 'react-hot-toast';
 import { confirmDialog } from 'primereact/confirmdialog';
+
 import Incorporation from '../Helper/Company/Incorporation';
+import DoingBusiness from '../Helper/Company/DoingBusiness';
 
 const CompanyForm = () => {
 
@@ -599,10 +601,9 @@ const CompanyForm = () => {
                         </div>
 
                         <div className='col-12 col-sm-6 form-group'>
-                            <Incorporation 
+                            <DoingBusiness 
                                 
                                 title='Doing business in state'
-                                registrationDate='Registration Date'
                                 unique='doing_business_in_state'
                                 errorArray={companyFormError}
                                 form={companyForm}
@@ -654,7 +655,7 @@ const CompanyForm = () => {
 
                         <div className={`col-12 col-sm-6 form-group`}>
                             <Phones2
-                                title='Phones 2'
+                                title='Mobile Phones'
                                 form={companyForm}
                                 setForm={setCompanyForm}
                                 errorArray={companyFormError}

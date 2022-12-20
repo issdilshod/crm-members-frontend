@@ -50,6 +50,17 @@ const Phones2 = ({title, defaultOpen = true, errorArray = {}, form, setForm, que
                     <div className='row'>
 
                         <div className='col-12 col-sm-6'>
+                            <Input
+                                title='Business Mobile Number'
+                                name='business_mobile_number'
+                                onChange={onChange}
+                                defaultValue={form['business_mobile_number']}
+                                errorArray={errorArray}
+                                query={query}
+                            />
+                        </div>
+
+                        <div className='col-12 col-sm-6'>
                             <Select 
                                 title='Business Mobile Provider'
                                 name='business_mobile_provider'
@@ -66,7 +77,7 @@ const Phones2 = ({title, defaultOpen = true, errorArray = {}, form, setForm, que
                             />
                         </div>
 
-                        <div className='col-12 col-sm-6'>
+                        <div className='col-12'>
                             <Input 
                                 title='Business Mobile Website'
                                 name='business_mobile_website'
@@ -101,7 +112,7 @@ const Phones2 = ({title, defaultOpen = true, errorArray = {}, form, setForm, que
 
                         <div className='col-12'>
                             <Select 
-                                title='Card on file'
+                                title='Credit card on file'
                                 name='card_on_file'
                                 onChange={onChange}
                                 options={[

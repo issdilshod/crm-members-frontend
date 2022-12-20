@@ -36,6 +36,8 @@ const VirtualOfficeForm = () => {
 
     const [directorList, setDirectorList] = useState([]);
 
+    const [directorCompany, setDirectorCompany] = useState('');
+
     useEffect(() => {
         api.request('/api/get_me', 'GET')
             .then(res => {
@@ -52,9 +54,12 @@ const VirtualOfficeForm = () => {
 
         if (!formOpen){
             nav(`${process.env.REACT_APP_FRONTEND_PREFIX}/virtual-offices`);
+            setDirectorCompany('');
         }else{
             if (form['director']!=null){
                 setDirectorList([{'value': form['director']['uuid'], 'label': form['director']['first_name'] + ' ' + (form['director']['middle_name']!=null?form['director']['middle_name']+' ':'') + form['director']['last_name']}]);
+
+                handleGetCompany(form['director']['uuid']);
             }
         }
     }, [formOpen])
@@ -304,6 +309,15 @@ const VirtualOfficeForm = () => {
         });
     }
 
+    const handleGetCompany = (uuid) => {
+        api.request('/api/company-by-director/'+ uuid, 'GET')
+            .then(res => {
+                if (res.status===200||res.status===201){
+                    setDirectorCompany(res.data.legal_name);
+                }
+            });
+    }
+
     return (  
         <div>
             <div className={`c-card-left ${!formOpen?'w-0':''}`} onClick={ () => { confirmCloseCard() } }></div>
@@ -318,17 +332,28 @@ const VirtualOfficeForm = () => {
                 <div className='c-form-body container-fluid'>
                     <form className='c-form-body-block row'>
 
-                        <div className='c-form-field col-12 col-sm-4'>
+                        <div className={`c-form-field col-12 ${(directorCompany!='')?'col-sm-2':'col-sm-4'}`}>
                             <label>VO Signer</label>
                             <ReactSelect 
                                 options={directorList}
                                 onKeyDown={ (e) => { loadDirectorList(e.target.value) } }
                                 value={ directorList.filter(option => { return option.value == form['vo_signer_uuid'] }) }
-                                onChange={ (e) => { handleChange({'target': {'name': 'vo_signer_uuid', 'value': e.value} }); } }
+                                onChange={ (e) => { handleChange({'target': {'name': 'vo_signer_uuid', 'value': e.value} }); handleGetCompany(e.value); } }
                             />
                         </div>
 
-                        <div className='c-form-field col-12 col-sm-4'>
+                        { (directorCompany!='') &&
+                            <div className='c-form-field col-12 col-sm-3'>
+                                <label>Company</label>
+                                <input 
+                                    className='form-control'
+                                    value={directorCompany}
+                                    disabled={true}
+                                />
+                            </div>
+                        }
+
+                        <div className={`c-form-field col-12 ${(directorCompany!='')?'col-sm-3':'col-sm-4'}`}>
                             <Input 
                                 title='VO Provider Name'
                                 name='vo_provider_name'

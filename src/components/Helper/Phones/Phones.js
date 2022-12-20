@@ -98,28 +98,6 @@ const Phones = ({title, defaultOpen = true, errorArray = {}, form, setForm, quer
                             />
                         </div>
 
-                        <div className='col-12 col-sm-6'>
-                            <Input
-                                title='Business Mobile Number'
-                                name='business_mobile_number'
-                                onChange={onChange}
-                                defaultValue={form['business_mobile_number']}
-                                errorArray={errorArray}
-                                query={query}
-                            />
-                        </div>
-
-                        <div className='col-12 col-sm-6'>
-                            <Input
-                                title='Business Mobile Number Type'
-                                name='business_mobile_number_type'
-                                onChange={onChange}
-                                defaultValue={form['business_mobile_number_type']}
-                                errorArray={errorArray}
-                                query={query}
-                            />
-                        </div>
-
                     </div>
                 </Collapse>
             </div>

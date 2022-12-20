@@ -7,7 +7,7 @@ import Input from "../Input/Input";
 import Select from "../Input/Select";
 import RegisterAgent from "../RegisterAgent/RegisterAgent";
 
-const Incorporation = ({title, unique, defaulfOpen = true, errorArray = {}, form, setForm, query = '', onChange, downloadEnable}) => {
+const DoingBusiness = ({title, unique, defaulfOpen = true, errorArray = {}, form, setForm, stateList, query = '', onChange, downloadEnable}) => {
 
     const [isOpen, setIsOpen] = useState(defaulfOpen);
 
@@ -105,47 +105,36 @@ const Incorporation = ({title, unique, defaulfOpen = true, errorArray = {}, form
                             <File
                                 form={form}
                                 setForm={setForm}
-                                parentUnique={unique + '__' + 'incorporation_documents'}
-                                title='Incorporation documents'
+                                parentUnique={unique + '__' + 'application_for_register'}
+                                title='Application for register'
                                 onChange={onChange}
                                 downloadEnable={downloadEnable}
                             />
                         </div>
 
-                        <div className='form-group col-12 col-sm-6'>
+                        <div className='col-12 col-sm-6'>
                             <File
                                 form={form}
                                 setForm={setForm}
-                                parentUnique={unique + '__' + 'revival_documents'}
-                                title='Revival documents'
+                                parentUnique={unique + '__' + 'register_documents'}
+                                title='Register documents'
                                 onChange={onChange}
                                 downloadEnable={downloadEnable}
                             />
                         </div>
 
-                        <div className='form-group col-12 col-sm-6'>
-                            <File
-                                form={form}
-                                setForm={setForm}
-                                parentUnique={unique + '__' + 'certification_of_good_standing'}
-                                title='Certification of good standing'
-                                onChange={onChange}
-                                downloadEnable={downloadEnable}
-                            />
-                        </div>
-
-                        <div className='form-group col-12 col-sm-6'>
+                        <div className='col-12 col-sm-6'>
                             <File
                                 form={form}
                                 setForm={setForm}
                                 parentUnique={unique + '__' + 'annual_report'}
-                                title='Annaul report'
+                                title='Annual Report'
                                 onChange={onChange}
                                 downloadEnable={downloadEnable}
                             />
                         </div>
 
-                        <div className='form-group col-12'>
+                        <div className='col-12 col-sm-6'>
                             <File
                                 form={form}
                                 setForm={setForm}
@@ -169,7 +158,7 @@ const Incorporation = ({title, unique, defaulfOpen = true, errorArray = {}, form
 
                         <div className='col-12 col-sm-6'>
                             <Input
-                                title={'Incorporation Date'}
+                                title={'Registration Date'}
                                 name='incorporation_date'
                                 type='date'
                                 onChange={handleChange}
@@ -256,4 +245,4 @@ const Incorporation = ({title, unique, defaulfOpen = true, errorArray = {}, form
     )
 }
 
-export default Incorporation;
+export default DoingBusiness;
