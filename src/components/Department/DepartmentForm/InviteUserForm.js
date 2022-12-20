@@ -3,6 +3,7 @@ import { Mediator } from '../../../context/Mediator';
 import { FaCircle, FaEnvelope, FaTelegram, FaTimes } from 'react-icons/fa';
 
 import Validation from '../../Helper/Validation/Validation';
+import { toast } from 'react-hot-toast';
 
 const InviteUserForm = () => {
 
@@ -15,37 +16,19 @@ const InviteUserForm = () => {
     } = useContext(Mediator);
 
     const [inviteForm, setInviteForm] = useState({'unique_identify': ''});
-    const [inviteFormError, setInviteFormError] = useState({});
-
-    const [error, setError] = useState({'msg': '', 'show': false, 'type': ''});
-
-    const errorNull = () => {
-        setError({'msg': '', 'show': false, 'type': ''});
-    }
-
-    useEffect(() => {
-        errorNull();
-    }, [inviteUserFormOpen]);
-
-    const handleLocalClick = () => {
-        ;
-    }
 
     const handleInvite = (via) => {
-        setInviteFormError({});
-        errorNull();
         api.request('/api/invite-via-'+via, 'POST', inviteForm)
             .then(res => {
-                switch(res.status){
-                    case 200:
-                    case 201:
-                        setError({'msg': 'Invite link sent successfully.', 'show': true, 'type': 'd-alert-success'});
-                        break;
-                    default:
-                        setError({'msg': res.data.data + ' User have to start Telegram bot @project_iss_bot to recieve the message.', 'show': true, 'type': 'd-alert-danger'});
-                        break;
+                if (res.status===200||res.status===201){
+                    toast.success('Invite link successfully sent!');
+                }else if (res.status===403){
+                    toast.error('Permission Error!');
+                }else if (res.status===422){
+                    toast.error('Type Telegram nick!');
+                }else{
+                    toast.error(res.data.data + ' User have to start Telegram bot @project_iss_bot to recieve the message.');
                 }
-                
             });
     }
 
@@ -53,13 +36,10 @@ const InviteUserForm = () => {
         setUserEdit(true);
         api.request('/api/user/'+uuid, 'GET')
             .then(res => {
-                switch (res.status){
-                    case 200: // Success
-                    case 201:
-                        setUserForm( { ...res.data.data, 'active': true } );
-                        setUserFormOpen(true);
-                        setInviteUserFormOpen(false);
-                        break;
+                if (res.status===200||res.status===201){
+                    setUserForm( { ...res.data.data, 'active': true } );
+                    setUserFormOpen(true);
+                    setInviteUserFormOpen(false);
                 }
             });
     }
@@ -83,27 +63,21 @@ const InviteUserForm = () => {
                 <div className={`${styles['department-form-card-body']} container-fluid`}>
                     <div className='row mb-4'>
                         <div className='col-12'>
-                            { error['show'] && 
-                                <div className={`alert ${error['type']}`} >{ error['msg'] }</div>
-                            }
-                        </div>
-                        <div className='col-12'>
                             <div className='form-group'>
-                                <label>Identity</label>
+                                <label>Telegram nick</label>
                                 <input className='form-control' 
                                         placeholder='Identity'
                                         value={inviteForm['unique_identify']}
                                         onChange={ (e) => { setInviteForm({'unique_identify': e.target.value}) } }
                                 />
-                                <Validation
-                                    fieldName='unique_identify'
-                                    errorArray={inviteFormError}
-                                />
                             </div>
                         </div>
                         <div className='col-12 col-sm-6 mb-2'>
-                            <div className='d-btn d-btn-primary text-center'
-                                    onClick={() => { handleInvite('email') } }
+                            <div 
+                                className='d-btn d-btn-primary text-center'
+                                onClick={() => { toast.error('Invite via Email not supported yet!'); } }
+                                style={{'opacity': '.7'}}
+                                
                             >
                                 <FaEnvelope /> Invite via Email
                             </div>
