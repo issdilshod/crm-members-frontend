@@ -22,7 +22,7 @@ body{
     min-height: 100vh;
     position: relative;
     overflow: hidden;
-    min-width: 400px !important;
+    min-width: 300px !important;
 }
 
 a{
@@ -1074,7 +1074,7 @@ label .req {
 .d-chat-list, .d-user-list{
     margin: 0px 10px;
     position: relative;
-    min-width: 400px !important;
+    min-width: 300px !important;
 }
 
 .d-chat-list-header, .d-user-list-header{

@@ -210,7 +210,15 @@ const Chat = ({pusher, meUuid}) => {
         }
 
         tmpArr.sort(function(a, b){
-            return new Date(b.last_seen) - new Date(a.last_seen);
+            if (a.last_seen==null && b.last_seen==null){
+                return -1;
+            }else if (a.last_seen==null){
+                return -1;
+            } else if (b.last_seen==null){
+                return 0;
+            }else {
+                return new Date(b.last_seen) - new Date(a.last_seen);
+            }
         });
 
         setUsers(tmpArr);
