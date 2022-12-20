@@ -4,7 +4,6 @@ import Api from '../../services/Api';
 import { Mediator } from '../../context/Mediator';
 
 import Header from '../Header/Header';
-import styles from './Department.module.scss';
 import DepartmentForm from './DepartmentForm/DepartmentForm';
 import UserForm from './DepartmentForm/UserForm';
 import Loading from '../Helper/Loading';
@@ -58,7 +57,7 @@ const Department = () => {
     const [searchVariant, setSearchVariant] = useState([]);
 
     useEffect(() => {
-        firstInit()
+        init()
     }, []);
 
     useEffect(() => {
@@ -75,7 +74,7 @@ const Department = () => {
         }
     }, [search]);
 
-    const firstInit = () => {
+    const init = () => {
         document.title = 'Departments';
 
         api.request('/api/department', 'GET')
@@ -138,7 +137,7 @@ const Department = () => {
 
     return (
         <Mediator.Provider value={ {
-            api, navigate, styles,
+            navigate,
             departmentList, setDepartmentList, departmentForm, setDepartmentForm, departmentFormOpen, setDepartmentFormOpen,
             userFormEntity, userForm, userFormError, setUserFormError, setUserForm, userFormOpen, setUserFormOpen,
             userEdit, setUserEdit,
@@ -148,17 +147,18 @@ const Department = () => {
 
             permissionFormOpen, setPermissionFormOpen, permissionList, setPermissionList, entityPermission, setEntityPermission, permissionEntityIs, setPermissionEntityIs, selectedPermissionEntity, setSelectedPermissionEntity
         } }>
-            <div className={styles['main-content']}>
+            <div className='c-main-content' style={{'marginTop': '80px'}}>
                 <Header 
                     search={search}
                     setSearch={setSearch}
                     searchVariant={searchVariant}
                 />
-                <div className={`${styles['department-block']} container`}>
+                <div className='container'>
                     <div className='row mb-4'>
                         <div className='col-12'>
-                            <div className={`${styles['department-item']}`}
-                                    onClick={ () => { handleInviteUserClick() } }
+                            <div 
+                                className='d-big-btn'
+                                onClick={ () => { handleInviteUserClick() } }
                             >
                                 <FaShareAlt /> Invite User
                             </div>
@@ -169,7 +169,10 @@ const Department = () => {
                             departmentList.map((value, index) => {
                                 return (
                                     <div key={index} className='col-12'>
-                                        <div className={styles['department-item']} onClick={() => { handleClick(value['uuid']) }}>
+                                        <div 
+                                            className='d-big-btn' 
+                                            onClick={() => { handleClick(value['uuid']) }}
+                                        >
                                             { value['department_name'] }
                                         </div>
                                     </div>

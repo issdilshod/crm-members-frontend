@@ -3,11 +3,15 @@ import { Mediator } from '../../../context/Mediator';
 
 import { FaTimes, FaPlus, FaCog, FaTrash, FaPencilAlt } from 'react-icons/fa';
 import { useParams } from 'react-router-dom';
+import Api from '../../../services/Api';
 
 const DepartmentForm = () => {
 
+    const api = new Api();
+
+    const { uuid } = useParams();
+
     const {
-        api, styles,
         departmentList, departmentForm, setDepartmentForm, departmentFormOpen, setDepartmentFormOpen,
         userFormEntity, userForm, setUserForm, setUserFormError, userFormOpen, setUserFormOpen,
         userEdit, setUserEdit,
@@ -15,9 +19,6 @@ const DepartmentForm = () => {
 
         permissionFormOpen, setPermissionFormOpen, entityPermission, setEntityPermission, permissionEntityIs, setPermissionEntityIs, selectedPermissionEntity, setSelectedPermissionEntity
     } = useContext(Mediator);
-
-
-    const { uuid } = useParams();
 
     useEffect(() => {
         firstInit();
@@ -109,21 +110,21 @@ const DepartmentForm = () => {
     return (
         <>
             <div className={`c-card-left ${!departmentFormOpen?'w-0':''}`} onClick={ () => { setDepartmentFormOpen(false) } }></div>
-            <div className={`${styles['department-form-card']} ${departmentFormOpen ? styles['department-form-card-active']:''}`}>
-                <div className={`${styles['department-form-card-head']} d-flex`}>
-                    <div className={`${styles['department-form-card-title']} mr-auto`}>{departmentForm['department_name']} department</div>
-                    <div className={styles['department-form-card-close']} onClick={() => { setDepartmentFormOpen(!departmentFormOpen) } }>
+            <div className={`c-form  ${departmentFormOpen?'c-form-active':''}`}>
+                <div className='c-form-head d-flex'>
+                    <div className='c-form-head-title mr-auto'>{departmentForm['department_name']} department</div>
+                    <div className='c-form-close' onClick={() => { setDepartmentFormOpen(!departmentFormOpen) } }>
                         <FaTimes />
                     </div>
                 </div>
-                <hr className={styles['divider']} />
-                <div className={`${styles['department-form-card-body']} container-fluid`}>
-                    <form className={`${styles['department-form-block']} row`}>
+                <hr className='divider' />
+                <div className='c-form-body container-fluid'>
+                    <form className='c-form-body-block row'>
 
                         <div className='col-12'>
-                            <div className={`${styles['user-card']}`}>
-                                <div className={`${styles['user-card-head']} d-flex`} >
-                                    <div className={`${styles['card-head-title']} mr-auto`}>Users of {departmentForm['department_name']} department</div>
+                            <div className='dd-card'>
+                                <div className='dd-card-head d-flex' >
+                                    <div className='mr-auto'>Users of {departmentForm['department_name']} department</div>
                                     <div>
                                         <span 
                                             className='mr-2'
@@ -136,41 +137,41 @@ const DepartmentForm = () => {
                                         </span>
                                     </div>
                                 </div>
-                                <div className={`${styles['user-card-body']} container-fluid`}>
-                                    <ul className={`${styles['users-list']}`}>
+                                <div className='dd-card-body container-fluid'>
+                                    <div>
                                         {
                                             departmentForm['users'].map((value, index) => {
                                                 return (
-                                                    <li key={index} className='d-flex'>
-                                                        <div>{index+1}</div>
-                                                        <div className='mr-auto'>{value['first_name']} {value['last_name']}</div>
+                                                    <div key={index} className='d-flex d-hover p-2'>
+                                                        <div className='mr-2'>{index+1}</div>
+                                                        <div className='mr-auto d-title'>{value['first_name']} {value['last_name']}</div>
                                                         <div>
                                                             <button
-                                                                className='d-btn d-btn-primary mr-2'
+                                                                className='d-btn d-btn-sm d-btn-primary mr-2'
                                                                 onClick={ (e) => { handleUserClick(e, value['uuid']) } }
                                                             >
                                                                 <FaPencilAlt />
                                                             </button>
 
                                                             <button 
-                                                                className='d-btn d-btn-primary mr-2' 
+                                                                className='d-btn d-btn-sm d-btn-primary mr-2' 
                                                                 onClick={ (e) => { handleUserPermission(e, value['uuid']) } } 
                                                             >
                                                                 <FaCog />
                                                             </button> 
 
                                                             <button 
-                                                                className='d-btn d-btn-danger' 
+                                                                className='d-btn d-btn-sm d-btn-danger' 
                                                                 onClick={ (e) => { handleDeleteUser(e, value['uuid'], value['first_name'] + ' ' + value['last_name']) } }
                                                             >
                                                                 <FaTrash />
                                                             </button> 
                                                         </div>
-                                                    </li>
+                                                    </div>
                                                 )
                                             })
                                         }  
-                                    </ul>
+                                    </div>
                                 </div>
                             </div>
                         </div>

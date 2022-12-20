@@ -1,12 +1,14 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useContext } from 'react';
 import { Mediator } from '../../../context/Mediator';
-import { FaCircle, FaEnvelope, FaTelegram, FaTimes } from 'react-icons/fa';
+import { FaTimes } from 'react-icons/fa';
 import OnOff from '../../Helper/OnOff';
+import Api from '../../../services/Api';
 
 const PermissionForm = () => {
 
+    const api = new Api();
+
     const { 
-        api, styles,
         permissionFormOpen, setPermissionFormOpen,
         permissionList, setPermissionList, entityPermission, setEntityPermission, permissionEntityIs, setPermissionEntityIs, selectedPermissionEntity, setSelectedPermissionEntity
     } = useContext(Mediator);
@@ -23,24 +25,25 @@ const PermissionForm = () => {
         <>
             <div className={`c-card-left ${!permissionFormOpen?'w-0':''}`} onClick={ () => { setPermissionFormOpen(false) } }></div>
 
-            <div className={`${styles['department-form-card']} ${permissionFormOpen ? styles['department-form-card-active']:''}`}>
-                <div className={`${styles['department-form-card-head']} d-flex`}>
-                    <div className={`${styles['department-form-card-title']} mr-auto`}>
+            <div className={`c-form ${permissionFormOpen?'c-form-active':''}`}>
+                <div className='c-form-head d-flex'>
+                    <div className='c-form-head-title mr-auto'>
                         Permission control
                     </div>
-                    <div className={styles['department-form-card-close']} 
-                            onClick={ () => { setPermissionFormOpen(false) } }
+                    <div 
+                        className='c-form-close' 
+                        onClick={ () => { setPermissionFormOpen(false) } }
                     >
                         <FaTimes />
                     </div>
                 </div>
-                <hr className={styles['divider']} />
-                <div className={`${styles['department-form-card-body']} container-fluid`}>
-                    <div className='row'>
+                <hr className='divider' />
+                <div className='c-form-body container-fluid'>
+                    <div className='c-form-body-block row'>
                         {
                             permissionList.map((value, index) => {
                                 return (
-                                    <div className='col-12 col-sm-6' key={index}>
+                                    <div className='col-12 col-sm-6 col-lg-4' key={index}>
                                         <div 
                                             key={index}
                                             className='d-flex mb-2'

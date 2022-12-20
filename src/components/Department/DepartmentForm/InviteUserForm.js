@@ -1,14 +1,15 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Mediator } from '../../../context/Mediator';
-import { FaCircle, FaEnvelope, FaTelegram, FaTimes } from 'react-icons/fa';
+import { FaEnvelope, FaTelegram, FaTimes } from 'react-icons/fa';
 
-import Validation from '../../Helper/Validation/Validation';
 import { toast } from 'react-hot-toast';
+import Api from '../../../services/Api';
 
 const InviteUserForm = () => {
 
+    const api = new Api();
+
     const { 
-        api, styles,
         setUserEdit,
         setUserForm, setUserFormOpen,
         inviteUserFormOpen, setInviteUserFormOpen,
@@ -18,6 +19,9 @@ const InviteUserForm = () => {
     const [inviteForm, setInviteForm] = useState({'unique_identify': ''});
 
     const handleInvite = (via) => {
+
+        let toastId = toast.loading('Waiting...');
+
         api.request('/api/invite-via-'+via, 'POST', inviteForm)
             .then(res => {
                 if (res.status===200||res.status===201){
@@ -29,11 +33,16 @@ const InviteUserForm = () => {
                 }else{
                     toast.error(res.data.data + ' User have to start Telegram bot @project_iss_bot to recieve the message.');
                 }
+
+                toast.dismiss(toastId);
             });
     }
 
     const handleUserClick = (uuid) => {
         setUserEdit(true);
+
+        let toastId = toast.loading('Waiting...');
+
         api.request('/api/user/'+uuid, 'GET')
             .then(res => {
                 if (res.status===200||res.status===201){
@@ -41,6 +50,8 @@ const InviteUserForm = () => {
                     setUserFormOpen(true);
                     setInviteUserFormOpen(false);
                 }
+
+                toast.dismiss(toastId);
             });
     }
 
@@ -48,20 +59,21 @@ const InviteUserForm = () => {
         <>
             <div className={`c-card-left ${!inviteUserFormOpen?'w-0':''}`} onClick={ () => { setInviteUserFormOpen(false) } }></div>
         
-            <div className={`${styles['department-form-card']} ${inviteUserFormOpen ? styles['department-form-card-active']:''}`}>
-                <div className={`${styles['department-form-card-head']} d-flex`}>
-                    <div className={`${styles['department-form-card-title']} mr-auto`}>
+            <div className={`c-form ${inviteUserFormOpen?'c-form-active':''}`}>
+                <div className='c-form-head d-flex'>
+                    <div className='c-form-head-title mr-auto'>
                         Invite user to platform
                     </div>
-                    <div className={styles['department-form-card-close']} 
-                            onClick={ () => { setInviteUserFormOpen(false) } }
+                    <div 
+                        className='c-form-close' 
+                        onClick={ () => { setInviteUserFormOpen(false) } }
                     >
                         <FaTimes />
                     </div>
                 </div>
-                <hr className={styles['divider']} />
-                <div className={`${styles['department-form-card-body']} container-fluid`}>
-                    <div className='row mb-4'>
+                <hr className='divider' />
+                <div className='c-form-body container-fluid'>
+                    <div className='c-form-body-block row mb-4'>
                         <div className='col-12'>
                             <div className='form-group'>
                                 <label>Telegram nick</label>
@@ -72,47 +84,48 @@ const InviteUserForm = () => {
                                 />
                             </div>
                         </div>
-                        <div className='col-12 col-sm-6 mb-2'>
-                            <div 
+                        <div className='col-12 mb-2 text-right'>
+                            <span 
                                 className='d-btn d-btn-primary text-center'
                                 onClick={() => { toast.error('Invite via Email not supported yet!'); } }
                                 style={{'opacity': '.7'}}
                                 
                             >
                                 <FaEnvelope /> Invite via Email
-                            </div>
-                        </div>
-                        <div className='col-12 col-sm-6 mb-2'>
-                            <div className={`d-btn d-btn-primary text-center ${styles['button-telegram-color']}`}
+                            </span>
+
+                            <span 
+                                className='d-btn d-btn-primary text-center d-btn-telegram ml-2'
                                 onClick={() => { handleInvite('telegram') } }
                             >
                                 <FaTelegram /> Invite via Telegram
-                            </div>
+                            </span>
                         </div>
                     </div>
                     <div className='row'>
-                    <div className={`col-12 ${styles['department-form-block']}`}>
-                            <div className={`${styles['user-card']}`}>
-                                <div className={`${styles['user-card-head']} d-flex`} >
-                                    <div className={`${styles['card-head-title']} mr-auto`}>Requests from user for register</div>
+                    <div className='col-12'>
+                            <div className='dd-card'>
+                                <div className='dd-card-head' >
+                                    <div className='mr-auto'>Requests from user for register</div>
                                 </div>
-                                <div className={`${styles['user-card-body']} container-fluid`}>
-                                    <ul className={`${styles['users-list']}`}>
+                                <div className='dd-card-body container-fluid'>
+                                    <div>
                                         {
                                             pendingUsers.map((value, index) => {
                                                 return (
-                                                    <li key={index} className='d-flex' onClick={() => { handleUserClick(value['uuid']) }}>
-                                                        <div>{index+1}</div>
-                                                        <div className='mr-auto'>{value['username']}</div>
-                                                        <div>
-                                                            <FaCircle />
-                                                        </div>
-                                                    </li>
+                                                    <div 
+                                                        key={index} 
+                                                        className='d-flex d-hover p-2 d-cursor-pointer' 
+                                                        onClick={() => { handleUserClick(value['uuid']) }}
+                                                    >
+                                                        <div className='mr-2'>{index+1}</div>
+                                                        <div className='mr-auto d-title'>{value['username']}</div>
+                                                    </div>
                                                 )
                                             })
                                         }
                                         
-                                    </ul>
+                                    </div>
                                 </div>
                             </div>
                         </div>

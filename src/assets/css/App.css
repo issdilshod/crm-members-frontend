@@ -275,6 +275,27 @@ input, input[type], select, textarea{
     background-color: #b3b3b3;
 }
 
+.d-btn-telegram{
+    background-color: #0088cc;
+}
+
+.d-big-btn{
+    background-color: #fff;
+    font-weight: 500;
+    padding: 20px;
+    margin-bottom: 5px;
+    cursor: pointer;
+    box-shadow: 0 0.15rem 0.625rem 0 rgb(0 0 0 / 12%) !important;
+    transition: font-size .2s;
+    border-radius: 20px;
+}
+
+.d-big-btn:hover{
+    box-shadow: 0 0.15em 0.625rem 2px rgb(0 0 0 / 12%) !important;
+    font-size: 1.1em;
+    font-weight: 700;
+}
+
 /* 
     d-alert 
 */

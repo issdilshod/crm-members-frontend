@@ -4,15 +4,19 @@ import { FaTimes } from 'react-icons/fa';
 
 import * as STATUS from '../../../consts/Status';
 
+import Input from '../../Helper/Input/Input';
 import Validation from '../../Helper/Validation/Validation';
+import { toast } from 'react-hot-toast';
+import Api from '../../../services/Api';
 
 const UserForm = () => {
+
+    const api = new Api();
 
     const [roleList, setRoleList] = useState([]);
     const [departmentList, setDepartmentList] = useState([]);
 
     const {
-        api, styles,
         departmentForm, setDepartmentForm, departmentFormOpen, setDepartmentFormOpen,
         userForm, setUserForm, userFormEntity, userFormError, setUserFormError, userFormOpen, setUserFormOpen,
         handleChange,
@@ -20,28 +24,18 @@ const UserForm = () => {
     } = useContext(Mediator);
 
     useEffect( () => {
-        // get roles
         api.request('/api/role', 'GET')
             .then(res => {
-                switch(res.status){
-                    case 200:
-                    case 201:
-                        setRoleList(res.data.data);
-                        break;
+                if (res.status===200||res.status===201){
+                    setRoleList(res.data.data);
                 }
-
             });
 
-        // get departments
         api.request('/api/department', 'GET')
             .then(res => {
-                switch(res.status){
-                    case 200:
-                    case 201:
-                        setDepartmentList(res.data.data);
-                        break;
+                if (res.status===200||res.status===201){
+                    setDepartmentList(res.data.data);
                 }
-
             });
     }, []);
 
@@ -52,11 +46,6 @@ const UserForm = () => {
         }
     }, [userFormOpen]);
 
-    const handleLocalClick = () => {
-        setUserFormOpen(false); 
-        //setDepartmentFormOpen(true);
-    }
-
     const handleLocalChange = (e) => {
         const { value, name } = e.target;
         setUserForm( { ...userForm, [name]: value } );
@@ -64,17 +53,22 @@ const UserForm = () => {
 
     const onAdd = (e) => {
         e.preventDefault();
+
         setUserFormError({});
+
         api.request('/api/user', 'POST', userForm)
             .then(res => {
                 if (res.status===200||res.status===201){
                     setDepartmentForm( { ...departmentForm, 'users': [ ...departmentForm['users'], res.data.data ] } );
                     setUserFormOpen(false);
                     setDepartmentFormOpen(true);
+                    toast.success('User successfully created!');
                 }else if (res.status===409){
                     setUserFormError(res.data.data);
+                    toast.error('Data exists!');
                 }else if (res.status===422){
                     setUserFormError(res.data.errors);
+                    toast.error('Fill all the required field!')
                 }
             });
     }
@@ -85,6 +79,7 @@ const UserForm = () => {
         api.request('/api/user/'+userForm['uuid'], 'PUT', userForm)
             .then(res => {
                 if (res.status===200||res.status===201){
+                    toast.success('User successfully updated!');
                     api.request('/api/department/'+res.data.data.department_uuid, 'GET')
                         .then(res => {
                             if (res.status===200||res.status===201){
@@ -96,8 +91,10 @@ const UserForm = () => {
                         });
                 }else if (res.status===409){
                     setUserFormError(res.data.data);
+                    toast.error('Data exists!');
                 }else if (res.status===422){
                     setUserFormError(res.data.errors);
+                    toast.error('Fill all the required field!');
                 }
             });
     }
@@ -107,6 +104,7 @@ const UserForm = () => {
         api.request('/api/user/accept/'+userForm['uuid'], 'PUT', userForm)
             .then(res => {
                 if (res.status===200||res.status===201){
+                    toast.success('User successfully accepted!');
                     api.request('/api/department/'+res.data.data.department_uuid, 'GET')
                         .then(res => {
                             if (res.status===200||res.status===201){
@@ -118,8 +116,10 @@ const UserForm = () => {
                         });
                 } else if (res.status===409) {
                     setUserFormError(res.data.data);
+                    toast.error('Data exists!');
                 } else if (res.status===422) {
                     setUserFormError(res.data.errors);
+                    toast.error('Fill all the required field!')
                 }
             });
     }
@@ -131,6 +131,7 @@ const UserForm = () => {
             .then(res => {
                 if (res.status===200||res.status===201){
                     setUserFormOpen(false);
+                    toast.success('User successfully rejected!');
                 }
             });
     }
@@ -139,49 +140,46 @@ const UserForm = () => {
         <>
             <div className={`c-card-left ${!userFormOpen?'w-0':''}`} onClick={ () => { setUserFormOpen(false) } }></div>
             
-            <div className={`${styles['department-form-card']} ${userFormOpen ? styles['department-form-card-active']:''}`}>
-                <div className={`${styles['department-form-card-head']} d-flex`}>
-                    <div className={`${styles['department-form-card-title']} mr-auto`}>
+            <div className={`c-form ${userFormOpen?'c-form-active':''}`}>
+                <div className='c-form-head d-flex'>
+                    <div className='c-form-head-title mr-auto'>
                         User control
                     </div>
-                    <div className={styles['department-form-card-close']} 
-                            onClick={ () => { setUserFormOpen(false) } }
+                    <div 
+                        className='c-form-close' 
+                        onClick={ () => { setUserFormOpen(false) } }
                     >
                         <FaTimes />
                     </div>
                 </div>
-                <hr className={styles['divider']} />
-                <div className={`${styles['department-form-card-body']} container-fluid`}>
-                    <form className={`${styles['department-form-block']} row`}>
-                        <div className='form-group col-12 col-sm-4'>
-                            <label>First Name</label>
-                            <input className='form-control'
-                                    name='first_name'
-                                    onChange={ handleLocalChange }
-                                    placeholder='First Name'
-                                    value={ userForm['first_name'] }
-                            />
-                            <Validation
-                                fieldName='first_name'
+                <hr className='divider' />
+                <div className='c-form-body container-fluid'>
+                    <form className='c-form-body-block row'>
+
+                        <div className='c-form-field col-12 col-sm-4'>
+                            <Input
+                                title='First Name'
+                                req={true}
+                                name='first_name'
+                                onChange={handleLocalChange}
+                                defaultValue={userForm['first_name']}
                                 errorArray={userFormError}
                             />
                         </div>
-                        <div className='form-group col-12 col-sm-4'>
-                            <label>Last Name</label>
-                            <input className='form-control'
-                                    name='last_name'
-                                    onChange={ (e) => { handleLocalChange(e) } }
-                                    placeholder='Last Name'
-                                    value={ userForm['last_name'] }
-                            />
-                            <Validation
-                                fieldName='last_name'
+
+                        <div className='c-form-field col-12 col-sm-4'>
+                            <Input
+                                title='Last Name'
+                                req={true}
+                                name='last_name'
+                                onChange={handleLocalChange}
+                                defaultValue={userForm['last_name']}
                                 errorArray={userFormError}
                             />
                         </div>
 
                         <div className='form-group col-12 col-sm-4'>
-                            <label>Role</label>
+                            <label>Role <i className='req'>*</i></label>
                             <select className='form-control'
                                     name='role_uuid'
                                     onChange={ (e) => { handleLocalChange(e) } }
@@ -202,54 +200,42 @@ const UserForm = () => {
                             />
                         </div>
 
-                        <div className='form-group col-12 col-sm-6'>
-                            <label>Username</label>
-                            <input className='form-control'
-                                    name='username'
-                                    onChange={ (e) => { handleLocalChange(e) } }
-                                    placeholder='Username'
-                                    value={ userForm['username'] }
-                            />
-                            <Validation
-                                fieldName='username'
+                        <div className='c-form-field col-12 col-sm-6'>
+                            <Input
+                                title='Username'
+                                req={true}
+                                name='username'
+                                onChange={handleLocalChange}
+                                defaultValue={userForm['username']}
                                 errorArray={userFormError}
                             />
                         </div>
 
-                        <div className='form-group col-12 col-sm-6'>
-                            <label>Password</label>
-                            <input className='form-control'
-                                    name='password'
-                                    onChange={ (e) => { handleLocalChange(e) } }
-                                    placeholder='Password'
-                                    value={ userForm['password'] }
-                            />
-                            <Validation
-                                fieldName='password'
+                        <div className='c-form-field col-12 col-sm-6'>
+                            <Input
+                                title='Password'
+                                req={true}
+                                name='password'
+                                onChange={handleLocalChange}
+                                defaultValue={userForm['password']}
                                 errorArray={userFormError}
                             />
                         </div>
 
-                        <div className={`${styles['department-form-field']} form-group col-12 col-sm-6`}>
-                            <label>Telegram</label>
-                            <div className={styles['input-with-sign']}>
-                                <span>@</span>
-                                <input className={`${styles['field']} form-control`}
-                                        name='telegram'
-                                        onChange={ (e) => { handleLocalChange(e) } }
-                                        placeholder='Telegram'
-                                        value={ userForm['telegram'] }
-                                />
-                                <Validation
-                                    fieldName='telegram'
-                                    errorArray={userFormError}
-                                />
-                            </div>
+                        <div className='c-form-field col-12 col-sm-6'>
+                            <Input
+                                title='Telegram'
+                                req={true}
+                                name='telegram'
+                                onChange={handleLocalChange}
+                                defaultValue={userForm['telegram']}
+                                errorArray={userFormError}
+                            />
                         </div>
 
                         {   userEdit &&
-                            <div className={`${styles['department-form-field']} form-group col-12 col-sm-6`}>
-                                <label>Department</label>
+                            <div className={`form-group col-12 col-sm-6`}>
+                                <label>Department <i className='req'>*</i></label>
                                 <select className='form-control'
                                         name='department_uuid'
                                         onChange={ (e) => { handleLocalChange(e) } }
@@ -271,50 +257,46 @@ const UserForm = () => {
                             </div>
                         }
 
-                        <div className={`${styles['department-form-field']} form-group col-12 d-flex`}>
-                            <div className='ml-auto'>
+                        <div className='c-form-field col-12 text-right'>
+                            {   userForm['status']==STATUS.PENDING &&
+                                <>
+                                    <span 
+                                        className='d-btn d-btn-danger mr-2'
+                                        onClick={ (e) => { onReject(e) } }
+                                    >
+                                        Reject
+                                    </span>
 
-                                {   userForm['status']==STATUS.PENDING &&
-                                    <>
-                                        <button 
-                                            className={`d-btn d-btn-danger mr-2`}
-                                            onClick={ (e) => { onReject(e) } }
+                                    <span 
+                                        className='d-btn d-btn-success mr-2'
+                                        onClick={ (e) => { onAccept(e) } }
+                                    >
+                                        Accept
+                                    </span>
+                                </> 
+                            }
+                        
+                            {   (userForm['status']==STATUS.ACTIVED || userForm['status']=='') &&
+                                <>
+                                    {   userEdit &&
+                                        <span 
+                                            className='d-btn d-btn-primary'
+                                            onClick={ (e) => { onUpdate(e) } }
                                         >
-                                            Reject
-                                        </button>
-
-                                        <button 
-                                            className={`d-btn d-btn-success mr-2`}
-                                            onClick={ (e) => { onAccept(e) } }
+                                            Save
+                                        </span>
+                                    }
+                                    {   !userEdit &&
+                                        <span 
+                                            className='d-btn d-btn-primary'
+                                            onClick={ (e) => { onAdd(e) } }
                                         >
-                                            Accept
-                                        </button>
-                                    </> 
-                                }
-                            
-                                {   (userForm['status']==STATUS.ACTIVED || userForm['status']=='') &&
-                                    <>
-                                        {   userEdit &&
-                                            <button 
-                                                className={`d-btn d-btn-primary`}
-                                                onClick={ (e) => { onUpdate(e) } }
-                                            >
-                                                Save
-                                            </button>
-                                        }
-                                        {   !userEdit &&
-                                            <button 
-                                                className={`d-btn d-btn-primary`}
-                                                onClick={ (e) => { onAdd(e) } }
-                                            >
-                                                Add
-                                            </button>
-                                        }
-                                    </>
-                                    
-                                }
+                                            Add
+                                        </span>
+                                    }
+                                </>
                                 
-                            </div>
+                            }
                         </div>
                     </form>
                 </div>
