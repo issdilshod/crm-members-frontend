@@ -463,7 +463,7 @@ const VirtualOfficeForm = () => {
 
                         <div className='c-form-field col-12 col-sm-6'>
                             <Select 
-                                title='Card on file'
+                                title='Credit card on file'
                                 name='card_on_file'
                                 onChange={handleChange}
                                 options={[
@@ -477,7 +477,22 @@ const VirtualOfficeForm = () => {
                             
                             { cardOnFileShow && 
                                 <div className='row'>
-                                    <div className='c-form-field col-12 col-sm-5'>
+
+                                    <div className='c-form-field col-12 col-sm-2'>
+                                        <Select 
+                                            title='AUTOPAY'
+                                            name='autopay'
+                                            onChange={handleChange}
+                                            options={[
+                                                {'value': 'YES', 'label': 'YES'},
+                                                {'value': 'NO', 'label': 'NO'},
+                                            ]}
+                                            defaultValue={form['autopay']}
+                                            errorArray={formError}
+                                        />
+                                    </div>
+
+                                    <div className='c-form-field col-12 col-sm-4'>
                                         <Input 
                                             title='Payment card last 4 digits'
                                             name='card_last_four_digits'
@@ -487,7 +502,7 @@ const VirtualOfficeForm = () => {
                                         />
                                     </div>
 
-                                    <div className='c-form-field col-12 col-sm-7'>
+                                    <div className='c-form-field col-12 col-sm-6'>
                                         <Input 
                                             title='Card holder name'
                                             name='card_holder_name'
@@ -524,6 +539,7 @@ const VirtualOfficeForm = () => {
                                         onChange={handleChange}
                                         options={[
                                             {'value': 'Month to Month', 'label': 'Month to Month'},
+                                            {'value': 'Three months', 'label': 'Three months'},
                                             {'value': 'Six Month', 'label': 'Six Month'},
                                             {'value': 'Twelve Month', 'label': 'Twelve Month'},
                                         ]}

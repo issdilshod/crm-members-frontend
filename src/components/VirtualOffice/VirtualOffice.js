@@ -29,7 +29,9 @@ const VirtualOffice = () => {
         'online_account': '',
         'online_account_username': '',
         'online_account_password': '',
+
         'card_on_file': '',
+        'autopay': '',
         'card_last_four_digit': '',
         'card_holder_name': '',
 
