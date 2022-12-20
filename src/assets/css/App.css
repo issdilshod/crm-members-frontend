@@ -528,6 +528,10 @@ label .req {
     cursor: pointer;
 }
 
+.on-off-danger{
+    background-color: #f26051;
+}
+
 .on-off div{
     font-weight: 700;
     color: #fff; 

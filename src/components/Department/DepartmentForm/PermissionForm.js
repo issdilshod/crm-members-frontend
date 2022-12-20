@@ -46,7 +46,14 @@ const PermissionForm = () => {
                                             className='d-flex mb-2'
                                         >
                                             <div className='mr-auto'>{value['permission_name']}</div>
-                                            <div><OnOff permissionUuid={value['uuid']} entityUuid={selectedPermissionEntity} onChange={handleChange} entityPermission={entityPermission} /></div>
+                                            <div>
+                                                <OnOff 
+                                                    permissionUuid={value['uuid']} 
+                                                    entityUuid={selectedPermissionEntity} 
+                                                    onChange={handleChange} 
+                                                    entityPermission={entityPermission}
+                                                />
+                                            </div>
                                         </div>
                                     </div>
                                 )
