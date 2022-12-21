@@ -433,7 +433,17 @@ const VirtualOfficeForm = () => {
                             />
                         </div>
 
-                        <div className='c-form-field col-12 col-sm-6'>
+                        <div className='c-form-field col-12 col-sm-3'>
+                            <Input 
+                                title='Email on file'
+                                name='online_email'
+                                onChange={handleChange}
+                                defaultValue={form['online_email']}
+                                errorArray={formError}
+                            />
+                        </div>
+
+                        <div className='c-form-field col-12 col-sm-4'>
                             <Select 
                                 title='Online Account'
                                 name='online_account'
@@ -448,17 +458,8 @@ const VirtualOfficeForm = () => {
 
                             { onlineAccountShow &&
                                 <div className='row'>
-                                    <div className='c-form-field col-12 col-sm-4'>
-                                        <Input 
-                                            title='Email'
-                                            name='online_email'
-                                            onChange={handleChange}
-                                            defaultValue={form['online_email']}
-                                            errorArray={formError}
-                                        />
-                                    </div>
 
-                                    <div className='c-form-field col-12 col-sm-4'>
+                                    <div className='c-form-field col-12 col-sm-6'>
                                         <Input 
                                             title='Online Account Username'
                                             name='online_account_username'
@@ -468,7 +469,7 @@ const VirtualOfficeForm = () => {
                                         />
                                     </div>
 
-                                    <div className='c-form-field col-12 col-sm-4'>
+                                    <div className='c-form-field col-12 col-sm-6'>
                                         <Input 
                                             title='Online Account Password'
                                             name='online_account_password'
@@ -481,7 +482,7 @@ const VirtualOfficeForm = () => {
                             }
                         </div>
 
-                        <div className='c-form-field col-12 col-sm-6'>
+                        <div className='c-form-field col-12 col-sm-5'>
                             <Select 
                                 title='Credit card on file'
                                 name='card_on_file'
@@ -512,7 +513,7 @@ const VirtualOfficeForm = () => {
                                         />
                                     </div>
 
-                                    <div className='c-form-field col-12 col-sm-4'>
+                                    <div className='c-form-field col-12 col-sm-5'>
                                         <Input 
                                             title='Payment card last 4 digits'
                                             name='card_last_four_digit'
@@ -522,7 +523,7 @@ const VirtualOfficeForm = () => {
                                         />
                                     </div>
 
-                                    <div className='c-form-field col-12 col-sm-6'>
+                                    <div className='c-form-field col-12 col-sm-5'>
                                         <Input 
                                             title='Card holder name'
                                             name='card_holder_name'
