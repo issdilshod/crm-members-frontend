@@ -22,12 +22,15 @@ const VirtualOffice = () => {
         'director': null,
         'vo_provider_name': '', 
         'vo_website': '',
+        'vo_provider_phone_number': '',
         'vo_provider_username': '',
         'vo_provider_password': '',
         'vo_contact_person_name': '',
         'vo_contact_person_phone_number': '',
         'vo_contact_person_email': '',
+
         'online_account': '',
+        'online_email': '',
         'online_account_username': '',
         'online_account_password': '',
 

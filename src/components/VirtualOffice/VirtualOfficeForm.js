@@ -393,7 +393,17 @@ const VirtualOfficeForm = () => {
                             />
                         </div>
 
-                        <div className='c-form-field col-12 col-sm-4'>
+                        <div className='c-form-field col-12 col-sm-3'>
+                            <Input 
+                                title='VO Provider Phone Number'
+                                name='vo_provider_phone_number'
+                                onChange={handleChange}
+                                defaultValue={form['vo_provider_phone_number']}
+                                errorArray={formError}
+                            />
+                        </div>
+
+                        <div className='c-form-field col-12 col-sm-3'>
                             <Input 
                                 title='VO contact person name'
                                 name='vo_contact_person_name'
@@ -403,7 +413,7 @@ const VirtualOfficeForm = () => {
                             />
                         </div>
 
-                        <div className='c-form-field col-12 col-sm-4'>
+                        <div className='c-form-field col-12 col-sm-3'>
                             <Input 
                                 title='VO contact peson phone number'
                                 name='vo_contact_person_phone_number'
@@ -413,7 +423,7 @@ const VirtualOfficeForm = () => {
                             />
                         </div>
 
-                        <div className='c-form-field col-12 col-sm-4'>
+                        <div className='c-form-field col-12 col-sm-3'>
                             <Input 
                                 title='VO contact peson email'
                                 name='vo_contact_person_email'
@@ -438,7 +448,17 @@ const VirtualOfficeForm = () => {
 
                             { onlineAccountShow &&
                                 <div className='row'>
-                                    <div className='c-form-field col-12 col-sm-6'>
+                                    <div className='c-form-field col-12 col-sm-4'>
+                                        <Input 
+                                            title='Email'
+                                            name='online_email'
+                                            onChange={handleChange}
+                                            defaultValue={form['online_email']}
+                                            errorArray={formError}
+                                        />
+                                    </div>
+
+                                    <div className='c-form-field col-12 col-sm-4'>
                                         <Input 
                                             title='Online Account Username'
                                             name='online_account_username'
@@ -448,7 +468,7 @@ const VirtualOfficeForm = () => {
                                         />
                                     </div>
 
-                                    <div className='c-form-field col-12 col-sm-6'>
+                                    <div className='c-form-field col-12 col-sm-4'>
                                         <Input 
                                             title='Online Account Password'
                                             name='online_account_password'
