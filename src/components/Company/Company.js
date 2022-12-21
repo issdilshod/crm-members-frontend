@@ -141,7 +141,7 @@ const Company = () => {
                     setCompanyFormOpen(true);
                     setCompanyFormError({});
 
-                    let tmp_company = res.data.data;
+                    let tmp_company = syncIncorporationDate(res.data.data);
 
                     setCompanyForm({...tmp_company});
                     setCompanyFormOriginal({...tmp_company});
@@ -149,6 +149,20 @@ const Company = () => {
 
                 toast.dismiss(toastId);
             });  
+    }
+
+    const syncIncorporationDate = (company) => {
+        for (let key in company['incorporations']){
+            if (company['incorporations'][key]['parent']=='incorporation_state'){
+                if (company['incorporation_date']!=null && company['incorporation_date']!=''){
+                    company['incorporations'][key]['incorporation_date'] = company['incorporation_date'];
+                }else{
+                    company['incorporation_date'] = company['incorporations'][key]['incorporation_date'];
+                }
+            }
+        }
+
+        return company;
     }
 
     return (  
