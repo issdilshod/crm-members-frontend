@@ -152,6 +152,8 @@ const Company = () => {
     }
 
     const syncIncorporationDate = (company) => {
+        
+        let exists = false;
         for (let key in company['incorporations']){
             if (company['incorporations'][key]['parent']=='incorporation_state'){
                 if (company['incorporation_date']!=null && company['incorporation_date']!=''){
@@ -159,7 +161,16 @@ const Company = () => {
                 }else{
                     company['incorporation_date'] = company['incorporations'][key]['incorporation_date'];
                 }
+
+                exists = true;
             }
+        }
+
+        if (!exists){
+            company['incorporations'].push({
+                'parent': 'incorporation_state',
+                'incorporation_date': company['incorporation_date']
+            });
         }
 
         return company;
