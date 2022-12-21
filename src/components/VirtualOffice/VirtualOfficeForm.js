@@ -474,9 +474,9 @@ const VirtualOfficeForm = () => {
                                     <div className='c-form-field col-12 col-sm-4'>
                                         <Input 
                                             title='Payment card last 4 digits'
-                                            name='card_last_four_digits'
+                                            name='card_last_four_digit'
                                             onChange={handleChange}
-                                            defaultValue={form['card_last_four_digits']}
+                                            defaultValue={form['card_last_four_digit']}
                                             errorArray={formError}
                                         />
                                     </div>
