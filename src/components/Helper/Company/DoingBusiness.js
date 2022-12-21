@@ -101,7 +101,7 @@ const DoingBusiness = ({title, unique, defaulfOpen = true, errorArray = {}, form
                 >
                     <div className='row'>
 
-                        <div className='col-12 col-sm-6'>
+                        <div className='form-group col-12 col-sm-6'>
                             <File
                                 form={form}
                                 setForm={setForm}
@@ -112,7 +112,7 @@ const DoingBusiness = ({title, unique, defaulfOpen = true, errorArray = {}, form
                             />
                         </div>
 
-                        <div className='col-12 col-sm-6'>
+                        <div className='form-group col-12 col-sm-6'>
                             <File
                                 form={form}
                                 setForm={setForm}
@@ -123,7 +123,7 @@ const DoingBusiness = ({title, unique, defaulfOpen = true, errorArray = {}, form
                             />
                         </div>
 
-                        <div className='col-12 col-sm-6'>
+                        <div className='form-group col-12 col-sm-6'>
                             <File
                                 form={form}
                                 setForm={setForm}
@@ -134,7 +134,7 @@ const DoingBusiness = ({title, unique, defaulfOpen = true, errorArray = {}, form
                             />
                         </div>
 
-                        <div className='col-12 col-sm-6'>
+                        <div className='form-group col-12'>
                             <File
                                 form={form}
                                 setForm={setForm}

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { Link, useParams } from 'react-router-dom';
 import Api from '../../services/Api';
 import Loading from '../Helper/Loading';
@@ -20,6 +21,8 @@ const Register = () => {
 
     const [firstTitle, setFirstTitle] = useState('Welcome!'); // Oops!
     const [underTitle, setUnderTitle] = useState('Please register to work on platform'); // Your token is not valid.
+
+    const [passwordType, setPasswordType] = useState(true);
 
     useEffect(() => {
         document.title = 'Regiter page';
@@ -170,13 +173,36 @@ const Register = () => {
                                     <div className='col-12'>
                                         <div className='form-group'>
                                             <label>Password <i className='req'>*</i></label>
-                                            <input 
-                                                onChange={ handleChange } 
-                                                className='form-control' 
-                                                name='password'
-                                                type='password' 
-                                                placeholder='Password' 
-                                            />
+                                            <div className='d-flex'>
+                                                <div className='w-100 c-position-relative'>
+                                                    <input 
+                                                        onChange={ handleChange } 
+                                                        className='form-control' 
+                                                        name='password'
+                                                        type={passwordType?'password':'text'} 
+                                                        placeholder='Password' 
+                                                    />
+                                                    <span
+                                                        onClick={() => {setPasswordType(!passwordType)}}
+                                                        style={{
+                                                            'position': 'absolute',
+                                                            'top': '5px',
+                                                            'right': '10px',
+                                                            'cursor': 'pointer'
+                                                        }}
+                                                    >
+                                                        <i>
+                                                            { passwordType &&
+                                                                <FaEye />
+                                                            }
+
+                                                            { !passwordType &&
+                                                                <FaEyeSlash />
+                                                            }
+                                                        </i>
+                                                    </span>
+                                                </div>
+                                            </div>
                                             <Validation
                                                 fieldName='password'
                                                 errorArray={registerFormError}

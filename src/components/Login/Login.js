@@ -4,11 +4,15 @@ import Api from '../../services/Api';
 
 import styles from './Login.module.scss';
 
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
+
 const Login = () => {
     const api = new Api();
     const navigate = useNavigate();
     const [loginForm, setLoginForm] = useState({});
     const [errorMsg, setErrorMsg] = useState({'show': false, 'text': ''});
+
+    const [passwordType, setPasswordType] = useState(true);
 
     useEffect(() => {
         document.title = 'Login page';
@@ -60,11 +64,36 @@ const Login = () => {
                             </div>
                             <div className='form-group'>
                                 <label>Password</label>
-                                <input onChange={ handleChange } 
-                                        className='form-control' 
-                                        name='password'
-                                        type='password' 
-                                        placeholder='Password' />
+                                <div className='d-flex'>
+                                    <div className='w-100 c-position-relative'>
+                                        <input 
+                                            onChange={ handleChange } 
+                                            className='form-control' 
+                                            name='password'
+                                            type={passwordType?'password':'text'} 
+                                            placeholder='Password' 
+                                        />
+                                        <span
+                                            onClick={() => {setPasswordType(!passwordType)}}
+                                            style={{
+                                                'position': 'absolute',
+                                                'top': '5px',
+                                                'right': '10px',
+                                                'cursor': 'pointer'
+                                            }}
+                                        >
+                                            <i>
+                                                { passwordType &&
+                                                    <FaEye />
+                                                }
+
+                                                { !passwordType &&
+                                                    <FaEyeSlash />
+                                                }
+                                            </i>
+                                        </span>
+                                    </div>
+                                </div>
                             </div>
                             <div className={`${styles['button-login-block']} form-group`}>
                                 <button className={styles['button-login']}>Login</button>
