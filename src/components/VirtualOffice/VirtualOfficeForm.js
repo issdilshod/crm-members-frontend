@@ -82,7 +82,6 @@ const VirtualOfficeForm = () => {
         }else{
             setContractShow(false);
         }
-
     }, [form]);
 
     const loadDirectorList = (v = '') => {
@@ -399,26 +398,6 @@ const VirtualOfficeForm = () => {
                                 name='vo_contact_person_email'
                                 onChange={handleChange}
                                 defaultValue={form['vo_contact_person_email']}
-                                errorArray={formError}
-                            />
-                        </div>
-
-                        <div className='c-form-field col-12 col-sm-6'>
-                            <Input 
-                                title='VO Provider Username'
-                                name='vo_provider_username'
-                                onChange={handleChange}
-                                defaultValue={form['vo_provider_username']}
-                                errorArray={formError}
-                            />
-                        </div>
-
-                        <div className='c-form-field col-12 col-sm-6'>
-                            <Input 
-                                title='VO Provider Password'
-                                name='vo_provider_password'
-                                onChange={handleChange}
-                                defaultValue={form['vo_provider_password']}
                                 errorArray={formError}
                             />
                         </div>
