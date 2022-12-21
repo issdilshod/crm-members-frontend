@@ -134,7 +134,7 @@ const DoingBusiness = ({title, unique, defaulfOpen = true, errorArray = {}, form
                             />
                         </div>
 
-                        <div className='form-group col-12'>
+                        <div className='form-group col-12 col-sm-6'>
                             <File
                                 form={form}
                                 setForm={setForm}

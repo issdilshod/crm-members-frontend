@@ -139,7 +139,7 @@ const Incorporation = ({title, unique, defaulfOpen = true, errorArray = {}, form
                                 form={form}
                                 setForm={setForm}
                                 parentUnique={unique + '__' + 'annual_report'}
-                                title='Annaul report'
+                                title='Annual report'
                                 onChange={onChange}
                                 downloadEnable={downloadEnable}
                             />

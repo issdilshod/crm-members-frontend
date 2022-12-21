@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { FaTimes } from 'react-icons/fa';
 import Select from 'react-select';
 
@@ -34,6 +34,7 @@ const CompanyForm = () => {
 
     const nav = useNavigate();
     const api = new Api();
+    const { uuid } = useParams();
 
     const [sicCodeList, setSicCodeList] = useState([]);
     const [stateList, setStateList] = useState([]);
@@ -50,7 +51,11 @@ const CompanyForm = () => {
 
     useEffect(() => {
         getMe();
-        loadDirectorList();
+
+        if (uuid==null || uuid==''){
+            loadDirectorList();
+        }
+
         loadSicCodes();
         loadStates();
     }, []);
