@@ -11,7 +11,7 @@ const Incorporation = ({title, unique, defaulfOpen = true, errorArray = {}, form
 
     const [isOpen, setIsOpen] = useState(defaulfOpen);
 
-    const [inFormEntity, setInFromEntity] = useState({'state_office_website': '', 'incorporation_date': '', 'annual_report_date': '', 'registered_agent_exists': '', 'registered_agent_company_name': '', 'notes': '', 'parent': ''});
+    const [inFormEntity, setInFromEntity] = useState({'state_office_website': '', 'incorporation_date': '', 'annual_report_date': '', 'registered_agent_exists': '', 'notes': '', 'parent': ''});
     const [inForm, setInForm] = useState(inFormEntity);
 
     const [registerAgentShow, setRegisterAgentShow] = useState(false);
@@ -194,7 +194,7 @@ const Incorporation = ({title, unique, defaulfOpen = true, errorArray = {}, form
                         <div className='col-12'>
 
                             <div className='row'>
-                                <div className='col-12 col-sm-6'>
+                                <div className='col-12'>
                                     <Select
                                         title='Registered Agent'
                                         name='registered_agent_exists'
@@ -204,17 +204,6 @@ const Incorporation = ({title, unique, defaulfOpen = true, errorArray = {}, form
                                             {'value': 'YES', 'label': 'YES'},
                                         ]}
                                         defaultValue={inForm['registered_agent_exists']}
-                                        errorArray={errorArray}
-                                        query={query}
-                                    />
-                                </div>
-
-                                <div className='col-12 col-sm-6'>
-                                    <Input
-                                        title='Registered agent company name'
-                                        name='registered_agent_company_name'
-                                        onChange={handleChange}
-                                        defaultValue={inForm['registered_agent_company_name']}
                                         errorArray={errorArray}
                                         query={query}
                                     />

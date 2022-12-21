@@ -11,7 +11,7 @@ const RegisterAgent = ({title, unique, defaulfOpen = true, errorArray = {}, form
 
     const [isOpen, setIsOpen] = useState(defaulfOpen);
 
-    const [inFormEntity, setInFromEntity] = useState({'name': '', 'website': '', 'login': '', 'password': '', 'email': '', 'phone': ''});
+    const [inFormEntity, setInFromEntity] = useState({'company_name': '', 'name': '', 'website': '', 'login': '', 'password': '', 'email': '', 'phone': ''});
     const [inForm, setInForm] = useState(inFormEntity);
 
     useEffect(() => {
@@ -86,6 +86,18 @@ const RegisterAgent = ({title, unique, defaulfOpen = true, errorArray = {}, form
                     in={isOpen}
                 >
                     <div className='row'>
+
+                        <div className='col-12'>
+                            <Input
+                                title='Registered Agent Company Name'
+                                name='company_name'
+                                validationName={`register_agent.${unique}.company_name`}
+                                onChange={handleChange}
+                                defaultValue={inForm['company_name']}
+                                errorArray={errorArray}
+                                query={query}
+                            />
+                        </div>
 
                         <div className='col-12 col-sm-6'>
                             <Input

@@ -128,9 +128,9 @@ const Phones2 = ({title, defaultOpen = true, errorArray = {}, form, setForm, que
                                     <div className='c-form-field col-12 col-sm-6'>
                                         <Input 
                                             title='Payment card last 4 digits'
-                                            name='card_last_four_digits'
+                                            name='card_last_four_digit'
                                             onChange={onChange}
-                                            defaultValue={form['card_last_four_digits']}
+                                            defaultValue={form['card_last_four_digit']}
                                             errorArray={errorArray}
                                         />
                                     </div>
