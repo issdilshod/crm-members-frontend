@@ -6,6 +6,7 @@ import Api from '../../services/Api';
 import Loading from '../Helper/Loading';
 import FutureCompanyList from './FutureCompanyList';
 import FutureCompanyForm from './FutureCompanyForm';
+import { toast } from 'react-hot-toast';
 
 const FutureCompany = () => {
 
@@ -120,6 +121,9 @@ const FutureCompany = () => {
         setFormOpen(false);
         setForm(formEntity);
         setFormOriginal(formEntity);
+
+        let toastId = toast.loading('Waiting...');
+
         api.request('/api/future-company/'+uuid, 'GET')
             .then(res => {
                 if (res.status===200||res.status===201){
@@ -130,6 +134,7 @@ const FutureCompany = () => {
                     setFormOriginal(res.data.data);
                 }
                 
+                toast.dismiss(toastId);
             });  
     }
 

@@ -4,6 +4,7 @@ import { Mediator } from '../../../context/Mediator';
 import { FaTimes, FaPlus, FaCog, FaTrash, FaPencilAlt } from 'react-icons/fa';
 import { useParams } from 'react-router-dom';
 import Api from '../../../services/Api';
+import { toast } from 'react-hot-toast';
 
 const DepartmentForm = () => {
 
@@ -21,10 +22,10 @@ const DepartmentForm = () => {
     } = useContext(Mediator);
 
     useEffect(() => {
-        firstInit();
+        init();
     }, []);
 
-    const firstInit = () => {
+    const init = () => {
         if (uuid){
             handleUserClick({}, uuid, true);
         }
@@ -35,17 +36,19 @@ const DepartmentForm = () => {
             e.preventDefault();
         }
         setUserEdit(true);
+
+        let toastId = toast.loading('Waiting...');
+
         api.request('/api/user/'+uuid, 'GET')
             .then(res => {
-                switch (res.status){
-                    case 200: // Success
-                    case 201:
-                        setUserForm(res.data.data);
-                        setUserFormOpen(true);
-                        setDepartmentFormOpen(false);
-                        setActiveUser(false);
-                        break;
+                if (res.status===200||res.status===201){
+                    setUserForm(res.data.data);
+                    setUserFormOpen(true);
+                    setDepartmentFormOpen(false);
+                    setActiveUser(false);
                 }
+
+                toast.dismiss(toastId);
             });
     }
 
@@ -65,9 +68,12 @@ const DepartmentForm = () => {
 
         e.preventDefault();
 
+        // TODO: change confirm to ui
         let confirm = true;
         confirm = window.confirm('are you sure you want to remove '+ fl_name +' from the platform? This action can not be undone.');
         if (!confirm){ return false; }
+
+        let toastId = toast.loading('Waiting...');
 
         api.request('/api/user/'+uuid, 'DELETE')
             .then(res => {
@@ -80,30 +86,46 @@ const DepartmentForm = () => {
                     }
                     setDepartmentForm(tmpArray);
                 }
+
+                toast.dismiss(toastId);
             })
     }
 
     const handleUserPermission = (e, uuid) => {
         e.preventDefault();
+
+        let toastId = toast.loading('Waiting...');
+
         api.request('/api/permission-user/'+uuid, 'GET')
             .then(res => {
-                setSelectedPermissionEntity(uuid);
-                setPermissionEntityIs('user');
-                setEntityPermission(res.data.data);
-                setDepartmentFormOpen(false);
-                setPermissionFormOpen(true);
+                if (res.status===200||res.status===201){
+                    setSelectedPermissionEntity(uuid);
+                    setPermissionEntityIs('user');
+                    setEntityPermission(res.data.data);
+                    setDepartmentFormOpen(false);
+                    setPermissionFormOpen(true);
+                }
+
+                toast.dismiss(toastId);
             })
     }
 
     const handleDepartmentPermission = (e, uuid) => {
         e.preventDefault();
+
+        let toastId = toast.loading('Waiting...');
+
         api.request('/api/permission-department/'+uuid, 'GET')
             .then(res => {
-                setSelectedPermissionEntity(uuid);
-                setPermissionEntityIs('department');
-                setEntityPermission(res.data.data);
-                setDepartmentFormOpen(false);
-                setPermissionFormOpen(true);
+                if (res.status===200||res.status===201){
+                    setSelectedPermissionEntity(uuid);
+                    setPermissionEntityIs('department');
+                    setEntityPermission(res.data.data);
+                    setDepartmentFormOpen(false);
+                    setPermissionFormOpen(true);
+                }
+
+                toast.dismiss(toastId);
             })
     }
 

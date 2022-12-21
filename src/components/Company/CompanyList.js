@@ -6,6 +6,7 @@ import Pagination from '../Helper/Pagination';
 import * as STATUS from '../../consts/Status';
 import { useNavigate } from 'react-router-dom';
 import Api from '../../services/Api';
+import { toast } from 'react-hot-toast';
 
 const CompanyList = () => {
     const { 
@@ -77,13 +78,16 @@ const CompanyList = () => {
 
     const handlePaginatioClick = (number) => {
         setCurrentPage(number);
-        setLoadingShow(true);
+        
+        let toastId = toast.loading('Waiting...');
+
         api.request('/api/company?page='+number, 'GET')
             .then(res => {
                 if (res.status===200||res.status===201){
                     setCompanyList(res.data.data);
                 }
-                setLoadingShow(false);
+                
+                toast.dismiss(toastId);
             });
     }
 

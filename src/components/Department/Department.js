@@ -10,6 +10,7 @@ import Loading from '../Helper/Loading';
 import { FaEnvelope, FaShareAlt, FaTelegram } from 'react-icons/fa';
 import InviteUserForm from './DepartmentForm/InviteUserForm';
 import PermissionForm from './DepartmentForm/PermissionForm';
+import { toast } from 'react-hot-toast';
 
 const Department = () => {
     const navigate = useNavigate();
@@ -104,17 +105,17 @@ const Department = () => {
     const handleInviteUserClick = () => {
         setDepartmentFormOpen(false);
         setUserFormOpen(false);
+
+        let toastId = toast.loading('Waiting...');
+
         api.request('/api/pending-users', 'GET')
             .then(res => {
-                switch(res.status){
-                    case 200:
-                    case 201:
-                        setInviteUserFormOpen(true);
-                        setPendingUsers(res.data.data);
-                        break;
-                    default:
-                        break;
+                if (res.status===200||res.status===201){
+                    setInviteUserFormOpen(true);
+                    setPendingUsers(res.data.data);
                 }
+
+                toast.dismiss(toastId);
             });
     }
 
@@ -123,16 +124,18 @@ const Department = () => {
         setUserFormOpen(false);
         setPermissionFormOpen(false);
         setDepartmentFormOpen(false);
+
+        let toastId = toast.loading('Waiting...');
+
         api.request('/api/department/'+uuid, 'GET')
-                .then(res => {
-                    switch(res.status){
-                        case 200:
-                        case 201:
-                            setDepartmentForm(res.data.data);
-                            setDepartmentFormOpen(true);
-                            break;
-                    }
-                });
+            .then(res => {
+                if (res.status===200||res.status===201){
+                    setDepartmentForm(res.data.data);
+                    setDepartmentFormOpen(true);
+                }
+
+                toast.dismiss(toastId);
+            });
     }
 
     return (

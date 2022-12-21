@@ -7,6 +7,7 @@ import Search from '../Helper/Search';
 import * as STATUS from '../../consts/Status';
 import Api from '../../services/Api';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-hot-toast';
 
 const FutureWebsiteList = () => {
     const { 
@@ -70,13 +71,16 @@ const FutureWebsiteList = () => {
 
     const handlePaginatioClick = (number) => {
         setCurrentPage(number);
-        setLoadingShow(true);
+        
+        let toastId = toast.loading('Waiting...');
+
         api.request('/api/future-websites?page='+number, 'GET')
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
                     setList(res.data.data);
                 }
-                setLoadingShow(false);
+                
+                toast.dismiss(toastId);
             });
     }
 

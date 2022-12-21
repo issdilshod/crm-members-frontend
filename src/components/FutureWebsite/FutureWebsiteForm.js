@@ -17,7 +17,7 @@ import { confirmDialog } from 'primereact/confirmdialog';
 const FutureWebsiteForm = () => {
 
     const { 
-        permissions, formOriginal, formOpen, setFormOpen, edit, list, setList, form, setForm, setFormError, setLoadingShow
+        permissions, formOriginal, formOpen, setFormOpen, edit, list, setList, form, setForm, setFormError
     } = useContext(Mediator);
 
     const api = new Api()
@@ -25,7 +25,6 @@ const FutureWebsiteForm = () => {
 
     const [meUuid, setMeUuid] = useState('');
     const [sicCodeList, setSicCodeList] = useState([]);
-    const [alert, setAlert] = useState({'msg': '', 'show': false, 'type': ''});
 
     useEffect(() => {
         setFormError({});
@@ -68,7 +67,9 @@ const FutureWebsiteForm = () => {
     const handleStore = (e) => {
         e.preventDefault();
         setFormError([]);
-        setLoadingShow(true);
+        
+        let toastId = toast.loading('Waiting...');
+
         api.request('/api/future-websites', 'POST', form)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
@@ -84,14 +85,17 @@ const FutureWebsiteForm = () => {
                     setFormError(res.data.errors);
                     toast.error('Fill the all required fields!');
                 }
-                setLoadingShow(false);
+                
+                toast.dismiss(toastId);
             });
     } 
 
     const handleUpdate = (e) => {
         e.preventDefault();
         setFormError([]);
-        setLoadingShow(true);
+        
+        let toastId = toast.loading('Waiting...');
+
         api.request('/api/future-websites/'+form['uuid'], 'PUT', form)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
@@ -114,12 +118,15 @@ const FutureWebsiteForm = () => {
                     setFormError(res.data.errors);
                     toast.error('Fill the all required fields!');
                 }
-                setLoadingShow(false);
+                
+                toast.dismiss(toastId);
             });
     } 
 
     const handleDelete = (uuid) => {
-        setLoadingShow(true);
+        
+        let toastId = toast.loading('Waiting...');
+
         api.request('/api/future-websites/' + uuid, 'DELETE')
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
@@ -135,13 +142,16 @@ const FutureWebsiteForm = () => {
                 }else if (res.status===403){ // permission
                     toast.error('Permission error!');
                 }
-                setLoadingShow(false);
+                
+                toast.dismiss(toastId);
             })
     }
  
     const handlePending = (e) => {
         e.preventDefault();
-        setLoadingShow(true);
+        
+        let toastId = toast.loading('Waiting...');
+
         api.request('/api/future-websites-pending', 'POST', form)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
@@ -155,13 +165,16 @@ const FutureWebsiteForm = () => {
                     setFormError(res.data.errors);
                     toast.error('Fill the all required fields!');
                 }
-                setLoadingShow(false);
+                
+                toast.dismiss(toastId);
             });
     }
 
     const handlePendingUpdate = (e) => {
         e.preventDefault();
-        setLoadingShow(true);
+        
+        let toastId = toast.loading('Waiting...');
+
         api.request('/api/future-websites-pending-update/'+form['uuid'], 'PUT', form)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
@@ -176,13 +189,16 @@ const FutureWebsiteForm = () => {
                     toast.error('Fill the all required fields!');
                     setFormError(res.data.errors);
                 }
-                setLoadingShow(false);
+                
+                toast.dismiss(toastId);
             });
     }
 
     const handlePendingReject = (e) => {
         e.preventDefault();
-        setLoadingShow(true);
+        
+        let toastId = toast.loading('Waiting...');
+
         api.request('/api/future-websites-reject/'+form['uuid'], 'PUT')
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
@@ -199,14 +215,17 @@ const FutureWebsiteForm = () => {
                     setFormError(res.data.errors);
                     toast.error('Fill the all required fields!');
                 }
-                setLoadingShow(false);
+                
+                toast.dismiss(toastId);
             });
     }
 
     const handlePendingAccept = (e) => {
         e.preventDefault();
         setFormError([]);
-        setLoadingShow(true);
+        
+        let toastId = toast.loading('Waiting...');
+
         api.request('/api/future-websites-accept/'+form['uuid'], 'PUT', form)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
@@ -224,7 +243,8 @@ const FutureWebsiteForm = () => {
                     toast.error('Fill the all required fields!');
                     setFormError(res.data.errors);
                 }
-                setLoadingShow(false);
+                
+                toast.dismiss(toastId);
             });
     }
 

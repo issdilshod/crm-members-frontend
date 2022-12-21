@@ -8,10 +8,11 @@ import * as STATUS from '../../consts/Status';
 
 import Api from '../../services/Api';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-hot-toast';
 
 const VirtualOfficeList = () => {
     const { 
-        permissions, menuOpen, setMenuOpen, setFormOriginal, setFormOpen, setEdit, list, setList, setForm, formEntity, handleCardClick,
+        permissions, menuOpen, setMenuOpen, setFormOriginal, setFormOpen, setEdit, list, setList, setForm, formEntity,
         setLoadingShow
     } = useContext(Mediator);
 
@@ -74,13 +75,16 @@ const VirtualOfficeList = () => {
 
     const handlePaginatioClick = (number) => {
         setCurrentPage(number);
-        setLoadingShow(true);
+        
+        let toastId = toast.loading('Waiting...');
+
         api.request('/api/virtual-office?page='+number, 'GET')
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
                     setList(res.data.data);
                 }
-                setLoadingShow(false);
+                
+                toast.dismiss(toastId);
             });
     }
 
@@ -89,7 +93,7 @@ const VirtualOfficeList = () => {
         let s = ''; 
         if (search.length>0){ s = '?q=' + encodeURIComponent(search); }
 
-        nav(process.env.REACT_APP_FRONTEND_PREFIX + link);
+        nav(process.env.REACT_APP_FRONTEND_PREFIX + link + s);
     }
 
     return (  

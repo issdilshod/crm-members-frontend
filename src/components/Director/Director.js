@@ -6,6 +6,7 @@ import DirectorForm from './DirectorForm';
 import Menu from '../Helper/Menu/Menu';
 import Api from '../../services/Api';
 import Loading from '../Helper/Loading';
+import toast from 'react-hot-toast';
 
 const Director = () => {
 
@@ -83,12 +84,11 @@ const Director = () => {
 
     const handleCardClick = (uuid) => {
 
-        setLoadingShow(true);
-
         setDirectorFormOpen(false);
         setDirectorForm(directorFormEntity);
         setDirectorFormOriginal(directorFormEntity);
 
+        let toastId = toast.loading('Waiting...');
         api.request('/api/director/'+uuid, 'GET')
             .then(res => {
                 if (res.status===200||res.status===201){
@@ -107,13 +107,13 @@ const Director = () => {
                     setDirectorFormOriginal(tmp_director);
                 }
                 
-                setLoadingShow(false);
+                toast.dismiss(toastId);
             });  
     }
 
     return (  
         <Mediator.Provider value={ { 
-                                api, permissions, query,
+                                permissions, query,
                                 menuOpen, setMenuOpen, 
                                 directorFormOriginal, setDirectorFormOriginal, directorFormOpen, setDirectorFormOpen, directorEdit, setDirectorEdit, directorList, setDirectorList, directorForm, setDirectorForm, directorFormError, setDirectorFormError, directorFormEntity, setDirectorFormEntity,
                                 setLoadingShow

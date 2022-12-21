@@ -22,7 +22,7 @@ import Select from '../Helper/Input/Select';
 const VirtualOfficeForm = () => {
 
     const { 
-        permissions, formOriginal, formOpen, setFormOpen, edit, list, setList, form, setForm, setFormError, formError, setLoadingShow
+        permissions, formOriginal, formOpen, setFormOpen, edit, list, setList, form, setForm, setFormError, formError
     } = useContext(Mediator);
 
     const api = new Api();
@@ -110,7 +110,9 @@ const VirtualOfficeForm = () => {
     const handleStore = (e) => {
         e.preventDefault();
         setFormError([]);
-        setLoadingShow(true);
+        
+        let toastId = toast.loading('Waiting...');
+
         api.request('/api/virtual-office', 'POST', form)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
@@ -126,14 +128,17 @@ const VirtualOfficeForm = () => {
                     setFormError(res.data.errors);
                     toast.error('Fill the all required fields!');
                 }
-                setLoadingShow(false);
+                
+                toast.dismiss(toastId);
             });
     } 
 
     const handleUpdate = (e) => {
         e.preventDefault();
         setFormError([]);
-        setLoadingShow(true);
+        
+        let toastId = toast.loading('Waiting...');
+
         api.request('/api/virtual-office/'+form['uuid'], 'PUT', form)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
@@ -156,12 +161,15 @@ const VirtualOfficeForm = () => {
                     setFormError(res.data.errors);
                     toast.error('Fill the all required fields!');
                 }
-                setLoadingShow(false);
+                
+                toast.dismiss(toastId);
             });
     } 
 
     const handleDelete = (uuid) => {
-        setLoadingShow(true);
+        
+        let toastId = toast.loading('Waiting...');
+
         api.request('/api/virtual-office/' + uuid, 'DELETE')
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
@@ -177,13 +185,16 @@ const VirtualOfficeForm = () => {
                 }else if (res.status===403){ // permission
                     toast.error('Permission error!');
                 }
-                setLoadingShow(false);
+                
+                toast.dismiss(toastId);
             })
     }
  
     const handlePending = (e) => {
         e.preventDefault();
-        setLoadingShow(true);
+        
+        let toastId = toast.loading('Waiting...');
+
         api.request('/api/virtual-office-pending', 'POST', form)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
@@ -198,13 +209,16 @@ const VirtualOfficeForm = () => {
                     setFormError(res.data.errors);
                     toast.error('Fill the all required fields!');
                 }
-                setLoadingShow(false);
+                
+                toast.dismiss(toastId);
             });
     }
 
     const handlePendingUpdate = (e) => {
         e.preventDefault();
-        setLoadingShow(true);
+        
+        let toastId = toast.loading('Waiting...');
+
         api.request('/api/virtual-office-pending-update/'+form['uuid'], 'PUT', form)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
@@ -219,13 +233,16 @@ const VirtualOfficeForm = () => {
                     setFormError(res.data.errors);
                     toast.error('Fill the all required fields!');
                 }
-                setLoadingShow(false);
+                
+                toast.dismiss(toastId);
             });
     }
 
     const handlePendingReject = (e) => {
         e.preventDefault();
-        setLoadingShow(true);
+        
+        let toastId = toast.loading('Waiting...');
+
         api.request('/api/virtual-office-reject/'+form['uuid'], 'PUT')
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
@@ -242,14 +259,17 @@ const VirtualOfficeForm = () => {
                     setFormError(res.data.errors);
                     toast.error('Fill the all required fields!');
                 }
-                setLoadingShow(false);
+                
+                toast.dismiss(toastId);
             });
     }
 
     const handlePendingAccept = (e) => {
         e.preventDefault();
         setFormError([]);
-        setLoadingShow(true);
+        
+        let toastId = toast.loading('Waiting...');
+
         api.request('/api/virtual-office-accept/'+form['uuid'], 'PUT', form)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
@@ -267,7 +287,8 @@ const VirtualOfficeForm = () => {
                     setFormError(res.data.errors);
                     toast.error('Fill the all required fields!');
                 }
-                setLoadingShow(false);
+                
+                toast.dismiss(toastId);
             });
     }
 

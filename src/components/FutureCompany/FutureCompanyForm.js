@@ -17,7 +17,7 @@ import { confirmDialog } from 'primereact/confirmdialog';
 const FutureCompanyForm = () => {
 
     const { 
-        permissions, formOriginal, formOpen, setFormOpen, edit, list, setList, form, setForm, setFormError, setLoadingShow, sicCodeList, stateList, virtualOfficeList, searchVO
+        permissions, formOriginal, formOpen, setFormOpen, edit, list, setList, form, setForm, setFormError, sicCodeList, stateList, virtualOfficeList, searchVO
     } = useContext(Mediator);
 
     const api = new Api();
@@ -25,8 +25,18 @@ const FutureCompanyForm = () => {
 
     const [meUuid, setMeUuid] = useState('');
 
-    const [alert, setAlert] = useState({'msg': '', 'show': false, 'type': ''});
     const [optDirectorList, setOptDirectorList] = useState([]);
+
+    useEffect(() => {
+        loadDirectorList();
+
+        api.request('/api/get_me', 'GET')
+            .then(res => {
+                if (res.status===200||res.status===201){
+                    setMeUuid(res.data.uuid);
+                }
+            })
+    }, [])
 
     useEffect(() => {
         setFormError({});
@@ -40,17 +50,6 @@ const FutureCompanyForm = () => {
             nav(`${process.env.REACT_APP_FRONTEND_PREFIX}/future-companies`);
         }
     }, [formOpen])
-
-    useEffect(() => {
-        loadDirectorList();
-
-        api.request('/api/get_me', 'GET')
-            .then(res => {
-                if (res.status===200||res.status===201){
-                    setMeUuid(res.data.uuid);
-                }
-            })
-    }, [])
 
     const loadDirectorList = (value = '') => {
         let search = '';
@@ -70,7 +69,7 @@ const FutureCompanyForm = () => {
             })
     };
 
-    const handleChange = (e, file = false) => {
+    const handleChange = (e) => {
         let { value, name } = e.target;
         setForm({ ...form, [name]: value });
     }
@@ -78,7 +77,9 @@ const FutureCompanyForm = () => {
     const handleStore = (e) => {
         e.preventDefault();
         setFormError([]);
-        setLoadingShow(true);
+        
+        let toastId = toast.loading('Waiting...');
+
         api.request('/api/future-company', 'POST', form)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
@@ -94,14 +95,17 @@ const FutureCompanyForm = () => {
                     setFormError(res.data.errors);
                     toast.error('Fill the all required fields!');
                 }
-                setLoadingShow(false);
+                
+                toast.dismiss(toastId);
             });
     } 
 
     const handleUpdate = (e) => {
         e.preventDefault();
         setFormError([]);
-        setLoadingShow(true);
+        
+        let toastId = toast.loading('Waiting...');
+
         api.request('/api/future-company/'+form['uuid'], 'PUT', form)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
@@ -124,12 +128,15 @@ const FutureCompanyForm = () => {
                     setFormError(res.data.errors);
                     toast.error('Fill the all required fields!');
                 }
-                setLoadingShow(false);
+                
+                toast.dismiss(toastId);
             });
     } 
 
     const handleDelete = (uuid) => {
-        setLoadingShow(true);
+        
+        let toastId = toast.loading('Waiting...');
+
         api.request('/api/future-company/' + uuid, 'DELETE')
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
@@ -145,13 +152,16 @@ const FutureCompanyForm = () => {
                 }else if (res.status===403){ // permission
                     toast.error('Permission error!');
                 }
-                setLoadingShow(false);
+                
+                toast.dismiss(toastId);
             })
     }
  
     const handlePending = (e) => {
         e.preventDefault();
-        setLoadingShow(true);
+        
+        let toastId = toast.loading('Waiting...');
+
         api.request('/api/future-company-pending', 'POST', form)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
@@ -166,13 +176,16 @@ const FutureCompanyForm = () => {
                     setFormError(res.data.errors);
                     toast.error('Fill the all required fields!');
                 }
-                setLoadingShow(false);
+                
+                toast.dismiss(toastId);
             });
     }
 
     const handlePendingUpdate = (e) => {
         e.preventDefault();
-        setLoadingShow(true);
+        
+        let toastId = toast.loading('Waiting...');
+
         api.request('/api/future-company-pending-update/'+form['uuid'], 'PUT', form)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
@@ -187,13 +200,16 @@ const FutureCompanyForm = () => {
                     setFormError(res.data.errors);
                     toast.error('Fill the all required fields!');
                 }
-                setLoadingShow(false);
+                
+                toast.dismiss(toastId);
             });
     }
 
     const handlePendingReject = (e) => {
         e.preventDefault();
-        setLoadingShow(true);
+        
+        let toastId = toast.loading('Waiting...');
+
         api.request('/api/future-company-reject/'+form['uuid'], 'PUT')
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
@@ -210,14 +226,17 @@ const FutureCompanyForm = () => {
                     setFormError(res.data.errors);
                     toast.error('Fill the all required fields!');
                 }
-                setLoadingShow(false);
+                
+                toast.dismiss(toastId);
             });
     }
 
     const handlePendingAccept = (e) => {
         e.preventDefault();
         setFormError([]);
-        setLoadingShow(true);
+        
+        let toastId = toast.loading('Waiting...');
+
         api.request('/api/future-company-accept/'+form['uuid'], 'PUT', form)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
@@ -235,7 +254,8 @@ const FutureCompanyForm = () => {
                     setFormError(res.data.errors);
                     toast.error('Fill the all required fields!');
                 }
-                setLoadingShow(false);
+                
+                toast.dismiss(toastId);
             });
     }
 

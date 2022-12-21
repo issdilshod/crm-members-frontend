@@ -19,7 +19,6 @@ const UserForm = () => {
     const {
         departmentForm, setDepartmentForm, departmentFormOpen, setDepartmentFormOpen,
         userForm, setUserForm, userFormEntity, userFormError, setUserFormError, userFormOpen, setUserFormOpen,
-        handleChange,
         userEdit, setUserEdit
     } = useContext(Mediator);
 
@@ -56,6 +55,8 @@ const UserForm = () => {
 
         setUserFormError({});
 
+        let toastId = toast.loading('Waiting...');
+
         api.request('/api/user', 'POST', userForm)
             .then(res => {
                 if (res.status===200||res.status===201){
@@ -70,12 +71,17 @@ const UserForm = () => {
                     setUserFormError(res.data.errors);
                     toast.error('Fill all the required field!')
                 }
+
+                toast.dismiss(toastId);
             });
     }
 
     const onUpdate = (e) => {
         e.preventDefault();
         setUserFormError({});
+
+        let toastId = toast.loading('Waiting...');
+
         api.request('/api/user/'+userForm['uuid'], 'PUT', userForm)
             .then(res => {
                 if (res.status===200||res.status===201){
@@ -96,11 +102,16 @@ const UserForm = () => {
                     setUserFormError(res.data.errors);
                     toast.error('Fill all the required field!');
                 }
+
+                toast.dismiss(toastId);
             });
     }
 
     const onAccept = (e) => {
         e.preventDefault();
+
+        let toastId = toast.loading('Waiting...');
+
         api.request('/api/user/accept/'+userForm['uuid'], 'PUT', userForm)
             .then(res => {
                 if (res.status===200||res.status===201){
@@ -121,18 +132,25 @@ const UserForm = () => {
                     setUserFormError(res.data.errors);
                     toast.error('Fill all the required field!')
                 }
+
+                toast.dismiss(toastId);
             });
     }
 
     const onReject = (e) => {
         e.preventDefault();
         setUserFormError({});
+
+        let toastId = toast.loading('Waiting...');
+
         api.request('/api/user/reject/'+userForm['uuid'], 'PUT')
             .then(res => {
                 if (res.status===200||res.status===201){
                     setUserFormOpen(false);
                     toast.success('User successfully rejected!');
                 }
+
+                toast.dismiss(toastId);
             });
     }
 

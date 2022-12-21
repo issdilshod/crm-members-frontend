@@ -10,6 +10,8 @@ import Search from '../Helper/Search';
 
 import * as STATUS from '../../consts/Status';
 
+import toast from 'react-hot-toast';
+
 const DirectorList = () => {
     const { 
             menuOpen, setMenuOpen,
@@ -82,13 +84,16 @@ const DirectorList = () => {
 
     const handlePaginatioClick = (number) => {
         setCurrentPage(number);
-        setLoadingShow(true);
+        
+        let toastId = toast.loading('Waiting...');
+        
         api.request('/api/director?page='+number, 'GET')
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
                     setDirectorList(res.data.data);
                 }
-                setLoadingShow(false);
+                
+                toast.dismiss(toastId);
             });
     }
 

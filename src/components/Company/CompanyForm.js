@@ -29,7 +29,7 @@ import DoingBusiness from '../Helper/Company/DoingBusiness';
 const CompanyForm = () => {
 
     const { 
-        permissions, query, companyFormOriginal, companyFormOpen, setCompanyFormOpen, companyEdit, companyList, setCompanyList, companyForm, setCompanyForm, companyFormError, setCompanyFormError, setLoadingShow
+        permissions, query, companyFormOriginal, companyFormOpen, setCompanyFormOpen, companyEdit, companyList, setCompanyList, companyForm, setCompanyForm, companyFormError, setCompanyFormError
     } = useContext(Mediator);
 
     const nav = useNavigate();
@@ -39,7 +39,6 @@ const CompanyForm = () => {
     const [stateList, setStateList] = useState([]);
     const [optDirectorList, setOptDirectorList] = useState([]);
 
-    const [alert, setAlert] = useState({'msg': '', 'show': false, 'type': ''});
     const [meUuid, setMeUuid] = useState('');
     const [role, setRole] = useState('');
 
@@ -48,6 +47,13 @@ const CompanyForm = () => {
     const [extraAddressShow, setExtraAddressShow] = useState(false);
 
     const firstInitialRef = useRef(true);
+
+    useEffect(() => {
+        getMe();
+        loadDirectorList();
+        loadSicCodes();
+        loadStates();
+    }, []);
 
     useEffect(() => {
         setCompanyFormError({});
@@ -72,13 +78,6 @@ const CompanyForm = () => {
             firstInitialRef.current = false;
         }
     }, [companyFormOpen])
-
-    useEffect(() => {
-        getMe();
-        loadDirectorList();
-        loadSicCodes();
-        loadStates();
-    }, []);
 
     useEffect(() => {
         detectDirectorDis();
@@ -162,7 +161,8 @@ const CompanyForm = () => {
         e.preventDefault();
 
         setCompanyFormError({});
-        setLoadingShow(true);
+        
+        let toastId = toast.loading('Waiting...');
 
         api.request('/api/company', 'POST', companyForm)
             .then(res => {
@@ -179,7 +179,8 @@ const CompanyForm = () => {
                     setCompanyFormError(res.data.errors);
                     toast.error('Fill the all required fields!');
                 }
-                setLoadingShow(false);
+                
+                toast.dismiss(toastId);
             });
     } 
 
@@ -187,7 +188,8 @@ const CompanyForm = () => {
         e.preventDefault();
 
         setCompanyFormError({});
-        setLoadingShow(true);
+        
+        let toastId = toast.loading('Waiting...');
 
         api.request('/api/company/'+companyForm['uuid'], 'PUT', companyForm)
             .then(res => {
@@ -211,12 +213,15 @@ const CompanyForm = () => {
                     setCompanyFormError(res.data.errors);
                     toast.error('Fill the all required fields!');
                 }
-                setLoadingShow(false);
+                
+                toast.dismiss(toastId);
             });
     } 
 
     const handleDelete = (uuid) => {
-        setLoadingShow(true);
+        
+        let toastId = toast.loading('Waiting...');
+
         api.request('/api/company/' + uuid, 'DELETE')
             .then(res => {
                 if (res.status===200||res.status===201){ // success
@@ -232,14 +237,15 @@ const CompanyForm = () => {
                 }else if (res.status===403){ // permission
                     toast.error('Permission error!');
                 }
-                setLoadingShow(false);
+                
+                toast.dismiss(toastId);
             })
     }
 
     const handlePending = (e) => {
         e.preventDefault();
 
-        setLoadingShow(true);
+        let toastId = toast.loading('Waiting...');
 
         api.request('/api/company-pending', 'POST', companyForm)
             .then(res => {
@@ -255,14 +261,15 @@ const CompanyForm = () => {
                     setCompanyFormError(res.data.errors);
                     toast.error('Fill the all required fields!');
                 }
-                setLoadingShow(false);
+                
+                toast.dismiss(toastId);
             });
     }
 
     const handlePendingUpdate = (e) => {
         e.preventDefault();
 
-        setLoadingShow(true);
+        let toastId = toast.loading('Waiting...');
 
         api.request('/api/company-pending-update/'+companyForm['uuid'], 'PUT', companyForm)
             .then(res => {
@@ -278,14 +285,15 @@ const CompanyForm = () => {
                     setCompanyFormError(res.data.errors);
                     toast.error('Fill the all required fields!');
                 }
-                setLoadingShow(false);
+                
+                toast.dismiss(toastId);
             });
     }
 
     const handlePendingReject = (e) => {
         e.preventDefault();
 
-        setLoadingShow(true);
+        let toastId = toast.loading('Waiting...');
 
         api.request('/api/company-reject/'+companyForm['uuid'], 'PUT')
             .then(res => {
@@ -303,7 +311,8 @@ const CompanyForm = () => {
                     setCompanyFormError(res.data.errors);
                     toast.error('Fill the all required fields!');
                 }
-                setLoadingShow(false);
+                
+                toast.dismiss(toastId);
             });
     }
 
@@ -311,7 +320,8 @@ const CompanyForm = () => {
         e.preventDefault();
 
         setCompanyFormError({});
-        setLoadingShow(true);
+        
+        let toastId = toast.loading('Waiting...');
 
         api.request('/api/company-accept/'+companyForm['uuid'], 'PUT', companyForm)
             .then(res => {
@@ -330,14 +340,15 @@ const CompanyForm = () => {
                     setCompanyFormError(res.data.errors);
                     toast.error('Fill the all required fields!');
                 }
-                setLoadingShow(false);
+                
+                toast.dismiss(toastId);
             });
     }
 
     const handleOverride = (e) => {
         e.preventDefault();
 
-        setLoadingShow(true);
+        let toastId = toast.loading('Waiting...');
 
         api.request('/api/company-override/'+companyForm['uuid'], 'PUT', companyForm)
             .then(res => {
@@ -368,7 +379,8 @@ const CompanyForm = () => {
                     toast.error('Permission error!');
                 }
                 setCompanyFormError({});
-                setLoadingShow(false);
+                
+                toast.dismiss(toastId);
             });
     }
 

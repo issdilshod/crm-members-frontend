@@ -6,6 +6,7 @@ import CompanyForm from './CompanyForm';
 import Menu from '../Helper/Menu/Menu';
 import Api from '../../services/Api';
 import Loading from '../Helper/Loading';
+import { toast } from 'react-hot-toast';
 
 const Company = () => {
 
@@ -127,7 +128,7 @@ const Company = () => {
 
     const handleCardClick = (uuid) => {
 
-        setLoadingShow(true);
+        let toastId = toast.loading('Waiting...');
 
         setCompanyFormOpen(false);
         setCompanyForm(companyFormEntity);
@@ -146,7 +147,7 @@ const Company = () => {
                     setCompanyFormOriginal({...tmp_company});
                 }
 
-                setLoadingShow(false);
+                toast.dismiss(toastId);
             });  
     }
 

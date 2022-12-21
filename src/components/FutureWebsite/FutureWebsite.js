@@ -6,6 +6,7 @@ import Api from '../../services/Api';
 import Loading from '../Helper/Loading';
 import FutureWebsiteList from './FutureWebsiteList';
 import FutureWebsiteForm from './FutureWebsiteForm';
+import { toast } from 'react-hot-toast';
 
 const FutureWebsite = () => {
 
@@ -63,6 +64,9 @@ const FutureWebsite = () => {
         setFormOpen(false);
         setForm(formEntity);
         setFormOriginal(formEntity);
+
+        let toastId = toast.loading('Waiting...');
+
         api.request('/api/future-websites/'+uuid, 'GET')
             .then(res => {
                 if (res.status===200||res.status===201){
@@ -73,12 +77,13 @@ const FutureWebsite = () => {
                     setFormOriginal(res.data.data);
                 }
                 
+                toast.dismiss(toastId);
             });  
     }
 
     return (  
         <Mediator.Provider value={ { 
-                                api, navigate, permissions,
+                                navigate, permissions,
                                 menuOpen, setMenuOpen, 
                                 formOriginal, setFormOriginal,
                                 formOpen, setFormOpen, edit, setEdit, list, setList,

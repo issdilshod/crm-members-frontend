@@ -18,19 +18,19 @@ import Select from '../Helper/Input/Select';
 
 import toast from 'react-hot-toast';
 import { confirmDialog } from 'primereact/confirmdialog';
+import Api from '../../services/Api';
 
 const DirectorForm = () => {
 
     const { 
-        api, query, permissions, directorFormOriginal, directorFormOpen, setDirectorFormOpen, directorEdit, directorList, setDirectorList, directorForm, setDirectorForm, directorFormError, setDirectorFormError, setLoadingShow
+        query, permissions, directorFormOriginal, directorFormOpen, setDirectorFormOpen, directorEdit, directorList, setDirectorList, directorForm, setDirectorForm, directorFormError, setDirectorFormError
     } = useContext(Mediator);
 
+    const api = new Api();
     const nav = useNavigate();
 
     const [meUuid, setMeUuid] = useState('');
     const [role, setRole] = useState('');
-
-    const [alert, setAlert] = useState({'msg': '', 'show': false, 'type': ''});
 
     const firstInitialRef = useRef(true);
 
@@ -61,10 +61,6 @@ const DirectorForm = () => {
             })
     }
 
-    const removeUuid = () => {
-        nav(`${process.env.REACT_APP_FRONTEND_PREFIX}/directors`);
-    }
-
     const handleChange = (e) => {
         let { value, name } = e.target;
 
@@ -74,7 +70,8 @@ const DirectorForm = () => {
     const handleStore = (e) => {
         e.preventDefault();
         setDirectorFormError([]);
-        setLoadingShow(true);
+        
+        let toastId = toast.loading('Waiting...');
         api.request('/api/director', 'POST', directorForm)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
@@ -90,14 +87,17 @@ const DirectorForm = () => {
                     setDirectorFormError(res.data.errors);
                     toast.error('Fill the all required fields!');
                 }
-                setLoadingShow(false);
+                
+                toast.dismiss(toastId);
             });
     } 
 
     const handleUpdate = (e) => {
         e.preventDefault();
         setDirectorFormError([]);
-        setLoadingShow(true);
+        
+        let toastId = toast.loading('Waiting...');
+
         api.request('/api/director/'+directorForm['uuid'], 'PUT', directorForm)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
@@ -120,12 +120,15 @@ const DirectorForm = () => {
                     setDirectorFormError(res.data.errors);
                     toast.error('Fill the all required fields!');
                 }
-                setLoadingShow(false);
+                
+                toast.dismiss(toastId);
             });
     } 
 
     const handleDelete = (uuid) => {
-        setLoadingShow(true);
+        
+        let toastId = toast.loading('Waiting...');
+
         api.request('/api/director/' + uuid, 'DELETE')
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
@@ -141,13 +144,16 @@ const DirectorForm = () => {
                 }else if (res.status===403){ // permission
                     toast.error('Permission error!');
                 }
-                setLoadingShow(false);
+                
+                toastId.dismiss(toastId);
             })
     }
  
     const handlePending = (e) => {
         e.preventDefault();
-        setLoadingShow(true);
+        
+        let toastId = toast.loading('Waiting...');
+
         api.request('/api/director-pending', 'POST', directorForm)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
@@ -162,13 +168,16 @@ const DirectorForm = () => {
                     setDirectorFormError(res.data.errors);
                     toast.error('Fill the all required fields!');
                 }
-                setLoadingShow(false);
+                
+                toast.dismiss(toastId);
             });
     }
 
     const handlePendingUpdate = (e) => {
         e.preventDefault();
-        setLoadingShow(true);
+        
+        let toastId = toast.loading('Waiting...');
+
         api.request('/api/director-pending-update/'+directorForm['uuid'], 'PUT', directorForm)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
@@ -183,13 +192,16 @@ const DirectorForm = () => {
                     toast.error('Fill the all required fields!');
                     setDirectorFormError(res.data.errors);
                 }
-                setLoadingShow(false);
+                
+                toast.dismiss(toastId);
             });
     }
 
     const handlePendingReject = (e) => {
         e.preventDefault();
-        setLoadingShow(true);
+        
+        let toastId = toast.loading('Waiting...');
+
         api.request('/api/director-reject/'+directorForm['uuid'], 'PUT')
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
@@ -200,14 +212,17 @@ const DirectorForm = () => {
                 }else if (res.status===403){ // permission
                     toast.error('Permission error!');
                 }
-                setLoadingShow(false);
+                
+                toast.dismiss(toastId);
             });
     }
 
     const handlePendingAccept = (e) => {
         e.preventDefault();
         setDirectorFormError([]);
-        setLoadingShow(true);
+        
+        let toastId = toast.loading('Waiting...');
+
         api.request('/api/director-accept/'+directorForm['uuid'], 'PUT', directorForm)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
@@ -225,13 +240,16 @@ const DirectorForm = () => {
                     toast.error('Fill the all required fields!');
                     setDirectorFormError(res.data.errors);
                 }
-                setLoadingShow(false);
+                
+                toast.dismiss(toastId);
             });
     }
 
     const handleOverride = (e) => {
         e.preventDefault();
-        setLoadingShow(true);
+        
+        let toastId = toast.loading('Waiting...');
+
         api.request('/api/director-override/'+directorForm['uuid'], 'PUT', directorForm)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
@@ -261,17 +279,20 @@ const DirectorForm = () => {
                     toast.error('Permission error!');
                 }
                 setDirectorFormError([]);
-                setLoadingShow(false);
+                
+                toast.dismiss(toastId);
             });
     }
 
     const handleUnlink = () => {
+        let toastId = toast.loading('Waiting...');
         api.request('/api/director-unlink/' + directorForm['uuid'], 'GET')
             .then(res => {
                 if (res.status==200||res.status==201){
-                    setAlert({'msg': 'Successfully company unlinked', 'show': true, 'type': 'success'});
+                    toast.success('Successfully company unlinked!');
                     setDirectorForm({...directorForm, 'company_association': '' });
                 }
+                toast.dismiss(toastId);
             })
     }
 
