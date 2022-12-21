@@ -477,6 +477,9 @@ const Pending = ({ pusher, search, setLoadingShow, meUuid, meRole }) => {
                                             onContextMenu={ (e) => { handlePendingClick(e, value['uuid']) } }
                                         >
                                             <div className={`mr-auto`}>
+                                                <div className={`t-card-name-user`}>
+                                                    {value['last_activity']['user']['first_name'] + ' ' + value['last_activity']['user']['last_name']}
+                                                </div>
                                                 <div className={`t-card-name`}>{value['name']}</div>
                                                 <div className={``}>{value['last_activity']['description']}</div>
                                                 <div className={`t-card-due-date`}>{ DateFormatter.beautifulDate(value['last_activity']['updated_at']) }</div>

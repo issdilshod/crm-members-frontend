@@ -495,8 +495,12 @@ label .req {
     box-shadow: 0 0px 10px 0px rgb(0 0 0 / 5%);
 }
 
-.t-card-name{
+.t-card-name-user{
     font-weight: 700;
+}
+
+.t-card-name{
+    font-weight: 500;
 }
 
 .t-card-due-date{
