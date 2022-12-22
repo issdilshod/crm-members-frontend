@@ -7,7 +7,6 @@ import Api from '../../../services/Api';
 
 import './Pending.scss';
 import { useNavigate } from 'react-router-dom';
-import LoadingMini from '../../Helper/LoadingMini';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
 import Popup from 'reactjs-popup';
@@ -17,6 +16,8 @@ import PendingSummary from './PendingSummary';
 
 import * as ROLE from '../../../consts/Role';
 import ContextMenu from './ContextMenu';
+
+import MiniLoading from '../../Helper/Loading/MiniLoading';
 
 const Pending = ({ pusher, search, setLoadingShow, meUuid, meRole }) => {
 
@@ -443,7 +444,7 @@ const Pending = ({ pusher, search, setLoadingShow, meUuid, meRole }) => {
                     dataLength={pending.length}
                     next={pendingNextFetch}
                     hasMore={(pendingMeta['current_page']<pendingMeta['max_page'])}
-                    loader={<LoadingMini />}
+                    loader={<MiniLoading />}
                     scrollableTarget='pending-block'
                 >
                 {

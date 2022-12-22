@@ -5,11 +5,11 @@ import { FaPlus } from 'react-icons/fa';
 
 import './Task.scss';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import LoadingMini from '../../Helper/LoadingMini';
 import DateFormatter from '../../../services/DateFormatter';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import * as TASKPROGRESS from '../../../consts/Task/TaskProgress';
+import MiniLoading from '../../Helper/Loading/MiniLoading';
 
 const TaskList = ({setFormOpen, taskList, setTaskList, pusher, meUuid, taskMeta, setTaskMeta}) => {
 
@@ -120,7 +120,7 @@ const TaskList = ({setFormOpen, taskList, setTaskList, pusher, meUuid, taskMeta,
                             dataLength={taskList.length}
                             next={nextTask}
                             hasMore={(taskMeta['current_page']<taskMeta['last_page'])}
-                            loader={<LoadingMini />}
+                            loader={<MiniLoading />}
                             scrollableTarget='tasks-block-employee'
                         >
                             {

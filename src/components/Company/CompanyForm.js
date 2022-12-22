@@ -25,6 +25,7 @@ import { confirmDialog } from 'primereact/confirmdialog';
 
 import Incorporation from '../Helper/Company/Incorporation';
 import DoingBusiness from '../Helper/Company/DoingBusiness';
+import { Button } from 'primereact/button';
 
 const CompanyForm = () => {
 
@@ -450,6 +451,7 @@ const CompanyForm = () => {
             header: header,
             icon: 'pi pi-info-circle',
             acceptClassName: 'd-btn d-btn-primary',
+            rejectClassName: 'd-btn d-btn-secondary',
             position: 'top',
             accept: accept
         });
@@ -462,10 +464,21 @@ const CompanyForm = () => {
                 className={`c-form ${companyFormOpen?'c-form-active':''}`}
             >
                 <div className='c-form-head d-flex'>
-                    <div className='c-form-head-title mr-auto'>{(!companyEdit?'Add company':'Edit company')}</div>
-                    <div className='c-form-close' onClick={ () => { confirmCloseCard(); } }>
-                        <FaTimes />
+                    <div className='c-form-head-title mr-auto'>
+                        { !companyEdit &&
+                            <span>Add company card</span>
+                        }
+                        
+                        { companyEdit &&
+                            <span>Edit <b>{companyForm['legal_name']}</b> card</span>
+                        }
                     </div>
+                    <Button 
+                        label='Cancel'
+                        className='p-button p-component p-button-rounded p-button-danger p-button-text p-button-icon-only'
+                        icon='pi pi-times'
+                        onClick={(e) => { confirmCloseCard() } }
+                    />
                 </div>
                 <hr className='divider' />
                 <div className='c-form-body container-fluid'>
@@ -789,82 +802,85 @@ const CompanyForm = () => {
                                 downloadEnable={(permissions.some((e) => e==COMPANY.DOWNLOAD))}
                             />
                         </div>
-
-                        <div className='c-form-field col-12 d-flex form-group'>
-                            
-                            <div className='ml-auto'>
-                                
-                                { permissions.includes(COMPANY.STORE)  && // add/update
-                                    <>
-
-                                        { (Object.keys(companyFormError).length>0) && // override
-                                            <button className='d-btn d-btn-primary mr-2' onClick={ (e) => { handleOverride(e) } }>
-                                                Override
-                                            </button>
-                                        }
-                                        
-                                        { companyForm['status']=='' &&
-                                            <button className='d-btn d-btn-primary mr-2' onClick={ (e) => { handleStore(e) } }>
-                                                Save
-                                            </button>
-                                        }
-
-                                        { companyForm['status']==STATUS.ACTIVED &&
-                                            <button className='d-btn d-btn-primary mr-2' onClick={ (e) => { handleUpdate(e) } }>
-                                                Update
-                                            </button>
-                                        }
-                                    </>
-                                }
-
-                                { (permissions.includes(COMPANY.ACCEPT) && companyForm['status']!='' && companyForm['status']!=STATUS.ACTIVED) && // accept/reject
-                                    <>
-                                        { (companyForm['status']!='' && companyForm['status']!=STATUS.ACTIVED) && 
-                                            <>
-                                                <button className='d-btn d-btn-success mr-2' onClick={ (e) => { handlePendingAccept(e) } }>
-                                                    Approve
-                                                </button>
-
-                                                <button className='d-btn d-btn-danger mr-2' onClick={ (e) => { handlePendingReject(e) } }>
-                                                    Reject
-                                                </button>
-                                            </>
-                                        }
-                                    </>
-                                }
-
-                                { (permissions.includes(COMPANY.DELETE) && companyForm['status']!='') && 
-                                    <button className={`d-btn d-btn-danger mr-2`} onClick={ (e) => { confirmDelete(e, companyForm['uuid'], companyForm['legal_name']) } }>
-                                        Delete
-                                    </button>
-                                }
-
-                                { (!permissions.includes(COMPANY.STORE) && permissions.includes(COMPANY.SAVE)) && // pending/pending update
-                                    <>
-                                        { companyEdit &&
-                                            <>
-                                                { (companyForm['user_uuid']==meUuid || 
-                                                  (companyForm['user_uuid']!=meUuid && permissions.includes(COMPANY.PRESAVE))) &&
-                                                    <button className='d-btn d-btn-primary mr-2' onClick={ (e) => { handlePendingUpdate(e) } }>
-                                                        Update
-                                                    </button>
-                                                }
-                                            </>
-                                            
-                                        }
-
-                                        { !companyEdit &&
-                                            <button className='d-btn d-btn-primary mr-2' onClick={ (e) => { handlePending(e) } }>
-                                                Save
-                                            </button>
-                                        }
-                                    </>
-                                }
-
-                            </div>
-                        </div>
                     </form>
-                </div>                
+                </div>  
+
+                <div className='c-form-foot'>
+                    <div className='d-flex'>
+                                
+                        <div className='ml-auto'>
+                            
+                            { permissions.includes(COMPANY.STORE)  && // add/update
+                                <>
+
+                                    { (Object.keys(companyFormError).length>0) && // override
+                                        <button className='d-btn d-btn-primary mr-2' onClick={ (e) => { handleOverride(e) } }>
+                                            Override
+                                        </button>
+                                    }
+                                    
+                                    { companyForm['status']=='' &&
+                                        <button className='d-btn d-btn-primary mr-2' onClick={ (e) => { handleStore(e) } }>
+                                            Save
+                                        </button>
+                                    }
+
+                                    { companyForm['status']==STATUS.ACTIVED &&
+                                        <button className='d-btn d-btn-primary mr-2' onClick={ (e) => { handleUpdate(e) } }>
+                                            Update
+                                        </button>
+                                    }
+                                </>
+                            }
+
+                            { (permissions.includes(COMPANY.ACCEPT) && companyForm['status']!='' && companyForm['status']!=STATUS.ACTIVED) && // accept/reject
+                                <>
+                                    { (companyForm['status']!='' && companyForm['status']!=STATUS.ACTIVED) && 
+                                        <>
+                                            <button className='d-btn d-btn-success mr-2' onClick={ (e) => { handlePendingAccept(e) } }>
+                                                Approve
+                                            </button>
+
+                                            <button className='d-btn d-btn-danger mr-2' onClick={ (e) => { handlePendingReject(e) } }>
+                                                Reject
+                                            </button>
+                                        </>
+                                    }
+                                </>
+                            }
+
+                            { (permissions.includes(COMPANY.DELETE) && companyForm['status']!='') && 
+                                <button className={`d-btn d-btn-danger mr-2`} onClick={ (e) => { confirmDelete(e, companyForm['uuid'], companyForm['legal_name']) } }>
+                                    Delete
+                                </button>
+                            }
+
+                            { (!permissions.includes(COMPANY.STORE) && permissions.includes(COMPANY.SAVE)) && // pending/pending update
+                                <>
+                                    { companyEdit &&
+                                        <>
+                                            { (companyForm['user_uuid']==meUuid || 
+                                                (companyForm['user_uuid']!=meUuid && permissions.includes(COMPANY.PRESAVE))) &&
+                                                <button className='d-btn d-btn-primary mr-2' onClick={ (e) => { handlePendingUpdate(e) } }>
+                                                    Update
+                                                </button>
+                                            }
+                                        </>
+                                        
+                                    }
+
+                                    { !companyEdit &&
+                                        <button className='d-btn d-btn-primary mr-2' onClick={ (e) => { handlePending(e) } }>
+                                            Save
+                                        </button>
+                                    }
+                                </>
+                            }
+
+                        </div>
+                    </div>
+                </div>     
+                         
             </div>
         </div>
     );

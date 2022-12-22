@@ -13,6 +13,7 @@ import { useNavigate } from 'react-router-dom';
 
 import toast from 'react-hot-toast';
 import { confirmDialog } from 'primereact/confirmdialog';
+import { Button } from 'primereact/button';
 
 const FutureCompanyForm = () => {
 
@@ -291,6 +292,7 @@ const FutureCompanyForm = () => {
             header: header,
             icon: 'pi pi-info-circle',
             acceptClassName: 'd-btn d-btn-primary',
+            rejectClassName: 'd-btn d-btn-secondary',
             position: 'top',
             accept: accept
         });
@@ -301,10 +303,21 @@ const FutureCompanyForm = () => {
             <div className={`c-card-left ${!formOpen?'w-0':''}`} onClick={ () => { confirmCloseCard() } }></div>
             <div className={`c-form ${formOpen ?'c-form-active':''}`}>
                 <div className='c-form-head d-flex'>
-                    <div className='c-form-head-title mr-auto'>{(!edit?'Add future company':'Edit future company')}</div>
-                    <div className='c-form-close' onClick={(e) => { confirmCloseCard() } }>
-                        <FaTimes />
+                    <div className='c-form-head-title mr-auto'>
+                        { !edit &&
+                            <span>Add future company card</span>
+                        }
+                        
+                        { edit &&
+                            <span>Edit <b>{form['revival_date']}</b> card</span>
+                        }
                     </div>
+                    <Button
+                        label='Cancel'
+                        className='p-button p-component p-button-rounded p-button-danger p-button-text p-button-icon-only'
+                        icon='pi pi-times'
+                        onClick={(e) => { confirmCloseCard() } }
+                    />
                 </div>
                 <hr className='divider' />
                 <div className='c-form-body container-fluid'>
@@ -419,80 +432,84 @@ const FutureCompanyForm = () => {
                             />
                         </div>
 
-                        
-                        <div className='c-form-field col-12 d-flex form-group'>
-                            <div className='ml-auto'>
-
-                                { permissions.includes(FUTURECOMPANY.STORE)  && //permitted to add
-                                    <>
-                                        { form['status']=='' &&
-                                            <button className='d-btn d-btn-primary mr-2' onClick={ (e) => { handleStore(e) } }>
-                                                Save
-                                            </button>
-                                        }
-
-                                        { form['status']==STATUS.ACTIVED &&
-                                            <>
-                                                <button 
-                                                    className={`d-btn d-btn-danger mr-2`} 
-                                                    onClick={ (e) => { confirmDelete(e, form['uuid']) } }
-                                                >
-                                                    Delete
-                                                </button>
-                                                <button 
-                                                    className='d-btn d-btn-primary mr-2' 
-                                                    onClick={ (e) => { handleUpdate(e) } }
-                                                >
-                                                    Update
-                                                </button>
-                                            </>
-                                        }
-
-                                        { (form['status']!='' && form['status']!=STATUS.ACTIVED) && 
-                                            <>
-                                                <button className='d-btn d-btn-success mr-2' onClick={ (e) => { handlePendingAccept(e) } }>
-                                                    Pending accept
-                                                </button>
-
-                                                <button className='d-btn d-btn-danger mr-2' onClick={ (e) => { handlePendingReject(e) } }>
-                                                    Pending reject
-                                                </button>
-                                                <button 
-                                                    className={`d-btn d-btn-danger mr-2`} 
-                                                    onClick={ (e) => { confirmDelete(e, form['uuid']) } }
-                                                >
-                                                    Delete
-                                                </button>
-                                            </>
-                                        }
-                                    </>
-                                }
-
-                                { (!permissions.includes(FUTURECOMPANY.STORE) && permissions.includes(FUTURECOMPANY.SAVE)) && // not permitted to add
-                                    <>
-                                        { edit &&
-                                            <>
-                                                {   form['user_uuid']==meUuid &&
-                                                    <button className='d-btn d-btn-primary mr-2' onClick={ (e) => { handlePendingUpdate(e) } }>
-                                                        Pending update
-                                                    </button>
-                                                }
-                                            </>
-                                        }
-
-                                        { !edit &&
-                                            <button className='d-btn d-btn-primary mr-2' onClick={ (e) => { handlePending(e) } }>
-                                                Pending
-                                            </button>
-                                        }
-                                    </>
-                                }
-
-                            </div>
-                        </div>
-
                     </form>
                 </div>
+
+                <div className='c-form-foot'>
+
+                    <div className='d-flex'>
+                        <div className='ml-auto'>
+
+                            { permissions.includes(FUTURECOMPANY.STORE)  && //permitted to add
+                                <>
+                                    { form['status']=='' &&
+                                        <button className='d-btn d-btn-primary mr-2' onClick={ (e) => { handleStore(e) } }>
+                                            Save
+                                        </button>
+                                    }
+
+                                    { form['status']==STATUS.ACTIVED &&
+                                        <>
+                                            <button 
+                                                className={`d-btn d-btn-danger mr-2`} 
+                                                onClick={ (e) => { confirmDelete(e, form['uuid']) } }
+                                            >
+                                                Delete
+                                            </button>
+                                            <button 
+                                                className='d-btn d-btn-primary mr-2' 
+                                                onClick={ (e) => { handleUpdate(e) } }
+                                            >
+                                                Update
+                                            </button>
+                                        </>
+                                    }
+
+                                    { (form['status']!='' && form['status']!=STATUS.ACTIVED) && 
+                                        <>
+                                            <button className='d-btn d-btn-success mr-2' onClick={ (e) => { handlePendingAccept(e) } }>
+                                                Pending accept
+                                            </button>
+
+                                            <button className='d-btn d-btn-danger mr-2' onClick={ (e) => { handlePendingReject(e) } }>
+                                                Pending reject
+                                            </button>
+                                            <button 
+                                                className={`d-btn d-btn-danger mr-2`} 
+                                                onClick={ (e) => { confirmDelete(e, form['uuid']) } }
+                                            >
+                                                Delete
+                                            </button>
+                                        </>
+                                    }
+                                </>
+                            }
+
+                            { (!permissions.includes(FUTURECOMPANY.STORE) && permissions.includes(FUTURECOMPANY.SAVE)) && // not permitted to add
+                                <>
+                                    { edit &&
+                                        <>
+                                            {   form['user_uuid']==meUuid &&
+                                                <button className='d-btn d-btn-primary mr-2' onClick={ (e) => { handlePendingUpdate(e) } }>
+                                                    Pending update
+                                                </button>
+                                            }
+                                        </>
+                                    }
+
+                                    { !edit &&
+                                        <button className='d-btn d-btn-primary mr-2' onClick={ (e) => { handlePending(e) } }>
+                                            Pending
+                                        </button>
+                                    }
+                                </>
+                            }
+
+                        </div>
+                    </div>
+
+                </div>
+
             </div>
         </div>
     );

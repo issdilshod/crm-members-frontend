@@ -4,6 +4,7 @@ import { FaEnvelope, FaTelegram, FaTimes } from 'react-icons/fa';
 
 import { toast } from 'react-hot-toast';
 import Api from '../../../services/Api';
+import { Button } from 'primereact/button';
 
 const InviteUserForm = () => {
 
@@ -64,12 +65,12 @@ const InviteUserForm = () => {
                     <div className='c-form-head-title mr-auto'>
                         Invite user to platform
                     </div>
-                    <div 
-                        className='c-form-close' 
-                        onClick={ () => { setInviteUserFormOpen(false) } }
-                    >
-                        <FaTimes />
-                    </div>
+                    <Button
+                        label='Cancel'
+                        className='p-button p-component p-button-rounded p-button-danger p-button-text p-button-icon-only'
+                        icon='pi pi-times'
+                        onClick={(e) => { setInviteUserFormOpen(false) } }
+                    />
                 </div>
                 <hr className='divider' />
                 <div className='c-form-body container-fluid'>

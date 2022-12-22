@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import MenuItem from './MenuItem';
 
 import { FaBell, FaBuilding, FaCalendar, FaCog, FaConnectdevelop, FaGlobe, FaRegBell, FaRegBuilding, FaRegClock, FaRegComment, FaTachometerAlt, FaTimes, FaUser, FaUsers } from 'react-icons/fa';
+import { Button } from 'primereact/button';
 
 const Menu = ({ menuOpen, setMenuOpen }) => {
 
@@ -12,15 +13,18 @@ const Menu = ({ menuOpen, setMenuOpen }) => {
         <div>
             <div 
                 className={`c-card-left-lg ${!menuOpen?'w-0':''}`} 
-                onClick={ () => { setMenuOpen(false) } }></div>
+                onClick={ () => { setMenuOpen(false) } }
+            ></div>
             <div className={`c-form c-form-sm ${menuOpen?'c-form-active':''}`}>
                 <div className='c-form-head d-flex'>
                     <div className='c-form-head-title mr-auto'>Menu</div>
-                    <div className='c-form-close' onClick={() => setMenuOpen(!menuOpen)}>
-                        <FaTimes />
-                    </div>
+                    <Button
+                        label='Cancel'
+                        className='p-button p-component p-button-rounded p-button-danger p-button-text p-button-icon-only'
+                        icon='pi pi-times'
+                        onClick={() => setMenuOpen(!menuOpen) }
+                    />
                 </div>
-                <hr className='divider' />
                 <div className='c-form-body container-fluid'>
                     <MenuItem page_link='dashboard' page_name='Dashboard' icon={<FaTachometerAlt />} />
                     <MenuItem page_link='directors' page_name='Directors' icon={<FaUser />} />

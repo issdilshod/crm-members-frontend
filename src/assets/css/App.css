@@ -259,8 +259,8 @@ input, input[type], select, textarea{
     box-shadow: 0 0.3125rem 0.625rem 6px rgb(0 0 0 / 12%) !important;
 }
 
-.d-btn-primary{
-    background-color: #607cab;
+.d-btn-primary, .d-btn-primary:hover{
+    background-color: #607cab !important;
 }
 
 .d-btn-danger{
@@ -271,8 +271,8 @@ input, input[type], select, textarea{
     background-color: #20da9b;
 }
 
-.d-btn-secondary{
-    background-color: #b3b3b3;
+.d-btn-secondary, .d-btn-secondary:hover{
+    background-color: #b3b3b3 !important;
 }
 
 .d-btn-telegram{
@@ -703,8 +703,13 @@ label .req {
 }
 
 .c-form-head{
-    padding: 20px;
-    padding-bottom: 0px;
+    padding: 10px 20px;
+    position: sticky;
+    top: 0;
+    left: 0;
+    background-color: #fff;
+    border-bottom: 1px solid #8585850d;
+    z-index: 999;
 }
 
 .c-form-head-title{
@@ -715,6 +720,16 @@ label .req {
 .c-form-close{
     font-size: 1.5em;
     cursor: pointer;
+}
+
+.c-form-foot{
+    padding: 10px 20px;
+    position: sticky;
+    bottom: 0;
+    left: 0;
+    background-color: #fff;
+    border-top: 1px solid #8585850d;
+    z-index: 999;
 }
 
 .divider{
@@ -1179,6 +1194,14 @@ label .req {
     width: 44px;
     font-weight: 500;
     text-align: center;
+}
+
+.d-avatar-photo{
+    border-radius: 50%;
+    width: 44px;
+    display: inline-block;
+    overflow: hidden;
+    border: 1px solid #34476726;
 }
 
 .d-chat-header-info{

@@ -3,9 +3,10 @@ import { Link } from 'react-router-dom';
 import DateFormatter from '../../../services/DateFormatter';
 
 import { FaClock } from 'react-icons/fa';
-import LoadingMini from '../../Helper/LoadingMini';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import Api from '../../../services/Api';
+
+import MiniLoading from '../../Helper/Loading/MiniLoading';
 
 const Activity = ({pusher, meUuid}) => {
 
@@ -79,12 +80,7 @@ const Activity = ({pusher, meUuid}) => {
                         dataLength={activityList.length}
                         next={activityNextFetch}
                         hasMore={activityMeta['current_page']<activityMeta['max_page']}
-                        loader={<LoadingMini />}
-                        endMessage={
-                            <p style={{ textAlign: "center" }}>
-                                <b>Yay! You have seen it all</b>
-                            </p>
-                        }
+                        loader={ <MiniLoading /> }
                         scrollableTarget='activity-content'
                     >
 

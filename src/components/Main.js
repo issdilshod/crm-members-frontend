@@ -17,11 +17,11 @@ import FutureCompany from './FutureCompany/FutureCompany';
 
 import Pusher from 'pusher-js';
 
-import '../assets/css/App.css';
-
 import 'primereact/resources/themes/lara-light-indigo/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
+
+import '../assets/css/App.css';
 
 const Main = () => {
 

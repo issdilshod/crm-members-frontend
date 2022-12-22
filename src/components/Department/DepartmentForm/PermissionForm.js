@@ -3,6 +3,7 @@ import { Mediator } from '../../../context/Mediator';
 import { FaTimes } from 'react-icons/fa';
 import OnOff from '../../Helper/OnOff';
 import Api from '../../../services/Api';
+import { Button } from 'primereact/button';
 
 const PermissionForm = () => {
 
@@ -30,12 +31,12 @@ const PermissionForm = () => {
                     <div className='c-form-head-title mr-auto'>
                         Permission control
                     </div>
-                    <div 
-                        className='c-form-close' 
-                        onClick={ () => { setPermissionFormOpen(false) } }
-                    >
-                        <FaTimes />
-                    </div>
+                    <Button
+                        label='Cancel'
+                        className='p-button p-component p-button-rounded p-button-danger p-button-text p-button-icon-only'
+                        icon='pi pi-times'
+                        onClick={(e) => { setPermissionFormOpen(false) } }
+                    />
                 </div>
                 <hr className='divider' />
                 <div className='c-form-body container-fluid'>

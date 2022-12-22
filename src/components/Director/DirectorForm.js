@@ -18,6 +18,9 @@ import Select from '../Helper/Input/Select';
 
 import toast from 'react-hot-toast';
 import { confirmDialog } from 'primereact/confirmdialog';
+
+import { Button } from 'primereact/button';
+
 import Api from '../../services/Api';
 
 const DirectorForm = () => {
@@ -31,6 +34,8 @@ const DirectorForm = () => {
 
     const [meUuid, setMeUuid] = useState('');
     const [role, setRole] = useState('');
+
+    const [rejectReason, setRejectReason] = useState('');
 
     const firstInitialRef = useRef(true);
 
@@ -202,7 +207,10 @@ const DirectorForm = () => {
         
         let toastId = toast.loading('Waiting...');
 
-        api.request('/api/director-reject/'+directorForm['uuid'], 'PUT')
+        let reason = {};
+        if (rejectReason!=''){ reason['description'] = rejectReason; }
+
+        api.request('/api/director-reject/'+directorForm['uuid'], 'PUT', reason)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
                     toast.success('Succefully director card rejected!');
@@ -213,6 +221,7 @@ const DirectorForm = () => {
                     toast.error('Permission error!');
                 }
                 
+                setRejectReason('');
                 toast.dismiss(toastId);
             });
     }
@@ -322,12 +331,20 @@ const DirectorForm = () => {
         }
     }
 
+    const confirmReject = () => {
+        craeteConfirmation({
+            message: 'You have unsaved changes, are you sure you want to close this card?',
+            accept: () => { setDirectorFormOpen(false); }
+        });
+    }
+
     const craeteConfirmation = ({message = '', header = 'Confirmation', accept = () => {}}) => {
         confirmDialog({
             message: message,
             header: header,
             icon: 'pi pi-info-circle',
             acceptClassName: 'd-btn d-btn-primary',
+            rejectClassName: 'd-btn d-btn-secondary',
             position: 'top',
             accept: accept
         });
@@ -338,10 +355,21 @@ const DirectorForm = () => {
             <div className={`c-card-left ${!directorFormOpen?'w-0':''}`} onClick={ () => { confirmCloseCard() } }></div>
             <div className={`c-form ${directorFormOpen?'c-form-active':''}`}>
                 <div className='c-form-head d-flex'>
-                    <div className='c-form-head-title mr-auto'>{(!directorEdit?'Add director':'Edit director')}</div>
-                    <div className='c-form-close' onClick={(e) => { confirmCloseCard() } }>
-                        <FaTimes />
+                    <div className='c-form-head-title mr-auto'>
+                        { !directorEdit &&
+                            <span>Add director card</span>
+                        }
+                        
+                        { directorEdit &&
+                            <span>Edit <b>{directorForm['first_name']} {directorForm['middle_name']} {directorForm['last_name']}</b> card</span>
+                        }
                     </div>
+                    <Button 
+                        label='Cancel'
+                        className='p-button p-component p-button-rounded p-button-danger p-button-text p-button-icon-only'
+                        icon='pi pi-times'
+                        onClick={(e) => { confirmCloseCard() } }
+                    />
                 </div>
                 <hr className='divider' />
                 <div className='c-form-body container-fluid'>
@@ -557,87 +585,90 @@ const DirectorForm = () => {
                                 downloadEnable={(permissions.some((e) => e==DIRECTOR.DOWNLOAD))}
                             />
                         </div>
-
-                        <div className={`c-form-field col-12 d-flex form-group`}>
-                            <div className='ml-auto'>
-
-                                { permissions.includes(DIRECTOR.STORE)  && // add/update
-                                    <>
-                                        { (Object.keys(directorFormError).length>0 && directorEdit) && // override
-                                            <button className='d-btn d-btn-primary mr-2' onClick={ (e) => { handleOverride(e) } }>
-                                                Override
-                                            </button>
-                                        }
-
-                                        { directorForm['status']=='' &&
-                                            <button className='d-btn d-btn-primary mr-2' onClick={ (e) => { handleStore(e) } }>
-                                                Save
-                                            </button>
-                                        }
-
-                                        { directorForm['status']==STATUS.ACTIVED &&
-                                            <button className='d-btn d-btn-primary mr-2' onClick={ (e) => { handleUpdate(e) } }>
-                                                Update
-                                            </button>
-                                        }
-
-                                        { (permissions.includes(DIRECTOR.ACCEPT) && directorForm['status']!='' && directorForm['status']!=STATUS.ACTIVED) && // accept/reject
-                                            <>
-                                                { (Object.keys(directorFormError).length>0) && // override
-                                                    <button className='d-btn d-btn-primary mr-2' onClick={ (e) => { handleOverride(e) } }>
-                                                        Override
-                                                    </button>
-                                                }
-
-                                                { (Object.keys(directorFormError).length==0) && // accept
-                                                    <button className='d-btn d-btn-success mr-2' onClick={ (e) => { handlePendingAccept(e) } }>
-                                                        Approve
-                                                    </button>
-                                                }
-                                                
-                                                <button className='d-btn d-btn-danger mr-2' onClick={ (e) => { handlePendingReject(e) } }>
-                                                    Reject
-                                                </button>
-
-                                                
-                                            </>
-                                        }
-
-                                        { (permissions.includes(DIRECTOR.DELETE) && directorForm['status']!='') &&
-                                            <button 
-                                                className={`d-btn d-btn-danger mr-2`} 
-                                                onClick={ (e) => { confirmDelete(e, directorForm['uuid'], directorForm['first_name'] + ' ' + (directorForm['middle_name']!=null?directorForm['middle_name']:'') + ' ' + directorForm['last_name']) } }
-                                            >
-                                                Delete
-                                            </button>
-                                        }
-                                    </>
-                                }
-
-                                { (!permissions.includes(DIRECTOR.STORE) && permissions.includes(DIRECTOR.SAVE)) && // not permitted to add
-                                    <>
-                                        { directorEdit &&
-                                            <>
-                                                {   (directorForm['user_uuid']==meUuid || (directorForm['user_uuid']!=meUuid && permissions.includes(DIRECTOR.PRESAVE))) &&
-                                                    <button className='d-btn d-btn-primary mr-2' onClick={ (e) => { handlePendingUpdate(e) } }>
-                                                        Update
-                                                    </button>
-                                                }
-                                            </>
-                                        }
-
-                                        { !directorEdit &&
-                                            <button className='d-btn d-btn-primary mr-2' onClick={ (e) => { handlePending(e) } }>
-                                                Save
-                                            </button>
-                                        }
-                                    </>
-                                }
-
-                            </div>
-                        </div>
                     </form>
                 </div>
+
+                <div className='c-form-foot'>
+                    <div className='d-flex'>
+                        <div className='ml-auto'>
+
+                            { permissions.includes(DIRECTOR.STORE)  && // add/update
+                                <>
+                                    { (Object.keys(directorFormError).length>0 && directorEdit) && // override
+                                        <button className='d-btn d-btn-primary mr-2' onClick={ (e) => { handleOverride(e) } }>
+                                            Override
+                                        </button>
+                                    }
+
+                                    { directorForm['status']=='' &&
+                                        <button className='d-btn d-btn-primary mr-2' onClick={ (e) => { handleStore(e) } }>
+                                            Save
+                                        </button>
+                                    }
+
+                                    { directorForm['status']==STATUS.ACTIVED &&
+                                        <button className='d-btn d-btn-primary mr-2' onClick={ (e) => { handleUpdate(e) } }>
+                                            Update
+                                        </button>
+                                    }
+
+                                    { (permissions.includes(DIRECTOR.ACCEPT) && directorForm['status']!='' && directorForm['status']!=STATUS.ACTIVED) && // accept/reject
+                                        <>
+                                            { (Object.keys(directorFormError).length>0) && // override
+                                                <button className='d-btn d-btn-primary mr-2' onClick={ (e) => { handleOverride(e) } }>
+                                                    Override
+                                                </button>
+                                            }
+
+                                            { (Object.keys(directorFormError).length==0) && // accept
+                                                <button className='d-btn d-btn-success mr-2' onClick={ (e) => { handlePendingAccept(e) } }>
+                                                    Approve
+                                                </button>
+                                            }
+                                            
+                                            <button className='d-btn d-btn-danger mr-2' onClick={ (e) => { handlePendingReject(e) } }>
+                                                Reject
+                                            </button>
+
+                                            
+                                        </>
+                                    }
+
+                                    { (permissions.includes(DIRECTOR.DELETE) && directorForm['status']!='') &&
+                                        <button 
+                                            className={`d-btn d-btn-danger mr-2`} 
+                                            onClick={ (e) => { confirmDelete(e, directorForm['uuid'], directorForm['first_name'] + ' ' + (directorForm['middle_name']!=null?directorForm['middle_name']:'') + ' ' + directorForm['last_name']) } }
+                                        >
+                                            Delete
+                                        </button>
+                                    }
+                                </>
+                            }
+
+                            { (!permissions.includes(DIRECTOR.STORE) && permissions.includes(DIRECTOR.SAVE)) && // not permitted to add
+                                <>
+                                    { directorEdit &&
+                                        <>
+                                            {   (directorForm['user_uuid']==meUuid || (directorForm['user_uuid']!=meUuid && permissions.includes(DIRECTOR.PRESAVE))) &&
+                                                <button className='d-btn d-btn-primary mr-2' onClick={ (e) => { handlePendingUpdate(e) } }>
+                                                    Update
+                                                </button>
+                                            }
+                                        </>
+                                    }
+
+                                    { !directorEdit &&
+                                        <button className='d-btn d-btn-primary mr-2' onClick={ (e) => { handlePending(e) } }>
+                                            Save
+                                        </button>
+                                    }
+                                </>
+                            }
+
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     );

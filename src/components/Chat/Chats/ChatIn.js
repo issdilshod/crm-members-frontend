@@ -126,13 +126,17 @@ const ChatIn = ({chats, setChats, chatMessages, setChatMessages, chatMessagesMet
                             <FaArrowLeft />
                         </i>
                     </div>
-                    <div className='d-avatar'>
-                        { (chat['type']==CHATCONST.GROUP) &&
-                            <>{chat['name'].substr(0, 2)}</>
+                    <div className='d-avatar-photo'>
+                        { chat['type']==CHATCONST.GROUP && // group
+                            <>
+                                <img src={`https://robohash.org/${chat['name']}?size=44x44`} />
+                            </>
                         }
 
-                        { (chat['type']==CHATCONST.PRIVATE) &&
-                            <>{ChatControl.getPartnerName(meUuid, chat['members']).substr(0, 2)}</>
+                        { chat['type']==CHATCONST.PRIVATE && // one by one
+                            <>
+                                <img src={`https://robohash.org/${ChatControl.getPartnerName(meUuid, chat['members'])}?size=44x44`} />
+                            </>
                         }
                     </div>
                     <div className='ml-2 d-chat-header-info'>

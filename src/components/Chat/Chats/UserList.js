@@ -89,7 +89,12 @@ const UserList = ({handleBack, users, handleCreateChat, isGroup}) => {
                                 className='user-item d-cursor-pointer d-flex'
                                 onClick={ () => { handleSelectMembers(value) }}
                             >
-                                <div className='mr-auto'>
+                                <div className='mr-2'>
+                                <div className='d-avatar-photo'>
+                                    <img src={`https://robohash.org/${value['first_name'] + ' ' + value['last_name']}?size=44x44`} />
+                                </div>
+                                </div>
+                                <div className='mr-auto mb-auto mt-auto'>
                                     <span className='user-item-name mr-2'>{value['first_name'] + ' ' + value['last_name']}</span>
                                     { (value['last_seen']==null) &&
                                         <span className='online'></span>
@@ -99,7 +104,7 @@ const UserList = ({handleBack, users, handleCreateChat, isGroup}) => {
                                     }
                                 </div>
                                 { (!isGroup) && // private
-                                    <div>
+                                    <div className='mb-auto mt-auto'>
                                         <span 
                                             className='d-btn d-btn-sm d-btn-primary'
                                             onClick={ () => { handleCreateChat(value['uuid']) } }

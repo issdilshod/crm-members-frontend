@@ -8,6 +8,7 @@ import Input from '../../Helper/Input/Input';
 import Validation from '../../Helper/Validation/Validation';
 import { toast } from 'react-hot-toast';
 import Api from '../../../services/Api';
+import { Button } from 'primereact/button';
 
 const UserForm = () => {
 
@@ -163,12 +164,12 @@ const UserForm = () => {
                     <div className='c-form-head-title mr-auto'>
                         User control
                     </div>
-                    <div 
-                        className='c-form-close' 
-                        onClick={ () => { setUserFormOpen(false) } }
-                    >
-                        <FaTimes />
-                    </div>
+                    <Button
+                        label='Cancel'
+                        className='p-button p-component p-button-rounded p-button-danger p-button-text p-button-icon-only'
+                        icon='pi pi-times'
+                        onClick={(e) => { setUserFormOpen(false) } }
+                    />
                 </div>
                 <hr className='divider' />
                 <div className='c-form-body container-fluid'>

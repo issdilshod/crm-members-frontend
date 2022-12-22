@@ -19,6 +19,7 @@ import Address from '../Helper/Address/Address';
 import Input from '../Helper/Input/Input';
 import Select from '../Helper/Input/Select';
 import { useRef } from 'react';
+import { Button } from 'primereact/button';
 
 const VirtualOfficeForm = () => {
 
@@ -374,6 +375,7 @@ const VirtualOfficeForm = () => {
             header: header,
             icon: 'pi pi-info-circle',
             acceptClassName: 'd-btn d-btn-primary',
+            rejectClassName: 'd-btn d-btn-secondary',
             position: 'top',
             accept: accept
         });
@@ -384,10 +386,21 @@ const VirtualOfficeForm = () => {
             <div className={`c-card-left ${!formOpen?'w-0':''}`} onClick={ () => { confirmCloseCard() } }></div>
             <div className={`c-form ${formOpen ?'c-form-active':''}`}>
                 <div className='c-form-head d-flex'>
-                    <div className='c-form-head-title mr-auto'>{(!edit?'Add virtual office':'Edit virtual office')}</div>
-                    <div className='c-form-close' onClick={(e) => { confirmCloseCard() } }>
-                        <FaTimes />
+                    <div className='c-form-head-title mr-auto'>
+                        { !edit &&
+                            <span>Add virtual office card</span>
+                        }
+                        
+                        { edit &&
+                            <span>Edit <b>{form['vo_provider_name']}</b> card</span>
+                        }
                     </div>
+                    <Button 
+                        label='Cancel'
+                        className='p-button p-component p-button-rounded p-button-danger p-button-text p-button-icon-only'
+                        icon='pi pi-times'
+                        onClick={(e) => { confirmCloseCard() } }
+                    />
                 </div>
                 <hr className='divider' />
                 <div className='c-form-body container-fluid'>
@@ -653,72 +666,75 @@ const VirtualOfficeForm = () => {
                             />
                         </div>
 
-                        <div className='c-form-field col-12 d-flex mt-4 mb-2'>
-                            <div className='ml-auto'>
-
-                                { permissions.includes(VIRTUALOFFICE.STORE)  && // store
-                                    <>
-                                        { form['status']=='' &&
-                                            <button className='d-btn d-btn-primary mr-2' onClick={ (e) => { handleStore(e) } }>
-                                                Save
-                                            </button>
-                                        }
-
-                                        { form['status']==STATUS.ACTIVED &&
-                                            <button className='d-btn d-btn-primary mr-2' onClick={ (e) => { handleUpdate(e) } }>
-                                                Update
-                                            </button>
-                                        }
-                                    </>
-                                }
-
-                                { (permissions.includes(VIRTUALOFFICE.ACCEPT) && form['status']!='' && form['status']!=STATUS.ACTIVED) && // accept/reject
-                                    <>
-                                        { (form['status']!='' && form['status']!=STATUS.ACTIVED) && 
-                                            <>
-                                                <button className='d-btn d-btn-success mr-2' onClick={ (e) => { handlePendingAccept(e) } }>
-                                                    Approve
-                                                </button>
-
-                                                <button className='d-btn d-btn-danger mr-2' onClick={ (e) => { handlePendingReject(e) } }>
-                                                    Reject
-                                                </button>
-                                            </>
-                                        }
-                                    </>
-                                }
-
-                                { (permissions.includes(VIRTUALOFFICE.DELETE) && form['status']!='')  && // delete
-                                    <button className={`d-btn d-btn-danger mr-2`} onClick={ (e) => { confirmDelete(e, form['uuid']) } }>
-                                        Delete
-                                    </button>
-                                }
-
-                                { (!permissions.includes(VIRTUALOFFICE.STORE) && permissions.includes(VIRTUALOFFICE.SAVE)) && // pending
-                                    <>
-                                        { edit &&
-                                            <>
-                                                {   form['user_uuid']==meUuid &&
-                                                    <button className='d-btn d-btn-primary mr-2' onClick={ (e) => { handlePendingUpdate(e) } }>
-                                                        Upadte
-                                                    </button>
-                                                }
-                                            </>
-                                        }
-
-                                        { !edit &&
-                                            <button className='d-btn d-btn-primary mr-2' onClick={ (e) => { handlePending(e) } }>
-                                                Save
-                                            </button>
-                                        }
-                                    </>
-                                }
-
-                            </div>
-                        </div>
-
                     </form>
                 </div>
+
+                <div className='c-form-foot'>
+                    <div className='d-flex'>
+                        <div className='ml-auto'>
+
+                            { permissions.includes(VIRTUALOFFICE.STORE)  && // store
+                                <>
+                                    { form['status']=='' &&
+                                        <button className='d-btn d-btn-primary mr-2' onClick={ (e) => { handleStore(e) } }>
+                                            Save
+                                        </button>
+                                    }
+
+                                    { form['status']==STATUS.ACTIVED &&
+                                        <button className='d-btn d-btn-primary mr-2' onClick={ (e) => { handleUpdate(e) } }>
+                                            Update
+                                        </button>
+                                    }
+                                </>
+                            }
+
+                            { (permissions.includes(VIRTUALOFFICE.ACCEPT) && form['status']!='' && form['status']!=STATUS.ACTIVED) && // accept/reject
+                                <>
+                                    { (form['status']!='' && form['status']!=STATUS.ACTIVED) && 
+                                        <>
+                                            <button className='d-btn d-btn-success mr-2' onClick={ (e) => { handlePendingAccept(e) } }>
+                                                Approve
+                                            </button>
+
+                                            <button className='d-btn d-btn-danger mr-2' onClick={ (e) => { handlePendingReject(e) } }>
+                                                Reject
+                                            </button>
+                                        </>
+                                    }
+                                </>
+                            }
+
+                            { (permissions.includes(VIRTUALOFFICE.DELETE) && form['status']!='')  && // delete
+                                <button className={`d-btn d-btn-danger mr-2`} onClick={ (e) => { confirmDelete(e, form['uuid']) } }>
+                                    Delete
+                                </button>
+                            }
+
+                            { (!permissions.includes(VIRTUALOFFICE.STORE) && permissions.includes(VIRTUALOFFICE.SAVE)) && // pending
+                                <>
+                                    { edit &&
+                                        <>
+                                            {   form['user_uuid']==meUuid &&
+                                                <button className='d-btn d-btn-primary mr-2' onClick={ (e) => { handlePendingUpdate(e) } }>
+                                                    Upadte
+                                                </button>
+                                            }
+                                        </>
+                                    }
+
+                                    { !edit &&
+                                        <button className='d-btn d-btn-primary mr-2' onClick={ (e) => { handlePending(e) } }>
+                                            Save
+                                        </button>
+                                    }
+                                </>
+                            }
+
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     );

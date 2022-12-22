@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { FaTimes, FaTrash, FaUpload } from "react-icons/fa";
 import Api from "../../../services/Api";
-import LoadingMini from '../LoadingMini';
+import MiniLoading from '../Loading/MiniLoading';
 
 const FileModule = ({form, setForm, title, parentUnique, unique, downloadEnable, uploaded, onChange}) => {
 
@@ -114,7 +114,7 @@ const FileModule = ({form, setForm, title, parentUnique, unique, downloadEnable,
                 />
 
                 { loadingShow &&
-                    <LoadingMini />
+                    <MiniLoading />
                 }
 
                 <div>

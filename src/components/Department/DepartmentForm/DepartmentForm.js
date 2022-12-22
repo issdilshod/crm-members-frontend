@@ -6,6 +6,9 @@ import { useParams } from 'react-router-dom';
 import Api from '../../../services/Api';
 import { toast } from 'react-hot-toast';
 
+import { confirmDialog } from 'primereact/confirmdialog';
+import { Button } from 'primereact/button';
+
 const DepartmentForm = () => {
 
     const api = new Api();
@@ -64,14 +67,7 @@ const DepartmentForm = () => {
         setUserEdit(false);
     }
 
-    const handleDeleteUser = (e, uuid, fl_name) => {
-
-        e.preventDefault();
-
-        // TODO: change confirm to ui
-        let confirm = true;
-        confirm = window.confirm('are you sure you want to remove '+ fl_name +' from the platform? This action can not be undone.');
-        if (!confirm){ return false; }
+    const handleDelete = (uuid) => {
 
         let toastId = toast.loading('Waiting...');
 
@@ -129,15 +125,39 @@ const DepartmentForm = () => {
             })
     }
 
+    const confirmDelete = (e, uuid, cardName) => {
+        e.preventDefault();
+
+        craeteConfirmation({
+            message: 'Are you sure you want to remove card '+ cardName +' from the platform? This action can not be undone.',
+            accept: () => { handleDelete(uuid); }
+        });
+    }
+
+    const craeteConfirmation = ({message = '', header = 'Confirmation', accept = () => {}}) => {
+        confirmDialog({
+            message: message,
+            header: header,
+            icon: 'pi pi-info-circle',
+            acceptClassName: 'd-btn d-btn-primary',
+            rejectClassName: 'd-btn d-btn-secondary',
+            position: 'top',
+            accept: accept
+        });
+    }
+
     return (
         <>
             <div className={`c-card-left ${!departmentFormOpen?'w-0':''}`} onClick={ () => { setDepartmentFormOpen(false) } }></div>
             <div className={`c-form  ${departmentFormOpen?'c-form-active':''}`}>
                 <div className='c-form-head d-flex'>
                     <div className='c-form-head-title mr-auto'>{departmentForm['department_name']} department</div>
-                    <div className='c-form-close' onClick={() => { setDepartmentFormOpen(!departmentFormOpen) } }>
-                        <FaTimes />
-                    </div>
+                    <Button
+                        label='Cancel'
+                        className='p-button p-component p-button-rounded p-button-danger p-button-text p-button-icon-only'
+                        icon='pi pi-times'
+                        onClick={(e) => { setDepartmentFormOpen(!departmentFormOpen) } }
+                    />
                 </div>
                 <hr className='divider' />
                 <div className='c-form-body container-fluid'>
@@ -184,7 +204,7 @@ const DepartmentForm = () => {
 
                                                             <button 
                                                                 className='d-btn d-btn-sm d-btn-danger' 
-                                                                onClick={ (e) => { handleDeleteUser(e, value['uuid'], value['first_name'] + ' ' + value['last_name']) } }
+                                                                onClick={ (e) => { confirmDelete(e, value['uuid'], value['first_name'] + ' ' + value['last_name']) } }
                                                             >
                                                                 <FaTrash />
                                                             </button> 
