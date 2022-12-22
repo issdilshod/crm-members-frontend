@@ -90,17 +90,19 @@ const UserList = ({handleBack, users, handleCreateChat, isGroup}) => {
                                 onClick={ () => { handleSelectMembers(value) }}
                             >
                                 <div className='mr-2'>
-                                <div className='d-avatar-photo'>
-                                    <img src={`https://robohash.org/${value['first_name'] + ' ' + value['last_name']}?size=44x44`} />
+                                <div className='d-avatar'>
+                                    {value['first_name'].substr(0, 2)}
                                 </div>
                                 </div>
                                 <div className='mr-auto mb-auto mt-auto'>
                                     <span className='user-item-name mr-2'>{value['first_name'] + ' ' + value['last_name']}</span>
                                     { (value['last_seen']==null) &&
-                                        <span className='online'></span>
+                                        <div>online</div>
                                     }
                                     { (value['last_seen']!=null) &&
-                                        <ReactTimeAgo date={new Date(value['last_seen'])} locale="en-US" /> 
+                                        <div>
+                                            <ReactTimeAgo date={new Date(value['last_seen'])} locale="en-US" />
+                                        </div>
                                     }
                                 </div>
                                 { (!isGroup) && // private

@@ -18,6 +18,7 @@ const VirtualOffice = () => {
     const [list, setList] = useState([]);
     // form
     const [formEntity, setFormEntity] = useState({
+        'vo_active': '',
         'vo_signer_uuid': '',
         'director': null,
         'vo_signer_company_uuid': '',

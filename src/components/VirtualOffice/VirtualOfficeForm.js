@@ -406,7 +406,21 @@ const VirtualOfficeForm = () => {
                 <div className='c-form-body container-fluid'>
                     <form className='c-form-body-block row'>
 
-                        <div className={`c-form-field col-12 ${(form['company']!=null)?'col-sm-2':'col-sm-4'}`}>
+                        <div className='c-form-field col-12 col-sm-2'>
+                            <Select
+                                title='VO Act Active'
+                                name='vo_active'
+                                onChange={handleChange}
+                                options={[
+                                    {'value': 'YES', 'label': 'YES'},
+                                    {'value': 'NO', 'label': 'NO'},
+                                ]}
+                                defaultValue={form['vo_active']}
+                                errorArray={formError}
+                            />
+                        </div>
+
+                        <div className={`c-form-field col-10 ${(form['company']!=null)?'col-sm-2':'col-sm-3'}`}>
                             <label>VO Signer</label>
                             <ReactSelect 
                                 options={directorList}
@@ -417,7 +431,7 @@ const VirtualOfficeForm = () => {
                         </div>
 
                         { (form['company']!=null) &&
-                            <div className='c-form-field col-12 col-sm-3'>
+                            <div className='c-form-field col-12 col-sm-2'>
                                 <label>Company</label>
                                 <ReactSelect 
                                     options={companyList}
@@ -438,7 +452,7 @@ const VirtualOfficeForm = () => {
                             />
                         </div>
 
-                        <div className='c-form-field col-12 col-sm-4'>
+                        <div className={`c-form-field col-12 ${(form['company']!=null)?'col-sm-3':'col-sm-4'}`}>
                             <Input 
                                 title='VO Website'
                                 name='vo_website'

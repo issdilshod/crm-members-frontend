@@ -33,17 +33,13 @@ const ChatList = ({handleClick, chats, chat, meUuid, handleNewGroup, handleNewPr
                                 <div className='d-flex'>
                                     <div>
                                         <div className='d-dialog-item-avatar'>
-                                            <div className='d-avatar-photo'>
+                                            <div className='d-avatar'>
                                                 { value['type']==CHATCONST.GROUP && // group
-                                                    <>
-                                                        <img src={`https://robohash.org/${value['name']}?size=44x44`} />
-                                                    </>
+                                                    <>{value['name'].substr(0, 2)}</>
                                                 }
 
                                                 { value['type']==CHATCONST.PRIVATE && // one by one
-                                                    <>
-                                                        <img src={`https://robohash.org/${ChatControl.getPartnerName(meUuid, value['members'])}?size=44x44`} />
-                                                    </>
+                                                    <>{ChatControl.getPartnerName(meUuid, value['members']).substr(0, 2)}</>
                                                 }
                                             </div>
                                         </div>
