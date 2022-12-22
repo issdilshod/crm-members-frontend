@@ -53,6 +53,11 @@ const Incorporation = ({title, unique, defaulfOpen = true, errorArray = {}, form
 
         let tmpArray = {...form};
 
+        // temprary
+        if (name=='incorporation_date'){
+            tmpArray[name] = value;
+        }
+
         // search
         let exists = false, exists_index;
         for (let key in tmpArray['incorporations']){
