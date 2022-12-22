@@ -10,7 +10,7 @@ import { Mediator } from '../../context/Mediator';
 import { FaTimes } from 'react-icons/fa';
 
 import Api from '../../services/Api';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import toast from 'react-hot-toast';
 import { confirmDialog } from 'primereact/confirmdialog';
@@ -18,6 +18,7 @@ import { confirmDialog } from 'primereact/confirmdialog';
 import Address from '../Helper/Address/Address';
 import Input from '../Helper/Input/Input';
 import Select from '../Helper/Input/Select';
+import { useRef } from 'react';
 
 const VirtualOfficeForm = () => {
 
@@ -27,6 +28,7 @@ const VirtualOfficeForm = () => {
 
     const api = new Api();
     const nav = useNavigate();
+    const { uuid } = useParams();
 
     const [meUuid, setMeUuid] = useState('');
 
@@ -38,6 +40,8 @@ const VirtualOfficeForm = () => {
 
     const [companyList, setCompanyList] = useState([]);
 
+    const firstInitialRef = useRef(true);
+
     useEffect(() => {
         api.request('/api/get_me', 'GET')
             .then(res => {
@@ -46,16 +50,16 @@ const VirtualOfficeForm = () => {
                 }
             })
 
-        loadDirectorList();
-        loadCompanyList();
+        if (uuid==null || uuid==''){
+            loadDirectorList();
+            loadCompanyList();
+        }
     }, [])
 
     useEffect(() => {
         setFormError({});
 
-        if (!formOpen){
-            nav(`${process.env.REACT_APP_FRONTEND_PREFIX}/virtual-offices`);
-        }else{
+        if (formOpen){
             if (form['director']!=null){
                 setDirectorList([{'value': form['director']['uuid'], 'label': form['director']['first_name'] + ' ' + (form['director']['middle_name']!=null?form['director']['middle_name']+' ':'') + form['director']['last_name']}]);
             }
@@ -64,6 +68,16 @@ const VirtualOfficeForm = () => {
                 setCompanyList([{'value': form['company']['uuid'], 'label': form['company']['legal_name']}]);
             }
         }
+
+        // out card
+        if (!firstInitialRef.current){
+            if (!formOpen){
+                nav(`${process.env.REACT_APP_FRONTEND_PREFIX}/virtual-offices`);
+            }
+        }else{
+            firstInitialRef.current = false;
+        }
+
     }, [formOpen])
 
     useEffect(() => {
