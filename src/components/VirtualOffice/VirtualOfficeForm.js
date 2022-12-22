@@ -314,7 +314,7 @@ const VirtualOfficeForm = () => {
     }
 
     const handleGetCompany = (uuid) => {
-        let tmpArr = {'vo_signer_uuid': uuid};
+        let tmpArr = {'vo_signer_uuid': uuid, 'vo_signer_company_uuid': null, 'company': null};
         api.request('/api/company-by-director/'+ uuid, 'GET')
             .then(res => {
                 if (res.status===200||res.status===201){
