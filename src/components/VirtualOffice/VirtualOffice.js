@@ -20,6 +20,8 @@ const VirtualOffice = () => {
     const [formEntity, setFormEntity] = useState({
         'vo_signer_uuid': '',
         'director': null,
+        'vo_signer_company_uuid': '',
+        'company': null,
         'vo_provider_name': '', 
         'vo_website': '',
         'vo_provider_phone_number': '',
