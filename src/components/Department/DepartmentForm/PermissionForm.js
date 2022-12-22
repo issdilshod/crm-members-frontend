@@ -41,21 +41,35 @@ const PermissionForm = () => {
                 <div className='c-form-body container-fluid'>
                     <div className='c-form-body-block row'>
                         {
-                            permissionList.map((value, index) => {
+                            Object.keys(permissionList).map((value, index) => {
                                 return (
-                                    <div className='col-12 col-sm-6 col-lg-4' key={index}>
-                                        <div 
-                                            key={index}
-                                            className='d-flex mb-2'
-                                        >
-                                            <div className='mr-auto'>{value['permission_name']}</div>
-                                            <div>
-                                                <OnOff 
-                                                    permissionUuid={value['uuid']} 
-                                                    entityUuid={selectedPermissionEntity} 
-                                                    onChange={handleChange} 
-                                                    entityPermission={entityPermission}
-                                                />
+                                    <div key={index} className='col-12 mb-2'>
+                                        <div className='dd-card'>
+                                            <div className='dd-card-head d-flex'>
+                                                { (value.charAt(0).toUpperCase() + value.slice(1)).replaceAll('_', ' ') }
+                                            </div>
+                                            <div className='dd-card-body container-fluid'>
+                                                <div className='row'>
+                                                    {
+                                                        permissionList[value].map((value1, index1) => {
+                                                            return (
+                                                                <div className='col-12 col-sm-6 col-lg-4' key={index1}>
+                                                                    <div className='d-flex mb-2'>
+                                                                        <div className='mr-auto'>{value1['permission_name']}</div>
+                                                                        <div>
+                                                                            <OnOff 
+                                                                                permissionUuid={value1['uuid']} 
+                                                                                entityUuid={selectedPermissionEntity} 
+                                                                                onChange={handleChange} 
+                                                                                entityPermission={entityPermission}
+                                                                            />
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            )
+                                                        })
+                                                    }
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

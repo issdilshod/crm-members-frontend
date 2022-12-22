@@ -97,7 +97,11 @@ const Department = () => {
         api.request('/api/permission', 'GET')
             .then(res => {
                 if (res.status===200||res.status===201){ // success
-                    setPermissionList(res.data.data);
+                    let groupped = res.data.data.reduce((x, y) => {
+                        (x[y.group] = x[y.group] || []).push(y);
+                        return x;
+                    }, {});
+                    setPermissionList(groupped);
                 } 
             })
     }
