@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext, useRef } from 'react';
-import { FaTimes, FaUnlink } from 'react-icons/fa';
+import { FaUnlink } from 'react-icons/fa';
+import { TbAlertCircle } from 'react-icons/tb';
 import { useNavigate } from 'react-router-dom';
 
 import * as STATUS from '../../consts/Status';
@@ -18,10 +19,12 @@ import Select from '../Helper/Input/Select';
 
 import toast from 'react-hot-toast';
 import { confirmDialog } from 'primereact/confirmdialog';
+import { confirmPopup } from 'primereact/confirmpopup';
 
 import { Button } from 'primereact/button';
 
 import Api from '../../services/Api';
+import RejectReasonModal from '../Helper/Modal/RejectReasonModal';
 
 const DirectorForm = () => {
 
@@ -36,6 +39,7 @@ const DirectorForm = () => {
     const [role, setRole] = useState('');
 
     const [rejectReason, setRejectReason] = useState('');
+    const [rejectModalShow, setRejectModalShow] = useState(false);
 
     const firstInitialRef = useRef(true);
 
@@ -202,9 +206,7 @@ const DirectorForm = () => {
             });
     }
 
-    const handlePendingReject = (e) => {
-        e.preventDefault();
-        
+    const handlePendingReject = () => {
         let toastId = toast.loading('Waiting...');
 
         let reason = {};
@@ -331,11 +333,9 @@ const DirectorForm = () => {
         }
     }
 
-    const confirmReject = () => {
-        craeteConfirmation({
-            message: 'You have unsaved changes, are you sure you want to close this card?',
-            accept: () => { setDirectorFormOpen(false); }
-        });
+    const confirmReject = (e) => {
+        e.preventDefault();
+        setRejectModalShow(true);
     }
 
     const craeteConfirmation = ({message = '', header = 'Confirmation', accept = () => {}}) => {
@@ -350,8 +350,28 @@ const DirectorForm = () => {
         });
     }
 
+    const createInfo = (e, {message = ''}) => {
+        confirmPopup({
+            target: e.currentTarget,
+            message: message,
+            icon: 'pi pi-info-circle',
+            acceptClassName: 'd-btn d-btn-primary',
+            rejectClassName: 'd-btn d-btn-secondary',
+            position: 'top'
+        });
+    }
+
     return (  
         <div>
+
+            <RejectReasonModal
+                show={rejectModalShow}
+                description={rejectReason}
+                setDescription={setRejectReason}
+                onYes={() => { handlePendingReject(); setRejectModalShow(false); setRejectReason(''); }}
+                onNo={() => {setRejectModalShow(false); setRejectReason('');} }
+            />
+
             <div className={`c-card-left ${!directorFormOpen?'w-0':''}`} onClick={ () => { confirmCloseCard() } }></div>
             <div className={`c-form ${directorFormOpen?'c-form-active':''}`}>
                 <div className='c-form-head d-flex'>
@@ -361,7 +381,20 @@ const DirectorForm = () => {
                         }
                         
                         { directorEdit &&
-                            <span>Edit <b>{directorForm['first_name']} {directorForm['middle_name']} {directorForm['last_name']}</b> card</span>
+                            <>
+                                <span>Edit <b>{directorForm['first_name']} {directorForm['middle_name']} {directorForm['last_name']}</b> card</span>
+                                { (directorForm['status']==STATUS.REJECTED && directorForm['reject_reason']!=null) && 
+                                    <span 
+                                        className='ml-2 d-cursor-pointer' 
+                                        style={{color: '#f26051'}}
+                                        onClick={ (e) => { createInfo(e, {message: directorForm['reject_reason']['description']}) } }
+                                    >
+                                        <i>
+                                            <TbAlertCircle />
+                                        </i>
+                                    </span>
+                                }
+                            </>
                         }
                     </div>
                     <Button 
@@ -626,7 +659,7 @@ const DirectorForm = () => {
                                                 </button>
                                             }
                                             
-                                            <button className='d-btn d-btn-danger mr-2' onClick={ (e) => { handlePendingReject(e) } }>
+                                            <button className='d-btn d-btn-danger mr-2' onClick={ (e) => { confirmReject(e) } }>
                                                 Reject
                                             </button>
 

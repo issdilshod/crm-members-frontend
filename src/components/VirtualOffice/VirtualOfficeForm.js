@@ -7,19 +7,22 @@ import * as VIRTUALOFFICE from '../../consts/VirtualOffice';
 
 import { Mediator } from '../../context/Mediator';
 
-import { FaTimes } from 'react-icons/fa';
+import { TbAlertCircle } from 'react-icons/tb';
 
 import Api from '../../services/Api';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import toast from 'react-hot-toast';
 import { confirmDialog } from 'primereact/confirmdialog';
+import { confirmPopup } from 'primereact/confirmpopup';
 
 import Address from '../Helper/Address/Address';
 import Input from '../Helper/Input/Input';
 import Select from '../Helper/Input/Select';
 import { useRef } from 'react';
 import { Button } from 'primereact/button';
+
+import RejectReasonModal from '../Helper/Modal/RejectReasonModal';
 
 const VirtualOfficeForm = () => {
 
@@ -40,6 +43,9 @@ const VirtualOfficeForm = () => {
     const [directorList, setDirectorList] = useState([]);
 
     const [companyList, setCompanyList] = useState([]);
+
+    const [rejectReason, setRejectReason] = useState('');
+    const [rejectModalShow, setRejectModalShow] = useState(false);
 
     const firstInitialRef = useRef(true);
 
@@ -274,12 +280,14 @@ const VirtualOfficeForm = () => {
             });
     }
 
-    const handlePendingReject = (e) => {
-        e.preventDefault();
-        
+    const handlePendingReject = () => {
         let toastId = toast.loading('Waiting...');
 
-        api.request('/api/virtual-office-reject/'+form['uuid'], 'PUT')
+        // reject reason
+        let reason = {};
+        if (rejectReason!=''){ reason['description'] = rejectReason; }
+
+        api.request('/api/virtual-office-reject/'+form['uuid'], 'PUT', reason)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
                     setFormOpen(false);
@@ -369,6 +377,11 @@ const VirtualOfficeForm = () => {
         }
     }
 
+    const confirmReject = (e) => {
+        e.preventDefault();
+        setRejectModalShow(true);
+    }
+
     const craeteConfirmation = ({message = '', header = 'Confirmation', accept = () => {}}) => {
         confirmDialog({
             message: message,
@@ -381,8 +394,28 @@ const VirtualOfficeForm = () => {
         });
     }
 
+    const createInfo = (e, {message = ''}) => {
+        confirmPopup({
+            target: e.currentTarget,
+            message: message,
+            icon: 'pi pi-info-circle',
+            acceptClassName: 'd-btn d-btn-primary',
+            rejectClassName: 'd-btn d-btn-secondary',
+            position: 'top'
+        });
+    }
+
     return (  
         <div>
+
+            <RejectReasonModal
+                show={rejectModalShow}
+                description={rejectReason}
+                setDescription={setRejectReason}
+                onYes={() => { handlePendingReject(); setRejectModalShow(false); setRejectReason(''); }}
+                onNo={() => {setRejectModalShow(false); setRejectReason('');} }
+            />
+
             <div className={`c-card-left ${!formOpen?'w-0':''}`} onClick={ () => { confirmCloseCard() } }></div>
             <div className={`c-form ${formOpen ?'c-form-active':''}`}>
                 <div className='c-form-head d-flex'>
@@ -392,7 +425,20 @@ const VirtualOfficeForm = () => {
                         }
                         
                         { edit &&
-                            <span>Edit <b>{form['vo_provider_name']}</b> card</span>
+                            <>
+                                <span>Edit <b>{form['vo_provider_name']}</b> card</span>
+                                { (form['status']==STATUS.REJECTED && form['reject_reason']!=null) && 
+                                    <span 
+                                        className='ml-2 d-cursor-pointer' 
+                                        style={{color: '#f26051'}}
+                                        onClick={ (e) => { createInfo(e, {message: form['reject_reason']['description']}) } }
+                                    >
+                                        <i>
+                                            <TbAlertCircle />
+                                        </i>
+                                    </span>
+                                }
+                            </>
                         }
                     </div>
                     <Button 
@@ -711,7 +757,7 @@ const VirtualOfficeForm = () => {
                                                 Approve
                                             </button>
 
-                                            <button className='d-btn d-btn-danger mr-2' onClick={ (e) => { handlePendingReject(e) } }>
+                                            <button className='d-btn d-btn-danger mr-2' onClick={ (e) => { confirmReject(e) } }>
                                                 Reject
                                             </button>
                                         </>

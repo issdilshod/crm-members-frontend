@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Select from 'react-select';
+import { TbAlertCircle } from 'react-icons/tb';
 
 import { Mediator } from '../../context/Mediator';
 
@@ -21,10 +22,13 @@ import Input from '../Helper/Input/Input';
 import InputMask from '../Helper/Input/InputMask';
 import toast from 'react-hot-toast';
 import { confirmDialog } from 'primereact/confirmdialog';
+import { confirmPopup } from 'primereact/confirmpopup';
 
 import Incorporation from '../Helper/Company/Incorporation';
 import DoingBusiness from '../Helper/Company/DoingBusiness';
 import { Button } from 'primereact/button';
+
+import RejectReasonModal from '../Helper/Modal/RejectReasonModal';
 
 const CompanyForm = () => {
 
@@ -46,6 +50,9 @@ const CompanyForm = () => {
     const [directorSelectDisabled, setDirectorSelectDisabled] = useState(false);
 
     const [extraAddressShow, setExtraAddressShow] = useState(false);
+
+    const [rejectReason, setRejectReason] = useState('');
+    const [rejectModalShow, setRejectModalShow] = useState(false);
 
     const firstInitialRef = useRef(true);
 
@@ -295,12 +302,14 @@ const CompanyForm = () => {
             });
     }
 
-    const handlePendingReject = (e) => {
-        e.preventDefault();
-
+    const handlePendingReject = () => {
         let toastId = toast.loading('Waiting...');
 
-        api.request('/api/company-reject/'+companyForm['uuid'], 'PUT')
+        // reject reason
+        let reason = {};
+        if (rejectReason!=''){ reason['description'] = rejectReason; }
+
+        api.request('/api/company-reject/'+companyForm['uuid'], 'PUT', reason)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
                     setCompanyFormOpen(false);
@@ -444,6 +453,11 @@ const CompanyForm = () => {
         }
     }
 
+    const confirmReject = (e) => {
+        e.preventDefault();
+        setRejectModalShow(true);
+    }
+
     const craeteConfirmation = ({message = '', header = 'Confirmation', accept = () => {}}) => {
         confirmDialog({
             message: message,
@@ -456,8 +470,28 @@ const CompanyForm = () => {
         });
     }
 
+    const createInfo = (e, {message = ''}) => {
+        confirmPopup({
+            target: e.currentTarget,
+            message: message,
+            icon: 'pi pi-info-circle',
+            acceptClassName: 'd-btn d-btn-primary',
+            rejectClassName: 'd-btn d-btn-secondary',
+            position: 'top'
+        });
+    }
+
     return (  
         <div>
+
+            <RejectReasonModal
+                show={rejectModalShow}
+                description={rejectReason}
+                setDescription={setRejectReason}
+                onYes={() => { handlePendingReject(); setRejectModalShow(false); setRejectReason(''); }}
+                onNo={() => {setRejectModalShow(false); setRejectReason('');} }
+            />
+
             <div className={`c-card-left ${!companyFormOpen?'w-0':''}`} onClick={ () => { confirmCloseCard(); } }></div>
             <div
                 className={`c-form ${companyFormOpen?'c-form-active':''}`}
@@ -469,7 +503,20 @@ const CompanyForm = () => {
                         }
                         
                         { companyEdit &&
-                            <span>Edit <b>{companyForm['legal_name']}</b> card</span>
+                            <>
+                                <span>Edit <b>{companyForm['legal_name']}</b> card</span>
+                                { (companyForm['status']==STATUS.REJECTED && companyForm['reject_reason']!=null) && 
+                                    <span 
+                                        className='ml-2 d-cursor-pointer' 
+                                        style={{color: '#f26051'}}
+                                        onClick={ (e) => { createInfo(e, {message: companyForm['reject_reason']['description']}) } }
+                                    >
+                                        <i>
+                                            <TbAlertCircle />
+                                        </i>
+                                    </span>
+                                }
+                            </>
                         }
                     </div>
                     <Button 
@@ -840,7 +887,7 @@ const CompanyForm = () => {
                                                 Approve
                                             </button>
 
-                                            <button className='d-btn d-btn-danger mr-2' onClick={ (e) => { handlePendingReject(e) } }>
+                                            <button className='d-btn d-btn-danger mr-2' onClick={ (e) => { confirmReject(e) } }>
                                                 Reject
                                             </button>
                                         </>

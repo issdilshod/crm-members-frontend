@@ -5,7 +5,7 @@ import * as FUTURECOMPANY from '../../consts/FutureCompany';
 
 import { Mediator } from '../../context/Mediator';
 
-import { FaTimes } from 'react-icons/fa';
+import { TbAlertCircle } from 'react-icons/tb';
 
 import Select from 'react-select';
 import Api from '../../services/Api';
@@ -13,12 +13,15 @@ import { useNavigate } from 'react-router-dom';
 
 import toast from 'react-hot-toast';
 import { confirmDialog } from 'primereact/confirmdialog';
+import { confirmPopup } from 'primereact/confirmpopup';
 import { Button } from 'primereact/button';
+
+import RejectReasonModal from '../Helper/Modal/RejectReasonModal';
 
 const FutureCompanyForm = () => {
 
     const { 
-        permissions, formOriginal, formOpen, setFormOpen, edit, list, setList, form, setForm, setFormError, sicCodeList, stateList, virtualOfficeList, searchVO
+        permissions, formOriginal, formOpen, setFormOpen, edit, list, setList, form, setForm, setFormError, sicCodeList, stateList, virtualOfficeList
     } = useContext(Mediator);
 
     const api = new Api();
@@ -27,6 +30,9 @@ const FutureCompanyForm = () => {
     const [meUuid, setMeUuid] = useState('');
 
     const [optDirectorList, setOptDirectorList] = useState([]);
+
+    const [rejectReason, setRejectReason] = useState('');
+    const [rejectModalShow, setRejectModalShow] = useState(false);
 
     useEffect(() => {
         loadDirectorList();
@@ -206,12 +212,13 @@ const FutureCompanyForm = () => {
             });
     }
 
-    const handlePendingReject = (e) => {
-        e.preventDefault();
-        
+    const handlePendingReject = () => {
         let toastId = toast.loading('Waiting...');
 
-        api.request('/api/future-company-reject/'+form['uuid'], 'PUT')
+        let reason = {};
+        if (rejectReason!=''){ reason['description'] = rejectReason; }
+
+        api.request('/api/future-company-reject/'+form['uuid'], 'PUT', reason)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
                     setFormOpen(false);
@@ -286,6 +293,11 @@ const FutureCompanyForm = () => {
         }
     }
 
+    const confirmReject = (e) => {
+        e.preventDefault();
+        setRejectModalShow(true);
+    }
+
     const craeteConfirmation = ({message = '', header = 'Confirmation', accept = () => {}}) => {
         confirmDialog({
             message: message,
@@ -298,8 +310,28 @@ const FutureCompanyForm = () => {
         });
     }
 
+    const createInfo = (e, {message = ''}) => {
+        confirmPopup({
+            target: e.currentTarget,
+            message: message,
+            icon: 'pi pi-info-circle',
+            acceptClassName: 'd-btn d-btn-primary',
+            rejectClassName: 'd-btn d-btn-secondary',
+            position: 'top'
+        });
+    }
+
     return (  
         <div>
+
+            <RejectReasonModal
+                show={rejectModalShow}
+                description={rejectReason}
+                setDescription={setRejectReason}
+                onYes={() => { handlePendingReject(); setRejectModalShow(false); setRejectReason(''); }}
+                onNo={() => {setRejectModalShow(false); setRejectReason('');} }
+            />
+
             <div className={`c-card-left ${!formOpen?'w-0':''}`} onClick={ () => { confirmCloseCard() } }></div>
             <div className={`c-form ${formOpen ?'c-form-active':''}`}>
                 <div className='c-form-head d-flex'>
@@ -309,7 +341,20 @@ const FutureCompanyForm = () => {
                         }
                         
                         { edit &&
-                            <span>Edit <b>{form['revival_date']}</b> card</span>
+                            <>
+                                <span>Edit <b>{form['revival_date']}</b> card</span>
+                                { (form['status']==STATUS.REJECTED && form['reject_reason']!=null) && 
+                                    <span 
+                                        className='ml-2 d-cursor-pointer' 
+                                        style={{color: '#f26051'}}
+                                        onClick={ (e) => { createInfo(e, {message: form['reject_reason']['description']}) } }
+                                    >
+                                        <i>
+                                            <TbAlertCircle />
+                                        </i>
+                                    </span>
+                                }
+                            </>
                         }
                     </div>
                     <Button
@@ -449,38 +494,28 @@ const FutureCompanyForm = () => {
                                     }
 
                                     { form['status']==STATUS.ACTIVED &&
+                                        <button className='d-btn d-btn-primary mr-2' onClick={ (e) => { handleUpdate(e) } }>
+                                            Update
+                                        </button>
+                                    }
+
+                                    { (permissions.includes(FUTURECOMPANY.ACCEPT) && form['status']!='' && form['status']!=STATUS.ACTIVED) && // accept/reject
                                         <>
-                                            <button 
-                                                className={`d-btn d-btn-danger mr-2`} 
-                                                onClick={ (e) => { confirmDelete(e, form['uuid']) } }
-                                            >
-                                                Delete
+                                            <button className='d-btn d-btn-success mr-2' onClick={ (e) => { handlePendingAccept(e) } }>
+                                                Approve
                                             </button>
-                                            <button 
-                                                className='d-btn d-btn-primary mr-2' 
-                                                onClick={ (e) => { handleUpdate(e) } }
-                                            >
-                                                Update
+
+                                            <button className='d-btn d-btn-danger mr-2' onClick={ (e) => { confirmReject(e) } }>
+                                                Reject
                                             </button>
                                         </>
                                     }
 
-                                    { (form['status']!='' && form['status']!=STATUS.ACTIVED) && 
-                                        <>
-                                            <button className='d-btn d-btn-success mr-2' onClick={ (e) => { handlePendingAccept(e) } }>
-                                                Pending accept
-                                            </button>
 
-                                            <button className='d-btn d-btn-danger mr-2' onClick={ (e) => { handlePendingReject(e) } }>
-                                                Pending reject
-                                            </button>
-                                            <button 
-                                                className={`d-btn d-btn-danger mr-2`} 
-                                                onClick={ (e) => { confirmDelete(e, form['uuid']) } }
-                                            >
-                                                Delete
-                                            </button>
-                                        </>
+                                    { (permissions.includes(FUTURECOMPANY.DELETE) && form['status']!='') &&
+                                        <button className={`d-btn d-btn-danger mr-2`} onClick={ (e) => { confirmDelete(e, form['uuid']) } }>
+                                            Delete
+                                        </button>
                                     }
                                 </>
                             }
@@ -491,7 +526,7 @@ const FutureCompanyForm = () => {
                                         <>
                                             {   form['user_uuid']==meUuid &&
                                                 <button className='d-btn d-btn-primary mr-2' onClick={ (e) => { handlePendingUpdate(e) } }>
-                                                    Pending update
+                                                    Update
                                                 </button>
                                             }
                                         </>
@@ -499,7 +534,7 @@ const FutureCompanyForm = () => {
 
                                     { !edit &&
                                         <button className='d-btn d-btn-primary mr-2' onClick={ (e) => { handlePending(e) } }>
-                                            Pending
+                                            Save
                                         </button>
                                     }
                                 </>

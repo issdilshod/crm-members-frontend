@@ -528,8 +528,8 @@ const Form = ({open, setOpen, setLoadingShow, meUuid, meRole, permissions}) => {
                         </div>
                     </div>
                 }
-                onClose={handleCommentClose}
-                onSubmit={handleCommentSubmit}
+                onNo={handleCommentClose}
+                onYes={handleCommentSubmit}
             />
         </div>
     )
