@@ -327,7 +327,7 @@ const Pending = ({ pusher, search, setLoadingShow, meUuid, meRole }) => {
             api.request('/api/pending?page=1&'+tmpAttr+'='+e.value.code, 'GET')
                 .then(res => {
                     if (res.status===200||res.status===201){ // success
-                        let tmpArr = [...res.data.companies, ...res.data.directors];
+                        let tmpArr = [...res.data.companies, ...res.data.directors, ...res.data.virtual_offices];
                         tmpArr.sort((a, b) => {
                             return new Date(b.last_activity.updated_at) - new Date(a.last_activity.updated_at);
                         });
@@ -341,7 +341,7 @@ const Pending = ({ pusher, search, setLoadingShow, meUuid, meRole }) => {
             api.request('/api/pending?page=1', 'GET')
                 .then(res => {
                     if (res.status===200||res.status===201){ // success
-                        let tmpArr = [...res.data.companies, ...res.data.directors];
+                        let tmpArr = [...res.data.companies, ...res.data.directors, ...res.data.virtual_offices];
                         tmpArr.sort((a, b) => {
                             return new Date(b.last_activity.updated_at) - new Date(a.last_activity.updated_at);
                         });
@@ -395,7 +395,7 @@ const Pending = ({ pusher, search, setLoadingShow, meUuid, meRole }) => {
         api.request('/api/pending?page=1&summary_filter='+filter, 'GET')
             .then(res => {
                 if (res.status===200||res.status===201){ // success
-                    let tmpArr = [...res.data.companies, ...res.data.directors];
+                    let tmpArr = [...res.data.companies, ...res.data.directors, ...res.data.virtual_offices];
                     tmpArr.sort((a, b) => {
                         return new Date(b.last_activity.updated_at) - new Date(a.last_activity.updated_at);
                     });
