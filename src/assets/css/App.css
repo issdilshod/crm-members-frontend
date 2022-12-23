@@ -1368,6 +1368,17 @@ label .req {
     border-radius: 50%;
 }
 
+/*
+    cascade select
+*/
+.p-cascadeselect-label{
+    padding: 0px !important;
+}
+
+.p-cascadeselect-trigger{
+    width: 0px !important;
+}
+
 /* medias */
 @media (max-width: 800px){
     .c-card-left, .c-card-left-lg{

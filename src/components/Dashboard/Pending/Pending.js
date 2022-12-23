@@ -19,6 +19,9 @@ import ContextMenu from './ContextMenu';
 
 import MiniLoading from '../../Helper/Loading/MiniLoading';
 
+import { CascadeSelect } from 'primereact/cascadeselect';
+import { toast } from 'react-hot-toast';
+
 const Pending = ({ pusher, search, setLoadingShow, meUuid, meRole }) => {
 
     const api = new Api();
@@ -42,12 +45,15 @@ const Pending = ({ pusher, search, setLoadingShow, meUuid, meRole }) => {
     const [pending, setPending] = useState([]);
     const [pendingMeta, setPendingMeta] = useState({'current_page': 0, 'max_page': 1});
     const [pendingSummary, setPendingSummary] = useState({'directors':{}, 'companies':{}});
-    const [filterPending, setFilterPending] = useState('');
+    const [filterPending, setFilterPending] = useState(null);
     const [summaryFilter, setSummaryFilter] = useState('');
+
+    const [userList, setUserList] = useState([]);
 
     // first init
     useEffect(() => {
         pendingNextFetch();
+        getUserList();
     }, [])
 
     // select mode
@@ -106,10 +112,14 @@ const Pending = ({ pusher, search, setLoadingShow, meUuid, meRole }) => {
     const pendingNextFetch = (attr = '') => {
 
         // select filter
-        if (filterPending==''){
+        if (filterPending==null){
             attr = '?page='+parseInt(pendingMeta['current_page']+1);
         }else{
-            attr = '?page='+parseInt(pendingMeta['current_page']+1)+'&filter=' + filterPending;
+            if (filterPending['type']=='by_user'){
+                attr = '?page='+parseInt(pendingMeta['current_page']+1)+'&filter_by_user=' + filterPending['code'];
+            }else{
+                attr = '?page='+parseInt(pendingMeta['current_page']+1)+'&filter=' + filterPending['code'];
+            }
         }
 
         // summary filter
@@ -133,6 +143,24 @@ const Pending = ({ pusher, search, setLoadingShow, meUuid, meRole }) => {
                     }
                     setPendingMeta(res.data.meta);
                     setPendingSummary(res.data.summary);
+                }
+            })
+    }
+
+    const getUserList = () => {
+        api.request('/api/pending/users', 'GET')
+            .then(res => {
+                if (res.status===200||res.status===201){
+                    let tmpArr = [];
+                    res.data.data.map((value, index) => {
+                        tmpArr.push({
+                            'sname': value['first_name'] + ' ' + value['last_name'],
+                            'code': value['uuid'],
+                            'type': 'by_user'
+                        });
+                    })
+
+                    setUserList(tmpArr);
                 }
             })
     }
@@ -286,11 +314,17 @@ const Pending = ({ pusher, search, setLoadingShow, meUuid, meRole }) => {
     }
 
     const handleFilterPending = (e) => {
-        setFilterPending(e.target.value);
-        setSummaryFilter('');
+        let toastId = toast.loading('Loading...');
 
-        if (e.target.value!='0'){
-            api.request('/api/pending?page=1&filter='+e.target.value, 'GET')
+        setFilterPending(e.value);
+        setSummaryFilter('');
+        setTitle(e.value.sname);
+        if (e.value.code!='0'){
+            let tmpAttr = 'filter';
+            if (e.value.type=='by_user'){
+                tmpAttr = 'filter_by_user';
+            }
+            api.request('/api/pending?page=1&'+tmpAttr+'='+e.value.code, 'GET')
                 .then(res => {
                     if (res.status===200||res.status===201){ // success
                         let tmpArr = [...res.data.companies, ...res.data.directors];
@@ -299,6 +333,8 @@ const Pending = ({ pusher, search, setLoadingShow, meUuid, meRole }) => {
                         });
                         setPending(tmpArr);
                         setPendingMeta(res.data.meta);
+
+                        toast.dismiss(toastId);
                     }
                 })
         }else {
@@ -311,18 +347,10 @@ const Pending = ({ pusher, search, setLoadingShow, meUuid, meRole }) => {
                         });
                         setPending(tmpArr);
                         setPendingMeta(res.data.meta);
+
+                        toast.dismiss(toastId);
                     }
                 })
-        }
-
-        if (e.target.value=='0'){
-            setTitle('Normal View');
-        }else if (e.target.value=='1'){
-            setTitle('Unapproved cards');
-        }else if (e.target.value=='2'){
-            setTitle('Approved cards');
-        }else if (e.target.value=='3'){
-            setTitle('Rejected cards');
         }
     }
 
@@ -360,7 +388,7 @@ const Pending = ({ pusher, search, setLoadingShow, meUuid, meRole }) => {
 
     const filterSummaryOnClick = (filter, name = '') => {
         setPopUpOpen(false);
-        setFilterPending(0);
+        setFilterPending(null);
         setSummaryFilter(filter);
         setTitle(name);
 
@@ -382,14 +410,23 @@ const Pending = ({ pusher, search, setLoadingShow, meUuid, meRole }) => {
             <div className='d-flex mb-2'>
                 <div className='mr-auto d-title'>{title}</div>
                 <div className='mr-2'>
-                    { (checked.length<=0) &&
-                        <select className='form-control' onChange={ (e) => { handleFilterPending(e) } }>
-                            <option value='0'>Normal view</option>
-                            <option value='1'>Unapproved cards</option>
-                            <option value='2'>Approved cards</option>
-                            <option value='3'>Rejected cards</option>
-                        </select>
-                    }
+                    <CascadeSelect 
+                        className='form-control'
+                        value={filterPending}
+                        options={[
+                            {'sname': 'Normal View', 'code': '0'},
+                            {'sname': 'Unapproved cards', 'code': '1'},
+                            {'sname': 'Approved cards', 'code': '2'},
+                            {'sname': 'Rejected cards', 'code': '3'},
+                            {'name': 'By User', 'users': userList}
+                        ]}
+                        optionLabel='sname'
+                        optionGroupLabel='name'
+                        optionGroupChildren={['users']}
+                        style={{minWidth: '200px'}}
+                        placeholder='Filter'
+                        onChange={ e => handleFilterPending(e) }
+                    />
                 </div>
                 <div>
 
