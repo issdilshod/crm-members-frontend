@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { FaTimes } from 'react-icons/fa';
 import Select from 'react-select';
 
 import { Mediator } from '../../context/Mediator';

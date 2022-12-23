@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Mediator } from '../../context/Mediator';
-import { FaArrowLeft, FaBars, FaBuilding, FaFileAlt, FaMapMarkerAlt, FaPlus } from 'react-icons/fa';
+import { FaBars, FaPlus } from 'react-icons/fa';
+import { TbAddressBook, TbArrowNarrowLeft, TbFiles, TbMapPin } from 'react-icons/tb';
 import Search from '../Helper/Search';
 import Pagination from '../Helper/Pagination';
 import * as STATUS from '../../consts/Status';
@@ -105,7 +106,7 @@ const CompanyList = () => {
                 <div className='c-list-head d-flex'>
                     <div className='c-list-head-back mr-4' onClick={() => {nav(`${process.env.REACT_APP_FRONTEND_PREFIX}/dashboard`)}}>
                         <span>
-                            <FaArrowLeft />
+                            <TbArrowNarrowLeft />
                         </span>
                     </div>
                     <div className='c-list-head-title mr-auto'>Companies cards</div>
@@ -139,20 +140,20 @@ const CompanyList = () => {
                                         >
                                             <div className='c-item-icon mr-2'>
                                                 <span>
-                                                    <FaBuilding />
+                                                    <TbAddressBook />
                                                 </span>
                                             </div>
                                             <div className='c-item-info'>
                                                 <p>{value.name}</p>
                                                 <p>
-                                                    <FaMapMarkerAlt /> 
+                                                    <TbMapPin /> 
                                                     { (value.address!=null) &&
                                                         <>
                                                             {value.address.street_address}, {value.address.city}, {value.address.state}
                                                         </>
                                                     }
                                                 </p>
-                                                <p><FaFileAlt /> {value.uploaded_files.length}</p>
+                                                <p><TbFiles /> {value.uploaded_files.length}</p>
                                             </div>
                                         </div>
                                     </div>

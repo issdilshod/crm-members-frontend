@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import { FaSignOutAlt, FaRegStickyNote, FaBars, FaAddressCard } from 'react-icons/fa';
+import { TbAddressBook, TbLogout, TbMenu2, TbNote } from 'react-icons/tb';
 
 import Menu from '../Helper/Menu/Menu';
 import Note from '../Helper/Note/Note';
@@ -8,7 +8,7 @@ import Note from '../Helper/Note/Note';
 import Santa from '../../assets/img/santa2022.png';
 
 import Api from '../../services/Api';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useRef } from 'react';
 
 const Header = ({ search = '', setSearch = () => {}, searchVariant = []}) => {
@@ -85,7 +85,7 @@ const Header = ({ search = '', setSearch = () => {}, searchVariant = []}) => {
                                             >
                                                 <div className='search-variant-icon mr-2'>
                                                     <i>
-                                                        <FaAddressCard />
+                                                        <TbAddressBook />
                                                     </i>
                                                 </div>
                                                 <div className='search-variant-info'>
@@ -101,13 +101,13 @@ const Header = ({ search = '', setSearch = () => {}, searchVariant = []}) => {
 
                     </div>
                     <div className='header-menu-items ml-2' onClick={handleSignOut}>
-                        <FaSignOutAlt />
+                        <TbLogout />
                     </div>
                     <div className='header-menu-items ml-2' onClick={ () => { setNoteOpen(!noteOpen) }}>
-                        <FaRegStickyNote />
+                        <TbNote />
                     </div>
                     <div className='header-menu-items ml-2 pr-0' onClick={() => { setMenuOpen(!menuOpen) }}>
-                        <FaBars />
+                        <TbMenu2 />
                     </div>
                 </div>
             </div>

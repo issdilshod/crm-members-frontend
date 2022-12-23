@@ -452,7 +452,7 @@ const VirtualOfficeForm = () => {
                             />
                         </div>
 
-                        <div className={`c-form-field col-12 ${(form['company']!=null)?'col-sm-3':'col-sm-4'}`}>
+                        <div className={`c-form-field col-12 col-sm-3`}>
                             <Input 
                                 title='VO Website'
                                 name='vo_website'

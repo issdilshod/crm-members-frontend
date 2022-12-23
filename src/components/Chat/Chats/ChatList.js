@@ -1,6 +1,7 @@
 import DateFormats from "../Functions/DateFormats";
 import * as CHATCONST from '../../../consts/Chat/Chat';
-import { FaPencilAlt, FaTimes, FaUser, FaUsers } from "react-icons/fa";
+import { FaTimes } from "react-icons/fa";
+import { TbPencil, TbUser, TbUsers } from "react-icons/tb";
 import { Collapse } from "react-bootstrap";
 import { useState } from "react";
 import ChatControl from "../Functions/ChatControl";
@@ -116,18 +117,18 @@ const ChatList = ({handleClick, chats, chat, meUuid, handleNewGroup, handleNewPr
                 <Collapse in={newConversationMenu}>
                     <div className='d-conversation-variant'>
                         <div className='d-flex d-cursor-pointer' onClick={() => { setNewConversationMenu(false);  handleNewGroup(); }}>
-                            <div className='mr-1'><i><FaUsers /></i></div>
+                            <div className='mr-1'><i><TbUsers /></i></div>
                             <div className='ml-auto'>New Group</div>
                         </div>
                         <div className='d-flex d-cursor-pointer' onClick={() => { setNewConversationMenu(false);  handleNewPrivate(); }}>
-                            <div className='mr-1'><i><FaUser /></i></div>
+                            <div className='mr-1'><i><TbUser /></i></div>
                             <div className='ml-auto'>New Private Chat</div>
                         </div>
                     </div>
                 </Collapse>
                 <span className='create-conversation' onClick={() => { setNewConversationMenu(!newConversationMenu) }}>
                     <i>
-                        <FaPencilAlt />
+                        <TbPencil />
                     </i>
                 </span>
             </div>

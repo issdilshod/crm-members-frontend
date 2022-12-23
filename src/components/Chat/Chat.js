@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useState } from "react";
-import { FaComment, FaTimes, FaUsers } from "react-icons/fa";
+import { Tb, TbBrandHipchat } from "react-icons/tb";
 
 import Api from '../../services/Api';
 
@@ -351,7 +351,7 @@ const Chat = ({pusher, meUuid}) => {
             <div className='chats'>
                 <div className='chats-button' onClick={ () => { openChat() } }>
                     <i>
-                        <FaComment />
+                        <TbBrandHipchat />
                     </i>
                 </div>
             </div>

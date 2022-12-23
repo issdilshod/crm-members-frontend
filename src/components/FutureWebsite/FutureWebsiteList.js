@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Mediator } from '../../context/Mediator';
-import { FaArrowLeft, FaBars, FaFileAlt, FaGlobe, FaMapMarkerAlt, FaPlus, FaUser } from 'react-icons/fa';
+import { FaBars, FaPlus } from 'react-icons/fa';
+import { TbAddressBook, TbArrowNarrowLeft, TbFiles, TbMapPin } from 'react-icons/tb';
 import Pagination from '../Helper/Pagination';
 import Search from '../Helper/Search';
 
@@ -98,7 +99,7 @@ const FutureWebsiteList = () => {
                 <div className={`c-list-head d-flex`}>
                     <div className={`c-list-head-back mr-4`} onClick={() => {nav(`${process.env.REACT_APP_FRONTEND_PREFIX}/dashboard`)}}>
                         <span>
-                            <FaArrowLeft />
+                            <TbArrowNarrowLeft />
                         </span>
                     </div>
                     <div className={`c-list-head-title mr-auto`}>Future Websites cards</div>
@@ -131,7 +132,7 @@ const FutureWebsiteList = () => {
                                         >
                                             <div className={`c-item-icon mr-2`}>
                                                 <span>
-                                                    <FaGlobe />
+                                                    <TbAddressBook />
                                                 </span>
                                             </div>
                                             <div className={`c-item-info`}>
@@ -139,14 +140,14 @@ const FutureWebsiteList = () => {
                                                 { !defaultList &&
                                                     <>
                                                         <p>
-                                                            <FaMapMarkerAlt /> 
+                                                            <TbMapPin /> 
                                                             { (value.address!=null) &&
                                                                 <>
                                                                     {value.address.street_address}, {value.address.city}, {value.address.state}
                                                                 </>
                                                             }
                                                         </p>
-                                                        <p><FaFileAlt /> {value.uploaded_files.length}</p>
+                                                        <p><TbFiles/> {value.uploaded_files.length}</p>
                                                     </>
                                                 }
                                             </div>
