@@ -3,8 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Api from '../../services/Api';
 
 import { Mediator } from '../../context/Mediator';
-import { FaBars, FaClone, FaPlus } from 'react-icons/fa';
-import { TbAddressBook, TbArrowNarrowLeft, TbFiles, TbMapPin } from 'react-icons/tb';
+import { TbAddressBook, TbArrowNarrowLeft, TbFiles, TbMapPin, TbMenu2, TbPlus } from 'react-icons/tb';
 
 import Pagination from '../Helper/Pagination';
 import Search from '../Helper/Search';
@@ -117,19 +116,14 @@ const DirectorList = () => {
                     </div>
                     <div className='c-list-head-title mr-auto'>Directors cards</div>
                     <div className='d-flex'>
-                        <div className='d-btn d-btn-primary mr-2'>
-                            <i>
-                                <FaClone />
-                            </i>
-                        </div>
                         <div className='d-btn d-btn-primary mr-2' onClick={ handleAddClick }>
                             <i>
-                                <FaPlus />
+                                <TbPlus />
                             </i>
                         </div>
                         <div className='d-btn d-btn-primary' onClick={() => {setMenuOpen(!menuOpen)}}>
                             <i>
-                                <FaBars />
+                                <TbMenu2 />
                             </i>
                         </div>
                     </div>

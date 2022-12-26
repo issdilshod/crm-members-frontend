@@ -1,7 +1,7 @@
 import DateFormats from "../Functions/DateFormats";
 import * as CHATCONST from '../../../consts/Chat/Chat';
 import { FaTimes } from "react-icons/fa";
-import { TbPencil, TbUser, TbUsers } from "react-icons/tb";
+import { TbPencil, TbUser, TbUsers, TbX } from "react-icons/tb";
 import { Collapse } from "react-bootstrap";
 import { useState } from "react";
 import ChatControl from "../Functions/ChatControl";
@@ -15,7 +15,7 @@ const ChatList = ({handleClick, chats, chat, meUuid, handleNewGroup, handleNewPr
             <div className='d-chat-list-header d-flex'>
                 <div className='d-back mr-2' onClick={handleClose}>
                     <i>
-                        <FaTimes />
+                        <TbX />
                     </i>
                 </div>
                 <div className='w-100'>

@@ -4,7 +4,7 @@ import Api from '../../services/Api';
 
 import styles from './Login.module.scss';
 
-import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import { TbEye, TbEyeOff } from 'react-icons/tb';
 
 const Login = () => {
     const api = new Api();
@@ -84,11 +84,11 @@ const Login = () => {
                                         >
                                             <i>
                                                 { passwordType &&
-                                                    <FaEye />
+                                                    <TbEye />
                                                 }
 
                                                 { !passwordType &&
-                                                    <FaEyeSlash />
+                                                    <TbEyeOff />
                                                 }
                                             </i>
                                         </span>

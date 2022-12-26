@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import { useEffect } from "react";
-import { FaArrowLeft, FaEllipsisV, FaTelegram } from "react-icons/fa";
+import { TbArrowNarrowLeft, TbBrandTelegram, TbDotsVertical } from "react-icons/tb";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Api from "../../../services/Api";
 
@@ -123,7 +123,7 @@ const ChatIn = ({chats, setChats, chatMessages, setChatMessages, chatMessagesMet
                 <div className='mr-auto d-flex'>
                     <div className='d-mobile-back' onClick={backClick}>
                         <i>
-                            <FaArrowLeft />
+                            <TbArrowNarrowLeft />
                         </i>
                     </div>
                     <div className='d-avatar'>
@@ -172,7 +172,7 @@ const ChatIn = ({chats, setChats, chatMessages, setChatMessages, chatMessagesMet
                         onClick={() => {}}
                     >
                         <i>
-                            <FaEllipsisV />
+                            <TbDotsVertical />
                         </i>
                     </span>
                 </div>
@@ -245,7 +245,7 @@ const ChatIn = ({chats, setChats, chatMessages, setChatMessages, chatMessagesMet
                         onClick={ () => { handlePostMessage() } }
                     >
                         <i>
-                            <FaTelegram />
+                            <TbBrandTelegram />
                         </i>
                     </span>
                 </div>

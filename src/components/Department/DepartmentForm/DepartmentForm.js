@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { Mediator } from '../../../context/Mediator';
 
-import { FaTimes, FaPlus, FaCog, FaTrash, FaPencilAlt } from 'react-icons/fa';
+import { TbPencil, TbPlus, TbSettings, TbTrash } from 'react-icons/tb';
 import { useParams } from 'react-router-dom';
 import Api from '../../../services/Api';
 import { toast } from 'react-hot-toast';
@@ -172,10 +172,10 @@ const DepartmentForm = () => {
                                             className='mr-2'
                                             onClick={ (e) => { handleDepartmentPermission(e, departmentForm['uuid']) } }
                                         >
-                                            <FaCog />
+                                            <TbSettings />
                                         </span>
                                         <span  onClick={ () => { handlePlusUserClick(departmentForm['uuid']) } }>
-                                            <FaPlus />
+                                            <TbPlus />
                                         </span>
                                     </div>
                                 </div>
@@ -192,21 +192,21 @@ const DepartmentForm = () => {
                                                                 className='d-btn d-btn-sm d-btn-primary mr-2'
                                                                 onClick={ (e) => { handleUserClick(e, value['uuid']) } }
                                                             >
-                                                                <FaPencilAlt />
+                                                                <TbPencil />
                                                             </button>
 
                                                             <button 
                                                                 className='d-btn d-btn-sm d-btn-primary mr-2' 
                                                                 onClick={ (e) => { handleUserPermission(e, value['uuid']) } } 
                                                             >
-                                                                <FaCog />
+                                                                <TbSettings />
                                                             </button> 
 
                                                             <button 
                                                                 className='d-btn d-btn-sm d-btn-danger' 
                                                                 onClick={ (e) => { confirmDelete(e, value['uuid'], value['first_name'] + ' ' + value['last_name']) } }
                                                             >
-                                                                <FaTrash />
+                                                                <TbTrash />
                                                             </button> 
                                                         </div>
                                                     </div>

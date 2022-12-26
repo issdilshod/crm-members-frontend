@@ -7,10 +7,10 @@ import Header from '../Header/Header';
 import DepartmentForm from './DepartmentForm/DepartmentForm';
 import UserForm from './DepartmentForm/UserForm';
 import Loading from '../Helper/Loading';
-import { FaEnvelope, FaShareAlt, FaTelegram } from 'react-icons/fa';
 import InviteUserForm from './DepartmentForm/InviteUserForm';
 import PermissionForm from './DepartmentForm/PermissionForm';
 import { toast } from 'react-hot-toast';
+import { TbShare } from 'react-icons/tb';
 
 const Department = () => {
     const navigate = useNavigate();
@@ -167,7 +167,7 @@ const Department = () => {
                                 className='d-big-btn'
                                 onClick={ () => { handleInviteUserClick() } }
                             >
-                                <FaShareAlt /> Invite User
+                                <TbShare /> Invite User
                             </div>
                         </div>
                     </div>

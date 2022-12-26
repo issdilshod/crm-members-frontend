@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import DateFormatter from '../../../services/DateFormatter';
 
-import { FaClock } from 'react-icons/fa';
+import { TbClock } from 'react-icons/tb';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import Api from '../../../services/Api';
 
@@ -93,7 +93,7 @@ const Activity = ({pusher, meUuid}) => {
                                 >
                                     <div className='a-card-item mb-3'>
                                         <span className='a-card-item-status'>
-                                            <FaClock />
+                                            <TbClock />
                                         </span>
                                         <div className='a-card-item-title'>{value['user']['first_name']} {value['user']['last_name']}</div>
                                         <div className='a-card-item-desc'>{value['description']}</div>

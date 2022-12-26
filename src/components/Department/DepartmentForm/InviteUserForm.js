@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { Mediator } from '../../../context/Mediator';
-import { FaEnvelope, FaTelegram, FaTimes } from 'react-icons/fa';
+import { TbBrandTelegram, TbMail } from 'react-icons/tb';
 
 import { toast } from 'react-hot-toast';
 import Api from '../../../services/Api';
@@ -92,14 +92,14 @@ const InviteUserForm = () => {
                                 style={{'opacity': '.7'}}
                                 
                             >
-                                <FaEnvelope /> Invite via Email
+                                <TbMail /> Invite via Email
                             </span>
 
                             <span 
                                 className='d-btn d-btn-primary text-center d-btn-telegram ml-2'
                                 onClick={() => { handleInvite('telegram') } }
                             >
-                                <FaTelegram /> Invite via Telegram
+                                <TbBrandTelegram /> Invite via Telegram
                             </span>
                         </div>
                     </div>

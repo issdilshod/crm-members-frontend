@@ -20,6 +20,7 @@ import Input from '../Helper/Input/Input';
 import Select from '../Helper/Input/Select';
 import { useRef } from 'react';
 import { Button } from 'primereact/button';
+import File from '../Helper/File/File';
 
 import RejectReasonModal from '../Helper/Modal/RejectReasonModal';
 
@@ -613,6 +614,17 @@ const ContactForm = () => {
                                     placeholder='Notes'
                                 ></textarea>
                             </div>
+                        </div>
+
+                        <div className='col-12 col-sm-4'>
+                            <File
+                                form={form}
+                                setForm={setForm}
+                                parentUnique='attachments'
+                                title='Attachments'
+                                onChange={handleChange}
+                                downloadEnable={true}
+                            />
                         </div>
                         
                     </form>

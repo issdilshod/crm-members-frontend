@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from 'react';
-import { FaCheck, FaClock, FaInfo, FaTimes, FaUser } from 'react-icons/fa';
+import { useEffect, useState } from 'react';
+import { TbCheck, TbClock, TbInfoCircle, TbX } from 'react-icons/tb';
 import DateFormatter from '../../../services/DateFormatter';
 import * as STATUS from '../../../consts/Status';
 
@@ -454,7 +454,7 @@ const Pending = ({ pusher, search, setLoadingShow, meUuid, meRole }) => {
                         <Popup trigger={
                                 <button className='d-btn d-btn-sm d-btn-primary'>
                                     <i>
-                                        <FaInfo />
+                                        <TbInfoCircle />
                                     </i>
                                 </button>
                             } 
@@ -522,13 +522,13 @@ const Pending = ({ pusher, search, setLoadingShow, meUuid, meRole }) => {
                                             <div className={`tcard-icons text-center`}>
                                                 <span className={`t-card-icon`}>
                                                     { (STATUS.ACTIVED==value['status']) &&
-                                                        <FaCheck />
+                                                        <TbCheck />
                                                     }   
                                                     { (STATUS.PENDING==value['status']) &&
-                                                        <FaClock />
+                                                        <TbClock />
                                                     }   
                                                     { (STATUS.REJECTED==value['status']) &&
-                                                        <FaTimes />
+                                                        <TbX />
                                                     } 
                                                 </span>
                                             </div>

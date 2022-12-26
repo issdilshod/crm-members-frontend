@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import Api from '../../../services/Api';
 import { useState } from 'react';
-import { FaPlus } from 'react-icons/fa';
+import { TbPlus } from 'react-icons/tb';
 
 import './Task.scss';
 import InfiniteScroll from 'react-infinite-scroll-component';
@@ -109,7 +109,7 @@ const TaskList = ({setFormOpen, taskList, setTaskList, pusher, meUuid, taskMeta,
                                 onClick={() => { newTask() }}
                             >
                                 <i>
-                                    <FaPlus />
+                                    <TbPlus />
                                 </i>
                             </span>
                         </div>

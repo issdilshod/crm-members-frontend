@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Mediator } from '../../../context/Mediator';
-import { FaTimes } from 'react-icons/fa';
 
 import * as STATUS from '../../../consts/Status';
 

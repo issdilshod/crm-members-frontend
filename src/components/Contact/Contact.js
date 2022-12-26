@@ -33,6 +33,12 @@ const Contact = () => {
         'security_questions': '', 
         'account_securities': [],
         'notes': '', 
+
+        // files
+        'files': [],
+        'files_to_delete': [],
+        'uploaded_files': [],
+
         'status': ''
     });
     const [edit, setEdit] = useState(false);

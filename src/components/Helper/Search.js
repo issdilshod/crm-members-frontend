@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { FaSearch } from 'react-icons/fa';
+import React from 'react';
+import { TbSearch } from 'react-icons/tb';
 
 const Search = ({handleTextChange}) => {
 
@@ -14,7 +14,7 @@ const Search = ({handleTextChange}) => {
             />
             <span className='d-btn d-btn-primary d-search-button'>
                 <span>
-                    <FaSearch />
+                    <TbSearch />
                 </span>
             </span>
         </div>

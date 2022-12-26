@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Mediator } from '../../context/Mediator';
-import { FaBars, FaPlus } from 'react-icons/fa';
-import { TbAddressBook, TbArrowNarrowLeft, TbFiles, TbMapPin } from 'react-icons/tb';
+import { TbAddressBook, TbArrowNarrowLeft, TbFiles, TbMapPin, TbMenu2, TbPlus } from 'react-icons/tb';
 import Search from '../Helper/Search';
 import Pagination from '../Helper/Pagination';
 import * as STATUS from '../../consts/Status';
@@ -113,12 +112,12 @@ const CompanyList = () => {
                     <div className='d-flex'>
                         <div className='d-btn d-btn-primary mr-2' onClick={ handleAddClick }>
                             <i>
-                                <FaPlus />
+                                <TbPlus />
                             </i>
                         </div>
                         <div className='d-btn d-btn-primary mr-2' onClick={() => {setMenuOpen(!menuOpen)}}>
                             <i>
-                                <FaBars />
+                                <TbMenu2 />
                             </i>
                         </div>
                     </div>

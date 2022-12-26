@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useState } from "react";
-import { FaCheck, FaTimes } from "react-icons/fa";
+import { TbCheck, TbX } from "react-icons/tb";
 import Api from '../../../../services/Api';
 
 import Select from '../../../Helper/Input/Select';
@@ -259,7 +259,7 @@ const Form = ({open, setOpen, setLoadingShow, meUuid, meRole, permissions}) => {
                         }
                     </div>
                     <div className='c-form-close' onClick={(e) => { confirmCloseCard() } }>
-                        <FaTimes />
+                        <TbX />
                     </div>
                 </div>
                 <hr className='divider' />
@@ -304,7 +304,7 @@ const Form = ({open, setOpen, setLoadingShow, meUuid, meRole, permissions}) => {
                                                                                         {value1['user_uuid']==value['uuid'] &&
                                                                                             <span className='ml-2'>
                                                                                                 <i>
-                                                                                                    <FaCheck />
+                                                                                                    <TbCheck />
                                                                                                 </i>
                                                                                             </span>
                                                                                         }
@@ -344,7 +344,7 @@ const Form = ({open, setOpen, setLoadingShow, meUuid, meRole, permissions}) => {
                                                         title={`Remove ${value['user']['first_name'] + ' ' + value['user']['last_name']}`}
                                                     >
                                                         <i>
-                                                            <FaTimes />
+                                                            <TbX />
                                                         </i>
                                                     </span>
                                                 </span>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import { TbEye, TbEyeOff } from 'react-icons/tb';
 import { Link, useParams } from 'react-router-dom';
 import Api from '../../services/Api';
 import Loading from '../Helper/Loading';
@@ -193,11 +193,11 @@ const Register = () => {
                                                     >
                                                         <i>
                                                             { passwordType &&
-                                                                <FaEye />
+                                                                <TbEye />
                                                             }
 
                                                             { !passwordType &&
-                                                                <FaEyeSlash />
+                                                                <TbEyeOff />
                                                             }
                                                         </i>
                                                     </span>
