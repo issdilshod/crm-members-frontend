@@ -130,12 +130,7 @@ const Pending = ({ pusher, search, setLoadingShow, meUuid, meRole }) => {
         api.request('/api/pending'+attr, 'GET')
             .then(res => {
                 if (res.status===200||res.status===201){ // success
-                    let tmpArr = [...res.data.companies, ...res.data.directors, ...res.data.virtual_offices];
-
-                    // TODO: check if exists on pending then replace from pending
-                    tmpArr.sort((a, b) => {
-                        return new Date(b.last_activity.updated_at) - new Date(a.last_activity.updated_at);
-                    });
+                    let tmpArr = collectSections(res);
                     
                     setPending([ ...pending, ...tmpArr ]);
                     if (pendingMeta['current_page']==0){
@@ -163,6 +158,17 @@ const Pending = ({ pusher, search, setLoadingShow, meUuid, meRole }) => {
                     setUserList(tmpArr);
                 }
             })
+    }
+
+    const collectSections = (res) => {
+        let tmpArr = [...res.data.companies, ...res.data.directors, ...res.data.virtual_offices, ...res.data.contacts];
+
+        // TODO: check if exists on pending then replace from pending
+        tmpArr.sort((a, b) => {
+            return new Date(b.last_activity.updated_at) - new Date(a.last_activity.updated_at);
+        });
+
+        return tmpArr;
     }
 
     const handlePendingClick = (e, uuid, link = '') => {
@@ -327,10 +333,7 @@ const Pending = ({ pusher, search, setLoadingShow, meUuid, meRole }) => {
             api.request('/api/pending?page=1&'+tmpAttr+'='+e.value.code, 'GET')
                 .then(res => {
                     if (res.status===200||res.status===201){ // success
-                        let tmpArr = [...res.data.companies, ...res.data.directors, ...res.data.virtual_offices];
-                        tmpArr.sort((a, b) => {
-                            return new Date(b.last_activity.updated_at) - new Date(a.last_activity.updated_at);
-                        });
+                        let tmpArr = collectSections(res);
                         setPending(tmpArr);
                         setPendingMeta(res.data.meta);
 
@@ -341,10 +344,7 @@ const Pending = ({ pusher, search, setLoadingShow, meUuid, meRole }) => {
             api.request('/api/pending?page=1', 'GET')
                 .then(res => {
                     if (res.status===200||res.status===201){ // success
-                        let tmpArr = [...res.data.companies, ...res.data.directors, ...res.data.virtual_offices];
-                        tmpArr.sort((a, b) => {
-                            return new Date(b.last_activity.updated_at) - new Date(a.last_activity.updated_at);
-                        });
+                        let tmpArr = collectSections(res);
                         setPending(tmpArr);
                         setPendingMeta(res.data.meta);
 
@@ -395,10 +395,7 @@ const Pending = ({ pusher, search, setLoadingShow, meUuid, meRole }) => {
         api.request('/api/pending?page=1&summary_filter='+filter, 'GET')
             .then(res => {
                 if (res.status===200||res.status===201){ // success
-                    let tmpArr = [...res.data.companies, ...res.data.directors, ...res.data.virtual_offices];
-                    tmpArr.sort((a, b) => {
-                        return new Date(b.last_activity.updated_at) - new Date(a.last_activity.updated_at);
-                    });
+                    let tmpArr = collectSections(res);
                     setPending(tmpArr);
                     setPendingMeta(res.data.meta);
                 }
