@@ -31,9 +31,7 @@ const Contact = () => {
         'account_username': '', 
         'account_password': '', 
         'security_questions': '', 
-        'security_question1': '', 
-        'security_question2': '', 
-        'security_question3': '', 
+        'account_securities': [],
         'notes': '', 
         'status': ''
     });

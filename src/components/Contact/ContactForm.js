@@ -7,7 +7,7 @@ import * as CONTACT from '../../consts/Contact/Contact';
 
 import { Mediator } from '../../context/Mediator';
 
-import { TbAlertCircle } from 'react-icons/tb';
+import { TbAlertCircle, TbPencil, TbPlus } from 'react-icons/tb';
 
 import Api from '../../services/Api';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -42,6 +42,9 @@ const ContactForm = () => {
     const [rejectModalShow, setRejectModalShow] = useState(false);
 
     const firstInitialRef = useRef(true);
+
+    const [inSecurityFormEntity, setInSecurityFormEntity] = useState({'question': '', 'answer': ''});
+    const [inSecurityForm, setInSecurityForm] = useState(inSecurityFormEntity);
 
     useEffect(() => {
         api.request('/api/get_me', 'GET')
@@ -272,6 +275,29 @@ const ContactForm = () => {
             });
     }
 
+    const handleAddSecurity = () => {
+        let tmpArray = {...form};
+        
+        tmpArray['account_securities'].push(inSecurityForm);
+
+        setForm(tmpArray);
+        setInSecurityForm(inSecurityFormEntity);
+    }
+
+    const handleEditSecurity = (index) => {
+        let tmpArray = {...form};
+        let tmpSecurity = {...tmpArray['account_securities'][index]};
+        tmpArray['account_securities'].splice(index, 1);
+        setForm(tmpArray);
+        setInSecurityForm(tmpSecurity);
+    }
+
+    const onChangeSecurity = (e) => {
+        const {value, name} = e.target;
+
+        setInSecurityForm({...inSecurityForm, [name]: value});
+    }
+
     const confirmDelete = (e, uuid, cardName = '') => {
         e.preventDefault();
         craeteConfirmation({
@@ -491,60 +517,102 @@ const ContactForm = () => {
                             </>
                         }
 
-                        <div className='c-form-field col-12 col-sm-3'>
-                            <Select
-                                title='Security questions'
-                                name='security_questions'
-                                onChange={handleChange}
-                                options={[
-                                    {'value': 'YES', 'label': 'YES'},
-                                    {'value': 'NO', 'label': 'NO'},
-                                ]}
-                                defaultValue={form['security_questions']}
-                                errorArray={formError}
-                            />
+                        <div className='c-form-field col-12'>
+                            <div className='dd-card'>
+                                <div className='dd-card-head d-flex'>
+                                    <div className='mr-auto'>Security questions</div>
+                                </div>
+                                <div className='dd-card-body container-fluid'>
+                                    <div className='row'>
+                                        <div className='col-12'>
+                                            <Select
+                                                title='Security questions'
+                                                name='security_questions'
+                                                onChange={handleChange}
+                                                options={[
+                                                    {'value': 'YES', 'label': 'YES'},
+                                                    {'value': 'NO', 'label': 'NO'},
+                                                ]}
+                                                defaultValue={form['security_questions']}
+                                                errorArray={formError}
+                                            />
+                                        </div>
+
+                                        { securityQuestions &&
+                                            <>
+                                                <div className='c-form-field col-12 col-sm-6'>
+                                                    <Input 
+                                                        title='Question'
+                                                        name='question'
+                                                        onChange={onChangeSecurity}
+                                                        defaultValue={inSecurityForm['question']}
+                                                        errorArray={formError}
+                                                    />
+                                                </div>
+
+                                                <div className='c-form-field col-12 col-sm-6'>
+                                                    <Input 
+                                                        title='Answer'
+                                                        name='answer'
+                                                        onChange={onChangeSecurity}
+                                                        defaultValue={inSecurityForm['answer']}
+                                                        errorArray={formError}
+                                                    />
+                                                </div>
+
+                                                <div className='col-12 text-right'>
+                                                    <span 
+                                                        className='d-btn d-btn-sm d-btn-primary'
+                                                        onClick={ () => { handleAddSecurity() } }
+                                                    >
+                                                        <TbPlus />
+                                                    </span>
+                                                </div>
+
+                                                {
+                                                    form['account_securities'].map((value, index) => {
+                                                        return (
+                                                            <div key={index} className='c-form-field col-12 mt-3'>
+                                                                <div className='ui-list'>
+                                                                    <div className='row'>
+                                                                        <div className='col-12 col-sm-6'>{value['question']}</div>
+                                                                        <div className='col-12 col-sm-6 d-flex'>
+                                                                            <div className='mr-auto'>{value['answer']}</div>
+                                                                            <div>
+                                                                                <span 
+                                                                                    className='d-btn d-btn-sm d-btn-primary mr-1'
+                                                                                    onClick={() => handleEditSecurity(index) }
+                                                                                >
+                                                                                    <TbPencil />
+                                                                                </span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        )
+                                                    })
+                                                }
+                                            </>
+                                        }
+
+                                    </div>
+                                </div>
+                            </div>
+                            
                         </div>
 
-                        { securityQuestions &&
-                            <>
-                                <div className='c-form-field col-12 col-sm-3'>
-                                    <Input 
-                                        title='Question 1'
-                                        name='security_question1'
-                                        onChange={handleChange}
-                                        defaultValue={form['security_question1']}
-                                        errorArray={formError}
-                                    />
-                                </div>
-                                <div className='c-form-field col-12 col-sm-3'>
-                                    <Input 
-                                        title='Question 2'
-                                        name='security_question2'
-                                        onChange={handleChange}
-                                        defaultValue={form['security_question2']}
-                                        errorArray={formError}
-                                    />
-                                </div>
-                                <div className='c-form-field col-12 col-sm-3'>
-                                    <Input 
-                                        title='Question 3'
-                                        name='security_question3'
-                                        onChange={handleChange}
-                                        defaultValue={form['security_question3']}
-                                        errorArray={formError}
-                                    />
-                                </div>
-                            </>
-                        }
-
                         <div className='c-form-field col-12'>
-                            <Input 
-                                title='Notes'
-                                name='notes'
-                                onChange={handleChange}
-                                defaultValue={form['notes']}
-                                errorArray={formError}
-                            />
+                            <div className='form-group'>
+                                <label>Notes</label>
+                                <textarea 
+                                    className='form-control'
+                                    name='notes'
+                                    onChange={handleChange}
+                                    defaultValue={form['notes']}
+                                    placeholder='Notes'
+                                ></textarea>
+                            </div>
                         </div>
                         
                     </form>

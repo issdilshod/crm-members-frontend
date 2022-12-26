@@ -13,7 +13,7 @@ const RejectReasonModal = ({ show = false, description, setDescription, onYes, o
                         className='form-control'
                         defaultValue={description}
                         onChange={ (e) => setDescription(e.target.value)}
-                        placeholder='Type you description here...'
+                        placeholder='Type your description here...'
                     ></textarea>
                 </div>
             }
