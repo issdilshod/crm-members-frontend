@@ -12,6 +12,8 @@ import ChatControl from "../Functions/ChatControl";
 
 import ReactTimeAgo from 'react-time-ago';
 
+import { Button } from 'primereact/button';
+
 const ChatIn = ({chats, setChats, chatMessages, setChatMessages, chatMessagesMeta, setChatMessagesMeta, chat, meUuid, sortChat, backClick}) => {
 
     const api = new Api();
@@ -126,55 +128,54 @@ const ChatIn = ({chats, setChats, chatMessages, setChatMessages, chatMessagesMet
                             <TbArrowNarrowLeft />
                         </i>
                     </div>
-                    <div className='d-avatar'>
-                        { chat['type']==CHATCONST.GROUP && // group
-                            <>
-                                <>{chat['name'].substr(0, 2)}</>
-                            </>
-                        }
-
-                        { chat['type']==CHATCONST.PRIVATE && // one by one
-                            <>{ChatControl.getPartnerName(meUuid, chat['members']).substr(0, 2)}</>
-                        }
-                    </div>
-                    <div className='ml-2 d-chat-header-info'>
-                        <div>
-                            { (chat['type']==CHATCONST.GROUP) &&
-                                <>{chat['name']}</>
-                            }
-
-                            { (chat['type']==CHATCONST.PRIVATE) &&
-                                <>{ChatControl.getPartnerName(meUuid, chat['members'])}</>
-                            }
-                        </div>
-                        <div>
-                            { (chat['type']==CHATCONST.PRIVATE) &&
+                    <div className='d-cursor-pointer d-flex'>
+                        <div className='d-avatar' style={{'width': '48px'}}>
+                            { chat['type']==CHATCONST.GROUP && // group
                                 <>
-                                    { (ChatControl.getPartnerLastSeen(meUuid, chat['members'])==null) &&
-                                        <>online</>
-                                    }
-
-                                    { (ChatControl.getPartnerLastSeen(meUuid, chat['members'])!=null) &&
-                                        <><ReactTimeAgo date={new Date(ChatControl.getPartnerLastSeen(meUuid, chat['members']))} locale="en-US" /></>
-                                    }
+                                    <>{chat['name'].substr(0, 2)}</>
                                 </>
                             }
 
-                            { (chat['type']==CHATCONST.GROUP) &&
-                                <>{chat['members'].length} members</>
+                            { chat['type']==CHATCONST.PRIVATE && // one by one
+                                <>{ChatControl.getPartnerName(meUuid, chat['members']).substr(0, 2)}</>
                             }
+                        </div>
+                        <div className='ml-2 d-chat-header-info'>
+                            <div>
+                                { (chat['type']==CHATCONST.GROUP) &&
+                                    <>{chat['name']}</>
+                                }
+
+                                { (chat['type']==CHATCONST.PRIVATE) &&
+                                    <>{ChatControl.getPartnerName(meUuid, chat['members'])}</>
+                                }
+                            </div>
+                            <div>
+                                { (chat['type']==CHATCONST.PRIVATE) &&
+                                    <>
+                                        { (ChatControl.getPartnerLastSeen(meUuid, chat['members'])==null) &&
+                                            <>online</>
+                                        }
+
+                                        { (ChatControl.getPartnerLastSeen(meUuid, chat['members'])!=null) &&
+                                            <><ReactTimeAgo date={new Date(ChatControl.getPartnerLastSeen(meUuid, chat['members']))} locale="en-US" /></>
+                                        }
+                                    </>
+                                }
+
+                                { (chat['type']==CHATCONST.GROUP) &&
+                                    <>{chat['members'].length} members</>
+                                }
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div>
-                    <span
-                        className='d-cursor-pointer'
-                        onClick={() => {}}
-                    >
-                        <i>
-                            <TbDotsVertical />
-                        </i>
-                    </span>
+                    <Button
+                        label='Cancel'
+                        className='p-button p-component p-button-rounded p-button-text p-button-plain p-button-icon-only'
+                        icon='pi pi-ellipsis-v'
+                    />
                 </div>
             </div>
             <div 

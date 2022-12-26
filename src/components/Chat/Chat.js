@@ -14,6 +14,7 @@ import { useSearchParams } from "react-router-dom";
 import UserList from "./Chats/UserList";
 
 import * as CHATCONST from '../../consts/Chat/Chat';
+import { toast } from "react-hot-toast";
 
 const Chat = ({pusher, meUuid}) => {
 
@@ -225,12 +226,16 @@ const Chat = ({pusher, meUuid}) => {
     }
 
     const getChat = (uuid) => {
+        let toastId = toast.loading('Loading...');
+
         api.request('/api/chat/' + uuid, 'GET')
             .then( res => {
                 if (res.status===200||res.status===201){
                     setChat(res.data.data);
                     getMessages(uuid);
                 }
+
+                toast.dismiss(toastId);
             });
         getMessages(uuid);
     }
@@ -285,6 +290,8 @@ const Chat = ({pusher, meUuid}) => {
             };
         }
 
+        let toastId = toast.loading('Waiting...');
+
         api.request('/api/chat', 'POST', form)
             .then( res => {
                 if (res.status===200||res.status===201){
@@ -310,6 +317,8 @@ const Chat = ({pusher, meUuid}) => {
                     setParams(params);
 
                     setNewConversation(false);
+
+                    toast.dismiss(toastId);
                 }
             });
     }
@@ -379,6 +388,7 @@ const Chat = ({pusher, meUuid}) => {
                                 handleBack={closeNewConversation}
                                 handleCreateChat={handleCreateChat}
                                 isGroup={newIsGroup}
+                                meUuid={meUuid}
                             />
                         }
                     </div>

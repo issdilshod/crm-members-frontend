@@ -1215,7 +1215,7 @@ label .req {
 .d-messages-area{
     margin: 0px 10px;
     padding: 5px 0px;
-    height: calc(100vh - 120px);
+    height: calc(100vh - 124px);
     overflow: auto;
     display: flex;
     flex-direction: column-reverse;

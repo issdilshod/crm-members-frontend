@@ -1,6 +1,5 @@
 import DateFormats from "../Functions/DateFormats";
 import * as CHATCONST from '../../../consts/Chat/Chat';
-import { FaTimes } from "react-icons/fa";
 import { TbPencil, TbUser, TbUsers, TbX } from "react-icons/tb";
 import { Collapse } from "react-bootstrap";
 import { useState } from "react";

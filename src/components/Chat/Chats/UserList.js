@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { useRef } from "react";
 import { toast } from "react-hot-toast";
-import { FaArrowLeft, FaCheck, FaComment } from "react-icons/fa";
+import { TbArrowNarrowLeft, TbBrandHipchat, TbPlus } from "react-icons/tb";
 import ReactTimeAgo from "react-time-ago";
 import CheckBox from "./CheckBox";
 
-const UserList = ({handleBack, users, handleCreateChat, isGroup}) => {
+const UserList = ({handleBack, users, handleCreateChat, isGroup, meUuid}) => {
 
     const nameRef = useRef(null);
     const [members, setMembers] = useState([]);
@@ -20,7 +20,7 @@ const UserList = ({handleBack, users, handleCreateChat, isGroup}) => {
     }
 
     const handleSelectMembers = (member) => {
-        if (!isGroup){ return false; }
+        if (!isGroup){ handleCreateChat(member['uuid']); }
 
         let tmpArr = [...members];
 
@@ -46,7 +46,7 @@ const UserList = ({handleBack, users, handleCreateChat, isGroup}) => {
                 <div className='d-flex'>
                     <div className='d-back mr-2' onClick={handleBack}>
                         <i>
-                            <FaArrowLeft />
+                            <TbArrowNarrowLeft />
                         </i>
                     </div>
                     <div className='w-100'>
@@ -75,7 +75,7 @@ const UserList = ({handleBack, users, handleCreateChat, isGroup}) => {
                                 onClick={handleLocalCreate}
                             >
                                 <i>
-                                    <FaCheck />    
+                                    <TbPlus />    
                                 </i>    
                             </span>
                         </div>
@@ -84,47 +84,41 @@ const UserList = ({handleBack, users, handleCreateChat, isGroup}) => {
                 {
                     users.map((value, index) => {
                         return (
-                            <div 
-                                key={index} 
-                                className='user-item d-cursor-pointer d-flex'
-                                onClick={ () => { handleSelectMembers(value) }}
-                            >
-                                <div className='mr-2'>
-                                <div className='d-avatar'>
-                                    {value['first_name'].substr(0, 2)}
-                                </div>
-                                </div>
-                                <div className='mr-auto mb-auto mt-auto'>
-                                    <span className='user-item-name mr-2'>{value['first_name'] + ' ' + value['last_name']}</span>
-                                    { (value['last_seen']==null) &&
-                                        <div>online</div>
-                                    }
-                                    { (value['last_seen']!=null) &&
-                                        <div>
-                                            <ReactTimeAgo date={new Date(value['last_seen'])} locale="en-US" />
+                            <>
+                                { (value['uuid']!=meUuid) &&
+                                    <div 
+                                        key={index} 
+                                        className='d-dialog-item d-cursor-pointer d-flex'
+                                        onClick={ () => { handleSelectMembers(value) }}
+                                    >
+                                        <div className='mr-2'>
+                                        <div className='d-avatar'>
+                                            {value['first_name'].substr(0, 2)}
                                         </div>
-                                    }
-                                </div>
-                                { (!isGroup) && // private
-                                    <div className='mb-auto mt-auto'>
-                                        <span 
-                                            className='d-btn d-btn-sm d-btn-primary'
-                                            onClick={ () => { handleCreateChat(value['uuid']) } }
-                                        >
-                                            <i>
-                                                <FaComment />
-                                            </i>
-                                        </span>
+                                        </div>
+                                        <div className='mr-auto mb-auto mt-auto'>
+                                            <span className='user-item-name mr-2'>{value['first_name'] + ' ' + value['last_name']}</span>
+                                            { (value['last_seen']==null) &&
+                                                <div>online</div>
+                                            }
+                                            { (value['last_seen']!=null) &&
+                                                <div>
+                                                    <ReactTimeAgo date={new Date(value['last_seen'])} locale="en-US" />
+                                                </div>
+                                            }
+                                        </div>
+        
+                                        { (isGroup) && // group
+                                            <div className='mb-auto mt-auto'>
+                                                <CheckBox 
+                                                    uuid={value['uuid']}
+                                                    members={members}
+                                                />
+                                            </div>
+                                        }
                                     </div>
                                 }
-
-                                { (isGroup) && // group
-                                    <CheckBox 
-                                        uuid={value['uuid']}
-                                        members={members}
-                                    />
-                                }
-                            </div>
+                            </>
                         )
                     })
                 } 
