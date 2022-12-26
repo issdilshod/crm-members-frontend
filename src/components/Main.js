@@ -10,10 +10,10 @@ import E404 from './Error/404';
 import Protected from '../routes/Protected';
 import NonProtected from '../routes/NonProtected';
 import Register from './Login/Register';
-
 import FutureWebsite from './FutureWebsite/FutureWebsite';
 import VirtualOffice from './VirtualOffice/VirtualOffice';
 import FutureCompany from './FutureCompany/FutureCompany';
+import Contact from './Contact/Contact';
 
 import Pusher from 'pusher-js';
 
@@ -53,6 +53,9 @@ const Main = () => {
 
                     <Route path={`${process.env.REACT_APP_FRONTEND_PREFIX}/future-companies`} element={<FutureCompany />} />
                     <Route path={`${process.env.REACT_APP_FRONTEND_PREFIX}/future-companies/:uuid`} element={<FutureCompany />} />
+
+                    <Route path={`${process.env.REACT_APP_FRONTEND_PREFIX}/contacts`} element={<Contact />} />
+                    <Route path={`${process.env.REACT_APP_FRONTEND_PREFIX}/contacts/:uuid`} element={<Contact />} />
 
                     <Route path={`${process.env.REACT_APP_FRONTEND_PREFIX}/departments`} element={<Department />} />
                     <Route path={`${process.env.REACT_APP_FRONTEND_PREFIX}/departments/user/:uuid`} element={<Department />} />

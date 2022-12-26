@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 import MenuItem from './MenuItem';
-import { TbActivity, TbBell, TbBrandHipchat, TbBuilding, TbBuildingArch, TbCalendar, TbClock, TbCloud, TbDashboard, TbNotification, TbSettings, TbUser, TbUsers, TbView360 } from 'react-icons/tb';
+import { TbActivity, TbBell, TbBrandHipchat, TbBuilding, TbBuildingArch, TbCalendar, TbClock, TbCloud, TbDashboard, TbNotification, TbSettings, TbUser, TbUserCircle, TbUsers, TbView360 } from 'react-icons/tb';
 import { Button } from 'primereact/button';
 
 const Menu = ({ menuOpen, setMenuOpen }) => {
@@ -31,6 +31,7 @@ const Menu = ({ menuOpen, setMenuOpen }) => {
                     <MenuItem page_link='future-websites' page_name='Future Websites' icon={<TbView360 />} />
                     <MenuItem page_link='virtual-offices' page_name='Virtual Offices' icon={<TbCloud />} />
                     <MenuItem page_link='future-companies' page_name='Future Companies' icon={<TbBuildingArch />} />
+                    <MenuItem page_link='contacts' page_name='Contacts' icon={<TbUserCircle />} />
                     <MenuItem page_link='departments' page_name='Departments' icon={<TbUsers />} />
                     <MenuItem page_link='settings' page_name='Settings' icon={<TbSettings />} />
                     <MenuItem page_link='notification' page_name='Notification' icon={<TbBell />} notificationCount={notificationCount} setNotificationCount={setNotificationCount} />
