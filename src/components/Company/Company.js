@@ -17,6 +17,7 @@ const Company = () => {
     const [companyList, setCompanyList] = useState([]);
     // form
     const [companyFormEntity, setCompanyFormEntity] = useState({
+        'is_active': '',
         'legal_name': '',
         'sic_code_uuid': '',
         'director_uuid': '',

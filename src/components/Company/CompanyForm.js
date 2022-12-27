@@ -20,6 +20,7 @@ import BankAccount from '../Helper/BankAccount/BankAccount';
 import Api from '../../services/Api';
 import Input from '../Helper/Input/Input';
 import InputMask from '../Helper/Input/InputMask';
+import SelectComponent from '../Helper/Input/Select';
 import toast from 'react-hot-toast';
 import { confirmDialog } from 'primereact/confirmdialog';
 import { confirmPopup } from 'primereact/confirmpopup';
@@ -518,6 +519,15 @@ const CompanyForm = () => {
                                 }
                             </>
                         }
+
+                        { (companyForm['is_active']=='NO') &&
+                            <span className='d-badge d-badge-sm d-badge-danger ml-2'>None Active Company</span>
+                        }
+
+                        { (companyForm['is_active']=='YES') &&
+                            <span className='d-badge d-badge-sm d-badge-success ml-2'>Active Company</span>
+                        }
+                        
                     </div>
                     <Button 
                         label='Cancel'
@@ -530,7 +540,21 @@ const CompanyForm = () => {
                 <div className='c-form-body container-fluid'>
                     <form className='c-form-body-block row'>
 
-                        <div className='c-form-field col-12 col-sm-4'>
+                        <div className='c-form-field col-12 col-sm-2'>
+                            <SelectComponent
+                                title='Active Company'
+                                name='is_active'
+                                onChange={handleChange}
+                                options={[
+                                    {'value': 'YES', 'label': 'YES'},
+                                    {'value': 'NO', 'label': 'NO'},
+                                ]}
+                                defaultValue={companyForm['is_active']}
+                                errorArray={companyFormError}
+                            />
+                        </div>
+
+                        <div className='c-form-field col-12 col-sm-3'>
                             <Input
                                 title='Company Legal Name'
                                 req={true}
@@ -542,7 +566,7 @@ const CompanyForm = () => {
                             />
                         </div>
 
-                        <div className='c-form-field col-12 col-sm-4 form-group'>
+                        <div className='c-form-field col-12 col-sm-3 form-group'>
                             <label>SIC code</label>
                             <Select 
                                 options={sicCodeList}
