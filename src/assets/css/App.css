@@ -1119,6 +1119,7 @@ label .req {
 
 .d-chat-list-header, .d-user-list-header{
     min-height: 55px;
+    max-height: 55px;
     padding: 5px 0px;
 }
 
@@ -1183,6 +1184,9 @@ label .req {
 .d-chat-header{
     padding: 5px 10px;
     border-bottom: 1px solid #f6f6f6;
+    background-color: #fff;
+    min-height: 55px;
+    max-height: 55px;
 }
 
 .d-avatar{
@@ -1215,7 +1219,7 @@ label .req {
 .d-messages-area{
     margin: 0px 10px;
     padding: 5px 0px;
-    height: calc(100vh - 124px);
+    height: calc(100vh - 111px);
     overflow: auto;
     display: flex;
     flex-direction: column-reverse;
@@ -1271,25 +1275,32 @@ label .req {
 }
 
 .d-message-type-area textarea{
-    min-height: 50px;
-    max-height: 60px;
+    min-height: 47px;
+    max-height: 47px;
     font-size: .9em;
+    border-radius: 30px;
+    padding: 10px;
 }
 
 .d-message-type-area .send-message{
-    font-size: 2.5em;
+    font-size: 1.5em;
     cursor: pointer;
     transition: .2s;
 }
 
-.d-message-type-area .send-message:hover svg{
+.d-message-type-area .send-message{
+    padding: 10px;
+    background-color: #344767;
+    color: #fff;
     border-radius: 50%;
-    box-shadow: 0px 0px 10px 0px rgb(0 0 0 / 12%) !important;
+    display: inline-block;
+    width: 44px;
+    height: 44px;
 }
 
 .d-message-type-area .send-message i{
     position: relative;
-    top: -5px;
+    top: -8px;
 }
 
 /*
@@ -1343,6 +1354,23 @@ label .req {
 .g-chat-in{
     width: 70%;
     transition: .4s;
+    background-image: url('../img/chat-pattern.svg');
+    background-size: auto 100%;
+}
+
+.g-chat-info{
+    width: 30%;
+    transition: .4s;
+}
+
+.g-chat-info-header{
+    min-height: 55px;
+    max-height: 55px;
+}
+
+.g-chat-info-body{
+    height: calc( 100vh - 55px );
+    overflow: auto;
 }
 
 /*
@@ -1402,7 +1430,7 @@ label .req {
         display: block;
     }
 
-    .g-chat-list, .g-chat-in{
+    .g-chat-list, .g-chat-in, .g-chat-info{
         width: 0%;
         overflow: hidden;
     }

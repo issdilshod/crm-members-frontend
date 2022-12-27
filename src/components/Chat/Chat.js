@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useState } from "react";
-import { Tb, TbBrandHipchat } from "react-icons/tb";
+import { TbBrandHipchat } from "react-icons/tb";
 
 import Api from '../../services/Api';
 
@@ -10,6 +10,8 @@ import nSound from '../../assets/sound/message-notification.mp3';
 import './Chat.scss';
 import ChatIn from "./Chats/ChatIn";
 import ChatList from "./Chats/ChatList";
+import ChatInfo from './Chats/ChatInfo';
+
 import { useSearchParams } from "react-router-dom";
 import UserList from "./Chats/UserList";
 
@@ -32,6 +34,7 @@ const Chat = ({pusher, meUuid}) => {
     const [pusherUsersUpdates, setPusherUsersUpdates] = useState(null);
 
     const [chatInActive, setChatInActive] = useState(false);
+    const [isChatInfoActive, setIsChatInfoActive] = useState(false);
 
     const [newConversation, setNewConversation] = useState(false);
     const [newIsGroup, setNewIsGroup] = useState(false);
@@ -406,9 +409,31 @@ const Chat = ({pusher, meUuid}) => {
                                 meUuid={meUuid}
                                 sortChat={sortChat}
                                 backClick={backClick}
+
+                                infoActive={isChatInfoActive}
+                                setInfoActive={setIsChatInfoActive}
                             />
                         }
                     </div>
+
+                    { isChatInfoActive &&
+                        <div 
+                            className={`g-chat-info ${isChatInfoActive?'g-chat-active':''}`}
+                            style={{'borderLeft': '1px solid #f6f6f6'}}
+                        >
+                            <ChatInfo 
+                                active={isChatInfoActive}
+                                setActive={setIsChatInfoActive}
+                                chat={chat}
+                                setChat={setChat}
+                                chats={chats}
+                                setChats={setChats}
+                                users={users}
+                                meUuid={meUuid}
+                            />
+                        </div>
+                    }
+
                 </div>  
             </div>
         </>

@@ -13,8 +13,9 @@ import ChatControl from "../Functions/ChatControl";
 import ReactTimeAgo from 'react-time-ago';
 
 import { Button } from 'primereact/button';
+import { toast } from "react-hot-toast";
 
-const ChatIn = ({chats, setChats, chatMessages, setChatMessages, chatMessagesMeta, setChatMessagesMeta, chat, meUuid, sortChat, backClick}) => {
+const ChatIn = ({chats, setChats, chatMessages, setChatMessages, chatMessagesMeta, setChatMessagesMeta, chat, meUuid, sortChat, backClick, infoActive, setInfoActive}) => {
 
     const api = new Api();
 
@@ -25,6 +26,9 @@ const ChatIn = ({chats, setChats, chatMessages, setChatMessages, chatMessagesMet
 
     const handlePostMessage = () => {
         if (message.length>0){
+
+            let toastId = toast.loading('Waiting...');
+
             api.request('/api/message', 'POST', {'message': message, 'chat_uuid': chat['uuid']})
                 .then(res => {
                     if (res.status===200||res.status===201){
@@ -33,6 +37,8 @@ const ChatIn = ({chats, setChats, chatMessages, setChatMessages, chatMessagesMet
                         setChatMessages([ res.data.data, ...chatMessages  ]);
                         // update chat list
                         updateChatList(res.data.data);
+
+                        toast.dismiss(toastId);
                     }
                     
                 })
@@ -128,8 +134,8 @@ const ChatIn = ({chats, setChats, chatMessages, setChatMessages, chatMessagesMet
                             <TbArrowNarrowLeft />
                         </i>
                     </div>
-                    <div className='d-cursor-pointer d-flex'>
-                        <div className='d-avatar' style={{'width': '48px'}}>
+                    <div className='d-cursor-pointer d-flex' onClick={() => { setInfoActive(true) }}>
+                        <div className='d-avatar'>
                             { chat['type']==CHATCONST.GROUP && // group
                                 <>
                                     <>{chat['name'].substr(0, 2)}</>
@@ -170,7 +176,7 @@ const ChatIn = ({chats, setChats, chatMessages, setChatMessages, chatMessagesMet
                         </div>
                     </div>
                 </div>
-                <div>
+                <div className='d-none'>
                     <Button
                         label='Cancel'
                         className='p-button p-component p-button-rounded p-button-text p-button-plain p-button-icon-only'
@@ -231,7 +237,7 @@ const ChatIn = ({chats, setChats, chatMessages, setChatMessages, chatMessagesMet
             </div>
 
             <div className='d-message-type-area d-flex'>
-                <div className='mr-auto w-100'>
+                <div className='mr-auto w-100 mb-auto mt-auto'>
                     <textarea
                         className='form-control'
                         placeholder='Type here...'

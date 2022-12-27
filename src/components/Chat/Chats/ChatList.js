@@ -12,12 +12,12 @@ const ChatList = ({handleClick, chats, chat, meUuid, handleNewGroup, handleNewPr
     return (
         <div className='d-chat-list'>
             <div className='d-chat-list-header d-flex'>
-                <div className='d-back mr-2' onClick={handleClose}>
+                <div className='d-back mr-2 mb-auto mt-auto' onClick={handleClose}>
                     <i>
                         <TbX />
                     </i>
                 </div>
-                <div className='w-100'>
+                <div className='w-100 mb-auto mt-auto'>
                     <input
                         className='form-control'
                         name='search-chat'
