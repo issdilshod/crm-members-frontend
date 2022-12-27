@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import { useEffect } from "react";
-import { TbArrowNarrowLeft, TbBrandTelegram, TbDotsVertical } from "react-icons/tb";
+import { TbArrowNarrowLeft, TbBrandTelegram, TbCheck, TbChecks, TbDotsVertical } from "react-icons/tb";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Api from "../../../services/Api";
 
@@ -225,7 +225,10 @@ const ChatIn = ({chats, setChats, chatMessages, setChatMessages, chatMessagesMet
                                                 className='time'
                                                 title={DateFormats.message_time_title(value['created_at'])}
                                             >
-                                                {DateFormats.message_time(value['created_at'])}
+                                                {DateFormats.message_time(value['created_at'])} 
+                                                <i className='ml-1'>
+                                                    <TbCheck />
+                                                </i>
                                             </div>
                                         </div>
                                     </div>

@@ -89,6 +89,14 @@ const Chat = ({pusher, meUuid}) => {
         }
     }, [params])
 
+    useEffect(() => {
+        if (!isChatInfoActive){
+            setChatInActive(true);
+        }else{
+            setChatInActive(false);
+        }
+    }, [isChatInfoActive])
+
     const init = () => {
         api.request('/api/chat', 'GET')
             .then(res => {
@@ -372,7 +380,7 @@ const Chat = ({pusher, meUuid}) => {
                 onClick={ () => { closeChat() } }></div>
             <div className={`c-form ${formOpen?'c-form-active':''}`} style={{'padding': '0px'}}>
                 <div className='d-flex'>
-                    <div className={`g-chat-list ${!chatInActive?'g-chat-active':''}`} style={{'borderRight': '1px solid #f6f6f6'}}>
+                    <div className={`g-chat-list ${!chatInActive&&!isChatInfoActive?'g-chat-active':''}`} style={{'borderRight': '1px solid #f6f6f6'}}>
                         { (!newConversation) &&
                             <ChatList 
                                 handleClick={handleChatClick}
