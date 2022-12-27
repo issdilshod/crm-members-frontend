@@ -9,6 +9,7 @@ import * as STATUS from '../../consts/Status';
 import Api from '../../services/Api';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
+import DateFormatter from '../../services/DateFormatter';
 
 const FutureWebsiteList = () => {
     const { 
@@ -151,6 +152,7 @@ const FutureWebsiteList = () => {
                                                     </>
                                                 }
                                             </div>
+                                            <div className='t-card-hide-info'>Updated at: {DateFormatter.beautifulDate(value['updated_at'])}</div>
                                         </div>
                                     </div>
                                 );

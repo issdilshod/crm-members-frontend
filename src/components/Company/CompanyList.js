@@ -8,6 +8,8 @@ import { useNavigate } from 'react-router-dom';
 import Api from '../../services/Api';
 import { toast } from 'react-hot-toast';
 
+import DateFormatter from '../../services/DateFormatter';
+
 const CompanyList = () => {
     const { 
         menuOpen, setMenuOpen,setCompanyFormOriginal, setCompanyForm, setCompanyFormOpen, setCompanyEdit, companyList, setCompanyList, companyFormEntity, setLoadingShow
@@ -154,6 +156,7 @@ const CompanyList = () => {
                                                 </p>
                                                 <p><TbFiles /> {value.uploaded_files.length}</p>
                                             </div>
+                                            <div className='t-card-hide-info'>Updated at: {DateFormatter.beautifulDate(value['updated_at'])}</div>
                                         </div>
                                     </div>
                                 );

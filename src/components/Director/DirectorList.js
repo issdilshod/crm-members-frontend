@@ -11,6 +11,7 @@ import Search from '../Helper/Search';
 import * as STATUS from '../../consts/Status';
 
 import toast from 'react-hot-toast';
+import DateFormatter from '../../services/DateFormatter';
 
 const DirectorList = () => {
     const { 
@@ -159,6 +160,7 @@ const DirectorList = () => {
                                                 </p>
                                                 <p><TbFiles /> {value.uploaded_files.length}</p>
                                             </div>
+                                            <div className='t-card-hide-info'>Updated at: {DateFormatter.beautifulDate(value['updated_at'])}</div>
                                         </div>
                                     </div>
                                 );

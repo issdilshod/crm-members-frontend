@@ -470,6 +470,26 @@ label .req {
     box-shadow: 0 0px 8px 0 rgb(0 0 0 / 5%);
     transition: .5s;
     cursor: pointer;
+    position: relative;
+}
+
+.t-card-hide-info{
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    transition: .2s;
+    overflow: hidden;
+    text-align: right;
+    opacity: 0;
+    background-color: #fff;
+    color:#344767;
+    padding: 5px;
+    border-radius: 20px 0px 20px 0px;
+    font-size: .8em;
+}
+
+.t-card:hover .t-card-hide-info{
+    opacity: 1;
 }
 
 .t-card-sm{
@@ -1125,6 +1145,7 @@ label .req {
 
 .d-chat-list-body, .d-user-list-body{
     height: calc(100vh - 63px);
+    overflow: auto;
 }
 
 .user-item{
