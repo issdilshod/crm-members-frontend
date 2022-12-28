@@ -396,6 +396,21 @@ const DirectorForm = () => {
                                 }
                             </>
                         }
+
+                        { (directorForm['company']!=null) &&
+                            <>
+                                { (directorForm['company']['is_active']=='NO') && 
+                                    <span className='d-badge d-badge-sm d-badge-danger ml-2'>None Active Director</span>
+                                }
+
+                                { (directorForm['company']['is_active']=='YES') &&
+                                    <span className='d-badge d-badge-sm d-badge-success ml-2'>Active Director</span>
+                                }
+                            </>
+                            
+                        }
+
+                        
                     </div>
                     <Button 
                         label='Cancel'
