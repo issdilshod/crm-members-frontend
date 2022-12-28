@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import Validation from "../Validation/Validation";
 
-const Select = ({title = '', req = false, name, onChange, options, defaultValue, errorArray = [], query = ''}) => {
+const Select = ({title = '', req = false, name, onChange, options, defaultValue, errorArray = [], query = '', disabled = false}) => {
 
     const [queryFoundMatch, setQueryFoundMatch] = useState(false);
 
@@ -40,6 +40,7 @@ const Select = ({title = '', req = false, name, onChange, options, defaultValue,
                 name={name}
                 onChange={onChange} 
                 value={defaultValue}
+                disabled={disabled}
             >
                 <option value=''>-</option>
                 {

@@ -551,6 +551,7 @@ const CompanyForm = () => {
                                 ]}
                                 defaultValue={companyForm['is_active']}
                                 errorArray={companyFormError}
+                                disabled={(ROLE.HEADQUARTERS!=role)}
                             />
                         </div>
 
