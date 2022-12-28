@@ -44,7 +44,7 @@ const Pending = ({ pusher, search, setLoadingShow, meUuid, meRole }) => {
     const [firstPending, setFirstPending] = useState([]);
     const [pending, setPending] = useState([]);
     const [pendingMeta, setPendingMeta] = useState({'current_page': 0, 'max_page': 1});
-    const [pendingSummary, setPendingSummary] = useState({'directors':{}, 'companies':{}});
+    const [pendingSummary, setPendingSummary] = useState({'directors':{}, 'companies':{}, 'virtual_offices':{}});
     const [filterPending, setFilterPending] = useState(null);
     const [summaryFilter, setSummaryFilter] = useState('');
 
