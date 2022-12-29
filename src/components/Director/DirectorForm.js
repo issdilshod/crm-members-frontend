@@ -256,6 +256,10 @@ const DirectorForm = () => {
             });
     }
 
+    const deletePending = () => {
+        
+    }
+
     const handleOverride = (e) => {
         e.preventDefault();
         

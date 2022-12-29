@@ -314,7 +314,8 @@ const Pending = ({ pusher, search, setLoadingShow, meUuid, meRole }) => {
     }
 
     const quickAccept = () => {
-        setLoadingShow(true);
+        
+        let toastId = toast.loading('Approving...');
 
         api.request('/api/pending/accept', 'POST', {'pendings': checked})
             .then(res => {
@@ -330,29 +331,34 @@ const Pending = ({ pusher, search, setLoadingShow, meUuid, meRole }) => {
                         }
                     }
                     setPending(tmpArray);
-
                     setChecked([]);
                 }
 
-                setLoadingShow(false);
+                toast.dismiss(toastId);
             });
     }
 
     const quickReject = () => {
+
+        let toastId = toast.loading('Rejecting...');
+
         api.request('/api/pending/reject', 'POST', {'pendings': checked})
             .then(res => {
                 if (res.status===200||res.status===201){
                     let tmpArray = [...pending];
                     for (let key in tmpArray){
                         for (let key1 in res.data){
-                            if (tmpArray[key]['uuid']==res.data[key1]){
-                                tmpArray[key]['status'] = STATUS.REJECTED;
+                            if (tmpArray[key]['uuid']==res.data[key1]['uuid']){
+                                tmpArray[key] = res.data[key1];
+                                break;
                             }
                         }
                     }
                     setPending(tmpArray);
                     setChecked([]);
                 }
+
+                toast.dismiss(toastId);
             });
     }
 
