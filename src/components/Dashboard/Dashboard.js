@@ -13,6 +13,8 @@ import TaskList from './Task/TaskList';
 
 import Loading from '../Helper/Loading';
 
+import * as ROLECONST from '../../consts/Role';
+
 const Dashboard = () => {
 
     const api = new Api();
@@ -55,7 +57,10 @@ const Dashboard = () => {
                 />
                 <div className='container-fluid'>
                     <div className='row'>
-                        <div className='col-12 col-sm-5'>
+                        <div className='col-12 col-sm-3'>
+                            reminder
+                        </div>
+                        <div className='col-12 col-sm-3'>
                             <TaskList 
                                 setFormOpen={setTaskFormOpen}
                                 taskList={taskList}
@@ -75,12 +80,15 @@ const Dashboard = () => {
                                 meRole={meRole}
                             />
                         </div>
-                        <div className='col-12 col-sm-4'>
-                            <Activity 
-                                pusher={pusher}
-                                meUuid={meUuid}
-                            />
-                        </div>
+                        { (meRole==ROLECONST.HEADQUARTERS) &&
+
+                            <div className='col-12 col-sm-3'>
+                                <Activity 
+                                    pusher={pusher}
+                                    meUuid={meUuid}
+                                />
+                            </div>
+                        }
                     </div>
                 </div>
             </div>

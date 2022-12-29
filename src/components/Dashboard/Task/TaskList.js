@@ -97,7 +97,7 @@ const TaskList = ({setFormOpen, taskList, setTaskList, pusher, meUuid, taskMeta,
 
     return (
         <div className='row'>
-            <div className='col-12 col-sm-6'>
+            <div className='col-12'>
 
                 <div className='c-position-relative'>
 
@@ -160,9 +160,6 @@ const TaskList = ({setFormOpen, taskList, setTaskList, pusher, meUuid, taskMeta,
 
                 </div>
 
-            </div>
-
-            <div className='col-12 col-sm-6'>
             </div>
         </div>
     )
