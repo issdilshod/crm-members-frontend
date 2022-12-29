@@ -440,6 +440,14 @@ const VirtualOfficeForm = () => {
                                 }
                             </>
                         }
+
+                        { (form['vo_active']=='NO') && 
+                            <span className='d-badge d-badge-sm d-badge-danger ml-2'>None Active VO</span>
+                        }
+
+                        { (form['vo_active']=='YES') &&
+                            <span className='d-badge d-badge-sm d-badge-success ml-2'>Active VO</span>
+                        }
                     </div>
                     <Button 
                         label='Cancel'
@@ -466,7 +474,7 @@ const VirtualOfficeForm = () => {
                             />
                         </div>
 
-                        <div className={`c-form-field col-10 ${(form['company']!=null)?'col-sm-2':'col-sm-3'}`}>
+                        <div className={`c-form-field col-12 ${(form['company']!=null)?'col-sm-2':'col-sm-3'}`}>
                             <label>VO Signer</label>
                             <ReactSelect 
                                 options={directorList}

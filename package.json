@@ -9,6 +9,8 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^0.24.0",
     "bootstrap": "^5.2.3",
+    "deep-object-diff": "^1.1.9",
+    "diff-arrays-of-objects": "^1.1.9",
     "dotenv": "^16.0.1",
     "javascript-time-ago": "^2.5.7",
     "primeicons": "^6.0.1",
