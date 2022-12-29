@@ -496,7 +496,7 @@ const ContactForm = () => {
 
                         { onlineAccount &&
                             <>
-                                <div className='c-form-field col-12 col-sm-5'>
+                                <div className='c-form-field col-12 col-sm-3'>
                                     <Input 
                                         title='Username'
                                         name='account_username'
@@ -506,7 +506,7 @@ const ContactForm = () => {
                                     />
                                 </div>
 
-                                <div className='c-form-field col-12 col-sm-5'>
+                                <div className='c-form-field col-12 col-sm-3'>
                                     <Input 
                                         title='Password'
                                         name='account_password'
@@ -517,6 +517,16 @@ const ContactForm = () => {
                                 </div>
                             </>
                         }
+
+                        <div className='c-form-field col-12 col-sm-4'>
+                            <Input
+                                title='Fax'
+                                name='fax'
+                                onChange={handleChange}
+                                defaultValue={form['fax']}
+                                errorArray={formError}
+                            />
+                        </div>
 
                         <div className='c-form-field col-12'>
                             <div className='dd-card'>
