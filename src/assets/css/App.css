@@ -836,6 +836,7 @@ label .req {
     border: 2px solid #344767;
     background-color: #f4f8fb;
     box-shadow: 0 0.3125rem 0.625rem 0 rgb(0 0 0 / 12%) !important;
+    z-index: 1;
 }
 
 .c-check span{

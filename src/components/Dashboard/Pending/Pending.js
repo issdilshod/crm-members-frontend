@@ -542,7 +542,7 @@ const Pending = ({ pusher, search, setLoadingShow, meUuid, meRole }) => {
                 </InfiniteScroll>  
             </div>
 
-            { (ROLE.HEADQUARTERS==role) &&
+            { (ROLE.HEADQUARTERS==meRole) &&
                 <ContextMenu 
                     position={contextMenuPosition}
                     show={contextMenuShow}
