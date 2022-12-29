@@ -475,30 +475,15 @@ const Pending = ({ pusher, search, setLoadingShow, meUuid, meRole }) => {
     return (
         <div className='c-position-relative'>
             <div className='d-flex mb-2'>
-                <div className='mr-auto d-title'>{title}</div>
-                <div className='mr-2'>
-                    <CascadeSelect 
-                        className='form-control'
-                        value={filterPending}
-                        options={[
-                            {'sname': 'Normal View', 'code': '0'},
-                            {'sname': 'Unapproved cards', 'code': '1'},
-                            {'sname': 'Approved cards', 'code': '2'},
-                            {'sname': 'Rejected cards', 'code': '3'},
-                            {'name': 'By User', 'users': userList}
-                        ]}
-                        optionLabel='sname'
-                        optionGroupLabel='name'
-                        optionGroupChildren={['users']}
-                        style={{minWidth: '200px'}}
-                        placeholder='Filter'
-                        onChange={ e => handleFilterPending(e) }
-                    />
+                <div className='mr-auto'>
+                    { (checked.length<=0) &&
+                        <div className='mr-auto d-title'>{title}</div>
+                    }
                 </div>
                 <div>
 
                     { (checked.length>0) && 
-                        <>
+                        <div className='text-right'>
                             <button 
                                 className='d-btn d-btn-sm d-btn-success mr-2'
                                 onClick={ () => { quickAccept() } }
@@ -517,27 +502,48 @@ const Pending = ({ pusher, search, setLoadingShow, meUuid, meRole }) => {
                             >
                                 Cancel
                             </button>
-                        </>
+                        </div>
                     }
 
                     { (checked.length<=0) &&
-                        <Popup trigger={
-                                <button className='d-btn d-btn-sm d-btn-primary'>
-                                    <i>
-                                        <TbInfoCircle />
-                                    </i>
-                                </button>
-                            } 
-                            position="left top"
-                            open={popUpOpen}
-                            onOpen={() => { setPopUpOpen(true) }}
-                            onClose={() => { setPopUpOpen(false)}}
-                        >
-                            <PendingSummary 
-                                pendingSummary={pendingSummary}
-                                onClick={filterSummaryOnClick}
-                            />
-                        </Popup>
+                        <div className='d-flex'>
+                            <div className='mr-2'>
+                                <CascadeSelect 
+                                    className='form-control'
+                                    value={filterPending}
+                                    options={[
+                                        {'sname': 'Normal View', 'code': '0'},
+                                        {'sname': 'Unapproved cards', 'code': '1'},
+                                        {'sname': 'Approved cards', 'code': '2'},
+                                        {'sname': 'Rejected cards', 'code': '3'},
+                                        {'name': 'By User', 'users': userList}
+                                    ]}
+                                    optionLabel='sname'
+                                    optionGroupLabel='name'
+                                    optionGroupChildren={['users']}
+                                    style={{minWidth: '200px'}}
+                                    placeholder='Filter'
+                                    onChange={ e => handleFilterPending(e) }
+                                />
+                            </div>
+                            <Popup trigger={
+                                    <button className='d-btn d-btn-sm d-btn-primary'>
+                                        <i>
+                                            <TbInfoCircle />
+                                        </i>
+                                    </button>
+                                } 
+                                position="left top"
+                                open={popUpOpen}
+                                onOpen={() => { setPopUpOpen(true) }}
+                                onClose={() => { setPopUpOpen(false)}}
+                            >
+                                <PendingSummary 
+                                    pendingSummary={pendingSummary}
+                                    onClick={filterSummaryOnClick}
+                                />
+                            </Popup>
+                        </div>
                     }
                     
                 </div>
