@@ -27,7 +27,6 @@ const Pending = ({ pusher, search, setLoadingShow, meUuid, meRole }) => {
     const api = new Api();
     const nav = useNavigate();
 
-    const [role, setRole] = useState('');
     const [checked, setChecked] = useState([]);
 
     const [contextMenuShow, setContextMenuShow] = useState(false);
@@ -52,7 +51,25 @@ const Pending = ({ pusher, search, setLoadingShow, meUuid, meRole }) => {
 
     // first init
     useEffect(() => {
-        pendingNextFetch();
+
+        let pendingParams = localStorage.getItem('pending');
+        let attr = '';
+
+        if (pendingParams){
+            pendingParams = JSON.parse(pendingParams);
+
+            let tmpPage = pendingParams['page'];
+            let filter = '';
+            if (pendingParams['filter_name']){
+                filter = '&' + pendingParams['filter_name'] + '=' + pendingParams['filter_value'];
+            }
+
+            attr = '?page=' + tmpPage + filter;
+
+        }
+
+        pendingNextFetch(attr);
+
         getUserList();
     }, [])
 
@@ -78,6 +95,9 @@ const Pending = ({ pusher, search, setLoadingShow, meUuid, meRole }) => {
                         setPending(tmpArr);
                         setPendingMeta({'current_page': 0, 'max_page': 0});
                         setTitle('Search result for: ' + search);
+
+                        // set params
+                        setParamsFunc(1);
                     }
                 })
         }
@@ -111,20 +131,36 @@ const Pending = ({ pusher, search, setLoadingShow, meUuid, meRole }) => {
 
     const pendingNextFetch = (attr = '') => {
 
-        // select filter
-        if (filterPending==null){
-            attr = '?page='+parseInt(pendingMeta['current_page']+1);
-        }else{
-            if (filterPending['type']=='by_user'){
-                attr = '?page='+parseInt(pendingMeta['current_page']+1)+'&filter_by_user=' + filterPending['code'];
-            }else{
-                attr = '?page='+parseInt(pendingMeta['current_page']+1)+'&filter=' + filterPending['code'];
-            }
-        }
+        if (attr==''){
 
-        // summary filter
-        if (summaryFilter!=''){
-            attr += '&summary_filter=' + summaryFilter;
+            let page = parseInt(pendingMeta['current_page']+1);
+            let filterName = '';
+            let filterValue = '';
+
+            // select filter
+            if (filterPending==null){
+                attr = '?page='+page;
+            }else{
+                if (filterPending['type']=='by_user'){
+                    attr = '?page='+page+'&filter_by_user=' + filterPending['code'];
+
+                    filterName = 'filter_by_user'; filterValue = filterPending['code'];
+                }else{
+                    attr = '?page='+page+'&filter=' + filterPending['code'];
+
+                    filterName = 'filter'; filterValue = filterPending['code'];
+                }
+            }
+
+            // summary filter
+            if (summaryFilter!=''){
+                attr += '&summary_filter=' + summaryFilter;
+
+                filterName = 'summary_filter'; filterValue = summaryFilter;
+            }
+
+            // set params
+            setParamsFunc(page, filterName, filterValue);
         }
 
         api.request('/api/pending'+attr, 'GET')
@@ -179,8 +215,9 @@ const Pending = ({ pusher, search, setLoadingShow, meUuid, meRole }) => {
         }else{
             if (!selectionMode){
                 let s = ''; 
-                if (search.length>0){ s = '?q=' + encodeURIComponent(search); }
 
+                if (search.length>0){ s = '?q=' + encodeURIComponent(search); }
+                
                 nav(process.env.REACT_APP_FRONTEND_PREFIX + link + s);
             }else { // multipty select
                 let exists = false;
@@ -319,41 +356,6 @@ const Pending = ({ pusher, search, setLoadingShow, meUuid, meRole }) => {
             });
     }
 
-    const handleFilterPending = (e) => {
-        let toastId = toast.loading('Loading...');
-
-        setFilterPending(e.value);
-        setSummaryFilter('');
-        setTitle(e.value.sname);
-        if (e.value.code!='0'){
-            let tmpAttr = 'filter';
-            if (e.value.type=='by_user'){
-                tmpAttr = 'filter_by_user';
-            }
-            api.request('/api/pending?page=1&'+tmpAttr+'='+e.value.code, 'GET')
-                .then(res => {
-                    if (res.status===200||res.status===201){ // success
-                        let tmpArr = collectSections(res);
-                        setPending(tmpArr);
-                        setPendingMeta(res.data.meta);
-
-                        toast.dismiss(toastId);
-                    }
-                })
-        }else {
-            api.request('/api/pending?page=1', 'GET')
-                .then(res => {
-                    if (res.status===200||res.status===201){ // success
-                        let tmpArr = collectSections(res);
-                        setPending(tmpArr);
-                        setPendingMeta(res.data.meta);
-
-                        toast.dismiss(toastId);
-                    }
-                })
-        }
-    }
-
     const subsribeChannel = (uuid) => {
         let channel_chat = pusher.subscribe('pending_' + uuid);
         channel_chat.bind('pending-push', function(data) {
@@ -386,6 +388,47 @@ const Pending = ({ pusher, search, setLoadingShow, meUuid, meRole }) => {
         setPending(tmpArray);
     }
 
+    const handleFilterPending = (e) => {
+        let toastId = toast.loading('Loading...');
+
+        setFilterPending(e.value);
+        setSummaryFilter('');
+        setTitle(e.value.sname);
+        if (e.value.code!='0'){
+            let tmpAttr = 'filter';
+            if (e.value.type=='by_user'){
+                tmpAttr = 'filter_by_user';
+            }
+            api.request('/api/pending?page=1&'+tmpAttr+'='+e.value.code, 'GET')
+                .then(res => {
+                    if (res.status===200||res.status===201){ // success
+                        let tmpArr = collectSections(res);
+                        setPending(tmpArr);
+                        setPendingMeta(res.data.meta);
+
+                        toast.dismiss(toastId);
+                    }
+                })
+
+            // set params
+            setParamsFunc(1, tmpAttr, e.value.code);
+        }else {
+            api.request('/api/pending?page=1', 'GET')
+                .then(res => {
+                    if (res.status===200||res.status===201){ // success
+                        let tmpArr = collectSections(res);
+                        setPending(tmpArr);
+                        setPendingMeta(res.data.meta);
+
+                        toast.dismiss(toastId);
+                    }
+                })
+
+            // set params
+            setParamsFunc(1);
+        }
+    }
+
     const filterSummaryOnClick = (filter, name = '') => {
         setPopUpOpen(false);
         setFilterPending(null);
@@ -400,6 +443,33 @@ const Pending = ({ pusher, search, setLoadingShow, meUuid, meRole }) => {
                     setPendingMeta(res.data.meta);
                 }
             })
+
+        // set params
+        setParamsFunc(1, 'summary_filter', filter);
+    }
+
+    const setParamsFunc = (page, filterName = '', filterValue = '') => {
+        
+        // delete params
+        localStorage.removeItem('pending');
+
+        // main logic
+        let pendingParams = {};
+        pendingParams['page'] = page;
+
+        if (filterName!=''){ 
+            pendingParams['filter_name'] = filterName; 
+        }else {
+            delete pendingParams['filter_name'];
+        }
+
+        if (filterValue!=''){ 
+            pendingParams['filter_value'] = filterValue; 
+        }else {
+            delete pendingParams['filter_value'];
+        }
+
+        localStorage.setItem('pending', JSON.stringify(pendingParams));
     }
 
     return (
