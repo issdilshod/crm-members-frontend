@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useState } from "react";
 import Collapse from "react-bootstrap/Collapse";
-import { FaAngleDown, FaAngleUp, FaPlus, FaTimes } from "react-icons/fa";
+import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 import Address from "../Address/Address";
 import Input from "../Input/Input";
 

@@ -2,8 +2,6 @@ import { useEffect, useState } from "react";
 import { Collapse } from "react-bootstrap";
 import { FaAngleDown, FaAngleUp, FaPlus, FaTrash } from "react-icons/fa";
 import Input from "../Input/Input";
-import Validation from "../Validation/Validation";
-
 
 const BankAccount = ({title, defaultOpen = true, errorArray = {}, form, setForm, query = ''}) => {
 

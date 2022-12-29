@@ -4,8 +4,6 @@ import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 
 import Select from '../Input/Select';
 import Input from "../Input/Input";
-import Validation from "../Validation/Validation";
-
 
 const Phones = ({title, defaultOpen = true, errorArray = {}, form, setForm, query = ''}) => {
 

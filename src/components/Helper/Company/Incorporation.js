@@ -1,11 +1,11 @@
 import { useEffect } from "react";
 import { useState } from "react";
 import Collapse from "react-bootstrap/Collapse";
-import { FaAngleDown, FaAngleUp, FaPlus, FaTimes } from "react-icons/fa";
+import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 import File from "../File/File";
 import Input from "../Input/Input";
 import Select from "../Input/Select";
-import RegisterAgent from "../RegisterAgent/RegisterAgent";
+import RegisterAgent from "./RegisterAgent";
 
 const Incorporation = ({title, unique, defaulfOpen = true, errorArray = {}, form, setForm, query = '', onChange, downloadEnable}) => {
 

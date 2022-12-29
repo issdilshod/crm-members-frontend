@@ -6,7 +6,6 @@ import Select from '../Input/Select';
 import Input from "../Input/Input";
 import { useEffect } from "react";
 
-
 const Phones2 = ({title, defaultOpen = true, errorArray = {}, form, setForm, query = ''}) => {
 
     const [isOpen, setIsOpen] = useState(defaultOpen);
