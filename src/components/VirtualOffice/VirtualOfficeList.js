@@ -36,10 +36,10 @@ const VirtualOfficeList = () => {
         if (search.length>=3){
 
             setLoadingShow(true);
-            api.request('/api/pending/search?q=' + encodeURIComponent(search), 'GET')
+            api.request('/api/pending/search?q=' + encodeURIComponent(search) + '&include=virtual-office', 'GET')
                 .then(res => {
                     if (res.status===200 || res.status===201){ // success
-                        let tmpArr = [...res.data.companies, ...res.data.directors];
+                        let tmpArr = [...res.data.companies, ...res.data.directors, ...res.data.virtual_offices];
                         setList(tmpArr);
                         setTotalPage(1);
                     }

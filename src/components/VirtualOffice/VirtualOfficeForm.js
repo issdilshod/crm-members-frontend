@@ -27,7 +27,7 @@ import RejectReasonModal from '../Helper/Modal/RejectReasonModal';
 const VirtualOfficeForm = () => {
 
     const { 
-        permissions, formOriginal, formOpen, setFormOpen, edit, list, setList, form, setForm, setFormError, formError
+        query, permissions, formOriginal, formOpen, setFormOpen, edit, list, setList, form, setForm, setFormError, formError
     } = useContext(Mediator);
 
     const api = new Api();
@@ -495,6 +495,7 @@ const VirtualOfficeForm = () => {
                                 onChange={handleChange}
                                 defaultValue={form['vo_provider_name']}
                                 errorArray={formError}
+                                query={query}
                             />
                         </div>
 
@@ -505,6 +506,7 @@ const VirtualOfficeForm = () => {
                                 onChange={handleChange}
                                 defaultValue={form['vo_website']}
                                 errorArray={formError}
+                                query={query}
                             />
                         </div>
 
@@ -515,6 +517,7 @@ const VirtualOfficeForm = () => {
                                 onChange={handleChange}
                                 defaultValue={form['vo_provider_phone_number']}
                                 errorArray={formError}
+                                query={query}
                             />
                         </div>
 
@@ -525,6 +528,7 @@ const VirtualOfficeForm = () => {
                                 onChange={handleChange}
                                 defaultValue={form['vo_contact_person_name']}
                                 errorArray={formError}
+                                query={query}
                             />
                         </div>
 
@@ -535,6 +539,7 @@ const VirtualOfficeForm = () => {
                                 onChange={handleChange}
                                 defaultValue={form['vo_contact_person_phone_number']}
                                 errorArray={formError}
+                                query={query}
                             />
                         </div>
 
@@ -545,6 +550,7 @@ const VirtualOfficeForm = () => {
                                 onChange={handleChange}
                                 defaultValue={form['vo_contact_person_email']}
                                 errorArray={formError}
+                                query={query}
                             />
                         </div>
 
@@ -555,6 +561,7 @@ const VirtualOfficeForm = () => {
                                 onChange={handleChange}
                                 defaultValue={form['online_email']}
                                 errorArray={formError}
+                                query={query}
                             />
                         </div>
 
@@ -569,6 +576,7 @@ const VirtualOfficeForm = () => {
                                 ]}
                                 defaultValue={form['online_account']}
                                 errorArray={formError}
+                                query={query}
                             />
 
                             { onlineAccountShow &&
@@ -581,6 +589,7 @@ const VirtualOfficeForm = () => {
                                             onChange={handleChange}
                                             defaultValue={form['online_account_username']}
                                             errorArray={formError}
+                                            query={query}
                                         />
                                     </div>
 
@@ -591,6 +600,7 @@ const VirtualOfficeForm = () => {
                                             onChange={handleChange}
                                             defaultValue={form['online_account_password']}
                                             errorArray={formError}
+                                            query={query}
                                         />
                                     </div>
                                 </div>
@@ -608,6 +618,7 @@ const VirtualOfficeForm = () => {
                                 ]}
                                 defaultValue={form['card_on_file']}
                                 errorArray={formError}
+                                query={query}
                             />
 
                             
@@ -625,6 +636,7 @@ const VirtualOfficeForm = () => {
                                             ]}
                                             defaultValue={form['autopay']}
                                             errorArray={formError}
+                                            query={query}
                                         />
                                     </div>
 
@@ -635,6 +647,7 @@ const VirtualOfficeForm = () => {
                                             onChange={handleChange}
                                             defaultValue={form['card_last_four_digit']}
                                             errorArray={formError}
+                                            query={query}
                                         />
                                     </div>
 
@@ -645,6 +658,7 @@ const VirtualOfficeForm = () => {
                                             onChange={handleChange}
                                             defaultValue={form['card_holder_name']}
                                             errorArray={formError}
+                                            query={query}
                                         />
                                     </div>
                                 </div>
@@ -663,6 +677,7 @@ const VirtualOfficeForm = () => {
                                 ]}
                                 defaultValue={form['contract']}
                                 errorArray={formError}
+                                query={query}
                             />
                         </div>
 
@@ -681,6 +696,7 @@ const VirtualOfficeForm = () => {
                                         ]}
                                         defaultValue={form['contract_terms']}
                                         errorArray={formError}
+                                        query={query}
                                     />
                                 </div>
                             </>
@@ -694,6 +710,7 @@ const VirtualOfficeForm = () => {
                                 onChange={handleChange}
                                 defaultValue={form['contract_effective_date']}
                                 errorArray={formError}
+                                query={query}
                             />
                         </div>
 
@@ -704,6 +721,7 @@ const VirtualOfficeForm = () => {
                                 onChange={handleChange}
                                 defaultValue={form['monthly_payment_amount']}
                                 errorArray={formError}
+                                query={query}
                             />
                         </div>
 
@@ -714,6 +732,7 @@ const VirtualOfficeForm = () => {
                                 onChange={handleChange}
                                 defaultValue={form['agreement_terms']}
                                 errorArray={formError}
+                                query={query}
                             />
                         </div>
 
@@ -723,6 +742,7 @@ const VirtualOfficeForm = () => {
                                 unique='address'
                                 form={form}
                                 setForm={setForm}
+                                query={query}
                             />
                         </div>
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { Mediator } from '../../context/Mediator';
 import Menu from '../Helper/Menu/Menu';
 import Api from '../../services/Api';
@@ -70,6 +70,9 @@ const VirtualOffice = () => {
 
     const { uuid } = useParams();
 
+    const [ params, setParams ] = useSearchParams();
+    const [ query, setQuery ] = useState('');
+
     useEffect(() => {
         init();
     }, []);
@@ -79,6 +82,12 @@ const VirtualOffice = () => {
             handleCardClick(uuid);
         }
     }, [uuid])
+
+    useEffect(() => {
+        if (params.get('q')!=null){
+            setQuery(params.get('q'));
+        }
+    }, [params])
 
     const init = () => {
         document.title = 'Virtual Offices';
@@ -118,7 +127,7 @@ const VirtualOffice = () => {
 
     return (  
         <Mediator.Provider value={ { 
-                                permissions,
+                                permissions, query,
                                 menuOpen, setMenuOpen, 
                                 formOriginal, setFormOriginal,
                                 formOpen, setFormOpen, edit, setEdit, list, setList,
