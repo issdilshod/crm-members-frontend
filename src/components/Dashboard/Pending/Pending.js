@@ -58,14 +58,19 @@ const Pending = ({ pusher, search, setLoadingShow, meUuid, meRole }) => {
         if (pendingParams){
             pendingParams = JSON.parse(pendingParams);
 
-            let tmpPage = pendingParams['page'];
+            // filter
+            let tmpPage = 1;
             let filter = '';
             if (pendingParams['filter_name']){
                 filter = '&' + pendingParams['filter_name'] + '=' + pendingParams['filter_value'];
             }
 
-            attr = '?page=' + tmpPage + filter;
+            // title
+            if (pendingParams['title']){
+                setTitle(pendingParams['title']);
+            }
 
+            attr = '?page=' + tmpPage + filter;
         }
 
         pendingNextFetch(attr);
@@ -97,7 +102,7 @@ const Pending = ({ pusher, search, setLoadingShow, meUuid, meRole }) => {
                         setTitle('Search result for: ' + search);
 
                         // set params
-                        setParamsFunc(1);
+                        setPendingLastPlaceFunc('', '', 'Search result for: ' + search);
                     }
                 })
         }
@@ -105,7 +110,7 @@ const Pending = ({ pusher, search, setLoadingShow, meUuid, meRole }) => {
         const setStandart = () => {
             setPending(firstPending);
             setPendingMeta({'current_page': 1, 'max_page': 2});
-            setTitle('Normal View');
+            //setTitle('Normal View');
         }
 
         let timer = setTimeout(() => {
@@ -160,7 +165,7 @@ const Pending = ({ pusher, search, setLoadingShow, meUuid, meRole }) => {
             }
 
             // set params
-            setParamsFunc(page, filterName, filterValue);
+            setPendingLastPlaceFunc(filterName, filterValue);
         }
 
         api.request('/api/pending'+attr, 'GET')
@@ -417,7 +422,7 @@ const Pending = ({ pusher, search, setLoadingShow, meUuid, meRole }) => {
                 })
 
             // set params
-            setParamsFunc(1, tmpAttr, e.value.code);
+            setPendingLastPlaceFunc(tmpAttr, e.value.code, e.value.sname);
         }else {
             api.request('/api/pending?page=1', 'GET')
                 .then(res => {
@@ -431,7 +436,7 @@ const Pending = ({ pusher, search, setLoadingShow, meUuid, meRole }) => {
                 })
 
             // set params
-            setParamsFunc(1);
+            setPendingLastPlaceFunc();
         }
     }
 
@@ -451,17 +456,16 @@ const Pending = ({ pusher, search, setLoadingShow, meUuid, meRole }) => {
             })
 
         // set params
-        setParamsFunc(1, 'summary_filter', filter);
+        setPendingLastPlaceFunc('summary_filter', filter, name);
     }
 
-    const setParamsFunc = (page, filterName = '', filterValue = '') => {
+    const setPendingLastPlaceFunc = (filterName = '', filterValue = '', title = '') => {
         
         // delete params
         localStorage.removeItem('pending');
 
         // main logic
         let pendingParams = {};
-        pendingParams['page'] = page;
 
         if (filterName!=''){ 
             pendingParams['filter_name'] = filterName; 
@@ -473,6 +477,10 @@ const Pending = ({ pusher, search, setLoadingShow, meUuid, meRole }) => {
             pendingParams['filter_value'] = filterValue; 
         }else {
             delete pendingParams['filter_value'];
+        }
+        
+        if (title!=''){ 
+            pendingParams['title'] = title; 
         }
 
         localStorage.setItem('pending', JSON.stringify(pendingParams));
