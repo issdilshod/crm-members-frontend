@@ -750,6 +750,7 @@ const VirtualOfficeForm = () => {
                                 unique='address'
                                 form={form}
                                 setForm={setForm}
+                                errorArray={formError}
                                 query={query}
                             />
                         </div>
