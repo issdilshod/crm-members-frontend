@@ -461,6 +461,12 @@ label .req {
     color: #f26051;
 }
 
+.d-danger{
+    color: #f26051;
+    font-weight: 500;
+    font-size: .8em;
+}
+
 /* 
     t-cards 
 */
