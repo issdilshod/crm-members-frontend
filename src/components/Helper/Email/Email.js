@@ -3,6 +3,8 @@ import { useState } from "react";
 import { Collapse } from "react-bootstrap";
 import { FaAngleDown, FaAngleUp, FaPencilAlt, FaPlus, FaTrash } from "react-icons/fa";
 import Api from "../../../services/Api";
+import Input from "../Input/Input";
+import Select from '../Input/Select';
 
 import Validation from '../Validation/Validation';
 
@@ -29,7 +31,14 @@ const Email = ({title, muliply = true, defaultOpen = true, errorArray = {}, form
         api.request('/api/hosting', 'GET')
             .then(res => { 
                 if (res.status===200||res.status===201){
-                    setHostings(res.data.data);
+                    let tmpArray = [];
+                    for (let key in res.data.data){
+                        tmpArray.push({
+                            'value': res.data.data[key]['uuid'],
+                            'label': res.data.data[key]['host']
+                        });
+                    }
+                    setHostings(tmpArray);
                 }
             });
     }, [])
@@ -77,9 +86,9 @@ const Email = ({title, muliply = true, defaultOpen = true, errorArray = {}, form
 
     const getHostingName = (uuid) => {
         let tmpArray = [...hostings];
-        const index = tmpArray.findIndex(e => e.uuid === uuid);
+        const index = tmpArray.findIndex(e => e.value === uuid);
         if (index > -1){
-            return tmpArray[index]['host'];
+            return tmpArray[index]['label'];
         }
         return uuid;
     }
@@ -107,66 +116,44 @@ const Email = ({title, muliply = true, defaultOpen = true, errorArray = {}, form
                     <div className='row'>
 
                         <div className='col-12 col-sm-3'>
-                            <div className='form-group'>
-                                <label>Email</label>
-                                <input
-                                    className='form-control'
-                                    placeholder='Email'
-                                    type='text'
-                                    name='email'
-                                    onChange={ (e) => { handleChange(e) } }
-                                    value={inForm['email']}
-                                />
-                            </div>
+                            <Input 
+                                title="Email"
+                                name='email'
+                                onChange={handleChange}
+                                defaultValue={inForm['email']}
+                                query={query}
+                            />
                         </div>
 
                         <div className='col-12 col-sm-3'>
-                            <div className='form-group'>
-                                <label>Password</label>
-                                <input
-                                    className='form-control'
-                                    placeholder='Password'
-                                    type='text'
-                                    name='password'
-                                    onChange={ (e) => { handleChange(e) } }
-                                    value={inForm['password']}
-                                />
-                            </div>
+                            <Input 
+                                title="Password"
+                                name='password'
+                                onChange={handleChange}
+                                defaultValue={inForm['password']}
+                                query={query}
+                            />
                         </div>
 
                         <div className='col-12 col-sm-3'>
-                            <div className='form-group'>
-                                <label>Hosting</label>
-                                <select
-                                    className='form-control'
-                                    name='hosting_uuid'
-                                    value={inForm['hosting_uuid']}
-                                    onChange={ (e) => { handleChange(e) } }
-                                >
-                                    <option value=''>-</option>
-                                    {
-                                        hostings.map((value, index) => {
-                                            return (
-                                                <option key={index} value={value['uuid']}>{value['host']}</option>
-                                            )
-                                        })
-                                    }
-                                </select>
-                            </div>
+                            <Select
+                                title='Hosting'
+                                name='hosting_uuid'
+                                onChange={handleChange}
+                                options={hostings}
+                                defaultValue={inForm['hosting_uuid']}
+                                query={query}
+                            />
                         </div>
 
                         <div className='col-12 col-sm-3'>
-                            <div className='form-group'>
-                                <label>Email Phone</label>
-                                <input
-                                    className='form-control'
-                                    placeholder='Email Phone'
-                                    type='text'
-                                    name='phone'
-                                    onChange={ (e) => { handleChange(e) } }
-                                    value={inForm['phone']}
-                                />
-                            </div>
+                            <Input 
+                                title="Email Phone"
+                                name='phone'
+                                onChange={handleChange}
+                                defaultValue={inForm['phone']}
+                                query={query}
+                            />
                         </div>
 
                         <div className='col-12 text-right'>

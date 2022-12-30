@@ -4,7 +4,7 @@ import Validation from "../Validation/Validation";
 
 import { TbCheck, TbPencil } from 'react-icons/tb';
 
-const Input = ({title = '', req = false, type = 'text', name, validationName = '', onChange, defaultValue, errorArray = [], query = ''}) => {
+const TextArea = ({title = '', req = false, minHeight = 100, name, validationName = '', onChange, defaultValue, errorArray = [], query = ''}) => {
 
     const [queryFoundMatch, setQueryFoundMatch] = useState(false);
 
@@ -41,9 +41,11 @@ const Input = ({title = '', req = false, type = 'text', name, validationName = '
             <label>{title} { req && <i className='req'>*</i>}</label>
             <div className='d-flex'>
                 <div className='w-100'>
-                    <input 
+                    <textarea 
                         className={`form-control ${queryFoundMatch?'match-found':''}`}
-                        type={type} 
+                        style={
+                            {minHeight: minHeight + 'px'}
+                        }
                         name={name} 
                         placeholder={title}
                         onChange={onChange} 
@@ -78,4 +80,4 @@ const Input = ({title = '', req = false, type = 'text', name, validationName = '
     )
 }
 
-export default Input;
+export default TextArea;

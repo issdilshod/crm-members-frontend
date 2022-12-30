@@ -156,30 +156,22 @@ const BankAccount = ({title, defaultOpen = true, errorArray = {}, form, setForm,
                         <div className='col-12 mt-2'>
                             <div className='row'>
                                 <div className='col-12 col-sm-6'>
-                                    <div className='form-group'>
-                                        <label>Question</label>
-                                        <input
-                                            className='form-control'
-                                            placeholder='Question'
-                                            type='text'
-                                            name='question'
-                                            value={inSecurityForm['question']}
-                                            onChange={onChangeSecurity}
-                                        />
-                                    </div>
+                                    <Input
+                                        title='Question'
+                                        name='question'
+                                        onChange={onChangeSecurity}
+                                        defaultValue={inSecurityForm['question']}
+                                        errorArray={errorArray}
+                                    />
                                 </div>
                                 <div className='col-12 col-sm-6'>
-                                    <div className='form-group'>
-                                        <label>Answer</label>
-                                        <input
-                                            className='form-control'
-                                            placeholder='Answer'
-                                            type='text'
-                                            name='answer'
-                                            value={inSecurityForm['answer']}
-                                            onChange={onChangeSecurity}
-                                        />
-                                    </div>
+                                    <Input
+                                        title='Answer'
+                                        name='answer'
+                                        onChange={onChangeSecurity}
+                                        defaultValue={inSecurityForm['answer']}
+                                        errorArray={errorArray}
+                                    />
                                 </div>
 
                                 <div className='col-12 text-right'>

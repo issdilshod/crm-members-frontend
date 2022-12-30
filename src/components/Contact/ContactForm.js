@@ -23,6 +23,7 @@ import { Button } from 'primereact/button';
 import File from '../Helper/File/File';
 
 import RejectReasonModal from '../Helper/Modal/RejectReasonModal';
+import TextArea from '../Helper/Input/TextArea';
 
 const ContactForm = () => {
 
@@ -614,16 +615,13 @@ const ContactForm = () => {
                         </div>
 
                         <div className='c-form-field col-12'>
-                            <div className='form-group'>
-                                <label>Notes</label>
-                                <textarea 
-                                    className='form-control'
-                                    name='notes'
-                                    onChange={handleChange}
-                                    defaultValue={form['notes']}
-                                    placeholder='Notes'
-                                ></textarea>
-                            </div>
+                            <TextArea 
+                                title='Notes'
+                                name='notes'
+                                minHeight={150}
+                                onChange={handleChange}
+                                defaultValue={form['notes']}
+                            />
                         </div>
 
                         <div className='col-12 col-sm-4'>

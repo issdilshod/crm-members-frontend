@@ -551,7 +551,7 @@ const CompanyForm = () => {
                                 ]}
                                 defaultValue={companyForm['is_active']}
                                 errorArray={companyFormError}
-                                disabled={(ROLE.HEADQUARTERS!=role)}
+                                isToggle={(ROLE.HEADQUARTERS==role)}
                             />
                         </div>
 
