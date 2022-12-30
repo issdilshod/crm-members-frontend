@@ -163,9 +163,6 @@ const Pending = ({ pusher, search, setLoadingShow, meUuid, meRole }) => {
 
                 filterName = 'summary_filter'; filterValue = summaryFilter;
             }
-
-            // set params
-            setPendingLastPlaceFunc(filterName, filterValue);
         }
 
         api.request('/api/pending'+attr, 'GET')
