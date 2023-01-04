@@ -9,8 +9,6 @@ const InputMask = ({title = '', req = false, type = 'text', mask = '', name, onC
 
     const [queryFoundMatch, setQueryFoundMatch] = useState(false);
 
-    const [isEditable, setIsEditable] = useState(false);
-
     useEffect(() => {
         findMatch();
     }, [query])
@@ -40,38 +38,15 @@ const InputMask = ({title = '', req = false, type = 'text', mask = '', name, onC
     return (
         <div className='form-group'>
             <label>{title} { req && <i className='req'>*</i>}</label>
-            <div className='d-flex'>
-                <div className='w-100'>
-                    <ReactInputMask 
-                        mask={mask} 
-                        maskChar={null} 
-                        className={`form-control ${queryFoundMatch?'match-found':''}`}
-                        name={name} 
-                        placeholder={title} 
-                        onChange={onChange} 
-                        value={defaultValue}
-                        disabled={!isEditable}
-                    />
-                </div>
-                <div className='ml-1'>
-                    <span 
-                        className='d-btn d-btn-sm d-btn-primary' 
-                        style={{'position': 'relative', 'top': '4px'}}
-                        onClick={() => { setIsEditable(!isEditable) }}
-                    >
-                        <i>
-                            { isEditable &&
-                                <TbCheck />
-                            }
-
-                            { !isEditable &&
-                                <TbPencil />
-                            }
-                        </i>
-                    </span>
-                </div>
-            </div>
-            
+            <ReactInputMask 
+                mask={mask} 
+                maskChar={null} 
+                className={`form-control ${queryFoundMatch?'match-found':''}`}
+                name={name} 
+                placeholder={title} 
+                onChange={onChange} 
+                value={defaultValue}
+            />
             <Validation
                 fieldName={name}
                 errorArray={errorArray}

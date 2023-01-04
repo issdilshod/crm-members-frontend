@@ -8,8 +8,6 @@ const Input = ({title = '', req = false, type = 'text', name, validationName = '
 
     const [queryFoundMatch, setQueryFoundMatch] = useState(false);
 
-    const [isEditable, setIsEditable] = useState(false);
-
     useEffect(() => {
         findMatch();
     }, [query])
@@ -39,37 +37,14 @@ const Input = ({title = '', req = false, type = 'text', name, validationName = '
     return (
         <div className='form-group'>
             <label>{title} { req && <i className='req'>*</i>}</label>
-            <div className='d-flex'>
-                <div className='w-100'>
-                    <input 
-                        className={`form-control ${queryFoundMatch?'match-found':''}`}
-                        type={type} 
-                        name={name} 
-                        placeholder={title}
-                        onChange={onChange} 
-                        value={defaultValue}
-                        disabled={!isEditable}
-                    />
-                </div>
-                <div className='ml-1'>
-                    <span 
-                        className='d-btn d-btn-sm d-btn-primary' 
-                        style={{'position': 'relative', 'top': '4px'}}
-                        onClick={() => { setIsEditable(!isEditable) }}
-                    >
-                        <i>
-                            { isEditable &&
-                                <TbCheck />
-                            }
-
-                            { !isEditable &&
-                                <TbPencil />
-                            }
-                        </i>
-                    </span>
-                </div>
-            </div>
-            
+            <input 
+                className={`form-control ${queryFoundMatch?'match-found':''}`}
+                type={type} 
+                name={name} 
+                placeholder={title}
+                onChange={onChange} 
+                value={defaultValue}
+            />
             <Validation
                 fieldName={(validationName==''?name:validationName)}
                 errorArray={errorArray}

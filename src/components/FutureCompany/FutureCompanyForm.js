@@ -5,7 +5,7 @@ import * as FUTURECOMPANY from '../../consts/FutureCompany';
 
 import { Mediator } from '../../context/Mediator';
 
-import { TbAlertCircle } from 'react-icons/tb';
+import { TbAlertCircle, TbCheck, TbPencil } from 'react-icons/tb';
 
 import Select from 'react-select';
 import Api from '../../services/Api';
@@ -34,6 +34,8 @@ const FutureCompanyForm = () => {
     const [rejectReason, setRejectReason] = useState('');
     const [rejectModalShow, setRejectModalShow] = useState(false);
 
+    const [isDisabled, setIsDisabled] = useState(null);
+
     useEffect(() => {
         loadDirectorList();
 
@@ -47,6 +49,13 @@ const FutureCompanyForm = () => {
 
     useEffect(() => {
         setFormError({});
+
+        if (edit){
+            setIsDisabled(true);
+        }else{
+            setIsDisabled(false);
+        }
+
         if (formOpen && edit){
             if (form['director']!=null){
                 setOptDirectorList([{'value': form['director']['uuid'], 'label': form['director']['first_name'] + ' ' + (form['director']['middle_name']!=null?form['director']['middle_name']+' ':'') + form['director']['last_name']}]);
@@ -333,7 +342,10 @@ const FutureCompanyForm = () => {
             />
 
             <div className={`c-card-left ${!formOpen?'w-0':''}`} onClick={ () => { confirmCloseCard() } }></div>
-            <div className={`c-form ${formOpen ?'c-form-active':''}`}>
+            <div className={`c-form 
+                            ${formOpen ?'c-form-active':''}
+                            ${isDisabled?'d-disabled':''}
+                            `}>
                 <div className='c-form-head d-flex'>
                     <div className='c-form-head-title mr-auto'>
                         { !edit &&
@@ -484,6 +496,16 @@ const FutureCompanyForm = () => {
 
                     <div className='d-flex'>
                         <div className='ml-auto'>
+
+                            <span className='d-btn d-btn-primary mr-2' onClick={() => { setIsDisabled(!isDisabled) }}>
+                                { isDisabled &&
+                                    <TbPencil />
+                                }
+
+                                { !isDisabled &&
+                                    <TbCheck />
+                                }
+                            </span>
 
                             { permissions.includes(FUTURECOMPANY.STORE)  && //permitted to add
                                 <>

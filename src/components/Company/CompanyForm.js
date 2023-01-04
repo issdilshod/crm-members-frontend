@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Select from 'react-select';
-import { TbAlertCircle } from 'react-icons/tb';
+import { TbAlertCircle, TbCheck, TbPencil } from 'react-icons/tb';
 
 import { Mediator } from '../../context/Mediator';
 
@@ -55,6 +55,8 @@ const CompanyForm = () => {
     const [rejectReason, setRejectReason] = useState('');
     const [rejectModalShow, setRejectModalShow] = useState(false);
 
+    const [isDisabled, setIsDisabled] = useState(null);
+
     const firstInitialRef = useRef(true);
 
     useEffect(() => {
@@ -72,6 +74,12 @@ const CompanyForm = () => {
         setCompanyFormError({});
 
         detectDirectorDis();
+
+        if (companyEdit){
+            setIsDisabled(true);
+        }else{
+            setIsDisabled(false);
+        }
 
         // extra address
         for (let key in companyForm['addresses']){
@@ -495,7 +503,10 @@ const CompanyForm = () => {
 
             <div className={`c-card-left ${!companyFormOpen?'w-0':''}`} onClick={ () => { confirmCloseCard(); } }></div>
             <div
-                className={`c-form ${companyFormOpen?'c-form-active':''}`}
+                className={`c-form 
+                            ${companyFormOpen?'c-form-active':''}
+                            ${isDisabled?'d-disabled':''}
+                            `}
             >
                 <div className='c-form-head d-flex'>
                     <div className='c-form-head-title mr-auto'>
@@ -880,6 +891,16 @@ const CompanyForm = () => {
                     <div className='d-flex'>
                                 
                         <div className='ml-auto'>
+
+                            <span className='d-btn d-btn-primary mr-2' onClick={() => { setIsDisabled(!isDisabled) }}>
+                                { isDisabled &&
+                                    <TbPencil />
+                                }
+
+                                { !isDisabled &&
+                                    <TbCheck />
+                                }
+                            </span>
                             
                             { permissions.includes(COMPANY.STORE)  && // add/update
                                 <>

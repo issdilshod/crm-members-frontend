@@ -5,7 +5,7 @@ import * as FUTUREWEBSITES from '../../consts/FutureWebsites';
 
 import { Mediator } from '../../context/Mediator';
 
-import { TbAlertCircle } from 'react-icons/tb';
+import { TbAlertCircle, TbCheck, TbPencil } from 'react-icons/tb';
 import Select from 'react-select';
 import Api from '../../services/Api';
 
@@ -33,8 +33,16 @@ const FutureWebsiteForm = () => {
     const [rejectReason, setRejectReason] = useState('');
     const [rejectModalShow, setRejectModalShow] = useState(false);
 
+    const [isDisabled, setIsDisabled] = useState(null);
+
     useEffect(() => {
         setFormError({});
+
+        if (edit){
+            setIsDisabled(true);
+        }else{
+            setIsDisabled(false);
+        }
 
         if (!formOpen){
             nav(`${process.env.REACT_APP_FRONTEND_PREFIX}/future-websites`);
@@ -323,7 +331,10 @@ const FutureWebsiteForm = () => {
             />
 
             <div className={`c-card-left ${!formOpen?'w-0':''}`} onClick={ () => { confirmCloseCard() } }></div>
-            <div className={`c-form ${formOpen ?'c-form-active':''}`}>
+            <div className={`c-form 
+                            ${formOpen ?'c-form-active':''}
+                            ${isDisabled?'d-disabled':''}
+                            `}>
                 <div className='c-form-head d-flex'>
                     <div className='c-form-head-title mr-auto'>
                         { !edit &&
@@ -385,6 +396,16 @@ const FutureWebsiteForm = () => {
                 <div className='c-form-foot'>
                     <div className='d-flex'>
                         <div className='ml-auto'>
+
+                            <span className='d-btn d-btn-primary mr-2' onClick={() => { setIsDisabled(!isDisabled) }}>
+                                { isDisabled &&
+                                    <TbPencil />
+                                }
+
+                                { !isDisabled &&
+                                    <TbCheck />
+                                }
+                            </span>
 
                             { permissions.includes(FUTUREWEBSITES.STORE)  && //permitted to add
                                 <>

@@ -7,8 +7,6 @@ const Select = ({title = '', req = false, name, onChange, options, defaultValue,
 
     const [queryFoundMatch, setQueryFoundMatch] = useState(false);
 
-    const [isEditable, setIsEditable] = useState(false);
-
     useEffect(() => {
         findMatch();
     }, [query])
@@ -38,45 +36,21 @@ const Select = ({title = '', req = false, name, onChange, options, defaultValue,
     return (
         <div className='form-group'>
             <label>{title} { req && <i className='req'>*</i>}</label>
-            <div className='d-flex'>
-                <div className='w-100'>
-                    <select 
-                        className={`form-control ${queryFoundMatch?'match-found':''}`}
-                        name={name}
-                        onChange={onChange} 
-                        value={defaultValue}
-                        disabled={!isEditable}
-                    >
-                        <option value=''>-</option>
-                        {
-                            options.map((value, index) => {
-                                return (
-                                    <option key={index} value={value['value']}>{value['label']}</option>
-                                )
-                            })
-                        }
-                    </select>
-                </div>
-                { isToggle &&
-                    <div className='ml-1'>
-                        <span 
-                            className='d-btn d-btn-sm d-btn-primary' 
-                            style={{'position': 'relative', 'top': '4px'}}
-                            onClick={() => { setIsEditable(!isEditable) }}
-                        >
-                            <i>
-                                { isEditable &&
-                                    <TbCheck />
-                                }
-
-                                { !isEditable &&
-                                    <TbPencil />
-                                }
-                            </i>
-                        </span>
-                    </div>
+            <select 
+                className={`form-control ${queryFoundMatch?'match-found':''}`}
+                name={name}
+                onChange={onChange} 
+                value={defaultValue}
+            >
+                <option value=''>-</option>
+                {
+                    options.map((value, index) => {
+                        return (
+                            <option key={index} value={value['value']}>{value['label']}</option>
+                        )
+                    })
                 }
-            </div>
+            </select>
             <Validation
                 fieldName={name}
                 errorArray={errorArray}

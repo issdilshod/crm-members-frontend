@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext, useRef } from 'react';
 import { FaUnlink } from 'react-icons/fa';
-import { TbAlertCircle } from 'react-icons/tb';
+import { TbAlertCircle, TbCheck, TbPencil } from 'react-icons/tb';
 import { useNavigate } from 'react-router-dom';
 
 import * as STATUS from '../../consts/Status';
@@ -41,10 +41,18 @@ const DirectorForm = () => {
     const [rejectReason, setRejectReason] = useState('');
     const [rejectModalShow, setRejectModalShow] = useState(false);
 
+    const [isDisabled, setIsDisabled] = useState(null);
+
     const firstInitialRef = useRef(true);
 
     useEffect(() => {
         setDirectorFormError({});
+
+        if (directorEdit){
+            setIsDisabled(true);
+        }else{
+            setIsDisabled(false);
+        }
 
         // out card
         if (!firstInitialRef.current){
@@ -386,7 +394,10 @@ const DirectorForm = () => {
             />
 
             <div className={`c-card-left ${!directorFormOpen?'w-0':''}`} onClick={ () => { confirmCloseCard() } }></div>
-            <div className={`c-form ${directorFormOpen?'c-form-active':''}`}>
+            <div className={`c-form 
+                            ${directorFormOpen?'c-form-active':''}
+                            ${isDisabled?'d-disabled':''}
+                            `}>
                 <div className='c-form-head d-flex'>
                     <div className='c-form-head-title mr-auto'>
                         { !directorEdit &&
@@ -652,6 +663,16 @@ const DirectorForm = () => {
                 <div className='c-form-foot'>
                     <div className='d-flex'>
                         <div className='ml-auto'>
+
+                            <span className='d-btn d-btn-primary mr-2' onClick={() => { setIsDisabled(!isDisabled) }}>
+                                { isDisabled &&
+                                    <TbPencil />
+                                }
+
+                                { !isDisabled &&
+                                    <TbCheck />
+                                }
+                            </span>
 
                             { permissions.includes(DIRECTOR.STORE)  && // add/update
                                 <>

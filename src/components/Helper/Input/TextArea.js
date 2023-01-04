@@ -8,8 +8,6 @@ const TextArea = ({title = '', req = false, minHeight = 100, name, validationNam
 
     const [queryFoundMatch, setQueryFoundMatch] = useState(false);
 
-    const [isEditable, setIsEditable] = useState(false);
-
     useEffect(() => {
         findMatch();
     }, [query])
@@ -39,38 +37,16 @@ const TextArea = ({title = '', req = false, minHeight = 100, name, validationNam
     return (
         <div className='form-group'>
             <label>{title} { req && <i className='req'>*</i>}</label>
-            <div className='d-flex'>
-                <div className='w-100'>
-                    <textarea 
-                        className={`form-control ${queryFoundMatch?'match-found':''}`}
-                        style={
-                            {minHeight: minHeight + 'px'}
-                        }
-                        name={name} 
-                        placeholder={title}
-                        onChange={onChange} 
-                        value={defaultValue}
-                        disabled={!isEditable}
-                    />
-                </div>
-                <div className='ml-1'>
-                    <span 
-                        className='d-btn d-btn-sm d-btn-primary' 
-                        style={{'position': 'relative', 'top': '4px'}}
-                        onClick={() => { setIsEditable(!isEditable) }}
-                    >
-                        <i>
-                            { isEditable &&
-                                <TbCheck />
-                            }
-
-                            { !isEditable &&
-                                <TbPencil />
-                            }
-                        </i>
-                    </span>
-                </div>
-            </div>
+            <textarea 
+                className={`form-control ${queryFoundMatch?'match-found':''}`}
+                style={
+                    {minHeight: minHeight + 'px'}
+                }
+                name={name} 
+                placeholder={title}
+                onChange={onChange} 
+                value={defaultValue}
+            />
             
             <Validation
                 fieldName={(validationName==''?name:validationName)}

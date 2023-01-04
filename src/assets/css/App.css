@@ -750,7 +750,7 @@ label .req {
 }
 
 .c-form-foot{
-    padding: 10px 20px;
+    padding: 20px;
     position: sticky;
     bottom: 0;
     left: 0;
@@ -1434,6 +1434,14 @@ label .req {
 
 .p-cascadeselect-trigger{
     width: 0px !important;
+}
+
+/*
+    disabled
+*/
+.d-disabled input, .d-disabled select, .d-disabled textarea{
+    pointer-events: none;
+    background-color: #e9ecef;
 }
 
 /* medias */

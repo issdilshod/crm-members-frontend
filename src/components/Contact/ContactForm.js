@@ -7,7 +7,7 @@ import * as CONTACT from '../../consts/Contact/Contact';
 
 import { Mediator } from '../../context/Mediator';
 
-import { TbAlertCircle, TbPencil, TbPlus } from 'react-icons/tb';
+import { TbAlertCircle, TbCheck, TbPencil, TbPlus } from 'react-icons/tb';
 
 import Api from '../../services/Api';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -43,6 +43,8 @@ const ContactForm = () => {
     const [rejectReason, setRejectReason] = useState('');
     const [rejectModalShow, setRejectModalShow] = useState(false);
 
+    const [isDisabled, setIsDisabled] = useState(null);
+
     const firstInitialRef = useRef(true);
 
     const [inSecurityFormEntity, setInSecurityFormEntity] = useState({'question': '', 'answer': ''});
@@ -59,6 +61,12 @@ const ContactForm = () => {
 
     useEffect(() => {
         setFormError({});
+
+        if (edit){
+            setIsDisabled(true);
+        }else{
+            setIsDisabled(false);
+        }
 
         // out card
         if (!firstInitialRef.current){
@@ -366,7 +374,10 @@ const ContactForm = () => {
             />
 
             <div className={`c-card-left ${!formOpen?'w-0':''}`} onClick={ () => { confirmCloseCard() } }></div>
-            <div className={`c-form ${formOpen ?'c-form-active':''}`}>
+            <div className={`c-form 
+                                ${formOpen ?'c-form-active':''}
+                                ${isDisabled?'d-disabled':''}
+                                `}>
                 <div className='c-form-head d-flex'>
                     <div className='c-form-head-title mr-auto'>
                         { !edit &&
@@ -641,6 +652,16 @@ const ContactForm = () => {
                 <div className='c-form-foot'>
                     <div className='d-flex'>
                         <div className='ml-auto'>
+
+                            <span className='d-btn d-btn-primary mr-2' onClick={() => { setIsDisabled(!isDisabled) }}>
+                                { isDisabled &&
+                                    <TbPencil />
+                                }
+
+                                { !isDisabled &&
+                                    <TbCheck />
+                                }
+                            </span>
 
                             { permissions.includes(CONTACT.STORE)  && // store
                                 <>
