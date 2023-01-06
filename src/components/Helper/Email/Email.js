@@ -15,17 +15,8 @@ const Email = ({title, muliply = true, defaultOpen = true, errorArray = {}, form
     const [isOpen, setIsOpen] = useState(defaultOpen);
 
     const [inFormEntity, setInFormEntity] = useState({'email': '', 'password': '', 'hosting_uuid': '', 'phone': ''});
-    const [inForm, setInForm] = useState(inFormEntity);
 
     const [hostings, setHostings] = useState([]);
-    const [emails, setEmails] = useState([]);
-
-    useEffect(() => {
-        //setInForm(inFormEntity);
-        if (form['emails']){
-            setEmails(form['emails']);
-        }
-    }, [form])
 
     useEffect(() => {
         api.request('/api/hosting', 'GET')
@@ -43,10 +34,14 @@ const Email = ({title, muliply = true, defaultOpen = true, errorArray = {}, form
             });
     }, [])
 
-    const handleChange = (e) => {
+    const handleChange = (e, index) => {
         const { name, value } = e.target;
+
+        let tmpArray = {...form};
         
-        setInForm({ ...inForm, [name]: value });
+        tmpArray['emails'][index][name] = value;
+
+        setForm(tmpArray);
     }
 
     const handleAdd = () => {
@@ -57,16 +52,9 @@ const Email = ({title, muliply = true, defaultOpen = true, errorArray = {}, form
             return false;
         }
 
-        tmpArray['emails'].push(inForm);
-        setInForm(inFormEntity);
-    }
+        tmpArray['emails'].push(inFormEntity);
 
-    const handleEdit = (index) => {
-        let tmpArray = {...form};
-        let tmpEmail = tmpArray['emails'][index];
-        tmpArray['emails'].splice(index, 1);
         setForm(tmpArray);
-        setInForm(tmpEmail);
     }
 
     const handleDelete = (index) => {
@@ -82,15 +70,6 @@ const Email = ({title, muliply = true, defaultOpen = true, errorArray = {}, form
 
         tmpArray['emails'].splice(index, 1);
         setForm(tmpArray);
-    }
-
-    const getHostingName = (uuid) => {
-        let tmpArray = [...hostings];
-        const index = tmpArray.findIndex(e => e.value === uuid);
-        if (index > -1){
-            return tmpArray[index]['label'];
-        }
-        return uuid;
     }
 
     return (
@@ -115,94 +94,64 @@ const Email = ({title, muliply = true, defaultOpen = true, errorArray = {}, form
                 >
                     <div className='row'>
 
-                        <div className='col-12 col-sm-3'>
-                            <Input 
-                                title="Email"
-                                name='email'
-                                onChange={handleChange}
-                                defaultValue={inForm['email']}
-                                query={query}
-                            />
-                        </div>
-
-                        <div className='col-12 col-sm-3'>
-                            <Input 
-                                title="Password"
-                                name='password'
-                                onChange={handleChange}
-                                defaultValue={inForm['password']}
-                                query={query}
-                            />
-                        </div>
-
-                        <div className='col-12 col-sm-3'>
-                            <Select
-                                title='Hosting'
-                                name='hosting_uuid'
-                                onChange={handleChange}
-                                options={hostings}
-                                defaultValue={inForm['hosting_uuid']}
-                                query={query}
-                            />
-                        </div>
-
-                        <div className='col-12 col-sm-3'>
-                            <Input 
-                                title="Email Phone"
-                                name='phone'
-                                onChange={handleChange}
-                                defaultValue={inForm['phone']}
-                                query={query}
-                            />
-                        </div>
-
-                        <div className='col-12 text-right'>
-                            <span className='d-btn d-btn-sm d-btn-primary' onClick={ () => { handleAdd() } }>
-                                <i>
-                                    <FaPlus />
-                                </i>
-                            </span>
-                        </div>
-
                         {
-                            emails.map((value, index) => {
+                            form['emails'].map((value, index) => {
                                 return (
                                     <div key={index} className='col-12 mt-3'>
                                         <div className='ui-list'>
                                             <div className='row'>
                                                 <div className='col-12 col-sm-3'>
-                                                    {value['email']}
+                                                    <Input 
+                                                        title="Email"
+                                                        name='email'
+                                                        onChange={ (e) => handleChange(e, index) }
+                                                        defaultValue={value['email']}
+                                                        query={query}
+                                                    />
+
                                                     <Validation
                                                         fieldName={`emails.${index}.email`}
                                                         errorArray={errorArray}
                                                     />
                                                 </div>
                                                 <div className='col-12 col-sm-3'>
-                                                    {value['password']}
+                                                    <Input 
+                                                        title="Password"
+                                                        name='password'
+                                                        onChange={ (e) => handleChange(e, index) }
+                                                        defaultValue={value['password']}
+                                                        query={query}
+                                                    />
                                                 </div>
                                                 <div className='col-12 col-sm-3'>
-                                                    { getHostingName(value['hosting_uuid']) }
+                                                    <Select
+                                                        title='Hosting'
+                                                        name='hosting_uuid'
+                                                        onChange={ (e) => handleChange(e, index) }
+                                                        options={hostings}
+                                                        defaultValue={value['hosting_uuid']}
+                                                        query={query}
+                                                    />
                                                 </div>
                                                 <div className='col-12 col-sm-3 d-flex'>
-                                                    <div className='mr-auto'>
-                                                        {value['phone']}
+                                                    <div className='mr-auto w-100'>
+                                                        <Input 
+                                                            title="Email Phone"
+                                                            name='phone'
+                                                            onChange={ (e) => handleChange(e, index) }
+                                                            defaultValue={value['phone']}
+                                                            query={query}
+                                                        />
+
                                                         <Validation
                                                             fieldName={`emails.${index}.phone`}
                                                             errorArray={errorArray}
                                                         />
                                                     </div>
                                                     <div>
-                                                        <span 
-                                                            className='d-btn d-btn-sm d-btn-primary mr-1'
-                                                            onClick={ () => { handleEdit(index) } }
-                                                        >
-                                                            <i>
-                                                                <FaPencilAlt />
-                                                            </i>
-                                                        </span>
                                                         { (muliply) &&
                                                             <span 
-                                                                className='d-btn d-btn-sm d-btn-danger'
+                                                                className='d-btn d-btn-sm d-btn-danger ml-2'
                                                                 onClick={ () => { handleDelete(index) } }
                                                             >
                                                                 <i>
@@ -218,6 +167,16 @@ const Email = ({title, muliply = true, defaultOpen = true, errorArray = {}, form
                                 )
                             })
                         }   
+
+                        { ((!muliply && form['emails'].length<1) || (muliply)) && 
+                            <div className='col-12 mt-4 text-right'>
+                                <span className='d-btn d-btn-sm d-btn-primary' onClick={ () => { handleAdd() } }>
+                                    <i>
+                                        <FaPlus />
+                                    </i>
+                                </span>
+                            </div>
+                        }
 
                     </div>
                 </Collapse>
