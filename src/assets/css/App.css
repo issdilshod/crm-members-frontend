@@ -60,6 +60,7 @@ a:hover{
 
 input, input[type], select, textarea{
     border: 1px solid #ededed !important;
+    text-transform: uppercase;
 }
 
 /*
