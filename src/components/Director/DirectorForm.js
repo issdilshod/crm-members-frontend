@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext, useRef } from 'react';
 import { FaUnlink } from 'react-icons/fa';
-import { TbAlertCircle, TbCheck, TbPencil } from 'react-icons/tb';
+import { TbAlertCircle, TbCheck, TbLink, TbPencil } from 'react-icons/tb';
 import { useNavigate } from 'react-router-dom';
 
 import * as STATUS from '../../consts/Status';
@@ -532,6 +532,18 @@ const DirectorForm = () => {
                                             <i>
                                                 <FaUnlink />
                                             </i>
+                                        </span>
+                                    }
+
+                                </div>
+                                <div>
+                                    { (directorForm['company']!=null) &&
+                                        <span 
+                                            className='d-btn d-btn-sm d-btn-primary ml-2'
+                                            style={{position: 'relative', top: '6px'}}
+                                            onClick={ () => nav(`${process.env.REACT_APP_FRONTEND_PREFIX}/companies/${directorForm['company']['uuid']}`) }
+                                        >
+                                            <TbLink />
                                         </span>
                                     }
                                 </div>

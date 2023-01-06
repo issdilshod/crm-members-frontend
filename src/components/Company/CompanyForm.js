@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Select from 'react-select';
-import { TbAlertCircle, TbCheck, TbPencil } from 'react-icons/tb';
+import { TbAlertCircle, TbCheck, TbLink, TbPencil } from 'react-icons/tb';
 
 import { Mediator } from '../../context/Mediator';
 
@@ -589,17 +589,33 @@ const CompanyForm = () => {
 
                         <div className='c-form-field col-12 col-sm-4 form-group'>
                             <label>Director <i className='req'>*</i></label>
-                            <Select 
-                                options={optDirectorList}
-                                onKeyDown={ (e) => { loadDirectorList(e.target.value) } }
-                                value={ optDirectorList.filter(option => { return option.value == companyForm['director_uuid'] }) }
-                                onChange={ (e) => { handleChange({'target': {'name': 'director_uuid', 'value': e.value} }); } }
-                                isDisabled={directorSelectDisabled}
-                            />
-                            <Validation
-                                fieldName='director_uuid'
-                                errorArray={companyFormError}
-                            />
+                            <div className='d-flex w-100'>
+                                <div className='mr-auto w-100'>
+                                    <Select 
+                                        options={optDirectorList}
+                                        onKeyDown={ (e) => { loadDirectorList(e.target.value) } }
+                                        value={ optDirectorList.filter(option => { return option.value == companyForm['director_uuid'] }) }
+                                        onChange={ (e) => { handleChange({'target': {'name': 'director_uuid', 'value': e.value} }); } }
+                                        isDisabled={directorSelectDisabled}
+                                    />
+                                    <Validation
+                                        fieldName='director_uuid'
+                                        errorArray={companyFormError}
+                                    />  
+                                </div>
+                                <div>
+                                    { (companyForm['director_uuid']!=null && companyForm['director_uuid']!='') &&
+                                        <span 
+                                            className='d-btn d-btn-sm d-btn-primary ml-2'
+                                            style={{position: 'relative', top: '6px'}}
+                                            onClick={ () => nav(`${process.env.REACT_APP_FRONTEND_PREFIX}/directors/${companyForm['director_uuid']}`) }
+                                        >
+                                            <TbLink />
+                                        </span>
+                                    }
+                                </div>
+                            </div>
+                            
                         </div>
 
                         <div className='c-form-field col-12'>
