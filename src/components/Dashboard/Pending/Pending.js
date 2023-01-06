@@ -100,9 +100,6 @@ const Pending = ({ pusher, search, setLoadingShow, meUuid, meRole }) => {
                         setPending(tmpArr);
                         setPendingMeta({'current_page': 0, 'max_page': 0});
                         setTitle('Search result for: ' + search);
-
-                        // set params
-                        setPendingLastPlaceFunc('', '', 'Search result for: ' + search);
                     }
                 })
         }
