@@ -72,7 +72,7 @@ const PendingSummary = ({pendingSummary, onClick}) => {
                     onClick={ () => { onClick('7', 'Approved Companies') } }
                 >
                     <span className='ml-2'>
-                        Approved Companies: <b>{pendingSummary['companies']['active']||0}</b>
+                        Approved Companies: <b>{pendingSummary['companies']['approved']||0}</b>
                     </span>
                 </div>
                 <div 
