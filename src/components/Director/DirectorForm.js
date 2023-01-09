@@ -708,17 +708,14 @@ const DirectorForm = () => {
                                     { (permissions.includes(DIRECTOR.ACCEPT) && directorForm['status']!='' && directorForm['status']!=STATUS.ACTIVED) && // accept/reject
                                         <>
 
-                                            { (Object.keys(directorFormError).length==0) && // accept
-                                                <span className='d-btn d-btn-success mr-2' onClick={ (e) => { handlePendingAccept(e) } }>
-                                                    Approve
-                                                </span>
-                                            }
+                                            <span className='d-btn d-btn-success mr-2' onClick={ (e) => { handlePendingAccept(e) } }>
+                                                Approve
+                                            </span>
                                             
                                             <span className='d-btn d-btn-danger mr-2' onClick={ (e) => { confirmReject(e) } }>
                                                 Reject
                                             </span>
-
-                                            
+ 
                                         </>
                                     }
 
