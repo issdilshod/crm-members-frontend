@@ -609,8 +609,7 @@ const DirectorForm = () => {
 
                         <div className='col-12 form-group'>
                             <Email
-                                title='Email'
-                                muliply={false}
+                                title='Emails'
                                 form={directorForm}
                                 setForm={setDirectorForm}
                                 errorArray={directorFormError}
