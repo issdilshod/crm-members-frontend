@@ -124,8 +124,7 @@ const ContactForm = () => {
             });
     } 
 
-    const handleUpdate = (e) => {
-        e.preventDefault();
+    const handleUpdate = () => {
         setFormError([]);
         
         let toastId = toast.loading('Waiting...');
@@ -205,8 +204,7 @@ const ContactForm = () => {
             });
     }
 
-    const handlePendingUpdate = (e) => {
-        e.preventDefault();
+    const handlePendingUpdate = () => {
         
         let toastId = toast.loading('Waiting...');
 
@@ -338,6 +336,17 @@ const ContactForm = () => {
         e.preventDefault();
         setRejectModalShow(true);
     }
+
+    const confirmReplacePending = () => {
+        if (form['status']!=STATUS.ACTIVED){
+            craeteConfirmation({
+                message: 'You already submitted this card for approval and it\'s pending. Would you like to replace the previous card with this?',
+                accept: () => { handlePendingUpdate() }
+            });
+        }else{
+            handlePendingUpdate()
+        }
+    } 
 
     const craeteConfirmation = ({message = '', header = 'Confirmation', accept = () => {}}) => {
         confirmDialog({
@@ -666,57 +675,57 @@ const ContactForm = () => {
                             { permissions.includes(CONTACT.STORE)  && // store
                                 <>
                                     { form['status']=='' &&
-                                        <button className='d-btn d-btn-primary mr-2' onClick={ (e) => { handleStore(e) } }>
+                                        <span className='d-btn d-btn-primary mr-2' onClick={ (e) => { handleStore(e) } }>
                                             Save
-                                        </button>
+                                        </span>
                                     }
 
                                     { form['status']==STATUS.ACTIVED &&
-                                        <button className='d-btn d-btn-primary mr-2' onClick={ (e) => { handleUpdate(e) } }>
+                                        <span className='d-btn d-btn-primary mr-2' onClick={ (e) => { handleUpdate(e) } }>
                                             Update
-                                        </button>
+                                        </span>
                                     }
                                 </>
                             }
 
                             { (permissions.includes(CONTACT.ACCEPT) && form['status']!='' && form['status']!=STATUS.ACTIVED) && // accept/reject
                                 <>
-                                    { (form['status']!='' && form['status']!=STATUS.ACTIVED) && 
-                                        <>
-                                            <button className='d-btn d-btn-success mr-2' onClick={ (e) => { handlePendingAccept(e) } }>
-                                                Approve
-                                            </button>
+                                    <span className='d-btn d-btn-success mr-2' onClick={ (e) => { handlePendingAccept(e) } }>
+                                        Approve
+                                    </span>
 
-                                            <button className='d-btn d-btn-danger mr-2' onClick={ (e) => { confirmReject(e) } }>
-                                                Reject
-                                            </button>
-                                        </>
-                                    }
+                                    <span className='d-btn d-btn-danger mr-2' onClick={ (e) => { confirmReject(e) } }>
+                                        Reject
+                                    </span>
                                 </>
                             }
 
                             { (permissions.includes(CONTACT.DELETE) && form['status']!='')  && // delete
-                                <button className={`d-btn d-btn-danger mr-2`} onClick={ (e) => { confirmDelete(e, form['uuid']) } }>
+                                <span className={`d-btn d-btn-danger mr-2`} onClick={ (e) => { confirmDelete(e, form['uuid']) } }>
                                     Delete
-                                </button>
+                                </span>
                             }
 
                             { (!permissions.includes(CONTACT.STORE) && permissions.includes(CONTACT.SAVE)) && // pending
                                 <>
                                     { edit &&
                                         <>
-                                            {   form['user_uuid']==meUuid &&
-                                                <button className='d-btn d-btn-primary mr-2' onClick={ (e) => { handlePendingUpdate(e) } }>
-                                                    Upadte
-                                                </button>
+                                            { ((form['user_uuid']==meUuid) || (form['status']==STATUS.ACTIVED)) &&
+                                                <span className='d-btn d-btn-primary mr-2' onClick={ () => { confirmReplacePending() } }>
+                                                    Update
+                                                </span>
+                                            }
+
+                                            { ((form['user_uuid']!=meUuid) && (form['status']!=STATUS.ACTIVED)) &&
+                                                <span className='d-danger'>Card pending for approval from another user</span>
                                             }
                                         </>
                                     }
 
                                     { !edit &&
-                                        <button className='d-btn d-btn-primary mr-2' onClick={ (e) => { handlePending(e) } }>
+                                        <span className='d-btn d-btn-primary mr-2' onClick={ (e) => { handlePending(e) } }>
                                             Save
-                                        </button>
+                                        </span>
                                     }
                                 </>
                             }
