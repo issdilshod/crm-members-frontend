@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Collapse } from "react-bootstrap";
-import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 
 import Select from '../Input/Select';
 import Input from "../Input/Input";
+import { TbChevronDown, TbChevronUp } from "react-icons/tb";
 
 const Phones = ({title, defaultOpen = true, errorArray = {}, form, setForm, query = ''}) => {
 
@@ -22,11 +22,11 @@ const Phones = ({title, defaultOpen = true, errorArray = {}, form, setForm, quer
                 <div>
                     <i>
                         { isOpen &&
-                            <FaAngleUp />
+                            <TbChevronUp />
                         }
 
                         { !isOpen &&
-                            <FaAngleDown />
+                            <TbChevronDown />
                         }
                     </i>
                 </div>

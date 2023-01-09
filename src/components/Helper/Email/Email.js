@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useState } from "react";
 import { Collapse } from "react-bootstrap";
-import { FaAngleDown, FaAngleUp, FaPencilAlt, FaPlus, FaTrash } from "react-icons/fa";
+import { TbChevronDown, TbChevronUp, TbPlus, TbTrash } from "react-icons/tb";
 import Api from "../../../services/Api";
 import Input from "../Input/Input";
 import Select from '../Input/Select';
@@ -79,11 +79,11 @@ const Email = ({title, muliply = true, defaultOpen = true, errorArray = {}, form
                 <div>
                     <i>
                         { isOpen &&
-                            <FaAngleUp />
+                            <TbChevronDown />
                         }
 
                         { !isOpen &&
-                            <FaAngleDown />
+                            <TbChevronUp />
                         }
                     </i>
                 </div>
@@ -155,7 +155,7 @@ const Email = ({title, muliply = true, defaultOpen = true, errorArray = {}, form
                                                                 onClick={ () => { handleDelete(index) } }
                                                             >
                                                                 <i>
-                                                                    <FaTrash />
+                                                                    <TbTrash />
                                                                 </i>
                                                             </span>
                                                         }
@@ -172,7 +172,7 @@ const Email = ({title, muliply = true, defaultOpen = true, errorArray = {}, form
                             <div className='col-12 mt-4 text-right'>
                                 <span className='d-btn d-btn-sm d-btn-primary' onClick={ () => { handleAdd() } }>
                                     <i>
-                                        <FaPlus />
+                                        <TbPlus />
                                     </i>
                                 </span>
                             </div>

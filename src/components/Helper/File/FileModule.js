@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import { useEffect } from "react";
 import { useState } from "react";
-import { FaTimes, FaTrash, FaUpload } from "react-icons/fa";
+import { TbTrash, TbUpload, TbX } from "react-icons/tb";
 import Api from "../../../services/Api";
 import MiniLoading from '../Loading/MiniLoading';
 
@@ -98,7 +98,7 @@ const FileModule = ({form, setForm, title, parentUnique, unique, downloadEnable,
                 onClick={() => { inputRef.current.click(); }}
             >
                 <i>
-                    <FaUpload />
+                    <TbUpload />
                 </i>
                 <span className='ml-2'>Choose File</span>
             </div>
@@ -130,7 +130,7 @@ const FileModule = ({form, setForm, title, parentUnique, unique, downloadEnable,
                                                 onClick={ () => { handleRemove(value['uuid']) } } 
                                             >
                                                 <i>
-                                                    <FaTimes />
+                                                    <TbX />
                                                 </i>
                                             </div>
                                         </div>
@@ -165,7 +165,7 @@ const FileModule = ({form, setForm, title, parentUnique, unique, downloadEnable,
                                                     onClick={ () => { handleDelete(value['uuid']) } }
                                                 >
                                                     <i>
-                                                        <FaTrash />
+                                                        <TbTrash />
                                                     </i>
                                                 </div>
                                             </div>

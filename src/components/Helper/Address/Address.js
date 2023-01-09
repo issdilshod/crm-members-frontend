@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useState } from "react";
 import Collapse from "react-bootstrap/Collapse";
-import { FaAngleDown, FaAngleUp, FaPlus, FaTimes } from "react-icons/fa";
+import { TbChevronDown, TbChevronUp, TbX, TbPlus } from "react-icons/tb";
 import Input from "../Input/Input";
 import Validation from "../Validation/Validation";
 
@@ -64,7 +64,7 @@ const Address = ({title, unique, hasPlus = false, isExtra = false, defaulfOpen =
                     onClick={ () => { onPlusClick() } }
                 >
                     <i>
-                        <FaPlus />
+                        <TbPlus />
                     </i>
                 </div>
             }
@@ -76,7 +76,7 @@ const Address = ({title, unique, hasPlus = false, isExtra = false, defaulfOpen =
                     onClick={ ()=> { onExtraCloseClick(unique) } }
                 >
                     <i>
-                        <FaTimes />
+                        <TbX />
                     </i>
                 </span>
             }
@@ -88,11 +88,11 @@ const Address = ({title, unique, hasPlus = false, isExtra = false, defaulfOpen =
                 <div>
                     <i>
                         { isOpen &&
-                            <FaAngleUp />
+                            <TbChevronUp />
                         }
 
                         { !isOpen &&
-                            <FaAngleDown />
+                            <TbChevronDown />
                         }
                     </i>
                 </div>

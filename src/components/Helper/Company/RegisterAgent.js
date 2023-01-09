@@ -6,6 +6,7 @@ import Address from "../Address/Address";
 import Input from "../Input/Input";
 
 import * as COMPANYCONSTS from '../../../consts/Company';
+import { TbChevronDown, TbChevronUp } from "react-icons/tb";
 
 const RegisterAgent = ({title, unique, defaulfOpen = true, errorArray = {}, form, setForm, query = ''}) => {
 
@@ -72,11 +73,11 @@ const RegisterAgent = ({title, unique, defaulfOpen = true, errorArray = {}, form
                 <div>
                     <i>
                         { isOpen &&
-                            <FaAngleUp />
+                            <TbChevronUp />
                         }
 
                         { !isOpen &&
-                            <FaAngleDown />
+                            <TbChevronDown />
                         }
                     </i>
                 </div>

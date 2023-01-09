@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { Collapse } from "react-bootstrap";
-import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 
 import Select from '../Input/Select';
 import Input from "../Input/Input";
 import { useEffect } from "react";
+import { TbChevronDown, TbChevronUp } from "react-icons/tb";
 
 const Phones2 = ({title, defaultOpen = true, errorArray = {}, form, setForm, query = ''}) => {
 
@@ -33,11 +33,11 @@ const Phones2 = ({title, defaultOpen = true, errorArray = {}, form, setForm, que
                 <div>
                     <i>
                         { isOpen &&
-                            <FaAngleUp />
+                            <TbChevronUp />
                         }
 
                         { !isOpen &&
-                            <FaAngleDown />
+                            <TbChevronDown />
                         }
                     </i>
                 </div>

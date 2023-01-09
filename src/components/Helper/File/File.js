@@ -1,7 +1,7 @@
 import FileModule from "./FileModule";
 import Collapse from 'react-bootstrap/Collapse';
 import { useState } from "react";
-import { FaAngleDown, FaAngleUp } from "react-icons/fa";
+import { TbChevronDown, TbChevronUp } from "react-icons/tb";
 
 const File = ({ form, setForm, blocks = [], defaultOpen = true, parentUnique, title, onChange, downloadEnable }) => {
 
@@ -17,11 +17,11 @@ const File = ({ form, setForm, blocks = [], defaultOpen = true, parentUnique, ti
                 <div>
                     <i>
                         { isOpen &&
-                            <FaAngleUp />
+                            <TbChevronUp />
                         }
 
                         { !isOpen &&
-                            <FaAngleDown />
+                            <TbChevronDown />
                         }
                     </i>
                     

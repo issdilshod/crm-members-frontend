@@ -3,7 +3,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import Draggable from 'react-draggable';
 
 import styles from './Note.module.scss';
-import { FaTimes } from 'react-icons/fa';
+import { TbX } from 'react-icons/tb';
 
 import Api from '../../../services/Api';
 
@@ -63,7 +63,7 @@ const Note = ({ noteOpen, setNoteOpen }) => {
                 <div className={`${styles['note-head']} nh-dragable d-flex`}>
                     <div className={`mr-auto`}>Quick Note</div>
                     <div className={styles['btn']} onClick={ () => { setNoteOpen(!noteOpen) } }>
-                        <FaTimes />
+                        <TbX />
                     </div>
                 </div>
                 <div className={styles['note-body']}>

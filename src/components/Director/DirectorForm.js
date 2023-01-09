@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext, useRef } from 'react';
 import { FaUnlink } from 'react-icons/fa';
-import { TbAlertCircle, TbCheck, TbLink, TbPencil } from 'react-icons/tb';
+import { TbAlertCircle, TbCheck, TbLink, TbPencil, TbUnlink } from 'react-icons/tb';
 import { useNavigate } from 'react-router-dom';
 
 import * as STATUS from '../../consts/Status';
@@ -359,6 +359,15 @@ const DirectorForm = () => {
         }
     } 
 
+    const confirmUnlink = () => {
+        if (directorForm['company_association']!=null && directorForm['company_association']!=''){
+            craeteConfirmation({
+                message: 'You want to unlink company from director?',
+                accept: () => { handleUnlink() }
+            });
+        }
+    }
+
     const craeteConfirmation = ({message = '', header = 'Confirmation', accept = () => {}}) => {
         confirmDialog({
             message: message,
@@ -527,10 +536,10 @@ const DirectorForm = () => {
                                             className='d-btn d-btn-sm d-btn-danger ml-2'
                                             style={{'position': 'relative', 'top': '6px'}}
                                             title='Unlink company from director'
-                                            onClick={ () => { handleUnlink() } }
+                                            onClick={ () => confirmUnlink() }
                                         >
                                             <i>
-                                                <FaUnlink />
+                                                <TbUnlink />
                                             </i>
                                         </span>
                                     }

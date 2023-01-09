@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Collapse } from "react-bootstrap";
-import { FaAngleDown, FaAngleUp, FaPlus, FaTrash } from "react-icons/fa";
+import { TbChevronDown, TbChevronUp, TbPlus, TbTrash } from "react-icons/tb";
 import Input from "../Input/Input";
 
 const BankAccount = ({title, defaultOpen = true, errorArray = {}, form, setForm, query = ''}) => {
@@ -67,11 +67,11 @@ const BankAccount = ({title, defaultOpen = true, errorArray = {}, form, setForm,
                 <div className='mr-auto'>{title}</div>
                 <div>
                     { isOpen &&
-                        <FaAngleUp />
+                        <TbChevronUp />
                     }
 
                     { !isOpen &&
-                        <FaAngleDown />
+                        <TbChevronDown />
                     }
                 </div>
             </div>
@@ -177,7 +177,7 @@ const BankAccount = ({title, defaultOpen = true, errorArray = {}, form, setForm,
                                 <div className='col-12 text-right'>
                                     <span className='d-btn d-btn-sm d-btn-primary' onClick={ () => { handleAdd() } }>
                                         <i>
-                                            <FaPlus />
+                                            <TbPlus />
                                         </i>
                                     </span>
                                 </div>
@@ -201,7 +201,7 @@ const BankAccount = ({title, defaultOpen = true, errorArray = {}, form, setForm,
                                                             onClick={ () => { handleDelete(index) } }
                                                         >
                                                             <i>
-                                                                <FaTrash />
+                                                                <TbTrash />
                                                             </i>
                                                         </span>
                                                     </div>
