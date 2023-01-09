@@ -30,6 +30,7 @@ import DoingBusiness from '../Helper/Company/DoingBusiness';
 import { Button } from 'primereact/button';
 
 import RejectReasonModal from '../Helper/Modal/RejectReasonModal';
+import CreditAccount from '../Helper/Company/CreditAccount';
 
 const CompanyForm = () => {
 
@@ -801,6 +802,13 @@ const CompanyForm = () => {
                         </div>
 
                         <div className='col-12 form-group'>
+                            <CreditAccount
+                                form={companyForm}
+                                setForm={setCompanyForm}
+                            />
+                        </div>
+
+                        <div className='col-12 form-group'>
                             <Email
                                 title='Emails'
                                 muliply={true}
@@ -808,17 +816,6 @@ const CompanyForm = () => {
                                 setForm={setCompanyForm}
                                 errorArray={companyFormError}
                                 query={query}
-                            />
-                        </div>
-
-                        <div className='col-12 col-sm-4 form-group'>
-                            <File
-                                form={companyForm}
-                                setForm={setCompanyForm}
-                                parentUnique='company_ein'
-                                title='Company EIN upload'
-                                onChange={handleChange}
-                                downloadEnable={(permissions.some((e) => e==COMPANY.DOWNLOAD))}
                             />
                         </div>
 
@@ -905,6 +902,17 @@ const CompanyForm = () => {
                                 setForm={setCompanyForm}
                                 title='General Uploads'
                                 parentUnique='general_uploads'
+                                onChange={handleChange}
+                                downloadEnable={(permissions.some((e) => e==COMPANY.DOWNLOAD))}
+                            />
+                        </div>
+
+                        <div className='col-12 col-sm-4 form-group'>
+                            <File
+                                form={companyForm}
+                                setForm={setCompanyForm}
+                                parentUnique='company_ein'
+                                title='Company EIN upload'
                                 onChange={handleChange}
                                 downloadEnable={(permissions.some((e) => e==COMPANY.DOWNLOAD))}
                             />

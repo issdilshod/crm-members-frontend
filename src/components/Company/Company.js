@@ -73,6 +73,16 @@ const Company = () => {
         // incorporation
         'incorporations': [],
 
+        // credit account
+        'credit_account': {
+            'is_active': '',
+            'name': '',
+            'website': '',
+            'phones': '',
+            'username': '',
+            'password': '',
+        },
+
         // files
         'files': [],
         'files_to_delete': [],

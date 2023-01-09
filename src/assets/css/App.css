@@ -1069,6 +1069,7 @@ label .req {
     d-area
 */
 .d-area{
+    background-color: #fff;
     padding: 5px;
     padding-right: 0px;
     border-radius: 10px;
