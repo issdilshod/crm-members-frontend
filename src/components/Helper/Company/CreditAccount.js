@@ -17,6 +17,8 @@ const CreditAccount = ({defaultOpen = true, form, setForm}) => {
     useEffect(() => {
         if (form['credit_account']){
             setInForm(form['credit_account']);
+        }else{
+            setForm({...form, 'credit_account': entity});
         }
     }, [form])
 
