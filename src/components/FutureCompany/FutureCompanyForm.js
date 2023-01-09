@@ -197,9 +197,7 @@ const FutureCompanyForm = () => {
             });
     }
 
-    const handlePendingUpdate = (e) => {
-        e.preventDefault();
-        
+    const handlePendingUpdate = () => {
         let toastId = toast.loading('Waiting...');
 
         api.request('/api/future-company-pending-update/'+form['uuid'], 'PUT', form)
@@ -306,6 +304,17 @@ const FutureCompanyForm = () => {
         e.preventDefault();
         setRejectModalShow(true);
     }
+
+    const confirmReplacePending = () => {
+        if (form['status']!=STATUS.ACTIVED){
+            craeteConfirmation({
+                message: 'You already submitted this card for approval and it\'s pending. Would you like to replace the previous card with this?',
+                accept: () => { handlePendingUpdate() }
+            });
+        }else{
+            handlePendingUpdate()
+        }
+    } 
 
     const craeteConfirmation = ({message = '', header = 'Confirmation', accept = () => {}}) => {
         confirmDialog({
@@ -510,34 +519,34 @@ const FutureCompanyForm = () => {
                             { permissions.includes(FUTURECOMPANY.STORE)  && //permitted to add
                                 <>
                                     { form['status']=='' &&
-                                        <button className='d-btn d-btn-primary mr-2' onClick={ (e) => { handleStore(e) } }>
+                                        <span className='d-btn d-btn-primary mr-2' onClick={ (e) => { handleStore(e) } }>
                                             Save
-                                        </button>
+                                        </span>
                                     }
 
                                     { form['status']==STATUS.ACTIVED &&
-                                        <button className='d-btn d-btn-primary mr-2' onClick={ (e) => { handleUpdate(e) } }>
+                                        <span className='d-btn d-btn-primary mr-2' onClick={ (e) => { handleUpdate(e) } }>
                                             Update
-                                        </button>
+                                        </span>
                                     }
 
                                     { (permissions.includes(FUTURECOMPANY.ACCEPT) && form['status']!='' && form['status']!=STATUS.ACTIVED) && // accept/reject
                                         <>
-                                            <button className='d-btn d-btn-success mr-2' onClick={ (e) => { handlePendingAccept(e) } }>
+                                            <span className='d-btn d-btn-success mr-2' onClick={ (e) => { handlePendingAccept(e) } }>
                                                 Approve
-                                            </button>
+                                            </span>
 
-                                            <button className='d-btn d-btn-danger mr-2' onClick={ (e) => { confirmReject(e) } }>
+                                            <span className='d-btn d-btn-danger mr-2' onClick={ (e) => { confirmReject(e) } }>
                                                 Reject
-                                            </button>
+                                            </span>
                                         </>
                                     }
 
 
                                     { (permissions.includes(FUTURECOMPANY.DELETE) && form['status']!='') &&
-                                        <button className={`d-btn d-btn-danger mr-2`} onClick={ (e) => { confirmDelete(e, form['uuid']) } }>
+                                        <span className={`d-btn d-btn-danger mr-2`} onClick={ (e) => { confirmDelete(e, form['uuid']) } }>
                                             Delete
-                                        </button>
+                                        </span>
                                     }
                                 </>
                             }
@@ -546,18 +555,22 @@ const FutureCompanyForm = () => {
                                 <>
                                     { edit &&
                                         <>
-                                            {   form['user_uuid']==meUuid &&
-                                                <button className='d-btn d-btn-primary mr-2' onClick={ (e) => { handlePendingUpdate(e) } }>
+                                            { ((form['user_uuid']==meUuid) || (form['status']==STATUS.ACTIVED)) &&
+                                                <span className='d-btn d-btn-primary mr-2' onClick={ () => { confirmReplacePending() } }>
                                                     Update
-                                                </button>
+                                                </span>
+                                            }
+
+                                            { ((form['user_uuid']!=meUuid) && (form['status']!=STATUS.ACTIVED)) &&
+                                                <span className='d-danger'>Card pending for approval from another user</span>
                                             }
                                         </>
                                     }
 
                                     { !edit &&
-                                        <button className='d-btn d-btn-primary mr-2' onClick={ (e) => { handlePending(e) } }>
+                                        <span className='d-btn d-btn-primary mr-2' onClick={ (e) => { handlePending(e) } }>
                                             Save
-                                        </button>
+                                        </span>
                                     }
                                 </>
                             }
