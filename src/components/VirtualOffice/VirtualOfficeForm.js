@@ -782,15 +782,12 @@ const VirtualOfficeForm = () => {
                     <div className='d-flex'>
                         <div className='ml-auto'>
 
-                            <span className='d-btn d-btn-primary mr-2' onClick={() => { setIsDisabled(!isDisabled) }}>
-                                { isDisabled &&
-                                    <TbPencil />
-                                }
-
-                                { !isDisabled &&
-                                    <TbCheck />
-                                }
-                            </span>
+                            { (permissions.includes(VIRTUALOFFICE.STORE) || ((!permissions.includes(VIRTUALOFFICE.STORE) && permissions.includes(VIRTUALOFFICE.SAVE)) && ((form['user_uuid']==meUuid) || (form['status']==STATUS.ACTIVED)))) &&
+                                <span className='d-btn d-btn-primary mr-2' onClick={() => { setIsDisabled(!isDisabled) }}>
+                                    { isDisabled && <TbPencil />}
+                                    { !isDisabled && <TbCheck />}
+                                </span>
+                            }
 
                             { permissions.includes(VIRTUALOFFICE.STORE)  && // store
                                 <>

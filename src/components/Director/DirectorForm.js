@@ -675,15 +675,12 @@ const DirectorForm = () => {
                     <div className='d-flex'>
                         <div className='ml-auto'>
 
-                            <span className='d-btn d-btn-primary mr-2' onClick={() => { setIsDisabled(!isDisabled) }}>
-                                { isDisabled &&
-                                    <TbPencil />
-                                }
-
-                                { !isDisabled &&
-                                    <TbCheck />
-                                }
-                            </span>
+                            { (permissions.includes(DIRECTOR.STORE) || ((!permissions.includes(DIRECTOR.STORE) && permissions.includes(DIRECTOR.SAVE)) && ((directorForm['user_uuid']==meUuid) || (directorForm['status']==STATUS.ACTIVED)))) &&
+                                <span className='d-btn d-btn-primary mr-2' onClick={() => { setIsDisabled(!isDisabled) }}>
+                                    { isDisabled && <TbPencil />}
+                                    { !isDisabled && <TbCheck />}
+                                </span>
+                            }
 
                             { permissions.includes(DIRECTOR.STORE)  && // add/update
                                 <>

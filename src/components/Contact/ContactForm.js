@@ -662,15 +662,12 @@ const ContactForm = () => {
                     <div className='d-flex'>
                         <div className='ml-auto'>
 
-                            <span className='d-btn d-btn-primary mr-2' onClick={() => { setIsDisabled(!isDisabled) }}>
-                                { isDisabled &&
-                                    <TbPencil />
-                                }
-
-                                { !isDisabled &&
-                                    <TbCheck />
-                                }
-                            </span>
+                            { (permissions.includes(CONTACT.STORE) || ((!permissions.includes(CONTACT.STORE) && permissions.includes(CONTACT.SAVE)) && ((form['user_uuid']==meUuid) || (form['status']==STATUS.ACTIVED)))) &&
+                                <span className='d-btn d-btn-primary mr-2' onClick={() => { setIsDisabled(!isDisabled) }}>
+                                    { isDisabled && <TbPencil />}
+                                    { !isDisabled && <TbCheck />}
+                                </span>
+                            }
 
                             { permissions.includes(CONTACT.STORE)  && // store
                                 <>

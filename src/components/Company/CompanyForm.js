@@ -917,15 +917,12 @@ const CompanyForm = () => {
                                 
                         <div className='ml-auto'>
 
-                            <span className='d-btn d-btn-primary mr-2' onClick={() => { setIsDisabled(!isDisabled) }}>
-                                { isDisabled &&
-                                    <TbPencil />
-                                }
-
-                                { !isDisabled &&
-                                    <TbCheck />
-                                }
-                            </span>
+                            { (permissions.includes(COMPANY.STORE) || ((!permissions.includes(COMPANY.STORE) && permissions.includes(COMPANY.SAVE)) && ((companyForm['user_uuid']==meUuid) || (companyForm['status']==STATUS.ACTIVED)))) &&
+                                <span className='d-btn d-btn-primary mr-2' onClick={() => { setIsDisabled(!isDisabled) }}>
+                                    { isDisabled && <TbPencil />}
+                                    { !isDisabled && <TbCheck />}
+                                </span>
+                            }
                             
                             { permissions.includes(COMPANY.STORE)  && // add/update
                                 <>
