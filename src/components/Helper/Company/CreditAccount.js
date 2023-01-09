@@ -215,6 +215,7 @@ const CreditAccount = ({defaultOpen = true, form, setForm}) => {
                             <Input 
                                 title='Password'
                                 name='password'
+                                extraClass='input-none-transform'
                                 onChange={handleChange}
                                 defaultValue={inForm['password']}
                             />

@@ -121,6 +121,7 @@ const BankAccount = ({title, defaultOpen = true, errorArray = {}, form, setForm,
                             <Input
                                 title='Password'
                                 name='password'
+                                extraClass='input-none-transform'
                                 validationName='bank_account.password'
                                 onChange={onChange}
                                 defaultValue={inForm['password']}

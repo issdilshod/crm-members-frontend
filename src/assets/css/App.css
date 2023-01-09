@@ -1446,6 +1446,13 @@ label .req {
     background-color: #e9ecef;
 }
 
+/*
+    input transform none
+*/
+.input-none-transform{
+    text-transform: none !important;
+}
+
 /* medias */
 @media (max-width: 800px){
     .c-card-left, .c-card-left-lg{

@@ -4,7 +4,7 @@ import Validation from "../Validation/Validation";
 
 import { TbCheck, TbPencil } from 'react-icons/tb';
 
-const Input = ({title = '', req = false, type = 'text', name, validationName = '', onChange, defaultValue, errorArray = [], query = ''}) => {
+const Input = ({title = '', req = false, type = 'text', extraClass = '', name, validationName = '', onChange, defaultValue, errorArray = [], query = ''}) => {
 
     const [queryFoundMatch, setQueryFoundMatch] = useState(false);
 
@@ -38,7 +38,7 @@ const Input = ({title = '', req = false, type = 'text', name, validationName = '
         <div className='form-group'>
             <label>{title} { req && <i className='req'>*</i>}</label>
             <input 
-                className={`form-control ${queryFoundMatch?'match-found':''}`}
+                className={`form-control ${queryFoundMatch?'match-found':''} ${extraClass}`}
                 type={type} 
                 name={name} 
                 placeholder={title}

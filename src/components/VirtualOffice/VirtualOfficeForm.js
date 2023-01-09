@@ -625,6 +625,7 @@ const VirtualOfficeForm = () => {
                                         <Input 
                                             title='Online Account Password'
                                             name='online_account_password'
+                                            extraClass='input-none-transform'
                                             onChange={handleChange}
                                             defaultValue={form['online_account_password']}
                                             errorArray={formError}

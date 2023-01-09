@@ -139,6 +139,7 @@ const RegisterAgent = ({title, unique, defaulfOpen = true, errorArray = {}, form
                         <div className='col-12 col-sm-6'>
                             <Input
                                 title='Registered Agent Password'
+                                extraClass='input-none-transform'
                                 name='password'
                                 onChange={handleChange}
                                 defaultValue={inForm['password']}

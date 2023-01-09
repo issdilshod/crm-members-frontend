@@ -88,6 +88,7 @@ const Phones = ({title, defaultOpen = true, errorArray = {}, form, setForm, quer
                         <div className='col-12 col-sm-6'>
                             <Input
                                 title='VOIP Password'
+                                extraClass='input-none-transform'
                                 name='voip_password'
                                 onChange={onChange}
                                 defaultValue={form['voip_password']}

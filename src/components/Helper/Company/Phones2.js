@@ -101,6 +101,7 @@ const Phones2 = ({title, defaultOpen = true, errorArray = {}, form, setForm, que
                         <div className='col-12 col-sm-6'>
                             <Input
                                 title='Business Mobile Password'
+                                extraClass='input-none-transform'
                                 name='business_mobile_password'
                                 onChange={onChange}
                                 defaultValue={form['business_mobile_password']}

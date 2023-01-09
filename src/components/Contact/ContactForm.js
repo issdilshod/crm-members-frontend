@@ -530,6 +530,7 @@ const ContactForm = () => {
                                 <div className='c-form-field col-12 col-sm-3'>
                                     <Input 
                                         title='Password'
+                                        extraClass='input-none-transform'
                                         name='account_password'
                                         onChange={handleChange}
                                         defaultValue={form['account_password']}

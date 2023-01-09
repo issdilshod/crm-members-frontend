@@ -116,6 +116,7 @@ const Email = ({title, muliply = true, defaultOpen = true, errorArray = {}, form
                                                 </div>
                                                 <div className='col-12 col-sm-3'>
                                                     <Input 
+                                                        extraClass='input-none-transform'
                                                         title="Password"
                                                         name='password'
                                                         onChange={ (e) => handleChange(e, index) }
