@@ -58,9 +58,10 @@ a:hover{
     width: 0 !important;
 }
 
-input, input[type], select, textarea{
+input, input[type], select, textarea, .css-1s2u09g-control, .css-1pahdxg-control, .css-1insrsq-control{
     border: 1px solid #ededed !important;
     text-transform: uppercase;
+    border-radius: 20px !important;
 }
 
 /*
@@ -235,7 +236,7 @@ input, input[type], select, textarea{
 */
 .d-btn{
     padding: 10px;
-    border-radius: 10px;
+    border-radius: 20px;
     cursor: pointer;
     box-shadow: 0 0.3125rem 0.625rem 0 rgb(0 0 0 / 12%) !important;
     transition: .5s;
@@ -427,12 +428,12 @@ input, input[type], select, textarea{
     padding: 20px 20px 5px 20px;
 }
 
-.d-search-input{
+.d-search input{
+    border-radius: 20px 0px 0px 20px !important;
     border: 0;
     outline: none;
     padding: 10px 40px;
     width: 100%;
-    border-radius: 20px 0px 0px 20px;
     color: #344767;
     transition: .4s;
 }
@@ -948,7 +949,7 @@ label .req {
 */
 .d-badge{
     padding: 2px;
-    border-radius: 4px;
+    border-radius: 8px;
     font-size: 12px !important;
     color: #fff;
 }
@@ -1441,7 +1442,7 @@ label .req {
 /*
     disabled
 */
-.d-disabled input, .d-disabled select, .d-disabled textarea{
+.d-disabled input, .d-disabled select, .d-disabled textarea, .d-disabled .css-1s2u09g-control, .d-disabled .css-1pahdxg-control, .d-disabled .css-1insrsq-control{
     pointer-events: none;
     background-color: #e9ecef;
 }
@@ -1456,6 +1457,14 @@ label .req {
 */
 .input-none-transform{
     text-transform: none !important;
+}
+
+/*
+    primereact
+*/
+.p-cascadeselect-panel .p-cascadeselect-items .p-cascadeselect-item.p-highlight {
+    color: #607caa !important;
+    background: #5f7baa14 !important;
 }
 
 /* medias */

@@ -388,10 +388,10 @@ const VirtualOfficeForm = () => {
     }
 
     const confirmGoToDashboard = () => {
-        confirmDialog({
-            message: 'Do you want to redirect to dashboard?',
-            accept: () => { nav(process.env.REACT_APP_FRONTEND_PREFIX + '/dashboard'); }
-        })
+        craeteConfirmation({
+            message: 'Do you want to redirect to dashboard?', 
+            accept: () => { nav(process.env.REACT_APP_FRONTEND_PREFIX + '/dashboard') }
+        });
     }
 
     const confirmCloseCard = () => {
