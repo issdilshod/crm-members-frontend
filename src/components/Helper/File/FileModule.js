@@ -126,7 +126,7 @@ const FileModule = ({form, setForm, title, parentUnique, unique, downloadEnable,
                                         <div key={index} className='file-block-module-files mt-1 d-flex'>
                                             <div className='mr-auto'>{ value['file_name'] }</div>
                                             <div 
-                                                className='d-btn d-btn-s d-btn-danger text-center'
+                                                className='d-btn d-btn-s d-btn-action d-btn-danger text-center'
                                                 onClick={ () => { handleRemove(value['uuid']) } } 
                                             >
                                                 <i>
@@ -161,7 +161,7 @@ const FileModule = ({form, setForm, title, parentUnique, unique, downloadEnable,
                                                     }
                                                 </div>
                                                 <div 
-                                                    className='d-btn d-btn-s d-btn-danger text-center' 
+                                                    className='d-btn d-btn-s d-btn-action d-btn-danger text-center' 
                                                     onClick={ () => { handleDelete(value['uuid']) } }
                                                 >
                                                     <i>

@@ -163,7 +163,7 @@ const CreditAccount = ({defaultOpen = true, form, setForm}) => {
                                 </div>
                                 <div className='ml-2'>
                                     <span 
-                                        className='d-btn d-btn-sm d-btn-primary'
+                                        className='d-btn d-btn-sm d-btn-action d-btn-primary'
                                         style={{position: 'relative', top: '6px'}}
                                         onClick={() => addNewPhone() }
                                     >
@@ -185,9 +185,9 @@ const CreditAccount = ({defaultOpen = true, form, setForm}) => {
                                                             onChange={ (e) => phoneChange(e.target.value, index) }
                                                         />
                                                     </div>
-                                                    <div className='ml-2'>
+                                                    <div className='ml-2 mr-2'>
                                                         <span 
-                                                            className='d-btn d-btn-sm d-btn-danger'
+                                                            className='d-btn d-btn-sm d-btn-action d-btn-danger'
                                                             style={{position: 'relative', top: '6px'}}
                                                             onClick={() => phoneRemove(index) }
                                                         >

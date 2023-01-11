@@ -176,7 +176,7 @@ const BankAccount = ({title, defaultOpen = true, errorArray = {}, form, setForm,
                                 </div>
 
                                 <div className='col-12 text-right'>
-                                    <span className='d-btn d-btn-sm d-btn-primary' onClick={ () => { handleAdd() } }>
+                                    <span className='d-btn d-btn-sm d-btn-action d-btn-primary' onClick={ () => { handleAdd() } }>
                                         <i>
                                             <TbPlus />
                                         </i>
@@ -198,7 +198,7 @@ const BankAccount = ({title, defaultOpen = true, errorArray = {}, form, setForm,
                                                     </div>
                                                     <div>
                                                         <span 
-                                                            className='d-btn d-btn-sm d-btn-danger'
+                                                            className='d-btn d-btn-sm d-btn-action d-btn-danger'
                                                             onClick={ () => { handleDelete(index) } }
                                                         >
                                                             <i>

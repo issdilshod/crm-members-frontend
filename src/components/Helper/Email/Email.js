@@ -152,7 +152,7 @@ const Email = ({title, muliply = true, defaultOpen = true, errorArray = {}, form
                                                     <div>
                                                         { (muliply) &&
                                                             <span 
-                                                                className='d-btn d-btn-sm d-btn-danger ml-2'
+                                                                className='d-btn d-btn-sm d-btn-action d-btn-danger ml-2'
                                                                 onClick={ () => { handleDelete(index) } }
                                                             >
                                                                 <i>
@@ -171,7 +171,7 @@ const Email = ({title, muliply = true, defaultOpen = true, errorArray = {}, form
 
                         { ((!muliply && form['emails'].length<1) || (muliply)) && 
                             <div className='col-12 mt-4 text-right'>
-                                <span className='d-btn d-btn-sm d-btn-primary' onClick={ () => { handleAdd() } }>
+                                <span className='d-btn d-btn-sm d-btn-action d-btn-primary' onClick={ () => { handleAdd() } }>
                                     <i>
                                         <TbPlus />
                                     </i>

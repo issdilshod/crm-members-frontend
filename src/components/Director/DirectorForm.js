@@ -533,7 +533,7 @@ const DirectorForm = () => {
                                 <div>
                                     { (role==ROLE.HEADQUARTERS && directorEdit) &&
                                         <span 
-                                            className='d-btn d-btn-sm d-btn-danger ml-2'
+                                            className='d-btn d-btn-sm d-btn-action d-btn-danger ml-2'
                                             style={{'position': 'relative', 'top': '6px'}}
                                             title='Unlink company from director'
                                             onClick={ () => confirmUnlink() }

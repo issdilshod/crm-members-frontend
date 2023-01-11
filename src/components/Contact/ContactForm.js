@@ -595,7 +595,7 @@ const ContactForm = () => {
 
                                                 <div className='col-12 text-right'>
                                                     <span 
-                                                        className='d-btn d-btn-sm d-btn-primary'
+                                                        className='d-btn d-btn-sm d-btn-action d-btn-primary'
                                                         onClick={ () => { handleAddSecurity() } }
                                                     >
                                                         <TbPlus />
@@ -613,7 +613,7 @@ const ContactForm = () => {
                                                                             <div className='mr-auto'>{value['answer']}</div>
                                                                             <div>
                                                                                 <span 
-                                                                                    className='d-btn d-btn-sm d-btn-primary mr-1'
+                                                                                    className='d-btn d-btn-sm d-btn-action d-btn-primary mr-1'
                                                                                     onClick={() => handleEditSecurity(index) }
                                                                                 >
                                                                                     <TbPencil />

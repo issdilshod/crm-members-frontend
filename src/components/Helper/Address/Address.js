@@ -59,7 +59,7 @@ const Address = ({title, unique, hasPlus = false, isExtra = false, defaulfOpen =
         <div className='dd-card c-position-relative'>
             { hasPlus &&
                 <div
-                    className='d-btn d-btn-sm d-btn-primary'
+                    className='d-btn d-btn-sm d-btn-action d-btn-primary'
                     style={{'position': 'absolute', 'top': '15px', 'right': '-26px', 'border-radius': '0px 20px 20px 0px'}}
                     onClick={ () => { onPlusClick() } }
                 >
@@ -71,7 +71,7 @@ const Address = ({title, unique, hasPlus = false, isExtra = false, defaulfOpen =
 
             { isExtra &&
                 <span 
-                    className='d-btn d-btn-sm d-btn-danger'
+                    className='d-btn d-btn-sm d-btn-action d-btn-danger'
                     style={{'position': 'absolute', 'top': '15px', 'right': '-26px', 'border-radius': '0px 20px 20px 0px'}}
                     onClick={ ()=> { onExtraCloseClick(unique) } }
                 >
