@@ -1446,6 +1446,11 @@ label .req {
     background-color: #e9ecef;
 }
 
+.d-disabled .d-btn-action{
+    pointer-events: none;
+    opacity: .5;
+}
+
 /*
     input transform none
 */

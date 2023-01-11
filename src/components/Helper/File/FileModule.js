@@ -94,7 +94,7 @@ const FileModule = ({form, setForm, title, parentUnique, unique, downloadEnable,
         <div className='col-12 form-group mt-2'>
             <label>{title}</label>
             <div 
-                className='d-btn d-btn-primary text-center'
+                className='d-btn d-btn-primary d-btn-action text-center'
                 onClick={() => { inputRef.current.click(); }}
             >
                 <i>
@@ -106,7 +106,7 @@ const FileModule = ({form, setForm, title, parentUnique, unique, downloadEnable,
             <div className='mt-1'>
                 <input
                     multiple
-                    className='d-none' 
+                    className='d-none'
                     type='file' 
                     name={`files[${parentUnique}__${unique}][]`} 
                     ref={inputRef} 
