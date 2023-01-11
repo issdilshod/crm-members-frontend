@@ -15,7 +15,6 @@ import File from '../Helper/File/File';
 import Address from '../Helper/Address/Address';
 import Email from '../Helper/Email/Email';
 import Phones from '../Helper/Company/Phones';
-import Phones2 from '../Helper/Company/Phones2';
 import BankAccount from '../Helper/Company/BankAccount';
 import Api from '../../services/Api';
 import Input from '../Helper/Input/Input';
@@ -31,6 +30,7 @@ import { Button } from 'primereact/button';
 
 import RejectReasonModal from '../Helper/Modal/RejectReasonModal';
 import CreditAccount from '../Helper/Company/CreditAccount';
+import MobilePhones from '../Helper/Company/MobilePhones';
 
 const CompanyForm = () => {
 
@@ -816,14 +816,33 @@ const CompanyForm = () => {
                         </div>
 
                         <div className={`col-12 col-sm-6 form-group`}>
-                            <Phones2
+                            <MobilePhones
                                 title='Mobile Phones'
+                                hasPlus={true}
                                 form={companyForm}
                                 setForm={setCompanyForm}
                                 errorArray={companyFormError}
                                 query={query}
                             />
                         </div>
+
+                        {
+                            companyForm['business_mobiles'].map((value, index) => {
+                                return (
+                                    <div key={index} className='col-12 col-sm-6 form-group'>
+                                        <MobilePhones
+                                            index={index}
+                                            title={`Mobile Phones ${index+1}`}
+                                            isExtra={true}
+                                            form={companyForm}
+                                            setForm={setCompanyForm}
+                                            errorArray={companyFormError}
+                                            query={query}
+                                        />
+                                    </div>
+                                )
+                            })
+                        }
 
                         <div className='col-12 form-group'>
                             <CreditAccount
