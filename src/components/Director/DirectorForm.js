@@ -92,8 +92,7 @@ const DirectorForm = () => {
         api.request('/api/director', 'POST', directorForm)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
-                    setDirectorList([ res.data.data, ...directorList ]);
-                    setDirectorFormOpen(false);
+                    cardSetToList(res.data.data);
                     toast.success('Successfully director card added!');
                 }else if (res.status===403){ // permission
                     toast.error('Permission error!');
@@ -118,15 +117,7 @@ const DirectorForm = () => {
         api.request('/api/director/'+directorForm['uuid'], 'PUT', directorForm)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
-                    let tmp_directorList = [...directorList];
-                    let updated_data = res.data.data;
-                    for (let key in tmp_directorList){
-                        if (tmp_directorList[key]['uuid']==updated_data['uuid']){
-                            tmp_directorList[key] = updated_data;
-                        }
-                    }
-                    setDirectorList(tmp_directorList);
-                    setDirectorFormOpen(false);
+                    cardSetToList(res.data.data);
                     toast.success('Successfully director card updated!');
                 }else if (res.status===403){ // permission
                     toast.error('Permission error!');
@@ -149,14 +140,7 @@ const DirectorForm = () => {
         api.request('/api/director/' + uuid, 'DELETE')
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
-                    let tmpArray = [...directorList];
-                    for (let key in tmpArray){
-                        if (tmpArray[key]['uuid']==uuid){
-                            tmpArray.splice(key, 1);
-                        }
-                    }
-                    setDirectorList(tmpArray);
-                    setDirectorFormOpen(false);
+                    cardSetToList({'uuid': uuid}, true);
                     toast.success('Successfully director card deleted!');
                 }else if (res.status===403){ // permission
                     toast.error('Permission error!');
@@ -196,8 +180,10 @@ const DirectorForm = () => {
         api.request('/api/director-pending-update/'+directorForm['uuid'], 'PUT', directorForm)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
+
+                    cardSetToList(res.data.data);
+
                     toast.success('Succefully sent director card updates to approve!');
-                    setDirectorFormOpen(false);
                 }else if (res.status===403){ // permission
                     toast.error('Permission error!');
                 }else if (res.status===409){ // conflict
@@ -243,9 +229,10 @@ const DirectorForm = () => {
         api.request('/api/director-accept/'+directorForm['uuid'], 'PUT', directorForm)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
+
+                    cardSetToList(res.data.data);
+
                     toast.success('Succefully director card approved!');
-                    setDirectorList([ res.data.data, ...directorList ]);
-                    setDirectorFormOpen(false);
 
                     confirmGoToDashboard();
                 }else if (res.status===403){ // permission
@@ -264,6 +251,18 @@ const DirectorForm = () => {
 
     const deletePending = () => {
         
+        let toastId = toast.loading('Waiting...');
+
+        api.request('/api/director-delete-pending/' + directorForm['uuid'], 'GET')
+            .then(res => {
+                if (res.status===200||res.status===201){
+                    cardSetToList(res.data.data);
+
+                    toast.success('Request successfully deleted!');
+                }
+
+                toast.dismiss(toastId);
+            })
     }
 
     const handleOverride = (e) => {
@@ -275,24 +274,8 @@ const DirectorForm = () => {
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
 
-                    // check if exists
-                    let tmpArray = [...directorList];
-                    let exists = false;
-                    for (let key in tmpArray){
-                        if (tmpArray[key]['uuid']==res.data.data['uuid']){
-                            tmpArray[key] = res.data.data;
-                            exists = true;
-                            break;
-                        }
-                    }
+                    cardSetToList(res.data.data);
 
-                    if (!exists){
-                        setDirectorList([ res.data.data, ...directorList ]);
-                    }else{
-                        setDirectorList(tmpArray);
-                    }
-                
-                    setDirectorFormOpen(false);
                     toast.success('Succefully director card overrided!');
 
                     confirmGoToDashboard();
@@ -315,6 +298,30 @@ const DirectorForm = () => {
                 }
                 toast.dismiss(toastId);
             })
+    }
+
+    const cardSetToList = (card, remove = false) => {
+
+        let tmpList = [...directorList];
+
+        let exists = false;
+        for (let key in tmpList){
+            if (tmpList[key]['uuid']==card['uuid']){
+                if (remove){
+                    tmpList.splice(key, 1)
+                }else{
+                    tmpList[key] = card;
+                }
+                exists = true;
+            }
+        }
+
+        if (!exists && !remove){
+            tmpList.push(card);
+        }
+
+        setDirectorList(tmpList);
+        setDirectorFormOpen(false);
     }
 
     const confirmDelete = (e, uuid, cardName) => {
@@ -349,7 +356,7 @@ const DirectorForm = () => {
     }
 
     const confirmReplacePending = () => {
-        if (directorForm['status']!=STATUS.ACTIVED){
+        if (directorForm['status']==STATUS.PENDING){
             craeteConfirmation({
                 message: 'You already submitted this card for approval and it\'s pending. Would you like to replace the previous card with this?',
                 accept: () => { handlePendingUpdate() }
@@ -713,7 +720,6 @@ const DirectorForm = () => {
 
                                     { (permissions.includes(DIRECTOR.ACCEPT) && directorForm['status']!='' && directorForm['status']!=STATUS.ACTIVED) && // accept/reject
                                         <>
-
                                             <span className='d-btn d-btn-success mr-2' onClick={ (e) => { handlePendingAccept(e) } }>
                                                 Approve
                                             </span>
@@ -721,7 +727,16 @@ const DirectorForm = () => {
                                             <span className='d-btn d-btn-danger mr-2' onClick={ (e) => { confirmReject(e) } }>
                                                 Reject
                                             </span>
- 
+
+                                            { (directorForm['approved']!=STATUS.DELETED) &&
+                                                <span
+                                                    className='d-btn d-btn-danger mr-2'
+                                                    onClick={ () => deletePending() }
+                                                >
+                                                    Delete Request
+                                                </span>
+                                            }
+
                                         </>
                                     }
 
