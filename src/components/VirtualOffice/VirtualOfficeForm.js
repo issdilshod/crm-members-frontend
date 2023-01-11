@@ -166,8 +166,7 @@ const VirtualOfficeForm = () => {
         api.request('/api/virtual-office', 'POST', form)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
-                    setList([ res.data.data, ...list ]);
-                    setFormOpen(false);
+                    cardSetToList(res.data.data);
                     toast.success('Successfully virtual office card added!');
                 }else if (res.status===403){ // permission
                     toast.error('Permission error!');
@@ -192,15 +191,7 @@ const VirtualOfficeForm = () => {
         api.request('/api/virtual-office/'+form['uuid'], 'PUT', form)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
-                    let tmpList = list;
-                    let updatedData = res.data.data;
-                    for (let key in tmpList){
-                        if (tmpList[key]['uuid']==updatedData['uuid']){
-                            tmpList[key] = updatedData;
-                        }
-                    }
-                    setList(tmpList);
-                    setFormOpen(false);
+                    cardSetToList(res.data.data);
                     toast.success('Successfully virtual office card updated!');
                 }else if (res.status===403){ // permission
                     toast.error('Permission error!');
@@ -223,14 +214,7 @@ const VirtualOfficeForm = () => {
         api.request('/api/virtual-office/' + uuid, 'DELETE')
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
-                    let tmpArray = [...list];
-                    for (let key in tmpArray){
-                        if (tmpArray[key]['uuid']==uuid){
-                            tmpArray.splice(key, 1);
-                        }
-                    }
-                    setList(tmpArray);
-                    setFormOpen(false);
+                    cardSetToList({uuid: uuid}, true);
                     toast.success('Successfully virtual office card deleted!');
                 }else if (res.status===403){ // permission
                     toast.error('Permission error!');
@@ -270,7 +254,7 @@ const VirtualOfficeForm = () => {
         api.request('/api/virtual-office-pending-update/'+form['uuid'], 'PUT', form)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
-                    setFormOpen(false);
+                    cardSetToList(res.data.data);
                     toast.success('Successfully sent virtual office card updates to approve!');
                 }else if (res.status===403){ // permission
                     toast.error('Permission error!');
@@ -314,8 +298,7 @@ const VirtualOfficeForm = () => {
             });
     }
 
-    const handlePendingAccept = (e) => {
-        e.preventDefault();
+    const handlePendingAccept = () => {
         setFormError([]);
         
         let toastId = toast.loading('Waiting...');
@@ -323,8 +306,7 @@ const VirtualOfficeForm = () => {
         api.request('/api/virtual-office-accept/'+form['uuid'], 'PUT', form)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
-                    setList([ res.data.data, ...list ]);
-                    setFormOpen(false);
+                    cardSetToList(res.data.data);
                     toast.success('Successfully virtual office card approved!');
 
                     confirmGoToDashboard();
@@ -342,6 +324,22 @@ const VirtualOfficeForm = () => {
             });
     }
 
+    const deletePending = () => {
+        
+        let toastId = toast.loading('Waiting...');
+
+        api.request('/api/virtual-office-delete-pending/' + form['uuid'], 'GET')
+            .then(res => {
+                if (res.status===200||res.status===201){
+                    cardSetToList(res.data.data);
+
+                    toast.success('Request successfully deleted!');
+                }
+
+                toast.dismiss(toastId);
+            })
+    }
+
     const handleGetCompany = (uuid) => {
         let tmpArr = {'vo_signer_uuid': uuid, 'vo_signer_company_uuid': null, 'company': null};
         api.request('/api/company-by-director/'+ uuid, 'GET')
@@ -355,6 +353,30 @@ const VirtualOfficeForm = () => {
 
                 setForm({...form, ...tmpArr });
             });
+    }
+
+    const cardSetToList = (card, remove = false) => {
+
+        let tmpList = [...list];
+
+        let exists = false;
+        for (let key in tmpList){
+            if (tmpList[key]['uuid']==card['uuid']){
+                if (remove){
+                    tmpList.splice(key, 1)
+                }else{
+                    tmpList[key] = card;
+                }
+                exists = true;
+            }
+        }
+
+        if (!exists && !remove){
+            tmpList.push(card);
+        }
+
+        setList(tmpList);
+        setFormOpen(false);
     }
 
     const confirmDelete = (e, uuid, cardName = '') => {
@@ -389,7 +411,7 @@ const VirtualOfficeForm = () => {
     }
 
     const confirmReplacePending = () => {
-        if (form['status']!=STATUS.ACTIVED){
+        if (form['status']==STATUS.PENDING){
             craeteConfirmation({
                 message: 'You already submitted this card for approval and it\'s pending. Would you like to replace the previous card with this?',
                 accept: () => { handlePendingUpdate() }
@@ -815,6 +837,15 @@ const VirtualOfficeForm = () => {
                                     <span className='d-btn d-btn-danger mr-2' onClick={ (e) => { confirmReject(e) } }>
                                         Reject
                                     </span>
+
+                                    { (form['approved']!=STATUS.DELETED) &&
+                                        <span
+                                            className='d-btn d-btn-danger mr-2'
+                                            onClick={ () => deletePending() }
+                                        >
+                                            Delete Request
+                                        </span>
+                                    }
                                 </>
                             }
 

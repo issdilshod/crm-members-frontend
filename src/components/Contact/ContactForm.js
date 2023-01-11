@@ -107,8 +107,7 @@ const ContactForm = () => {
         api.request('/api/contact', 'POST', form)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
-                    setList([ res.data.data, ...list ]);
-                    setFormOpen(false);
+                    cardSetToList(res.data.data);
                     toast.success('Successfully contact card added!');
                 }else if (res.status===403){ // permission
                     toast.error('Permission error!');
@@ -132,15 +131,7 @@ const ContactForm = () => {
         api.request('/api/contact/'+form['uuid'], 'PUT', form)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
-                    let tmpList = list;
-                    let updatedData = res.data.data;
-                    for (let key in tmpList){
-                        if (tmpList[key]['uuid']==updatedData['uuid']){
-                            tmpList[key] = updatedData;
-                        }
-                    }
-                    setList(tmpList);
-                    setFormOpen(false);
+                    cardSetToList(res.data.data);
                     toast.success('Successfully contact card updated!');
                 }else if (res.status===403){ // permission
                     toast.error('Permission error!');
@@ -163,14 +154,7 @@ const ContactForm = () => {
         api.request('/api/contact/' + uuid, 'DELETE')
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
-                    let tmpArray = [...list];
-                    for (let key in tmpArray){
-                        if (tmpArray[key]['uuid']==uuid){
-                            tmpArray.splice(key, 1);
-                        }
-                    }
-                    setList(tmpArray);
-                    setFormOpen(false);
+                    cardSetToList({uuid: uuid}, true);
                     toast.success('Successfully contact card deleted!');
                 }else if (res.status===403){ // permission
                     toast.error('Permission error!');
@@ -211,7 +195,7 @@ const ContactForm = () => {
         api.request('/api/contact-pending-update/'+form['uuid'], 'PUT', form)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
-                    setFormOpen(false);
+                    cardSetToList(res.data.data);
                     toast.success('Successfully sent contact card updates to approve!');
                 }else if (res.status===403){ // permission
                     toast.error('Permission error!');
@@ -264,8 +248,7 @@ const ContactForm = () => {
         api.request('/api/contact-accept/'+form['uuid'], 'PUT', form)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
-                    setList([ res.data.data, ...list ]);
-                    setFormOpen(false);
+                    cardSetToList(res.data.data);
                     toast.success('Successfully contact card approved!');
 
                     confirmGoToDashboard();
@@ -281,6 +264,22 @@ const ContactForm = () => {
                 
                 toast.dismiss(toastId);
             });
+    }
+
+    const deletePending = () => {
+        
+        let toastId = toast.loading('Waiting...');
+
+        api.request('/api/contact-delete-pending/' + form['uuid'], 'GET')
+            .then(res => {
+                if (res.status===200||res.status===201){
+                    cardSetToList(res.data.data);
+
+                    toast.success('Request successfully deleted!');
+                }
+
+                toast.dismiss(toastId);
+            })
     }
 
     const handleAddSecurity = () => {
@@ -304,6 +303,30 @@ const ContactForm = () => {
         const {value, name} = e.target;
 
         setInSecurityForm({...inSecurityForm, [name]: value});
+    }
+
+    const cardSetToList = (card, remove = false) => {
+
+        let tmpList = [...list];
+
+        let exists = false;
+        for (let key in tmpList){
+            if (tmpList[key]['uuid']==card['uuid']){
+                if (remove){
+                    tmpList.splice(key, 1)
+                }else{
+                    tmpList[key] = card;
+                }
+                exists = true;
+            }
+        }
+
+        if (!exists && !remove){
+            tmpList.push(card);
+        }
+
+        setList(tmpList);
+        setFormOpen(false);
     }
 
     const confirmDelete = (e, uuid, cardName = '') => {
@@ -338,7 +361,7 @@ const ContactForm = () => {
     }
 
     const confirmReplacePending = () => {
-        if (form['status']!=STATUS.ACTIVED){
+        if (form['status']==STATUS.PENDING){
             craeteConfirmation({
                 message: 'You already submitted this card for approval and it\'s pending. Would you like to replace the previous card with this?',
                 accept: () => { handlePendingUpdate() }
@@ -695,6 +718,15 @@ const ContactForm = () => {
                                     <span className='d-btn d-btn-danger mr-2' onClick={ (e) => { confirmReject(e) } }>
                                         Reject
                                     </span>
+
+                                    { (form['approved']!=STATUS.DELETED) &&
+                                        <span
+                                            className='d-btn d-btn-danger mr-2'
+                                            onClick={ () => deletePending() }
+                                        >
+                                            Delete Request
+                                        </span>
+                                    }
                                 </>
                             }
 

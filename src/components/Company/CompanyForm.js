@@ -189,8 +189,7 @@ const CompanyForm = () => {
         api.request('/api/company', 'POST', companyForm)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
-                    setCompanyList([ res.data.data, ...companyList ]);
-                    setCompanyFormOpen(false);
+                    cardSetToList(res.data.data);
                     toast.success('Successfully company card added!');
                 }else if (res.status===403){ // permission
                     toast.error('Permission error!');
@@ -216,15 +215,7 @@ const CompanyForm = () => {
         api.request('/api/company/'+companyForm['uuid'], 'PUT', companyForm)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
-                    let tmp_companyList = companyList;
-                    let updated_data = res.data.data;
-                    for (let key in tmp_companyList){
-                        if (tmp_companyList[key]['uuid']==updated_data['uuid']){
-                            tmp_companyList[key] = updated_data;
-                        }
-                    }
-                    setCompanyList(tmp_companyList);
-                    setCompanyFormOpen(false);
+                    cardSetToList(res.data.data);
                     toast.success('Successfully company card updated!');
                 }else if (res.status===403){ // permission
                     toast.error('Permission error!');
@@ -247,14 +238,7 @@ const CompanyForm = () => {
         api.request('/api/company/' + uuid, 'DELETE')
             .then(res => {
                 if (res.status===200||res.status===201){ // success
-                    let tmpArray = [...companyList];
-                    for (let key in tmpArray){
-                        if (tmpArray[key]['uuid']==uuid){
-                            tmpArray.splice(key, 1);
-                        }
-                    }
-                    setCompanyList(tmpArray);
-                    setCompanyFormOpen(false);
+                    cardSetToList({uuid: uuid}, true);
                     toast.success('Successfully company card deleted!');
                 }else if (res.status===403){ // permission
                     toast.error('Permission error!');
@@ -294,7 +278,7 @@ const CompanyForm = () => {
         api.request('/api/company-pending-update/'+companyForm['uuid'], 'PUT', companyForm)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
-                    setCompanyFormOpen(false);
+                    cardSetToList(res.data.data);
                     toast.success('Successfully sent company card updates to approve!');
                 }else if (res.status===403){ // permission
                     toast.error('Permission error!');
@@ -338,8 +322,7 @@ const CompanyForm = () => {
             });
     }
 
-    const handlePendingAccept = (e) => {
-        e.preventDefault();
+    const handlePendingAccept = () => {
 
         setCompanyFormError({});
         
@@ -348,8 +331,7 @@ const CompanyForm = () => {
         api.request('/api/company-accept/'+companyForm['uuid'], 'PUT', companyForm)
             .then(res => {
                 if (res.status===200 || res.status===201){ // success
-                    setCompanyList([ res.data.data, ...companyList ]);
-                    setCompanyFormOpen(false);
+                    cardSetToList(res.data.data);
                     toast.success('Successfully company card approved!');
 
                     confirmGoToDashboard();
@@ -365,6 +347,22 @@ const CompanyForm = () => {
                 
                 toast.dismiss(toastId);
             });
+    }
+
+    const deletePending = () => {
+        
+        let toastId = toast.loading('Waiting...');
+
+        api.request('/api/company-delete-pending/' + companyForm['uuid'], 'GET')
+            .then(res => {
+                if (res.status===200||res.status===201){
+                    cardSetToList(res.data.data);
+
+                    toast.success('Request successfully deleted!');
+                }
+
+                toast.dismiss(toastId);
+            })
     }
 
     const handleOverride = (e) => {
@@ -435,6 +433,30 @@ const CompanyForm = () => {
         setExtraAddressShow(true);
     }
 
+    const cardSetToList = (card, remove = false) => {
+
+        let tmpList = [...companyList];
+
+        let exists = false;
+        for (let key in tmpList){
+            if (tmpList[key]['uuid']==card['uuid']){
+                if (remove){
+                    tmpList.splice(key, 1)
+                }else{
+                    tmpList[key] = card;
+                }
+                exists = true;
+            }
+        }
+
+        if (!exists && !remove){
+            tmpList.push(card);
+        }
+
+        setCompanyList(tmpList);
+        setCompanyFormOpen(false);
+    }
+
     const confirmDelete = (e, uuid, cardName) => {
         e.preventDefault();
         craeteConfirmation({
@@ -467,7 +489,7 @@ const CompanyForm = () => {
     }
 
     const confirmReplacePending = () => {
-        if (companyForm['status']!=STATUS.ACTIVED){
+        if (companyForm['status']==STATUS.PENDING){
             craeteConfirmation({
                 message: 'You already submitted this card for approval and it\'s pending. Would you like to replace the previous card with this?',
                 accept: () => { handlePendingUpdate() }
@@ -967,6 +989,15 @@ const CompanyForm = () => {
                                     <span className='d-btn d-btn-danger mr-2' onClick={ (e) => { confirmReject(e) } }>
                                         Reject
                                     </span>
+
+                                    { (companyForm['approved']!=STATUS.DELETED) &&
+                                        <span
+                                            className='d-btn d-btn-danger mr-2'
+                                            onClick={ () => deletePending() }
+                                        >
+                                            Delete Request
+                                        </span>
+                                    }
 
                                 </>
                             }
