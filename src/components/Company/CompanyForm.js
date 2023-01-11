@@ -757,6 +757,7 @@ const CompanyForm = () => {
                             <Address
                                 title='Address'
                                 unique='address'
+                                hasDesc={true}
                                 hasPlus={true}
                                 onPlusClick={onPlusClick}
                                 form={companyForm}
@@ -771,6 +772,7 @@ const CompanyForm = () => {
                                 <Address
                                     title='Extra Address'
                                     unique='extra_address'
+                                    hasDesc={true}
                                     isExtra={true}
                                     form={companyForm}
                                     setForm={setCompanyForm}

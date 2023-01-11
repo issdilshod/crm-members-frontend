@@ -5,7 +5,7 @@ import { TbChevronDown, TbChevronUp, TbX, TbPlus } from "react-icons/tb";
 import Input from "../Input/Input";
 import Validation from "../Validation/Validation";
 
-const Address = ({title, unique, hasPlus = false, isExtra = false, defaulfOpen = true, onPlusClick, onExtraCloseClick, errorArray = {}, form, setForm, query = ''}) => {
+const Address = ({title, unique, hasPlus = false, hasDesc = false, isExtra = false, defaulfOpen = true, onPlusClick, onExtraCloseClick, errorArray = {}, form, setForm, query = ''}) => {
 
     const [isOpen, setIsOpen] = useState(defaulfOpen);
 
@@ -173,7 +173,7 @@ const Address = ({title, unique, hasPlus = false, isExtra = false, defaulfOpen =
                             />
                         </div>
 
-                        { isExtra &&
+                        { hasDesc &&
                             <div className='col-12'>
                                 <div className='form-group'>
                                     <label>Description <span className='req'>*</span></label>
