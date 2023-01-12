@@ -84,8 +84,8 @@ const Address = ({title, unique, hasPlus = false, hasDesc = false, isExtra = fal
                 className='dd-card-head d-flex'
             >
                 <div onClick={ () => { setIsOpen(!isOpen) } }>{title}</div>
-                <div className='w-100 ml-2 mr-auto'>
-                    {hasDesc &&
+                {hasDesc &&
+                    <div className='w-100 ml-2'>
                         <input 
                             className='form-control'
                             placeholder='Description...'
@@ -93,10 +93,10 @@ const Address = ({title, unique, hasPlus = false, hasDesc = false, isExtra = fal
                             onChange={ (e) => { handleChange(e) } }
                             value={inForm['description']}
                         />
-                    }
-                </div>
+                    </div>
+                }
                 <div 
-                    className='ml-2'
+                    className='ml-auto'
                     onClick={ () => { setIsOpen(!isOpen) } }
                 >
                     <i>
