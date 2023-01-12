@@ -1,0 +1,1 @@
+export const STORE = 'reminder_store';

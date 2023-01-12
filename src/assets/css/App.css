@@ -64,6 +64,14 @@ input, input[type], select, textarea, .css-1s2u09g-control, .css-1pahdxg-control
     border-radius: 20px !important;
 }
 
+i{
+    transform:rotate(0deg);
+    transition: .2s;
+    display: inline-flex;
+    position: relative;
+    top: 4px;
+}
+
 /*
     header
 */
@@ -720,7 +728,6 @@ label .req {
     height: 100%;
     box-shadow: 0 8px 26px -4px hsla(0,0%,8%,.15),0 8px 9px -5px hsla(0,0%,8%,.06)!important;
     overflow: auto;
-    padding: 0px 10px;
     transition: .2s ease;
     z-index: 11;
     color:#344767;
@@ -1457,6 +1464,29 @@ label .req {
 */
 .input-none-transform{
     text-transform: none !important;
+}
+
+/*
+    i-spin
+*/
+.i-spin{
+    animation: spin 4s infinite linear;
+    display: inline-flex;
+    position: relative;
+    top: 4px;
+}
+
+.i-rev{
+    transform:rotate(180deg);
+}
+
+@keyframes spin {
+    from {
+        transform:rotate(0deg);
+    }
+    to {
+        transform:rotate(360deg);
+    }
 }
 
 /*

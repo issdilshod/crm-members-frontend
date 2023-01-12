@@ -60,7 +60,7 @@ const Address = ({title, unique, hasPlus = false, hasDesc = false, isExtra = fal
             { hasPlus &&
                 <div
                     className='d-btn d-btn-sm d-btn-action d-btn-primary'
-                    style={{'position': 'absolute', 'top': '15px', 'right': '-26px', 'border-radius': '0px 20px 20px 0px'}}
+                    style={{position: 'absolute', top: '15px', right: '-26px', borderRadius: '0px 20px 20px 0px'}}
                     onClick={ () => { onPlusClick() } }
                 >
                     <i>
@@ -72,7 +72,7 @@ const Address = ({title, unique, hasPlus = false, hasDesc = false, isExtra = fal
             { isExtra &&
                 <span 
                     className='d-btn d-btn-sm d-btn-action d-btn-danger'
-                    style={{'position': 'absolute', 'top': '15px', 'right': '-26px', 'border-radius': '0px 20px 20px 0px'}}
+                    style={{position: 'absolute', top: '15px', right: '-26px', borderRadius: '0px 20px 20px 0px'}}
                     onClick={ ()=> { onExtraCloseClick(unique) } }
                 >
                     <i>

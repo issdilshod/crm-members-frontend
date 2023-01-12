@@ -7,6 +7,7 @@ import { Mediator } from '../../context/Mediator';
 
 import * as STATUS from '../../consts/Status';
 import * as COMPANY from '../../consts/Company';
+import * as REMINDER from '../../consts/Reminder';
 import * as ROLE from '../../consts/Role';
 
 import Validation from '../Helper/Validation/Validation';
@@ -31,6 +32,7 @@ import { Button } from 'primereact/button';
 import RejectReasonModal from '../Helper/Modal/RejectReasonModal';
 import CreditAccount from '../Helper/Company/CreditAccount';
 import MobilePhones from '../Helper/Company/MobilePhones';
+import ReminderInCard from '../Reminder/ReminderInCard';
 
 const CompanyForm = () => {
 
@@ -773,6 +775,17 @@ const CompanyForm = () => {
                                 onChange={handleChange}
                                 downloadEnable={(permissions.some((e) => e==COMPANY.DOWNLOAD))}
                             />
+
+                            { (companyEdit && permissions.some((e) => e==REMINDER.STORE))  &&
+                                <div className='mt-2'>
+                                    <ReminderInCard 
+                                        entityUuid={companyForm['uuid']}
+                                        unique='annual_report_reminder'
+                                        title='Annual Report Reminder'
+                                        textTitle='Annual report'
+                                    />
+                                </div>
+                            }
                         </div>
 
                         <div className='col-12 col-sm-6 form-group'>
@@ -900,6 +913,18 @@ const CompanyForm = () => {
                                 onChange={handleChange}
                                 downloadEnable={(permissions.some((e) => e==COMPANY.DOWNLOAD))}
                             />
+
+                            <div className='mt-2'>
+                                <File
+                                    form={companyForm}
+                                    setForm={setCompanyForm}
+                                    parentUnique='company_ein'
+                                    title='Company EIN upload'
+                                    onChange={handleChange}
+                                    downloadEnable={(permissions.some((e) => e==COMPANY.DOWNLOAD))}
+                                />
+                            </div>
+                            
                         </div>
 
                         <div className='col-12 col-sm-4 form-group'>
@@ -914,9 +939,34 @@ const CompanyForm = () => {
                                 onChange={handleChange}
                                 downloadEnable={(permissions.some((e) => e==COMPANY.DOWNLOAD))}
                             />
+
+                            <div className='mt-2'>
+                                <File
+                                    form={companyForm}
+                                    setForm={setCompanyForm}
+                                    title='General Uploads'
+                                    parentUnique='general_uploads'
+                                    onChange={handleChange}
+                                    downloadEnable={(permissions.some((e) => e==COMPANY.DOWNLOAD))}
+                                />
+                            </div>
                         </div>
 
-                        <div className='c-form-field col-12 col-sm-8'>
+                        
+                        { (companyEdit && permissions.some((e) => e==REMINDER.STORE)) &&
+                            <div className='c-form-field col-12 col-sm-6'>
+                                <div className='mt-2'>
+                                    <ReminderInCard 
+                                        entityUuid={companyForm['uuid']}
+                                        unique='db_reminder'
+                                        title='D&B Reminder'
+                                        textTitle='Description'
+                                    />
+                                </div>
+                            </div>
+                        }
+
+                        <div className='c-form-field col-12 col-sm-6'>
                             <Input
                                 title='D&B Number'
                                 req={true}
@@ -926,39 +976,25 @@ const CompanyForm = () => {
                                 errorArray={companyFormError}
                                 query={query}
                             />
+
+                            <div className='mt-2'>
+                                <File
+                                    form={companyForm}
+                                    setForm={setCompanyForm}
+                                    parentUnique='db_report'
+                                    title='D&B report upload'
+                                    onChange={handleChange}
+                                    downloadEnable={(permissions.some((e) => e==COMPANY.DOWNLOAD))}
+                                />
+                            </div>
                         </div>
 
                         <div className='col-12 col-sm-4 form-group'>
-                            <File
-                                form={companyForm}
-                                setForm={setCompanyForm}
-                                parentUnique='db_report'
-                                title='D&B report upload'
-                                onChange={handleChange}
-                                downloadEnable={(permissions.some((e) => e==COMPANY.DOWNLOAD))}
-                            />
+                            
                         </div>
 
                         <div className='col-12 col-sm-4 form-group'>
-                            <File
-                                form={companyForm}
-                                setForm={setCompanyForm}
-                                title='General Uploads'
-                                parentUnique='general_uploads'
-                                onChange={handleChange}
-                                downloadEnable={(permissions.some((e) => e==COMPANY.DOWNLOAD))}
-                            />
-                        </div>
-
-                        <div className='col-12 col-sm-4 form-group'>
-                            <File
-                                form={companyForm}
-                                setForm={setCompanyForm}
-                                parentUnique='company_ein'
-                                title='Company EIN upload'
-                                onChange={handleChange}
-                                downloadEnable={(permissions.some((e) => e==COMPANY.DOWNLOAD))}
-                            />
+                            
                         </div>
                     </form>
                 </div>  
