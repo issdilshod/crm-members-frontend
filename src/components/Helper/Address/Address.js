@@ -82,10 +82,23 @@ const Address = ({title, unique, hasPlus = false, hasDesc = false, isExtra = fal
             }
             <div 
                 className='dd-card-head d-flex'
-                onClick={ () => { setIsOpen(!isOpen) } }
             >
-                <div className='mr-auto'>{title}</div>
-                <div>
+                <div onClick={ () => { setIsOpen(!isOpen) } }>{title}</div>
+                <div className='w-100 ml-2 mr-auto'>
+                    {hasDesc &&
+                        <input 
+                            className='form-control'
+                            placeholder='Description...'
+                            name='description'
+                            onChange={ (e) => { handleChange(e) } }
+                            value={inForm['description']}
+                        />
+                    }
+                </div>
+                <div 
+                    className='ml-2'
+                    onClick={ () => { setIsOpen(!isOpen) } }
+                >
                     <i>
                         { isOpen &&
                             <TbChevronUp />
@@ -172,25 +185,6 @@ const Address = ({title, unique, hasPlus = false, hasDesc = false, isExtra = fal
                                 query={query}
                             />
                         </div>
-
-                        { hasDesc &&
-                            <div className='col-12'>
-                                <div className='form-group'>
-                                    <label>Description <span className='req'>*</span></label>
-                                    <textarea
-                                        className='form-control'
-                                        placeholder='Description'
-                                        name='description'
-                                        onChange={ (e) => { handleChange(e) } }
-                                        value={inForm['description']}
-                                    ></textarea>
-                                    <Validation
-                                        fieldName={`addresses.${unique}.description`}
-                                        errorArray={errorArray}
-                                    />
-                                </div>
-                            </div>
-                        }
 
                     </div>
                 </Collapse>
