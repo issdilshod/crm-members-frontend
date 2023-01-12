@@ -3,6 +3,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import ReactSelect from 'react-select';
 
 import * as STATUS from '../../consts/Status';
+import * as REMINDER from '../../consts/Reminder';
 import * as VIRTUALOFFICE from '../../consts/VirtualOffice';
 
 import { Mediator } from '../../context/Mediator';
@@ -21,6 +22,8 @@ import Input from '../Helper/Input/Input';
 import Select from '../Helper/Input/Select';
 import { useRef } from 'react';
 import { Button } from 'primereact/button';
+
+import ReminderInCard from '../Reminder/ReminderInCard';
 
 import RejectReasonModal from '../Helper/Modal/RejectReasonModal';
 
@@ -787,7 +790,18 @@ const VirtualOfficeForm = () => {
                             />
                         </div>
 
-                        <div className='col-12'>
+                        { (edit && permissions.some((e) => e==REMINDER.STORE)) &&
+                            <div className='col-12 col-sm-6'>
+                                <ReminderInCard
+                                    unique='reminder'
+                                    title='Reminder'
+                                    textTitle='Reminder text'
+                                    entityUuid={form['uuid']}
+                                />
+                            </div>
+                        }
+
+                        <div className='col-12 col-sm-6'>
                             <Address
                                 title='VO Address'
                                 unique='address'
